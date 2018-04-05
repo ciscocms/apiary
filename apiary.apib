@@ -1,25 +1,28 @@
 FORMAT: 1A
 HOST: http://cmsapi.cisco.io/api/v1
 
-# Acano Server API
-This document covers R1.9 of the Application Program Interface for the Acano server.
+# Cisco Meeting Server API
+
+The Cisco Meeting Server software can be hosted on specific servers based on Cisco Unified
+Computing Server (UCS) technology as well as on the Acano X-Series hardware, or on a
+specification-based VM server. Cisco Meeting Server is referred to as the Meeting Server
+throughout this document.
+
+This document covers release 2.3 of the Application Program Interface for the Cisco Meeting server.
 
 This document is one of a number of reference guides, as shown below
 We suggest that you start by reading sections 2 to 5 inclusive and in order. They provide the concepts behind the API, the way to use the API methods and some examples of usage.
 Then use the remaining sections as reference material for the method(s) that you want to use.
 In addition to this guide, the material shown in the figure below can be found at the Acano Documentation & software page. If you need any technical assistance with the configuration, or you want to report a suspected bug, email support@acano.com
 
-
-## Acano Server Release R1.9 API Additions
-New API functionality for the Acano server R1.9 includes:
-
 * support for recording meetings
 * additional DTMF support
-* change in behavior of the "allEqual" screen layout for SIP endpoints, (see the defaultLayout parameter for `/coSpaces` and `/callLegProfiles` objects, and defaultLayout, chosenLayout and layout parameters for the `/calls` object)
+* change in behavior of the "allEqual" screen layout for SIP endpoints, (see the defaultLayout parameter for `/coSpaces` and `/callLegProfiles` objects, and defaultLayout, chosenLayout and layout parameters for the `/calls` object).
 
-### Support for recording meetings
-* New API objects to enable the recording of meetings hosted on the Acano server.
- They are:
+## Support for recording meetings
+New API objects to enable the recording of meetings hosted on the Acano server.
+ 
+They are: 
 
     * `/recorders`
     * `/recorders/<recorder id>`
@@ -55,7 +58,8 @@ New API functionality for the Acano server R1.9 includes:
     * unmuteAllNewAndAllExceptSelfAudio
 
 ## General Structure of Methods
-Conceptually, the API methods are designed to work on a hierarchical tree of objects. For example, each configured coSpace exists as a node in this tree, and all of the users who are members of that coSpace exist as nodes “beneath” the coSpace object’s node.
+Conceptually, the API methods are designed to work on a hierarchical tree of objects. For example, each configured coSpace exists as a node in this tree, and all of the users who are members of that coSpace exist as nodes “beneath” the coSpace object’s node. The API objects are accessed using a suitable REST
+client.
 
 In order to work within the environs of the Acano server’s high capacity in terms of the potentially large number of active calls and coSpaces, it is important that the methods supported do not require the entire collection of active objects of any particular type to be able to be retrieved in a single response. For this reason, rather than returning such an oversized data set in a single response, responses typically return the first “N” matching entries and a count of the total number of objects of that type. In order to find a specific object for further methods (for example, for the purposes of a deeper dive into an individual object’s active status, or to modify or delete it) filters can be applied to the initial retrieval in order to identify the object in question. Refer to Section 4.1 for more information on filters and the GET command.
 
@@ -591,7 +595,8 @@ This chapter details the API methods related to management of coSpaces. The chap
 * deleting messages from a coSpace message board
 * retrieving coSpace access methods
 * creating and modifying coSpace access methods
-* callingoutfromacoSpace
+* calling out from a coSpace
+* bulk creating, updating, and deleting coSpaces
 * coSpace diagnostics
 
 ## Retrieving coSpaces [GET /coSpaces/{?offset,limit,filter,tenantFilter,callLegProfileFilter}]
@@ -674,7 +679,7 @@ TODO: Response is structured as a top-level \<coSpaces total=”N”\> tag with 
             </coSpace>
             </coSpaces>
 
-## Creating and Modifying a coSpace [POST /coSpaces]
+## Creating and Modifying a coSpace [POST /coSpace]
 * Creating: POST method to the `/coSpaces` node. If the coSpace was created successfully, a “200 OK” response is received, and the “Location” header contains the ID for the new coSpace
 * Modifying: PUT method on a `/coSpaces/<coSpace ID>` node
 
@@ -682,6 +687,111 @@ TODO: Response is structured as a top-level \<coSpaces total=”N”\> tag with 
 **Note:** You can also use this PUT to modify the values of a coSpace created in an Acano Client. For example, the coSpace will have been created with the cdrTag of the user who created it but you can change that value with an API call. (This is unlike the cdrTag of an automatically generated coSpace, which cannot be updated with an API call).
 
 ---
+
+<table>
+  <tr>
+    <th>Parameters</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>String</td>
+    <td>The human-readable name that will be shown on clients’ UI for this coSpace</td>
+  </tr>
+  <tr>
+    <td>uri</td>
+    <td>URI user part</td>
+    <td>The URI that a SIP system would use to dial in to this coSpace</td>
+  </tr>
+  <tr>
+    <td>secondaryUri</td>
+    <td>URI user part</td>
+    <td>The secondary URI for this coSpace – this provide the same functionality as the “uri” parameter, but allows more than one URI to be configured for a coSpace</td>
+  </tr>
+  <tr>
+    <td>callId</td>
+    <td>String</td>
+    <td>The numeric ID that a user would enter at the IVR (or via a web client) to connect to this coSpace</td>
+  </tr>
+  <tr>
+    <td>cdrTag</td>
+    <td>String</td>
+    <td>Up to 100 characters of free form text to identify this coSpace in a CDR; when a "callStart" CDR is generated for a call associated with this coSpace, this tag will be written (as "cdrTag") to the callStart CDR. See the Cisco Meeting Server CDR Reference for details. The cdrTag can be modified in a PUT method.</td>
+  </tr>
+  <tr>
+    <td>passcode</td>
+    <td>String</td>
+    <td>The security code for this coSpace</td>
+  </tr>
+  <tr>
+    <td>defaultLayout</td>
+    <td>allEqual| speakerOnly| telepresence| stacked|allEqualQuarters|allEqualNinths|allEqualSixteenths| allEqualTwentyFifths|onePlusFive|onePlusSeven|onePlusNine| automatic|onePlusN</td>
+    <td>The default layout to be used for new call legs in this coSpace. See Default layout options for the difference in naming between the API and the Web Admin interface</td>
+  </tr>
+  <tr>
+    <td>tenant</td>
+    <td>ID</td>
+    <td>If provided, associates the specified tenant with this coSpace</td>
+  </tr>
+  <tr>
+    <td>callLegProfile</td>
+    <td>ID</td>
+    <td>If provided, associates the specified call leg profile with this coSpace</td>
+  </tr>
+  <tr>
+    <td>callProfile</td>
+    <td>ID</td>
+    <td>If provided, associates the specified call profile with this coSpace</td>
+  </tr>
+  <tr>
+    <td>callBrandingProfile</td>
+    <td>ID</td>
+    <td>If provided, associates the specified call branding profile with this coSpace</td>
+  </tr>
+  <tr>
+    <td>requireCallId</td>
+    <td>true|false</td>
+    <td>If this value is supplied as true, and no callId is currently specified for the coSpace, a new auto-generated call Id will be assigned</td>
+  </tr>
+  <tr>
+    <td>secret</td>
+    <td>String</td>
+    <td>If provided, sets the security string for this coSpace. If absent, a security string is chosen automatically if the coSpace has a callId value. This is the security value associated with the coSpace that needs to be supplied with the callId for guest access to the coSpace.</td>
+  </tr>
+  <tr>
+    <td>regenerateSecret</td>
+    <td>true|false</td>
+    <td>If provided as true - a new security value is generated for this coSpace and the former value is no longer valid (for instance, any hyperlinks including it will cease to work)If provided as false - do not generate a new secret value for this coSpace; this has no effectThis parameter is only valid for the modify (PUT) case.</td>
+  </tr>
+  <tr>
+    <td>nonMemberAccess</td>
+    <td>true|false</td>
+    <td>Controls whether non-members of the coSpace are able to have access to the coSpace. If not provided, behaviour defaults to true. (From version 2.0).</td>
+  </tr>
+  <tr>
+    <td>ownerJid</td>
+    <td>String</td>
+    <td>Indicates the coSpace is owned by the user with the specified JID. (From version 2.0).</td>
+  </tr>
+  <tr>
+    <td>streamUrl</td>
+    <td>URL</td>
+    <td>Indicates where the coSpace is streamed to, if streaming is initiated. (From version 2.1).</td>
+  </tr>
+  <tr>
+    <td>ownerAdGuid</td>
+    <td>ID</td>
+    <td>If provided, the coSpace will be owned by the user with the given AD GUID. (From version 2.1).</td>
+  </tr>
+  <tr>
+    <td>meetingScheduler</td>
+    <td>String</td>
+    <td>Name of person (not necessarily a user) who scheduled the creation of this coSpace, which if set is propagated to any call objects as the “ownerName” field. (From version 2.2).</td>
+  </tr>
+</table>
+
+>>Note: You can also use this PUT to modify the values of a coSpace created in a Cisco Meeting App. For example, the coSpace will have been created with the cdrTag of the user who created it but you can change that value with an API call. (This is unlike the cdrTag of an automatically generated coSpace, which cannot be updated with an API call.)
 
 #### Default layout options
 The naming of the defaultLayout options varies between the API and the Web Admin Interface **Configuration > coSpaces** page. The “mapping" is shown in the table below.
@@ -753,7 +863,7 @@ A new auto-generated Call Id is assigned if "requireCallId=true" is set via a cr
             </coSpaces>
 
 ## Retrieving Detailed Information about a Single coSpace [GET /coSpaces/{coSpaceId}]
-GET method performed on a `/coSpaces/<coSpace ID>` node. If the coSpace ID supplied is valid, a “200 OK” response is received, containing a single `<coSpace id=<ID>` object with data as described above for the creating and modifying case.
+GET method performed on a `/coSpaces/<coSpace Id>` node. If the coSpace ID supplied is valid, a “200 OK” response is received, containing a single `<coSpace id=<ID>` object with data as described above for the creating and modifying case.
 
 In addition to the data in common with the create and modify methods, retrieved information about a single coSpace will also include:
 * a count of the number of additional access methods for that coSpace, if any have been configured, as a numeric `numAccessMethods` value
@@ -762,8 +872,11 @@ In addition to the data in common with the create and modify methods, retrieved 
 The following information is not included:
 * `requireCallID`
 
+>>Note: From 2.1, a “meetingEntryDetail” node is added to allow retrieval of entry details for a specific coSpace meeting. Perform a GET on `/coSpaces/<coSpace id>/meeting EntryDetail`.
+Response values are "uri" and "callId".
+
 + Parameters
-    + coSpaceID (ID)
+    + coSpaceId
 
 + Response 200
     + Body
@@ -781,8 +894,8 @@ GET method on a `/coSpaces/<coSpace ID>/coSpaceUsers` node.
 The response includes the total count of coSpace users configured for the queried coSpace which match the filter, irrespective of the number returned within the response. (With no filter, this value is the total number of users associated with the coSpace).
 
 Response is structured as a top-level `<coSpaceUsers total=”N”>` tag with potentially multiple `<coSpaceUser>` elements within it.
-`<coSpaceUser>` elements follow the general form on the left.
-`<coSpaceUser>` elements have their own ID and also contain an ID for the user.
+* `<coSpaceUser>` elements follow the general form on the left.
+* `<coSpaceUser>` elements have their own ID and also contain an ID for the user.
 
 <table>
     <tr>
@@ -808,9 +921,65 @@ Response is structured as a top-level `<coSpaceUsers total=”N”>` tag with po
     <tr>
         <td>autoGenerated</td>
         <td>bool</td>
-        <td>Whether this coSpace has been added automatically or manually. true - this coSpace has been added automatically as part of an LDAP sync operation. therefore it is not possible, to remove it except by modifying the parameters of the sync operation -- false - this coSpace has been added either via an API method or by using an Acano client; it can be modified or removed via the API</td>
+        <td>Whether this coSpace has been added automatically or manually.<ul><li> true - this coSpace has been added automatically as part of an LDAP sync operation. therefore it is not possible, to remove it except by modifying the parameters of the sync operation</li><li>false - this coSpace has been added either via an API method or by using an Acano client; it can be modified or removed via the API</li></ul></td>
     </tr>
+     <tr>
+    <th>callLegProfile</th>
+    <th>ID</th>
+    <th>If provided, associates the specified call leg profile with this coSpace user</th>
+  </tr>
+  <tr>
+    <td>canDestroy</td>
+    <td>true|false</td>
+    <td>Whether this user is allowed to delete the coSpace.</td>
+  </tr>
+  <tr>
+    <td>canAddRemoveMember</td>
+    <td>true|false</td>
+    <td>Whether this user is allowed to add or remove other members of the coSpace.</td>
+  </tr>
+  <tr>
+    <td>canChangeName</td>
+    <td>true|false</td>
+    <td>Whether this user is allowed to change the name of the coSpace.</td>
+  </tr>
+  <tr>
+    <td>canChangeUri</td>
+    <td>true|false</td>
+    <td>Whether this user is allowed to change the URI of the coSpace</td>
+  </tr>
+  <tr>
+    <td>canChangeCallId</td>
+    <td>true|false&gt;</td>
+    <td>Whether this user is allowed to change the Call ID of the coSpace</td>
+  </tr>
+  <tr>
+    <td>canChangePasscode</td>
+    <td>true|false</td>
+    <td>Whether this user is allowed to change the passcode of the coSpace</td>
+  </tr>
+  <tr>
+    <td>canPostMessage</td>
+    <td>true|false</td>
+    <td>Whether this user is allowed to write messages in the coSpace</td>
+  </tr>
+  <tr>
+    <td>canRemoveSelf</td>
+    <td>true|false</td>
+    <td>Whether this user is allowed to remove himself from the coSpace</td>
+  </tr>
+  <tr>
+    <td>canDeleteAllMessages</td>
+    <td>true|false</td>
+    <td>Whether this user is allowed to delete all messages from the coSpace message board</td>
+  </tr>
+  <tr>
+    <td>canChangeNonMemberAccessAllowed</td>
+    <td>true|false</td>
+    <td>Whether this user is allowed to change the “non-member access allowed setting” of the coSpace. From version 2.3.</td>
+  </tr>
 </table>
+
 
 + Parameters
     + coSpaceId (ID)
@@ -834,8 +1003,9 @@ Response is structured as a top-level `<coSpaceUsers total=”N”>` tag with po
             </coSpaceUser>
 
 ## Adding and modifying a coSpace member [POST]
-* Adding: POST method to a `/coSpaces/<coSpace ID>/coSpaceUsers` node
-* Modifying: PUT method performed on a `/coSpaces/<coSpace ID>/coSpaceUsers/<coSpaceUser ID>` node. The parameters that you can modify are listed below, with the exception of `userJid`
+* Adding: POST method to a `/coSpaces/<coSpaceId>/coSpaceUsers` node
+* Modifying: PUT method performed on a `/coSpaces/<coSpace ID>/coSpaceUsers/<coSpaceUser ID>` node. 
+The parameters that you can modify are listed above, with the exception of `userJid`
 
 If the member was added successfully, a “200 OK” response is received, and the “Location” header in the response contains the new user ID.
 
@@ -882,9 +1052,83 @@ Members who cannot remove themselves from the coSpace (as controlled by `canRemo
 
 Using the API provides more flexibility: it is possible to create coSpaces with members who cannot remove themselves, but who can be removed by another member. Members can always be removed via the API.
 
-Auto-generated members (created by an LDAP sync) have auto-generated permissions because it makes no sense to allow them to make changes that will be overwritten by the next LDAP sync. Therefore, for these users the following parameters are always set to false: `canDestroy`, `canChangeName`, `canChangeUri`, `canChangeCallId` and `canRemoveSelf`. The other “can” parameters are set to true. Note that changing any of these settings for an auto-generated member via the API will only have a temporary effect and will be overwritten at the next LDAP sync: from R1.7 you could discover whether a member is auto-generated – see the next section.
+Auto-generated members (created by an LDAP sync) have auto-generated permissions because it makes no sense to allow them to make changes that will be overwritten by the next LDAP sync. Therefore, for these users the following parameters are always set to false: `canDestroy`, `canChangeName`, `canChangeUri`, `canChangeCallId` and `canRemoveSelf`. 
+The other “can” parameters are set to true. Note that changing any of these settings for an auto-generated member via the API will only have a temporary effect and will be overwritten at the next LDAP sync: you could discover whether a member is auto-generated – see the next section.
 
-Finally, if a user creates a coSpace from the Acano client, then all members get all permissions (all “can” parameters above are set to true by default).
+Finally, if a user creates a coSpace from the Cisco Meeting App, then `canDeleteAllMessages`is set to false for all members, and all other permissions are set to true by default for all members.
+
+<table>
+  <tr>
+    <th>Permission</th>
+    <th colspan="3">coSpace created by:</th>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Cisco Meeting App</td>
+    <td>LDAP sync</td>
+    <td>API</td>
+  </tr>
+  <tr>
+    <td>canDestroy</td>
+    <td>true</td>
+    <td>false</td>
+    <td>false</td>
+  </tr>
+  <tr>
+    <td>canAddRemoveMember</td>
+    <td>true</td>
+    <td>true</td>
+    <td>false</td>
+  </tr>
+  <tr>
+    <td>canChangeName</td>
+    <td>true</td>
+    <td>false</td>
+    <td>false</td>
+  </tr>
+  <tr>
+    <td>canChangeUri</td>
+    <td>true</td>
+    <td>false</td>
+    <td>false</td>
+  </tr>
+  <tr>
+    <td>canChangeCallId</td>
+    <td>true</td>
+    <td>false</td>
+    <td>false</td>
+  </tr>
+  <tr>
+    <td>canChangePasscode</td>
+    <td>true</td>
+    <td>true</td>
+    <td>false</td>
+  </tr>
+  <tr>
+    <td>canPostMessage</td>
+    <td>true</td>
+    <td>true</td>
+    <td>false</td>
+  </tr>
+  <tr>
+    <td>canRemoveSelf</td>
+    <td>true</td>
+    <td>false</td>
+    <td>false</td>
+  </tr>
+  <tr>
+    <td>canDeleteAllMessages</td>
+    <td>false</td>
+    <td>true</td>
+    <td>false</td>
+  </tr>
+  <tr>
+    <td>canChangeNonMemberAccessAllowed</td>
+    <td>true</td>
+    <td>false</td>
+    <td>true</td>
+  </tr>
+</table>
 
 + Parameters
     + coSpaceId (ID)
@@ -895,7 +1139,7 @@ Finally, if a user creates a coSpace from the Acano client, then all members get
     + Headers
 
             Location: ID
-
+            
 ## Retrieving Information on a coSpace member [GET /coSpaces/{coSpaceId}/coSpaceUsers/{coSpaceUserId}]
 GET method performed on a `/coSpaces/<coSpace ID>/coSpaceUsers/<coSpaceUser ID>` node. If the retrieval is valid, a “200 OK” response is received, with containing a single `<coSpaceUser id=<ID>>` object with data as described above for the creating and modifying case. In addition
 * the `autoGenerated` value shows whether the coSpace member was added to the coSpace automatically as part of an LDAP sync operation
@@ -921,6 +1165,24 @@ POST method performed on the `/coSpaces/<coSpace id>/messages` node.
 
 If successful, the message is posted to the message board and an ID for the message is returned in the `Location` field of the response header.
 
+<table>
+  <tr>
+    <th>Parameters </th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>message * </td>
+    <td>String</td>
+    <td>The message string to be posted to the message board</td>
+  </tr>
+  <tr>
+    <td>from </td>
+    <td>String</td>
+    <td>A “from” name to be shown to message board viewers as the originator of the message</td>
+  </tr>
+</table>
+
 + Parameters
     + coSpaceId (ID)
 
@@ -933,6 +1195,24 @@ If successful, the message is posted to the message board and an ID for the mess
 
 ## Deleting messages from a coSpace message board [DELETE]
 DELETE method on a `/coSpaces/<coSpace ID>/messages` node with the form parameters below which select messages by age. With no additional parameters, all messages for that coSpace will be deleted.
+
+<table>
+  <tr>
+    <th>Parameters</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>minAge</td>
+    <td>Number</td>
+    <td>If supplied (in the URL) deletes only messages whose age is at least the specified value (in seconds)</td>
+  </tr>
+  <tr>
+    <td>maxAge</td>
+    <td>Number</td>
+    <td>If supplied specifies (in the URL) an upper limit (in seconds) on the age of messages to be deleted</td>
+  </tr>
+</table>
 
 + Parameters
     + minAge (number, optional)
@@ -1017,7 +1297,52 @@ Response is a collection of `<accessMethod id=<access method id>>` objects conta
 * Creating: POST method to the `/coSpaces/<coSpace id>/accessMethods` node
 * Modifying: PUT method on a `/coSpaces/<coSpace id>/accessMethods/<accessMethod id>` node
 
+<table>
+  <tr>
+    <th>Parameters</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>uri</td>
+    <td>URI user part</td>
+    <td>The URI to be used for dialing in via this access method</td>
+  </tr>
+  <tr>
+    <td>callId</td>
+    <td>ID</td>
+    <td>The "call ID" to be used for connecting via this access method (using the IVR or Web Bridge login)</td>
+  </tr>
+  <tr>
+    <td>passcode</td>
+    <td>String</td>
+    <td>A passcode required for this access method</td>
+  </tr>
+  <tr>
+    <td>callLegProfile</td>
+    <td>ID</td>
+    <td>The ID of a call leg profile to apply to calls in via this access method</td>
+  </tr>
+  <tr>
+    <td>secret</td>
+    <td>String</td>
+    <td>If provided, sets the security string for this coSpace access method. If absent, a security string is chosen automatically if the coSpace access method has a callId value. This is the security value associated with the coSpace access method that needs to be supplied with the callId for guest access to the coSpace via this access method.</td>
+  </tr>
+  <tr>
+    <td>regenerateSecret</td>
+    <td>true|false</td>
+    <td>If provided as true - a new security value is generated for this coSpace access method and the former value is no longer valid (for instance, any hyperlinks including it will cease to work)If provided as false - do not generate a new secret value for this coSpace access method; this has no effectThis parameter is only valid for the modify (PUT) case</td>
+  </tr>
+  <tr>
+    <td> scope</td>
+    <td> public|private</td>
+    <td>The visibility of this coSpace access method to users of Cisco Meeting App who are members of the coSpaceIf provided as public - details of this coSpace access method can be made available to members of the coSpaceIf provided as private - details of this coSpace access method will not be made available to members of the coSpaceNote: if you set the scope to public then the Cisco Meeting App can no longer edit the coSpace details. In addition, the uri shown under the name is that from the access method.</td>
+  </tr>
+</table>
+
 If the coSpace access method is created successfully, a “200 OK” response will be received, and the `Location` header in the response will contain the new coSpace access method ID.
+
+
 
 + Attributes (accessMethod)
 
@@ -1028,7 +1353,7 @@ If the coSpace access method is created successfully, a “200 OK” response wi
 
 ## Retrieving information on an individual coSpace access method [GET /coSpaces/{coSpaceId}/accessMethods/{accessMethodId}]
 GET method on a `/coSpaces/<coSpace id>/accessMethods/<access method id>` node.
-If the access method ID supplied is valid, a "200 OK" response and a single `<accessMethod id=access method id>` object will be returned with data in the previous section.
+If the access method ID supplied is valid, a "200 OK" response and a single `<accessMethodId=access method id>` object will be returned with data in the previous section.
 
 + Parameters
     + coSpaceId (ID)
@@ -1037,16 +1362,289 @@ If the access method ID supplied is valid, a "200 OK" response and a single `<ac
 + Response 200
     + Body
 
-            <accessMethod id=access method id>
+            <accessMethodId=access method id>
+
+## Bulk creating, updating and deleting coSpaces [/coSpaceBulkParameterSets{?startIndex,endIndex}]
+## Retrieving the parameter sets for creating coSpaces in bulk [GET]
+GET method on `/coSpaceBulkParameterSets` node.
+
+Response is structured as a top-level <coSpaceBulkParameterSets total=”N”> tag with potentially multiple <coSpaceBulkParameterSet> elements within it. 
+<coSpaceBulkParameterSet> elements follow the general form on the left.
+
++ Parameters
+    + startIndex (Number) - Index that coSpace mappings start from (inclusive)
+    + endIndex (Number) - Index that coSpace mappings end at (inclusive)
+        
++ Response 200
+    + Body
+
+            <TODO>
+
+## Creating coSpace Bulk Parameter sets [POST]
+* Creating: POST method to the `/coSpaceBulkParameterSets` node. Creates a new parameter set, see table below. Returns location of new parameter set `/cospaceBulkParameterSets/<set Id>`
+* Modifying: PUT method to the `/coSpaceBulkParameterSets` node. Updates the parameters within this parameter set, but needs to be synchronized for it to take effect.
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>startIndex</td>
+    <td>Number</td>
+    <td>Index that coSpace mappings start from (inclusive)</td>
+  </tr>
+  <tr>
+    <td>endIndex</td>
+    <td>Number</td>
+    <td>Index that coSpace mappings end at (inclusive)</td>
+  </tr>
+  <tr>
+    <td>coSpaceUriMapping</td>
+    <td>String</td>
+    <td>If specified, this is the mapping that describes what URIs will be used for the coSpaces created with a /coSpaceBulkSync using this coSpaceBulkParameterSet. If not set, coSpace will not have a dialable URI. Syntax: uri-mapping = [uri-component] [“$index$”] [uri-component]Where: uri-component = *( uri-character / escaped-character ) uri-character = *( unescaped-character EXCLUDING ‘@’ ) unescaped-character = any character EXCLUDING ‘$’ and ‘\’escaped-character = “\\” / “\$” ; producing ‘\’ and ‘$’ respectively.These need to be unique so if an index is not used there will be clashes, unless the field is just left completely blank .</td>
+  </tr>
+  <tr>
+    <td>coSpaceNameMapping</td>
+    <td>String</td>
+    <td>If specified, this is the mapping that describes what names will be used for the coSpaces created with a /coSpaceBulkSync using this coSpaceBulkParameterSet.Syntax: name-mapping = [name-component] [“$index$”] [name-component] Where: name-component = *( unescaped-character / escaped-character ) unescaped-character = any character EXCLUDING ‘$’ and ‘\’ escaped-character = “\\” / “\$” ; producing ‘\’ and ‘$’ respectively.These are not required to be unique.</td>
+  </tr>
+  <tr>
+    <td>coSpaceCallIdMapping</td>
+    <td>String</td>
+    <td>If specified, this is the mapping that describes what call IDs will be used for the coSpaces created with a /coSpaceBulkSync using this coSpaceBulkParameterSet. If not set then the coSpace will not have a callId.Syntax: id-mapping = [id-component] [“$index$”] [id-component] Where: id-component = *( unescaped-character / escaped-character )unescaped-character = any character EXCLUDING ‘$’ and ‘\’escaped-character = “\\” / “\$” ; producing ‘\’ and ‘$’ respectivelyThese need to be unique so if index is not used there will be clashes, unless the field is just left completely blank.Secrets will be autogenerated if CallIdMapping is set.</td>
+  </tr>
+  <tr>
+    <td>tenant</td>
+    <td>ID</td>
+    <td>If specified this is the tenant to be associated with the coSpaces created with a /coSpaceBulkSync using this coSpaceBulkParameterSet. If not set then the coSpace will not be associated with a tenant.</td>
+  </tr>
+  <tr>
+    <td>callProfile</td>
+    <td>ID</td>
+    <td>If specified this is the call profile to be associated with the coSpaces created with a /coSpaceBulkSync using this coSpaceBulkParameterSet. If not set then the coSpace will not be associated with a call profile.</td>
+  </tr>
+  <tr>
+    <td>callBrandingProfile</td>
+    <td>ID</td>
+    <td>If specified this is the call branding profile to be associated with the coSpaces created with a /coSpaceBulkSync using this coSpaceBulkParameterSet. If not set then the coSpace will not be associated with a call branding profile.</td>
+  </tr>
+  <tr>
+    <td>nonMemberAccess</td>
+    <td>true|false</td>
+    <td>Whether non-members will be able to access the bulk created coSpaces. If this parameter is not supplied in a create (POST) operation, it defaults to "true" and non members can access the coSpace.</td>
+  </tr>
+</table>
+
+
+    
++ Attributes ()
+
++ Response 200
+    + Headers
+
+            Location:ID
+    + Body
+
+            <location ID>
+
+## Retrieving information on an individual coSpace Bulk Parameter sets [GET /coSpaceBulkParameterSets/{setId}]
+GET method on `/coSpaceBulkParameterSets/<set Id>` node.
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td> </td>
+    <td> </td>
+    <td>Response is structured as a top-level &lt;coSpaceBulkParameterSets total=”N”&gt; tag with potentially multiple &lt;coSpaceBulkParameterSet&gt; elements within it.Each &lt;coSpaceBulkParameterSet&gt; element may include the following elements.</td>
+  </tr>
+  <tr>
+    <td>startIndex</td>
+    <td>Number</td>
+    <td>Index that coSpace mappings start from (inclusive)</td>
+  </tr>
+  <tr>
+    <td>endIndex</td>
+    <td>Number</td>
+    <td>Index that coSpace mappings end at (inclusive)</td>
+  </tr>
+  <tr>
+    <td>coSpaceUriMapping</td>
+    <td>String</td>
+    <td>If specified, this is the mapping that describes what URIs will be used for the coSpaces created with a /coSpaceBulkSync using this coSpaceBulkParameterSet. If not set, coSpace will not have a dialable URI. Syntax: uri-mapping = [uri-component] [“$index$”] [uri-component]Where: uri-component = *( uri-character / escaped-character ) uri-character = *( unescaped-character EXCLUDING ‘@’ ) unescaped-character = any character EXCLUDING ‘$’ and ‘\’escaped-character = “\\” / “\$” ; producing ‘\’ and ‘$’ respectively.These need to be unique so if an index is not used there will be clashes, unless the field is just left completely blank .</td>
+  </tr>
+  <tr>
+    <td>coSpaceNameMapping</td>
+    <td>String</td>
+    <td>If specified, this is the mapping that describes what names will be used for the coSpaces created with a /coSpaceBulkSync using this coSpaceBulkParameterSet.Syntax: name-mapping = [name-component] [“$index$”] [name-component] Where: name-component = *( unescaped-character / escaped-character ) unescaped-character = any character EXCLUDING ‘$’ and ‘\’ escaped-character = “\\” / “\$” ; producing ‘\’ and ‘$’ respectively.These are not required to be unique.</td>
+  </tr>
+  <tr>
+    <td>coSpaceCallIdMapping</td>
+    <td>String</td>
+    <td>If specified, this is the mapping that describes what call IDs will be used for the coSpaces created with a /coSpaceBulkSync using this coSpaceBulkParameterSet. If not set then the coSpace will not have a callId Syntax: id-mapping = [id-component] [“$index$”] [id-component] Where: id-component = *( unescaped-character / escaped-character )unescaped-character = any character EXCLUDING ‘$’ and ‘\’escaped-character = “\\” / “\$” ; producing ‘\’ and ‘$’ respectivelyThese need to be unique so if index is not used there will be clashes, unless the field is just left completely blank.Secrets will be autogenerated if CallIdMapping is set.</td>
+  </tr>
+  <tr>
+    <td>tenant</td>
+    <td>ID</td>
+    <td>If specified this is the tenant to be associated with the coSpaces created with a /coSpaceBulkSync using this coSpaceBulkParameterSet. If not set then the coSpace will not be associated with a tenant.</td>
+  </tr>
+  <tr>
+    <td>callProfile</td>
+    <td>ID</td>
+    <td>If specified this is the call profile to be associated with the coSpaces created with a /coSpaceBulkSync using this coSpaceBulkParameterSet. If not set then the coSpace will not be associated with a call profile.</td>
+  </tr>
+  <tr>
+    <td>callBrandingProfile</td>
+    <td>ID</td>
+    <td>If specified this is the call branding profile to be associated with the coSpaces created with a /coSpaceBulkSync using this coSpaceBulkParameterSet. If not set then the coSpace will not be associated with a call branding profile.</td>
+  </tr>
+  <tr>
+    <td>nonMemberAccess</td>
+    <td>true|false</td>
+    <td>Whether non-members will be able to access the bulk created coSpaces. If this parameter is not supplied in a create (POST) operation, it defaults to "true" and non members can access the coSpace.</td>
+  </tr>
+</table>
+
++ Parameters
+    + setId (ID)
+
++ Response 200
+    + Body
+
+            <location ID>
+
+## Queueing the bulk sync operations [POST /coSpaceBulkSyncs/{bulk_sync_guid}]
+* Creating: POST method to the `/coSpaceBulkSyncs` node. Queues the bulk sync operations for execution as soon as possible. Returns location `/cospaceBulkSync/<bulk_sync_guid>`
+* Modifying: PUT method to the `/coSpaceBulkSyncs` node not supported.
+
+---
+>**Note:** Bulk Sync will iterate between startIndex and endIndex (inclusive at both end) and expand and insert the mapping parts.
+---
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Type/Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>coSpaceBulkParameterSet</td>
+    <td>ID</td>
+    <td>Parameter set GUID that is going to be synchronised</td>
+  </tr>
+  <tr>
+    <td>removeAll</td>
+    <td>true|false</td>
+    <td>If supplied, determines whether the sync will remove all entries that were created using the parameter set. Used only if you need to remove all spaces that were created previously. If set to true then no spaces will be created. If set to false, or omitted, then all spaces previously created using this parameter set will be removed and new spaces based on the new mappings will be created.If this parameter is not supplied in a create (POST) operation, it defaults to "false"</td>
+  </tr>
+</table>
+
++ Parameters
+    + bulk_sync_guid (ID)
+
++ Response 200
+    + Body
+
+            <location ID>
+
+## Retrieving the bulk sync operations [GET /coSpaceBulkSyncs/{coSpaceBulkParameterSet}]
+
+GET method on `/coSpaceBulkSyncs` node.
+Response is structured as a top-level <coSpaceBulkSyncs total=”N”> tag with potentially multiple <coSpaceBulkSync> elements within it.<coSpaceBulkSync> elements follow the general form on the left.
+
+<table>
+  <tr>
+    <th>Response elements</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  
+  <tr>
+    <td>coSpaceBulkParameterSet</td>
+    <td>ID</td>
+    <td>Parameter set that was used for this bulk sync</td>
+  </tr>
+  <tr>
+    <td>status</td>
+    <td>pending| running| complete| failedCoSpaceUriConflict|failedCallIdConflict| failedIndexRangeInvalid| failedIndexRangeTooGreat|failedNoSuchParameterSet| failed</td>
+    <td>Status of the sync operation:pending - the sync operation is in a queue waiting to executerunning - the sync operation is currently runningcomplete - the sync operation has successfully completedfailedCoSpaceUriConflict - the sync failed because it would involve creating a URI that conflicts with one that already existsfailedCallIdConflict - the sync failed because it would involve creating a call ID that conflicts with one that already existsfailedIndexRangeInvalid - the sync failed because the "startIndex" was greater than the "endIndex"failedIndexRangeTooGreat - the sync failed because the difference between "endIndex" and "startIndex" was too largefailedNoSuchParameterSet - the "coSpaceBulkParameterSet" refered to in the sync command did not existfailed - the sync operation failed</td>
+  </tr>
+  <tr>
+    <td>removeAll</td>
+    <td>true|false</td>
+    <td>If supplied, determines whether the sync will remove all entries that were created using the parameter set. Used only to remove all spaces that were created previously. If set to true then no spaces will be created. If set to false, or omitted, then all spaces previously created using this parameter set will be removed and new spaces based on the new mappings will be created.If this parameter is not supplied in a create (POST) operation, it defaults to "false"</td>
+  </tr>
+</table>
++ Parameters
+    + coSpaceBulkParameterSet (ID)
+
++ Response 200
+    + Body
+
+            <?xml version="1.0"?>
+            <coSpaceUser id="527089d6-6581-4331-8417-971c05c9e274">
+            <userJid>darth@empire.net</userJid>
+            <userId>"de41b1e5-7a56-4894-a5c1-493df2086799"</userId>
+            <autoGenerated>"true"</autoGenerated>
+            </coSpaceUser>
+
+## Retrieving a specific bulk sync operation [GET /coSpaceBulkSyncs/{coSpacebulksyncid}]
+GET method on `/coSpaceBulkSyncs/<coSpacebulksyncid>` node.
+
+<table>
+  <tr>
+    <th>Response elements</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td> </td>
+    <td> </td>
+    <td>Response is structured as a top-level &lt;coSpaceBulkSyncs total=”N”&gt; tag with potentially multiple &lt;coSpaceBulkSync&gt; elements within it.&lt;coSpaceBulkSync&gt; elements follow the general form on the left.</td>
+  </tr>
+  <tr>
+    <td>coSpaceBulkParameterSet</td>
+    <td>ID</td>
+    <td>Parameter set that was used for this bulk sync</td>
+  </tr>
+  <tr>
+    <td>status</td>
+    <td>pending| running| complete| failedCoSpaceUriConflict|failedCallIdConflict| failedIndexRangeInvalid| failedIndexRangeTooGreat|failedNoSuchParameterSet| failed</td>
+    <td>Status of the sync operation:pending - the sync operation is in a queue waiting to executerunning - the sync operation is currently runningcomplete - the sync operation has successfully completedfailedCoSpaceUriConflict - the sync failed because it would involve creating a URI that conflicts with one that already existsfailedCallIdConflict - the sync failed because it would involve creating a call ID that conflicts with one that already existsfailedIndexRangeInvalid - the sync failed because the "startIndex" was greater than the "endIndex"failedIndexRangeTooGreat - the sync failed because the difference between "endIndex" and "startIndex" was too largefailedNoSuchParameterSet - the "coSpaceBulkParameterSet" refered to in the sync command did not existfailed - the sync operation failed</td>
+  </tr>
+  <tr>
+    <td>removeAll</td>
+    <td>true|false</td>
+    <td>If supplied, determines whether the sync will remove all entries that were created using the parameter set. Used only to remove all spaces that were created previously. If set to true then no spaces will be created. If set to false, or omitted, then all spaces previously created using this parameter set will be removed and new spaces based on the new mappings will be created.If this parameter is not supplied in a create (POST) operation, it defaults to "false"</td>
+  </tr>
+</table>
+
++ Parameters
+    + coSpacebulksyncid (ID)
+
++ Response 200
+    + Body
+
+            <?xml version="1.0"?>
+            <coSpaceUser id="527089d6-6581-4331-8417-971c05c9e274">
+            <userJid>darth@empire.net</userJid>
+            <userId>"de41b1e5-7a56-4894-a5c1-493df2086799"</userId>
+            <autoGenerated>"true"</autoGenerated>
+            </coSpaceUser>
 
 ## coSpace Diagnostics Methods [/coSpaces/{coSpaceId}/diagnostics]
 A POST to `/coSpaces/<coSpace id>/diagnostics` triggers the generation of call diagnostics for the specified coSpace.
+
 
 ## Generate call diagnostics [POST]
 + Parameters
     + coSpaceId (ID)
 + Response 200
-
 
 # Group Calling Out from a coSpace
 Adding a remote party to a coSpace requires that this coSpace has an active call from which connections can be made. Essentially this makes an initial call out from a
@@ -1055,8 +1653,7 @@ coSpace a combination of two other API methods:
 1. Creation of a new call
 2. Adding a new outgoing call leg to a call
 
-These methods are described in later sections.
-
+These methods are described in later sections. 
 
 # Group Dial Plan Methods
 This chapter details the API methods related to configuring dial plans for outbound calls, inbound calls and call forwarding. The chapter covers:
@@ -1072,17 +1669,21 @@ This chapter details the API methods related to configuring dial plans for outbo
 
 ## Outgoing Dial Plan API Methods [/outboundDialPlanRules/{?filter,offset,limit,tenantFilter}]
 ### Access to the outgoing dial plan
-Typically, the configuration of which trunks / proxies to use for outbound calls is based on the domain of the (SIP) destination being called, which is specified in the outgoing dial plan. The outgoing dial plan sits in the API object tree under the `/outboundDialPlanRules` node, use the POST method to create the outgoing dial plan or set it up via the Web Admin Interface (see note below).
+Typically, the configuration of which trunks or proxies to use for outbound calls is based on the domain of the (SIP) destination being called, which is specified in the outgoing dial plan. The outgoing dial plan sits in the API object tree under the `/outboundDialPlanRules` node, use the POST method to create the outgoing dial plan or set it up via the Web Admin Interface (see note below).
 
-From R1.7, if you are deploying Call Bridge clustering, use the API parameter scope to choose whether to apply each outbound dial plan rule to every Call Bridge in the cluster, or just to a particular Call Bridge so the Call Bridge can be trunked to its local Call Control solution (if appropriate).
+If you are deploying Call Bridge clustering, use the API parameter scope to choose whether to apply each outbound dial plan rule to every Call Bridge in the cluster, or just to a particular Call Bridge so the Call Bridge can be trunked to its local Call Control solution (if appropriate).
 
-
-From R1.8, use the API parameter `callRouting` to specify the mechanism for traversal of outgoing SIP/Lync calls.
 
 ---
-**Note:** On the Web Admin Interface, the table of outbound rules is configured through the **Configuration > Dial plan** page. From R1.7, all rules added via the Web Admin Interface are global and applied to every Call Bridge in the cluster. You cannot use the Web Admin interface to specify the call routing for outbound SIP/Lync calls.
+**Note:** The API parameter callRouting specifies the mechanism for traversal of outgoing SIP/Lync calls, use this parameter to set up firewall traversal for SIP and Lync devices. This is still a beta feature.
 
 ---
+
+---
+**Note:** On the Web Admin Interface, the table of outbound rules is configured through the Configuration > Dial plan page. All rules added via the Web Admin Interface are global and applied to every Call Bridge in the cluster. You cannot use the Web Admin interface to specify the call routing for outbound SIP/Lync calls using a specific Call Bridge or Call Bridge group.
+
+---
+
 ## Retrieving outbound dial plan rules [GET]
 Response is a collection of `<outboundDialPlanRule id=<ID>>` objects contained within an `<outboundDialPlanRules>` object
 
@@ -1130,6 +1731,79 @@ Response is a collection of `<outboundDialPlanRule id=<ID>>` objects contained w
 * Creating: POST method to the `/outboundDialPlanRules` node. If the outgoing dial plan rule is created successfully, a “200 OK” response will be received, and the `Location` header in the response will contain the new outgoing dial plan rule ID
 * Modifying: PUT method on an `/outboundDialPlanRules/<outbound dial plan rule ID>` node
 
+<table>
+  <tr>
+    <th>Parameters</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>domain *</td>
+    <td>String</td>
+    <td>The domain to match in order to apply the dial plan rule; either a complete value (e.g. "example.com") or a “wildcarded” one (e.g. "*.com")</td>
+  </tr>
+  <tr>
+    <td>priority</td>
+    <td>Number</td>
+    <td>A numeric value which determines the order in which dial plan rules (including rules with wildcarded domains) will be applied. Rules with higher priority values are applied first. If a rule is matched, but the call cannot be made, then other lower priority rules may be tried depending on the failureAction parameter for the rule.</td>
+  </tr>
+  <tr>
+    <td>localContactDomain</td>
+    <td>String</td>
+    <td>Used when forming an explicit contact domain to be used: if you leave this field blank then the localContactDomain is derived from the local IP address.If you are using Lync, we suggest that you set localContactDomain. If you are not using Lync, we recommend that localContactDomain is not set to avoid unexpected issues with the SIP call flow.</td>
+  </tr>
+  <tr>
+    <td>localFromDomain</td>
+    <td>String</td>
+    <td>Used when forming the calling party for outgoing calls using this dial plan rule</td>
+  </tr>
+  <tr>
+    <td>sipProxy</td>
+    <td>String</td>
+    <td>The address (IP address or hostname) of the proxy device through which to make the call. If not set, it is a direct call.</td>
+  </tr>
+  <tr>
+    <td>trunkType</td>
+    <td>sip|lync|avaya</td>
+    <td>Used to set up rules to route calls out to third party SIP control devices such as CiscoExpressway, Avaya Manager or Lync servers. If set to lync or avaya then outgoing calls that use this rule will be made as Lync or Avaya calls with some specialized behavior. sip means that calls using this rule will be standard SIP calls.A common use of the Meeting Server is with an Avaya PBX; these calls will be audio-only. However, the Meeting Server does not impose this restriction on interoperability with Avaya products (some of which support video also): therefore a call of type of ‘avaya’ does not imply that the call is audio-only.</td>
+  </tr>
+  <tr>
+    <td>failureAction</td>
+    <td>stop|continue</td>
+    <td>Whether or not to try the next outbound dial plan rule if the current one did not result in a connected call. If a rule has a failureAction of stop, then no further rules are used.</td>
+  </tr>
+  <tr>
+    <td>sipControlEncryption </td>
+    <td>auto|encrypted|unencrypted</td>
+    <td>Whether to enforce use of encrypted control traffic on calls made via this rule:encrypted: allow only encrypted SIP control traffic (TLS connections)unencrypted: use only unencrypted traffic (TCP or UDP)auto: attempt to use encrypted control connections first, but allow fall back to unencrypted control traffic in the event of failure.Note: Ensure all "Lync" outbound dialing rules are explicitly set to Encrypted mode to prevent the Call Bridge attempting to use unencrypted TCP for these connections in the event of the TLS connection attempt failing.</td>
+  </tr>
+  <tr>
+    <td>scope</td>
+    <td>global|callBridge|callBridgeGroup</td>
+    <td>The entities for which this outbound dial plan rule is valid:global - all Call Bridges are able to use this outbound dial plan rule to reach a matching domain.callBridge - this outbound dial plan rule is only valid for a single nominated Call Bridge – whose ID is given in callBridge parameter.callBridgeGroup - this outbound dial plan rule is only valid for a single nominated Call Bridge Group – whose ID is given in the callBridgeGroup parameter. (From version 2.2).If this parameter is not supplied in a create (POST) operation it defaults to “global”.</td>
+  </tr>
+  <tr>
+    <td>callBridge</td>
+    <td>ID</td>
+    <td>If the rule has a scope of callBridge (see above), this is the id of the Call Bridge for which the rule is valid</td>
+  </tr>
+  <tr>
+    <td>callBridgeGroup</td>
+    <td>ID</td>
+    <td>If the rule has a scope of callBridgeGroup (see above), this is the id of the Call Bridge Group for which the rule is valid (from version 2.2).</td>
+  </tr>
+  <tr>
+    <td>tenant</td>
+    <td>ID</td>
+    <td>If a tenant is specified, this rule will only be used to make outbound call legs from calls associated with that tenant; otherwise, this rule may be used from any call. </td>
+  </tr>
+  <tr>
+    <td>callRouting(beta feature)</td>
+    <td>default|traversal</td>
+    <td>This is the media routing that should be used for SIP calls originating from this rule:default - calls using this rule will use normal, direct, media routingtraversal - media for calls using this rule will flow via a TURN serverif this parameter is not supplied in a create (POST) operation, it defaults to “default” .</td>
+  </tr>
+</table>
+
 + Attributes (outboundDialPlanRule)
 + Response 200
     + Headers
@@ -1147,8 +1821,8 @@ GET method on a `/outboundDialPlanRules/<outbound dial plan rule ID>` node. If t
 
 ## Incoming Call Matching Dial Plan API Methods [/inboundDialPlanRules/{?filter,offset,limit,tenantFilter}]
 ### Access to incoming domain matching rules
-When an incoming SIP call is routed to the Acano server, the Call Bridge looks through the configured Incoming Domain Matching rules first, and evaluates which rule applies to the "domain" part of the destination URI `<user>@<domain>`. The Incoming Domain Matching rules are specified in the incoming call matching dial plan, which sits in the API object tree under the `/inboundDialPlanRules` node. Use the POST method to create the incoming call matching dial plan or set it up via the Web Admin Interface (see note below)
 
+When an incoming SIP call is routed to the Meeting Server, the Call Bridge looks through the configured inbound dial plan rules first and tries to match the "domain" part of the destination URI "<user>@<domain>"against the rules. Use the POST method on API object `/inboundDialPlanRules` to create a new inbound dial plan rule to match against incoming SIP calls, or set it up via the Web Admin Interface (see note below)
 ---
 **Note:** On the Web Admin Interface, the table of inbound rules is configured through the **Configuration > Incoming calls** page.
 
@@ -1157,26 +1831,61 @@ When an incoming SIP call is routed to the Acano server, the Call Bridge looks t
 Response is a collection of `<inboundDialPlanRule id=<ID>>` objects contained within an `<inboundDialPlanRules>` object `<inboundDialPlanRule>` elements follow the general form on the left.
 
 <table>
-    <tr>
-        <th>Response elements</th>
-        <th>Type/Value</th>
-        <th>Description/Notes</th>
-    </tr>
-    <tr>
-        <td>inboundDialPlanRule id</td>
-        <td>ID</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>domain</td>
-        <td>Text</td>
-        <td>The domain to match in order to apply the dial plan rule. Must be a complete value (e.g. "example.com")</td>
-    </tr>
-    <tr>
-        <td>tenant</td>
-        <td>Text</td>
-        <td>If specified, calls to this inbound domain will only be matched against user JIDs and coSpace URIs for the specified tenant</td>
-    </tr>
+  <tr>
+    <th>Response elements</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td> </td>
+    <td> </td>
+    <td>Response is a collection of "&lt;inboundDialPlanRule id=&lt;ID&gt;&gt;" objects contained within an "&lt;inboundDialPlanRules&gt;" object&lt;inboundDialPlanRule&gt; elements follow the general form on the left.</td>
+  </tr>
+  <tr>
+    <td>inboundDialPlanRule id</td>
+    <td>ID</td>
+    <td> </td>
+  </tr>
+  <tr>
+    <td>domain</td>
+    <td>Text</td>
+    <td>The domain to match in order to apply the dial plan rule. Must be a complete value (e.g. "example.com")</td>
+  </tr>
+  <tr>
+    <td>priority</td>
+    <td>Number</td>
+    <td>Determines the priority of the inbound dial plan rule where multiple rules are applicable</td>
+  </tr>
+  <tr>
+    <td>resolveToUsers</td>
+    <td>true|false</td>
+    <td>If set to true, calls to this domain will be matched against user JIDs (if a match is then found, that incoming call leg causes a "point to point" call to that user's Meeting App.</td>
+  </tr>
+  <tr>
+    <td>resolveTocoSpaces</td>
+    <td>true|false</td>
+    <td>If set to true, calls to this domain are matched against coSpace URIs (if a match is then found, the incoming call leg becomes a participant in the coSpace).</td>
+  </tr>
+  <tr>
+    <td>resolveToIvrs</td>
+    <td>true|false</td>
+    <td>If set to true, calls to this domain are matched against configured IVR URIs (if a match is then found, the incoming call leg connects to that IVR).</td>
+  </tr>
+  <tr>
+    <td>resolveToLyncConferences</td>
+    <td>true|false</td>
+    <td>If set to true, calls to this domain are resolved to a Lync conference URL; if the resolution is successful, the incoming call leg becomes a participant in the Lync conference.If this parameter is not supplied in a create (POST) operation, it defaults to “false”.</td>
+  </tr>
+  <tr>
+    <td>resolveToLyncSimpleJoin</td>
+    <td>true|false</td>
+    <td>If set to true, calls to this domain are resolved by an HTTPS lookup to the given URL. If the resolution is successful, the incoming call leg becomes a participant in the Lync conference. (From version 2.2).</td>
+  </tr>
+  <tr>
+    <td>tenant</td>
+    <td>Text</td>
+    <td>If specified, calls to this inbound domain are only matched against user JIDs and coSpace URIs for the specified tenant</td>
+  </tr>
 </table>
 
 + Parameters
@@ -1192,6 +1901,54 @@ Response is a collection of `<inboundDialPlanRule id=<ID>>` objects contained wi
 ## Creating and modifying incoming dial plan rules [POST]
 * Creating: POST method to the `/inboundDialPlanRules` node. If the incoming dial plan rule is created successfully, a “200 OK” response will be received, and the `Location` header in the response will contain the new incoming dial plan rule ID
 * Modifying: PUT method on an `/inboundDialPlanRules/<inbound dial plan rule ID>` node
+
+<table>
+  <tr>
+    <th>Parameters</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>domain *</td>
+    <td>String</td>
+    <td>The domain to match in order to apply the dial plan rule. Must be a complete value (e.g. "example.com")</td>
+  </tr>
+  <tr>
+    <td>priority</td>
+    <td>numeric</td>
+    <td>inbound dial plan rules' configured domain values are always exactly matched against incoming calls. For the purposes of generating full URIs to advertise for incoming calls (especially cases where multiple rules are applicable) you can also set a numeric priority value - higher values will be preferred</td>
+  </tr>
+  <tr>
+    <td>resolveToUsers</td>
+    <td>true|false</td>
+    <td>If set to true, calls to this domain will be matched against user JIDs (if a match is then found, that incoming call leg causes a "point to point" call to that user's Meeting App.</td>
+  </tr>
+  <tr>
+    <td>resolveTocoSpaces</td>
+    <td>true|false</td>
+    <td>If set to true, calls to this domain will be matched against coSpace URIs (if a match is then found, the incoming call leg becomes a participant in the coSpace).</td>
+  </tr>
+  <tr>
+    <td>resolveToIvrs</td>
+    <td>true|false</td>
+    <td>If set to true, calls to this domain will be matched against configured IVR URIs (if a match is then found, the incoming call leg connects to that IVR).</td>
+  </tr>
+  <tr>
+    <td>resolveToLyncConferences</td>
+    <td>true|false</td>
+    <td>If set to true, calls to this domain will be resolved to a Lync conference URL; if the resolution is successful, the incoming call leg becomes a participant in the Lync conference.If this parameter is not supplied in a create (POST) operation, it defaults to “false”.</td>
+  </tr>
+  <tr>
+    <td>resolveToLyncSimpleJoin</td>
+    <td>true|false</td>
+    <td>If set to true, calls to this domain will be resolved by an HTTPS lookup to the given URL. If the resolution is successful, the incoming call leg becomes a participant in the Lync conference.If this parameter is not supplied in a create (POST) operation, it defaults to “false”. (From version 2.2).</td>
+  </tr>
+  <tr>
+    <td>tenant</td>
+    <td>ID</td>
+    <td>If specified, calls to this inbound domain will only be matched against user JIDs and coSpace URIs for the specified tenant</td>
+  </tr>
+</table>
 
 + Attributes (inboundDialPlanRule)
 + Response 200
@@ -1267,13 +2024,55 @@ Response is a collection of `<forwardingDialPlanRule id=<ID>>` objects contained
 * Creating: POST method to the `/forwardingDialPlanRules` node. If the forwarding dial plan rule is created successfully, a “200 OK” response will be received, and the `Location` header in the response will contain the new forwarding dial plan rule ID
 * Modifying a forwarding dial plan rule is a PUT method on a `/forwardingDialPlanRules/<forwarding dial plan rule ID>` node
 
+<table>
+  <tr>
+    <th>Parameters</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>matchPattern</td>
+    <td>String</td>
+    <td>The domain to match in order to apply the dial plan rule. Must be a complete domain name (e.g. "example.com") or a “wildcarded” one (e.g. exa*.com). Wildcards are permitted in any part of a domain matching pattern, but do not use “matchPattern=*” as a match all, otherwise you will create call loops.</td>
+  </tr>
+  <tr>
+    <td>destinationDomain</td>
+    <td>String</td>
+    <td>Calls that are forwarded with this rule will have their destination domain rewritten to be this value</td>
+  </tr>
+  <tr>
+    <td>action</td>
+    <td>forward|reject</td>
+    <td>If set to "forward" causes matching call legs to become point-to-point calls with a new destination. "reject" causes the incoming call leg to be rejected</td>
+  </tr>
+  <tr>
+    <td>callerIdMode</td>
+    <td>regenerate|preserve</td>
+    <td>When forwarding an incoming call to a new destination address, whether to preserve the original calling party's ID or to generate a new one. If this parameter is not supplied in a create (POST) operation, it defaults to "regenerate"</td>
+  </tr>
+  <tr>
+    <td>priority</td>
+    <td>Number</td>
+    <td>Numeric value used when determining the order in which to apply forwarding dial plan rules; higher values will be applied first</td>
+  </tr>
+  <tr>
+    <td>tenant</td>
+    <td>ID</td>
+    <td>If a tenant is specified, calls using this rule will be associated with the specified tenant. </td>
+  </tr>
+  <tr>
+    <td>uriParameters</td>
+    <td>discard|forward</td>
+    <td>When forwarding an incoming call to a new destination address, this parameter determines whether to discard any additional parameters that are present in the destination URI of the incoming call, or to forward them on to the destination URI of the outbound call. If this parameter is not supplied in a create (POST) operation, it defaults to "discard”. This parameter is present from version 2.0 onwards</td>
+  </tr>
+</table>
 
 + Attributes (forwardingDialPlanRule)
 + Response 200
     + Headers
 
             Location:ID
-
+            
 ## Retrieving information on an individual incoming call forwarding dial plan rule [GET /forwardingDialPlanRules/{forwardingDialPlanRuleId}]
 GET method on a `/forwardingDialPlanRules/<forwarding dial plan rule ID>` node. If the forwarding dial plan rule ID supplied is valid, a "200 OK" response and a single `<forwardingDialPlanRule id=<ID>>` object will be returned with data as per the previous section.
 
@@ -1294,6 +2093,7 @@ This chapter details the API methods for:
 * dial transforms
 * call branding profiles
 * dtmf profiles
+* ivr methods
 * ivr branding profiles
 * participants
 
@@ -1345,9 +2145,81 @@ Response is structured as a top-level `<calls total=”N”>` tag with potential
             TODO: call object goes hereabouts
 
 ## Creating a New Call and Modifying an Active call [POST]
-POST method performed on the `/calls` node or PUT method to `/calls/<call id>`
+POST method performed on the `/calls` node or PUT method to `/calls/<callId>`
+
+<table>
+  <tr>
+    <th>Response elements</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>coSpace *</td>
+    <td>ID</td>
+    <td>Specifies the coSpace for which the call is being instantiated</td>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>String</td>
+    <td>The name of the new call</td>
+  </tr>
+  <tr>
+    <td>locked</td>
+    <td>true|false</td>
+    <td>Allows the locking/unlocking of a meeting lobby in order to control the process of activating participants. Participants requiring activation are typically guests to a coSpace that have not yet been ‘activated’. Members of a coSpace are not affected, and can join the coSpace at any time. When a meeting is locked, the guests requiring activation wait in the meeting lobby until the host unlocks the coSpace, at which point they are activated and join the coSpace. Participants that are already activated are NOT deactivated when the conference goes from the unlocked state to the locked state.If set to true, new participants that need activation are not activated even if there are activators in the call. </td>
+  </tr>
+  <tr>
+    <td>recording</td>
+    <td>true|false</td>
+    <td>If true, this call is currently being recorded.</td>
+  </tr>
+  <tr>
+    <td>streaming</td>
+    <td> true|false</td>
+    <td>If true, this call is currently being streamed. (From version 2.1)</td>
+  </tr>
+  <tr>
+    <td>allowAllMuteSelf</td>
+    <td>true|false</td>
+    <td>If true, participants have the permission to mute and unmute themselves.</td>
+  </tr>
+  <tr>
+    <td>allowAllPresentationContribution</td>
+    <td>true|false</td>
+    <td>If true, participants have the permission to present.  If false, this permission is dependent on presentationContributionAllowed in the call leg profile. Default is false. </td>
+  </tr>
+  <tr>
+    <td>joinAudioMuteOverride</td>
+    <td>true|false</td>
+    <td>If true, new participants will be muted when joining the call. </td>
+  </tr>
+  <tr>
+    <td>messageText</td>
+    <td>String</td>
+    <td>Text to display to every participant in the call (only displayed if configured messageDuration is non zero). (From version 2.1)</td>
+  </tr>
+  <tr>
+    <td>messagePosition</td>
+    <td>top|middle|bottom</td>
+    <td>Position to display configured messageText on screen (for SIP endpoints).(From version 2.1)<
+    /td>
+  </tr>
+  <tr>
+    <td>messageDuration</td>
+    <td>Number|permanent</td>
+    <td>Time in seconds to display configured messageText on screen . Typing the string “permanent” will result in the string being permanently shown 
+    until it is reconfigured. (From version 2.1)</td>
+  </tr>
+  <tr>
+    <td>activeWhenEmpty</td>
+    <td>true|false</td>
+    <td>If true, this call is considered “active for load balancing” when no participants are present,. This means that the first call to the empty conference is preferentially load balanced. You can prevent the load balancing preferentially using the empty conferences by setting this parameter to false. If this parameter is not supplied in a create (POST) operation, it defaults to “true”.  (From version 2.2)</td>
+  </tr>
+</table>
 
 If a call is instantiated for the coSpace successfully, that call’s ID is returned in the `Location` field of the response header. You can now add call legs to this call as described below.
+
+
 
 + Attributes (call)
 + Response 200
@@ -1359,86 +2231,131 @@ If a call is instantiated for the coSpace successfully, that call’s ID is retu
 GET method performed on a `/calls/<call ID>` node. If the call ID supplied is valid, a “200 OK” response is received, with XML content of the form:
 
 <table>
-    <tr>
-        <th>Response elements</th>
-        <th>Type/Value</th>
-        <th>Description/Notes</th>
-    </tr>
-    <tr>
-        <td>coSpace</td>
-        <td>ID</td>
-        <td>If the call represents the instantiation of a coSpace, this value will be present and hold the id of the coSpace</td>
-    </tr>
-    <tr>
-        <td>callCorrelator</td>
-        <td>ID</td>
-        <td>An id that is the same across all distributed instances of this call. Present from R1.7 onwards</td>
-    </tr>
-    <tr>
-        <td>tenant</td>
-        <td>ID</td>
-        <td>The ID of the tenant that owns the call</td>
-    </tr>
-    <tr>
-        <td>durationSeconds</td>
-        <td>Number</td>
-        <td>The duration of the call, as thea number of seconds since the call started</td>
-    </tr>
-    <tr>
-        <td>numCallLegs</td>
-        <td>Number</td>
-        <td>The number of call legs currently active within this call</td>
-    </tr>
-    <tr>
-        <td>maxCallLegs</td>
-        <td>Number</td>
-        <td>The highest number of call legs that have been simultaneously present within this call</td>
-    </tr>
-    <tr>
-        <td>numParticipantsLocal</td>
-        <td>Number</td>
-        <td>The number of participants within this call locally hosted by the Call Bridge to which the request is being made</td>
-    </tr>
-    <tr>
-        <td>numParticipantsRemote</td>
-        <td>Number</td>
-        <td>The number of participants in this call hosted by other Call Bridges</td>
-    </tr>
-    <tr>
-        <td>numDistributedInstances</td>
-        <td>Number</td>
-        <td>The number of other Call Bridges hosting participants in this call</td>
-    </tr>
-    <tr>
-        <td>presenterCallLeg</td>
-        <td>ID</td>
-        <td>The presenterCallLeg value is only present if a call leg is actively presenting within this call</td>
-    </tr>
-    <tr>
-        <td>locked</td>
-        <td>bool</td>
-        <td>Indicates whether the call is locked (true) or unlocked (false). This parameter is present from version 1.8 onwards</td>
-    </tr>
-    <tr>
-        <td>recording</td>
-        <td>bool</td>
-        <td>If true, this call is currently being recorded. Present from version 1.9 onwards</td>
-    </tr>
-    <tr>
-        <td>allowAllMuteSelf</td>
-        <td>bool</td>
-        <td>If true, participants have the permission to mute and unmute themselves. If false, this permission is dependent on muteSelfAllowed in the call leg profile. Present from version 1.9 onwards</td>
-    </tr>
-    <tr>
-        <td>allowAllPresentationContribution</td>
-        <td>bool</td>
-        <td>If true, participants have the permission to present. If false, this permission is dependent on presentationContributionAllowed in the call leg profile. Default is false. Present from version 1.9 onwards</td>
-    </tr>
-    <tr>
-        <td>joinAudioMuteOverride</td>
-        <td>bool</td>
-        <td>If true, new participants will be muted when joining the call. Present from version 1.9 onwards</td>
-    </tr>
+  <tr>
+    <th>Response elements</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>coSpace</td>
+    <td>ID</td>
+    <td>If the call represents the instantiation of a coSpace, this value will be present and hold the id of the coSpace</td>
+  </tr>
+  <tr>
+    <td>callCorrelator</td>
+    <td>ID</td>
+    <td>An id that is the same across all distributed instances of this call.</td>
+  </tr>
+  <tr>
+    <td>callType</td>
+    <td>coSpace|forwarding|adHoc|lyncConferencing</td>
+    <td>Indicates the call type:coSpace - this call is the instantiation of a spaceforwarding - this is a forwarded or “gateway” calladHoc - this is an ad hoc multiparty calllyncConferencing - this call leg is participating in a Lync conference(From version 2.3)</td>
+  </tr>
+  <tr>
+    <td>tenant</td>
+    <td>ID</td>
+    <td>The ID of the tenant that owns the call</td>
+  </tr>
+  <tr>
+    <td>durationSeconds</td>
+    <td>Number</td>
+    <td>The duration of the call, as the number of seconds since the call started</td>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>String</td>
+    <td>The associated human-readable name for the call. (From version 2.3)</td>
+  </tr>
+  <tr>
+    <td>numCallLegs</td>
+    <td>Number</td>
+    <td>The number of call legs currently active within this call</td>
+  </tr>
+  <tr>
+    <td>maxCallLegs</td>
+    <td>Number</td>
+    <td>The highest number of call legs that have been simultaneously present within this call</td>
+  </tr>
+  <tr>
+    <td>numParticipantsLocal</td>
+    <td>Number</td>
+    <td>The number of participants within this call locally hosted by the Call Bridge to which the request is being made</td>
+  </tr>
+  <tr>
+    <td>numParticipantsRemote</td>
+    <td>Number</td>
+    <td>The number of participants  in this call hosted by other Call Bridges </td>
+  </tr>
+  <tr>
+    <td>numDistributedInstances</td>
+    <td>Number</td>
+    <td>The number of other Call Bridges hosting participants in this call</td>
+  </tr>
+  <tr>
+    <td>presenterCallLeg</td>
+    <td>ID</td>
+    <td>The presenterCallLeg value is only present if a call leg is actively presenting within this call </td>
+  </tr>
+  <tr>
+    <td>locked</td>
+    <td> true|false</td>
+    <td>Indicates whether the call is locked (true) or unlocked (false). </td>
+  </tr>
+  <tr>
+    <td>recording</td>
+    <td> true|false</td>
+    <td>If true, this call is currently being recorded. </td>
+  </tr>
+  <tr>
+    <td>streaming</td>
+    <td> true|false</td>
+    <td>If true, this call is currently being streamed. (From version 2.1)</td>
+  </tr>
+  <tr>
+    <td>allowAllMuteSelf</td>
+    <td>true|false</td>
+    <td>If true, participants have the permission to mute and unmute themselves. If false, this permission is dependent on muteSelfAllowed in the call leg profile. </td>
+  </tr>
+  <tr>
+    <td>allowAllPresentationContribution</td>
+    <td>true|false</td>
+    <td>If true, participants have the permission to present. . If false, this permission is dependent on presentationContributionAllowed in the call leg profile. Default is false. </td>
+  </tr>
+  <tr>
+    <td>joinAudioMuteOverride</td>
+    <td>true|false</td>
+    <td>If true, new participants will be muted when joining the call. </td>
+  </tr>
+  <tr>
+    <td>messageText</td>
+    <td>String</td>
+    <td>Text to display to every participant in the call (only displayed if configured messageDuration is non zero). (From version 2.1)</td>
+  </tr>
+  <tr>
+    <td>messagePosition</td>
+    <td>top|middle|bottom</td>
+    <td>Position to display configured messageText on screen (for SIP endpoints).(From version 2.1)</td>
+  </tr>
+  <tr>
+    <td>messageDuration</td>
+    <td>Number</td>
+    <td>Time in seconds to display configured messageText on screen (can also be "permanent" to cause the message to be displayed until it is reconfigured). (From version 2.1)</td>
+  </tr>
+  <tr>
+    <td>messageTimeRemaining</td>
+    <td>Number</td>
+    <td>Time remaining in  seconds for configured messageText to be displayed on screen.(From version 2.1)</td>
+  </tr>
+  <tr>
+    <td>ownerName</td>
+    <td>String</td>
+    <td>If set,  displays the owner of this call. This can be the meetingScheduler of the coSpace of this call, or the name of the owner of this call or the Jid of the owner. (From version 2.2)                    </td>
+  </tr>
+  <tr>
+    <td>activeWhenEmpty</td>
+    <td>true|false</td>
+    <td>If true, this call is considered active for load balancing when no participants are present.If this parameter is not supplied in a create (POST) operation, it defaults to “true”.  (From version 2.2)</td>
+  </tr>
 </table>
 
 + Parameters
@@ -1457,6 +2374,68 @@ POST method performed on `/calls/<call id>diagnostics` generates call diagnostic
     + Body
 
             TODO: No idea what gets returned for these things.
+
+## Retrieve participants in a conference [GET /calls/{call id}/participants/{?offset,limit,filter,tenantFilter,callBridgeFilter}]
+GET method performed on the `/calls/<call id>/participants` node. Retrieves a list of all of the participants associated with the specified call.
+
+Response is structured as a top-level <participants total=”N”> tag with potentially multiple <participant> elements within it.
+<participant> elements follow the general form on the left.
+
+<table>
+  <tr>
+    <th>Response elements</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>String</td>
+    <td>The associated (human-readable) name associated with this participant</td>
+  </tr>
+  <tr>
+    <td>call</td>
+    <td>ID</td>
+    <td>The call that this participant is part of</td>
+  </tr>
+  <tr>
+    <td>tenant</td>
+    <td>ID</td>
+    <td>The specific tenant with which this participant is associated</td>
+  </tr>
+  <tr>
+    <td>callBridge</td>
+    <td>ID</td>
+    <td>The remote, clustered Call Bridge to which this participant is connected</td>
+  </tr>
+</table>
+
++ Parameters
+    + offset (number, optional)
+        An "offset" and "limit" can be supplied to retrieve coSpaces other than the first “page" in the notional list (see Section 4.1.2).
+    + limit (number, optional)
+        An "offset" and "limit" can be supplied to retrieve coSpaces other than the first “page" in the notional list (see Section 4.1.2).
+    + filter (string, optional)
+        Supply “filter=`<string`>” in the URI to return just those coSpaces that match the filter
+    + tenantFilter (ID, optional) - Supply tenantFilter=<tenant id> to return just those coSpaces associated with that tenant
+    + callBridgeFilter (ID, optional)
+        Supply callBridgeFilter=`<callBridgeFilter>` to return just those active participants located on the specified Call Bridge.
+
++ Request
+    + Headers
+
+            Authorization: Basic Ym9iOmJ1aWxkZXI=
+
++ Response 200 (text/xml)
+    + Headers
+
+            Connection: close
+    
+    + Body
+    
+            <?xml version="1.0"?>
+            <TODO conference details>
+
+    
 
 ## Call Profile Methods [/callProfiles{?offset,limit,usageFilter}]
 Call profiles were introduced in R1.6. More information is provided on profiles in section 14.
