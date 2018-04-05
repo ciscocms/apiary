@@ -1,0 +1,3593 @@
+FORMAT: 1A
+HOST: http://cmsapi.cisco.io/api/v1
+
+# Acano Server API
+This document covers R1.9 of the Application Program Interface for the Acano server.
+
+This document is one of a number of reference guides, as shown below
+We suggest that you start by reading sections 2 to 5 inclusive and in order. They provide the concepts behind the API, the way to use the API methods and some examples of usage.
+Then use the remaining sections as reference material for the method(s) that you want to use.
+In addition to this guide, the material shown in the figure below can be found at the Acano Documentation & software page. If you need any technical assistance with the configuration, or you want to report a suspected bug, email support@acano.com
+
+
+## Acano Server Release R1.9 API Additions
+New API functionality for the Acano server R1.9 includes:
+
+* support for recording meetings
+* additional DTMF support
+* change in behavior of the "allEqual" screen layout for SIP endpoints, (see the defaultLayout parameter for `/coSpaces` and `/callLegProfiles` objects, and defaultLayout, chosenLayout and layout parameters for the `/calls` object)
+
+### Support for recording meetings
+* New API objects to enable the recording of meetings hosted on the Acano server.
+ They are:
+
+    * `/recorders`
+    * `/recorders/<recorder id>`
+
+* New recording parameter for `/calls` and `/calls/<call id>`
+* New recordingControlAllowed parameter for `/callLegProfiles` and `/callLegProfiles/<call leg profile id>`
+* New recordingMode parameter for `/callProfiles` and `/callProfiles/<call profile id>`
+* New startRecording and stopRecording parameters for `/dtmfProfiles` and `/dtmfProfiles/<dtmf profile id>`
+* Two new error codes to aid diagnostics:
+    * callRecordingCannotBeModified
+    * recorderDoesNotExist
+
+### Additional parameters giving meeting participants greater control over audio and presenting content
+* New parameters for `/calls` and `/calls/<call id>`, `/callLegProfiles` and `callLegProfiles/<call leg profile id>` as follows:
+    * recording
+    * allowAllMuteSelf
+    * allowAllPresentationContribution
+    * joinAudioMuteAllNewAudio
+
+### Additional support for DTMF
+* New dtmfSequence parameter for `/calls/<call id>/callLegs` and `/callsLegs/<call leg id>`
+* New parameters for `/dtmfProfiles` and `/dtmfProfiles/<dtmf profile id>` as follows:
+    * startRecording
+    * stopRecording
+    * allowAllMuteSelf
+    * cancelAllMuteSelf
+    * allowAllPresentationContribution
+    * cancelAllPresentationContribution
+    * muteAllNewAudio
+    * unmuteAllNewAudio
+    * defaultMuteAllNewAudio
+    * muteAllNewAndAllExceptSelfAudio
+    * unmuteAllNewAndAllExceptSelfAudio
+
+## General Structure of Methods
+Conceptually, the API methods are designed to work on a hierarchical tree of objects. For example, each configured coSpace exists as a node in this tree, and all of the users who are members of that coSpace exist as nodes “beneath” the coSpace object’s node.
+
+In order to work within the environs of the Acano server’s high capacity in terms of the potentially large number of active calls and coSpaces, it is important that the methods supported do not require the entire collection of active objects of any particular type to be able to be retrieved in a single response. For this reason, rather than returning such an oversized data set in a single response, responses typically return the first “N” matching entries and a count of the total number of objects of that type. In order to find a specific object for further methods (for example, for the purposes of a deeper dive into an individual object’s active status, or to modify or delete it) filters can be applied to the initial retrieval in order to identify the object in question. Refer to Section 4.1 for more information on filters and the GET command.
+
+
+### Object Hierarchy
+The hierarchy of objects addressable via the API is:
+`/accessQuery`
+`/callBrandingProfiles`
+`/callBrandingProfiles/<call branding profile id>`
+
+`/callBridges`
+`/callBridges/<call bridge id>`
+
+`/calls`
+`/calls/<call id>`
+`/calls/<call id>/callLegs`
+`/calls/<call id>/diagnostics`
+`/calls/<call id>/participants`
+
+`/callProfiles`
+`/callProfiles/<call profile id>`
+
+`/callLegs`
+`/callLegs/<callLeg id>`
+`/callLegs/<callLeg id>/callLegProfileTrace`
+
+`/callLegProfiles`
+`/callLegProfiles/<call leg profile id>`
+`/callLegProfiles/<call leg profile id>/usage`
+
+`/coSpaces`
+`/coSpaces/<coSpace id>`
+`/coSpaces/<coSpace id>/accessMethods`
+`/coSpaces/<coSpace id>/accessMethods/<access method id>`
+`/coSpaces/<coSpace id>/coSpaceUsers`
+`/coSpaces/<coSpace id>/coSpaceUsers/<coSpaceUser id>`
+`/coSpaces/<coSpace id>/diagnostics`
+`/coSpaces/<coSpace id>/messages`
+
+`/dialTransforms`
+`/dialTransforms/<dial transform id>`
+
+`/directorySearchLocations`
+`/directorySearchLocations/<directory search location id>`
+
+`/dtmfProfiles`
+`/dtmfProfiles/<dtmf profile id>`
+
+`/forwardingDialPlanRules`
+`/forwardingDialPlanRules/<forwarding dial plan rule id>`
+
+`/inboundDialPlanRules`
+`/inboundDialPlanRules/<inbound dial plan rule id>`
+
+`/ivrs`
+`/ivrs/<ivr id>`
+`/ivrBrandingProfiles`
+`/ivrBrandingProfiles/<ivr branding profile id>`
+
+`/ldapMappings`
+`/ldapMapping/<ldap mapping id>`
+`/ldapServers`
+`/ldapServers/<ldap server id>`
+`/ldapSources`
+`/ldapSources/<ldap source id>`
+`/ldapSyncs`
+`/ldapSyncs/<ldap sync id>`
+
+`/outboundDialPlanRules`
+`/outboundDialPlanRules/<outbound dial plan rule id>`
+`/participants`
+`/participants/<participantId>`
+`/participants/<participantId>/callLegs`
+
+`/recorders`
+`/recorders/<recorder id>`
+`/system/alarms`
+`/system/cdrReceiver (deprecated in R1.8)`
+`/system/cdrReceivers`
+`/system/cdrReceivers/<CDR receiver id>`
+`/system/configuration/cluster`
+`/system/configuration/xmpp`
+`/system/database`
+`/system/diagnostics`
+`/system/diagnostics/<diagnostics id>`
+`/system/diagnostics/<diagnostics id>/contents`
+`/system/profiles`
+`/system/status`
+
+`/tenantGroups`
+`/tenantGroups/<tenant group id>`
+
+`/tenants`
+`/tenants/<tenant id>`
+
+`/turnServers`
+`/turnServers/<turn server id>`
+`/turnServers/<turn server id>/status`
+
+`/users`
+`/users/<user id>`
+`/users/<user id>/usercoSpaces`
+`/userProfiles`
+`/userProfiles/<user profile id>`
+
+`/webBridges`
+`/webBridges/<web bridge id>`
+`/webBridges/<web bridge id>/updateCustomization`
+
+In each case, the top level plural term sits above potentially many individual object nodes; these individual object nodes are identified by an <ID> which is a GUID, typically. For example, if there are 100 coSpaces configured on an Acano server, conceptually there would be 100 nodes directly beneath `/coSpaces` in the hierarchy.
+
+## Accessing the API
+The API uses HTTPS as a transport mechanism.
+
+### Configuration Settings
+To use the API, you need to connect via HTTPS via the same TCP ports as you would use to access the Web Admin Interface – typically port 443; that is, they use the same interface.
+
+You also need to configure a username and password: you must provide these credentials in order to use the API. From R1.7, you set them using the MMP command `user add <username> (admin|crypto|audit|appadmin|api)`. This command prompts for the user’s password; see the MMP Command Reference for details.
+
+### Authentication
+The API user supplies a shared secret username and password to the Acano server configured with the same username and password. The username and password are set in the MMP command line.
+
+While the authentication credentials are sent in essentially plain text within the HTTP traffic, by using HTTPS the traffic itself cannot be read by an external party.
+
+### Tools to Use
+Suitable tools to access and update the API include:
+* Firefox Poster
+* Chrome Postman
+* Chrome Advanced Rest Client
+
+Appendix B provides an example of using the Firefox Poster tool.
+
+## API Methods
+There are four methods:
+* [GET]() is used for retrieval of existing information
+* [POST]() is used to create new objects in the hierarchy
+* [PUT]() is used to modify an existing object
+* [DELETE]() is used to destroy an object in the tree
+
+These methods are described in more detail below.
+
+### URL format
+For the purposes of addressing or creating individual objects, the URL format mirrors the conceptual hierarchy of objects, with some additional preceding tags in order to identify that the request is for the API. By way of example, to retrieve information on API object `/calls/dbfca0dd-dbe1-43bb-b101-beb9a7ef35f4` it would be necessary to issue:
+`GET /api/v1/calls/dbfca0dd-dbe1-43bb-b101-beb9a7ef35f4 HTTP/1.1`
+
+Specifically, at the top level, including `/api` means that the on-board HTTP server process can distinguish this HTTP method from a normal browser method, and including `v1` means the API handler knows that the request is being made by an object that understands version 1 of the API.
+
+If an API method is successful, it yields a “200 OK” response from the Acano server. If an error occurs, the Acano server responses with a 4xx or 5xx HTTP status code.
+
+A 503 (“Service Unavailable”) status code is returned for API calls unable to be serviced due to a temporary “busy” condition on the Acano server – this can be used as an indication to the requestor that it would be useful to re-attempt the same method later.
+
+Equally, a request supplying a <coSpace id> which does not correspond to a valid coSpace object yields “404 Not Found”.
+
+For 4xx and 5xx error cases, extended error information may be returned as “text/xml” body data, for example:
+`<failureDetails><coSpaceDoesNotExist/></failureDetails>`
+
+More generally, such a response consists of a “failureDetails” section and a list of errors; in the above case a method was attempted using a coSpace ID that did not correspond to an active coSpace. The possible failure reasons are described in Section 4.5.
+
+### GET Methods
+As mentioned above, GET methods allow retrieval of information about existing API accessible objects, and are used at two levels: Collections level and Individual object level.
+
+#### Collections level
+If the GET method is performed at the Collections level (the pluralized noun: “calls”, “coSpaces” etc.) then some number of matching child nodes will be retrieved. By design this is not guaranteed to be the entire list, but the total number of objects of that type present in the Acano server can be learnt via this mechanism.
+
+In order to retrieve just specific items, most GET methods at the Collections level allow the use of a filter expression. The idea here is that the interface of a management tool would initially present the API user with the summed count of coSpaces (for example), basic details on the first “N” coSpaces (e.g. their names) and a filter box which the human user can use to search for the specific coSpace(s) of interest.
+
+With no other additional parameters, a GET method at the Collections level will return items from the start of the Acano server's notional complete list. By comparing the number of items returned with the "total" value, it is straightforward to determine whether all elements have been returned (if the number of elements returned is equal to the "total" value).
+
+#### Using limit and offset at the Collections level
+It is possible to restrict the number of elements returned to a limit chosen by the requestor, by including a "limit=<limitValue>" in the API request. This guarantees that no more than the specified "limitValue" number of elements will be returned - the Acano server will have its own limit in these cases too, and therefore the number of elements returned will be the lower of any supplied "limitValue" and the Acano server's own limit.
+
+In order to retrieve elements other than the first "n" on the Acano server's notional list, it is also possible to supply an "offset=<offsetValue>" in the API request. This causes the Acano server to return elements which start at the specified position in its list, skipping the first "offsetValue" number of elements. If "offsetValue" is greater than the number of objects of that type, then no elements will be returned.
+
+---
+**Note:** The offset value should not be viewed as a general mechanism for retrieving a large complete list - sequential retrievals of one "page" of data followed by a second "page" will not necessarily be operating on the same complete list if any objects have been deleted or added in the interval between these methods.
+
+---
+
+The expectation is that, for each request and response, the requestor will keep track of the offset and limit values used, and combine this knowledge with the number of elements returned in the response and the "total" indicated by the Acano server. If the "offsetValue" supplied by the requestor plus the number of elements returned is less than the "total" value indicated in the response, the requestor then knows that there are more values present. The following table shows some examples:
+
+<table>
+    <tr>
+        <th>Requestor offset</th>
+        <th>Requestor limit</th>
+        <th>XML Response</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>not supplied</td>
+        <td>not supplied</td>
+        <td></td>
+        <td>All coSpaces (0 – 6) present in response</td>
+    </tr>
+    <tr>
+        <td>not supplied</td>
+        <td>1</td>
+        <td></td>
+        <td>First coSpace present in response</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>10</td>
+        <td></td>
+        <td>coSpaces 4 - 6 present in response</td>
+    </tr>
+    <tr>
+        <td>20</td>
+        <td>10</td>
+        <td></td>
+        <td>coSpaces 20 - 27 present in response. (The Acano server limited its response to 8 entries despite the requestor allowing up to 10.)</td>
+    </tr>
+</table>
+
+#### Individual object level
+If the GET method is performed at the Individual object level, full information about just that one object will be returned. For example, after the unique ID of a coSpace has been learnt via a (potentially filtered) GET of the `/coSpaces` node, a subsequent GET of the `/coSpaces/<coSpace id>` node would return expanded information about just that one coSpace, for example how many members it has, and when it was last activated.
+
+#### HTTP specifics
+GET methods contain the complete node location and any parameters specific to the retrieval being performed in the URI supplied by the API user. For example, to retrieve basic information on the first “N” coSpaces, the URI would be:
+
+`/api/v1/coSpaces`
+
+whereas to list just those whose name includes “sales”, the GET would be performed on:
+`/api/v1/coSpaces?filter=sales`
+
+If a GET method has been successful and yields a “200 OK” response, the Acano server returns the retrieved information as “text/xml” body data.
+
+#### How GET methods are detailed in this document
+For each GET method at the Collections level the following information is provided:
+* The node it operates on
+* A table of form parameters, such as filter, offset and limit mentioned above, some of which may be optional. Mandatory parameters are marked with an asterisk (*)
+* A table showing the returned information
+
+Both tables show the format of the parameter (e.g. `ID` or `string`) or the possible values (e.g. `true`|`false`)
+
+For each GET method at the Individual level the following information is provided:
+* The node it operates on
+* A table showing the returned information
+
+The form parameters are those for the Collections level, unless otherwise indicated.
+
+### POST Methods
+POST methods create new objects; for example, to create a new configured coSpace or dial plan rule. Using a POST method to create a new call leg associated with a coSpace is the way to make a new outbound SIP connection.
+
+#### HTTP specifics
+Most POST methods require some parameters to be supplied: for example, creation of a coSpace requires the new coSpace’s name to be specified, and a new call leg can only be created if the remote party’s address is known. Such parameters must be supplied by the initiator of the POST method via the standard HTTP “x-www-form- urlencoded” format, as used by “\<form\>” elements in an HTML document.
+
+If a POST method has been successful in adding a new object to the hierarchy, that object’s id, and its position within the hierarchy are returned in the “Location” field of the response.
+
+#### How POST methods are detailed in this document
+For each POST method the following information is provided:
+* The node it operates on
+* A table of form parameters, some of which may be optional. Mandatory parameters are marked with an asterisk (*)
+* The format of each parameter (e.g. `ID` or `string`) or the possible values (e.g. `true`|`false`). If appropriate the default value of a parameter (the value used if you do not specify a parameter) is shown in **bold** (e.g. `true`|`false`).
+
+### PUT Methods
+PUT methods modify existing objects; for example, changing the name of a coSpace, muting a specific call leg or changing the layout.
+
+In general, when using PUT in an object:
+* omit a parameter to leave its value unchanged
+* use a parameter with a new value to change to this value. Supply an empty value to unset a value. For example, to remove a tenant association from a coSpace, modify that coSpace with a parameter set including “tenant=”.
+
+#### HTTP specifics
+Parameters for a request must be supplied in “x-www-form-urlencoded” format.
+
+#### How PUT methods are detailed in this document
+Each PUT method is in the same section as the POST method for the same object e.g. creating and modifying a coSpace are dealt with together. Form parameters for modifying an object (PUT) are only noted if they differ from the POST method; for example, for callLegs.
+
+### DELETE Methods
+A DELETE method removes an individual object from the hierarchy; for example, disconnecting a call leg or disassociating a user from a coSpace so that the user is no longer a member.
+
+Therefore the DELETE method is typically performed at the Individual level e.g. `DELETE on /api/v1/coSpace/<id>/accessMethods/<id>`
+
+The object’s ID is known either from a previous retrieval (GET) method at the Collections level or from the “Location” field in the response to a previous creation (PUT) method. (coSpace can be deleted at the Collections level.)
+
+If the object is removed successfully, the Acano server sends a “200 OK” response.
+
+Because of the relative simplicity of this method, it is not detailed elsewhere in this document – with the exception of deleting chat messages.
+
+### Failure Reasons
+The following "failureDetails" codes can be returned by the API for any of the above methods, in the form in response to a user error:
+`<failureDetails><tenantDoesNotExist /></failureDetails>`
+
+<table>
+    <tr>
+        <th>Reason code</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>accessMethodDoesNotExist</td>
+        <td>You tried to modify or remove an accessMethod using an ID that did not correspond to a valid access method</td>
+    </tr>
+    <tr>
+        <td>callBrandingProfileDoesNotExist</td>
+        <td>You tried to modify or remove a call branding profile using an ID that did not correspond to a valid call branding profile</td>
+    </tr>
+    <tr>
+        <td>callBridgeDoesNotExist</td>
+        <td>You tried to modify or remove a configured clustered Call Bridge using an ID that did not correspond to a valid clustered Call Bridge</td>
+    </tr>
+    <tr>
+        <td>callDoesNotExist</td>
+        <td>You tried to perform a method on a call object using an ID that did not correspond to a currently active call</td>
+    </tr>
+    <tr>
+        <td>callRecordingCannotBeModified</td>
+        <td>You tried to start/stop recording a call that cannot be modified. Present from R1.9</td>
+    </tr>
+    <tr>
+        <td>callLegCannotBeDeleted</td>
+        <td>You tried to delete a call leg that can't be deleted. Present from R1.8</td>
+    </tr>
+    <tr>
+        <td>callLegDoesNotExist</td>
+        <td>You tried to perform a method on a call leg object using an ID that did not correspond to a currently active call leg</td>
+    </tr>
+    <tr>
+        <td>callLegProfileDoesNotExist</td>
+        <td>You tried to modify or remove a callLegProfile using an ID that did not correspond to a valid call leg profile</td>
+    </tr>
+    <tr>
+        <td>callProfileDoesNotExist</td>
+        <td>You tried to modify or remove a callProfile using an ID that is not valid</td>
+    </tr>
+    <tr>
+        <td>cdrReceiverDoesNotExist</td>
+        <td>You tried to modify or remove a CDR receiver using an ID that did not correspond to a valid CDR receiver. Present from R1.8</td>
+    </tr>
+    <tr>
+        <td>coSpaceDoesNotExist</td>
+        <td>You tried to modify or remove a coSpace using an ID that did not correspond to a valid coSpace on the system</td>
+    </tr>
+    <tr>
+        <td>coSpaceUserDoesNotExist</td>
+        <td>You tried to modify or remove a coSpace user using an ID that did not correspond to a valid coSpace user</td>
+    </tr>
+    <tr>
+        <td>databaseNotReady</td>
+        <td>You tried a method (e.g. initiation of an LDAP sync method) before the database was ready</td>
+    </tr>
+    <tr>
+        <td>directorySearchLocationDoesNotExist</td>
+        <td>You tried to reference, modify or remove a directory search location using an ID that did not correspond to a valid directory search location. Present from R1.8</td>
+    </tr>
+    <tr>
+        <td>dtmfProfileDoesNotExist</td>
+        <td>You tried to reference, modify or remove a DTMF profile using an ID that did not correspond to a valid DTMF profile</td>
+    </tr>
+    <tr>
+        <td>duplicateCallBridgeName</td>
+        <td>You tried to create or modify a clustered Call Bridge to use a name that would clash with an existing configured clustered Call Bridge</td>
+    </tr>
+    <tr>
+        <td>duplicateCoSpaceId</td>
+        <td>You tried to create or modify a coSpace call ID to use a call ID that clashed with one used by another coSpace</td>
+    </tr>
+    <tr>
+        <td>duplicateCoSpaceUri</td>
+        <td>You tried to create or modify a coSpace to use a URI that clashed with one that corresponds to another coSpace. (Two coSpaces can't share the same URI, because the Acano server must be able to uniquely resolve an incoming call to a coSpace URI)</td>
+    </tr>
+    <tr>
+        <td>duplicateCoSpaceSecret</td>
+        <td>You tried to modify a coSpace, or create or modify a coSpace access method, using a secret that clashed with one that is already used by that coSpace or one of its access methods</td>
+    </tr>
+    <tr>
+        <td>forwardingDialPlanRuleDoesNotExist</td>
+        <td>You tried to modify or remove an forwarding dial plan rule using an ID that did not correspond to a valid forwarding dial plan rule</td>
+    </tr>
+    <tr>
+        <td>inboundDialPlanRuleDoesNotExist</td>
+        <td>You tried to modify or remove an inbound dial plan rule using an ID that did not correspond to a valid inbound dial plan rule</td>
+    </tr>
+    <tr>
+        <td>inboundDialPlanRuleUriConflict</td>
+        <td>You tried to make modifications to an inbound dial plan rule which would have caused a URI conflict. For example, this can happen if you try to add a rule which matches multiple tenants and more than one tenant has a coSpace with the same URI</td>
+    </tr>
+    <tr>
+        <td>invalidOperation</td>
+        <td>You tried an operation which isn't supported; for example, you attempted to POST to /api/v1/system/profiles or issue a DELETE for a configured user generated from an LDAP sync</td>
+    </tr>
+    <tr>
+        <td>invalidVersion</td>
+        <td>You attempted an operation with an invalid API version. Present from R1.8</td>
+    </tr>
+    <tr>
+        <td>ivrBrandingProfileDoesNotExist</td>
+        <td>You tried to modify or remove an IVR branding profile object using an ID that did not correspond to a valid IVR branding profile on the system</td>
+    </tr>
+    <tr>
+        <td>ivrDoesNotExist</td>
+        <td>You tried to modify or remove an IVR object using an ID that did not correspond to a valid IVR on the system</td>
+    </tr>
+    <tr>
+        <td>ivrUriConflict</td>
+        <td>You tried to make modifications to an IVR object which would have caused a URI conflict</td>
+    </tr>
+    <tr>
+        <td>ldapMappingDoesNotExist</td>
+        <td>You tried to modify or remove an LDAP mapping using an ID that did not correspond to a valid LDAP mapping</td>
+    </tr>
+    <tr>
+        <td>ldapServerDoesNotExist</td>
+        <td>You tried to modify or remove an LDAP server using an ID that did not correspond to a valid LDAP server</td>
+    </tr>
+    <tr>
+        <td>ldapSourceDoesNotExist</td>
+        <td>You tried to modify or remove an LDAP source using an ID that did not correspond to a valid LDAP source</td>
+    </tr>
+    <tr>
+        <td>ldapSyncCannotBeCancelled</td>
+        <td>You tried to cancel an LDAP synchronization that has either started or completed – only LDAP synchronization methods that have not started yet can be cancelled</td>
+    </tr>
+    <tr>
+        <td>ldapSyncDoesNotExist</td>
+        <td>You tried to query or cancel an LDAP synchronization with an ID that did not correspond to a valid LDAP synchronization</td>
+    </tr>
+    <tr>
+        <td>messageDoesNotExist</td>
+        <td>You tried to remove a coSpace message using an ID that did not correspond to a valid coSpace message</td>
+    </tr>
+    <tr>
+        <td>outboundDialPlanRuleDoesNotExist</td>
+        <td>You tried to modify or remove an outbound dial plan rule using an ID that did not correspond to a valid outbound dial plan rule</td>
+    </tr>
+    <tr>
+        <td>parameterError</td>
+        <td>One or more parameters in a request were found to be invalid. Supporting parameter and error values give more detail about the failure</td>
+    </tr>
+    <tr>
+        <td>participantLimitReached</td>
+        <td>You tried to add a new participant beyond the maximum number allowed for the call</td>
+    </tr>
+    <tr>
+        <td>recorderDoesNotExist</td>
+        <td>You tried to modify or remove a recorder using an ID that did not correspond to a valid recorder. Present from R1.9</td>
+    </tr>
+    <tr>
+        <td>tenantDoesNotExist</td>
+        <td>You tried to modify or remove a tenant using an ID that did not correspond to a valid tenant</td>
+    </tr>
+    <tr>
+        <td>tenantGroupCoSpaceIdConflict</td>
+        <td>Your request to remove or use a tenant group would have resulted in a coSpace ID conflict. Present from R1.8</td>
+    </tr>
+    <tr>
+        <td>tenantGroupDoesNotExist</td>
+        <td>You tried to modify, remove or use a tenant group that does not exist. Present from R1.8</td>
+    </tr>
+    <tr>
+        <td>tenantParticipantLimitReached</td>
+        <td>You tried to add a new participant beyond the maximum number allowed for the owning tenant</td>
+    </tr>
+    <tr>
+        <td>tooManyCdrReceivers</td>
+        <td>You tried to add a new CDR receiver when the maximum number were already present. R1.8 supports up to 2 CDR receivers</td>
+    </tr>
+    <tr>
+        <td>tooManyLdapSyncs</td>
+        <td>A method to create a new LDAP synchronization method failed. Try again later</td>
+    </tr>
+    <tr>
+        <td>unrecognizedObject</td>
+        <td>There are elements in the URI you are accessing that are not recognized; e.g, you tried to perform a GET on /api/v1/system/profile rather than (the correct) /api/v1/system/profiles</td>
+    </tr>
+    <tr>
+        <td>userDoesNotExist</td>
+        <td>You tried to modify or remove a user using an ID that did not correspond to a valid user</td>
+    </tr>
+    <tr>
+        <td>userProfileDoesNotExist</td>
+        <td>You tried to modify a user profile using an ID that did not correspond to a valid user profile</td>
+    </tr>
+</table>
+
+## Example Requests and Responses for Specific Methods [/sample]
+
+### Retrieval of Current Active Calls [GET /api/v1/calls]
+
+As described in Section 4.1, retrieval methods using GET involve no body content posted by the retriever. If the request is valid, the Acano server returns XML response data.
+
++ Request
+    + Headers
+
+            Authorization: Basic Ym9iOmJ1aWxkZXI=
+
++ Response 200 (text/xml)
+    + Headers
+
+            Connection: close
+    
+    + Body
+    
+            <?xml version="1.0"?>
+            <calls total="1">
+            <call id="527089d6-6581-4331-8417-971c05c9e274">
+            <name>Sales coSpace</name>
+            <coSpace>2dcf2b7a-3410-4066-b638-46273698d469</coSpace>
+            </call>
+            </calls>
+
+
+### Creating a New Call Leg SIP dial out to 10.1.144.129 [POST /api/v1/callLegs]
+
++ Request
+    + Headers
+
+            Authorization: Basic Ym9iOmJ1aWxkZXI=
+            Content-Type: application/x-www-form-urlencoded
+
+    + Body
+
+            remoteParty=10.1.144.129
+
++ Response 200
+    + Headers
+
+            Location: /api/v1/callLegs/5a3b907a-7641-42fb-ae8c- b3424a3e923f
+            Connection: close
+
+# Group coSpace Related Methods
+
+---
+**Note:** From release 1.9, coSpace has been renamed as space, this is reflected in the Web Admin interface. API methods remain as /coSpace objects.
+
+---
+
+This chapter details the API methods related to management of coSpaces. The chapter covers:
+* retrieving coSpaces
+* creating and modifying a coSpace
+* retrieving detailed information about a single coSpace
+* retrieving the members of a coSpace
+* adding and modifying a coSpace member
+* posting to the message board of a coSpace
+* deleting messages from a coSpace message board
+* retrieving coSpace access methods
+* creating and modifying coSpace access methods
+* callingoutfromacoSpace
+* coSpace diagnostics
+
+## Retrieving coSpaces [GET /coSpaces/{?offset,limit,filter,tenantFilter,callLegProfileFilter}]
+GET method on the `/coSpaces` node
+
+The response includes the total count of the number of coSpaces present which match the filter if provided, irrespective of the number returned within the response. (With no filter, this value is the total number of configured coSpaces).
+
+TODO: Response is structured as a top-level \<coSpaces total=”N”\> tag with potentially multiple \<coSpace\> elements within it.
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>coSpace id</td>
+        <td>ID</td>
+        <td>The “ID” value returned in the opening tag is a unique identifier for the coSpace, and can be used for future modify / delete / query methods on that coSpace</td>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>name</td>
+        <td>The numeric ID that a user would enter at the IVR (or via a web client) to connect to this coSpace</td>
+    </tr>
+    <tr>
+        <td>uri</td>
+        <td>String</td>
+        <td>The URI that a SIP system would use to dial in to this coSpace</td>
+    </tr>
+    <tr>
+        <td>secondaryUri</td>
+        <td>String</td>
+        <td>The secondary URI for this coSpace – this provide the same functionality as the “uri” parameter, but allows more than one URI to be configured for a coSpace</td>
+    </tr>
+    <tr>
+        <td>callId</td>
+        <td>Number</td>
+        <td>The numeric ID that a user would enter at the IVR (or via a web client) to connect to this coSpace</td>
+    </tr>
+    <tr>
+        <td>tenant</td>
+        <td>ID</td>
+        <td>If provided, associates the specified call leg profile with this tenant</td>
+    </tr>
+    <tr>
+        <td>autoGenerated</td>
+        <td>bool</td>
+        <td>Whether this coSpace has been added automatically or manually. true - this coSpace has been added automatically as part of an LDAP sync operation. therefore it is not possible, to remove it except by modifying the parameters of the sync operation -- false - this coSpace has been added either via an API method or by using an Acano client; it can be modified or removed via the API</td>
+    </tr>
+</table>
+
++ Parameters
+    + offset (number, optional)
+        An "offset" and "limit" can be supplied to retrieve coSpaces other than the first “page" in the notional list (see Section 4.1.2).
+    + limit (number, optional)
+        An "offset" and "limit" can be supplied to retrieve coSpaces other than the first “page" in the notional list (see Section 4.1.2).
+    + filter (string, optional)
+        Supply “filter=`<string`>” in the URI to return just those coSpaces that match the filter
+    + tenantFilter (ID, optional) - Supply tenantFilter=<tenant id> to return just those coSpaces associated with that tenant
+    + callLegProfileFilter (ID, optional)
+        Supply callLegProfileFilter=`<call leg profile id>` to return just those coSpaces using that call leg profile
+
++ Request
+    + Headers
+
+            Authorization: Basic Ym9iOmJ1aWxkZXI=
+
++ Response 200 (text/xml)
+    + Headers
+
+            Connection: close
+    
+    + Body
+    
+            <?xml version="1.0"?>
+            <coSpaces total="1">
+            <coSpace id="527089d6-6581-4331-8417-971c05c9e274">
+            <name>Sales coSpace</name>
+            </coSpace>
+            </coSpaces>
+
+## Creating and Modifying a coSpace [POST /coSpaces]
+* Creating: POST method to the `/coSpaces` node. If the coSpace was created successfully, a “200 OK” response is received, and the “Location” header contains the ID for the new coSpace
+* Modifying: PUT method on a `/coSpaces/<coSpace ID>` node
+
+---
+**Note:** You can also use this PUT to modify the values of a coSpace created in an Acano Client. For example, the coSpace will have been created with the cdrTag of the user who created it but you can change that value with an API call. (This is unlike the cdrTag of an automatically generated coSpace, which cannot be updated with an API call).
+
+---
+
+#### Default layout options
+The naming of the defaultLayout options varies between the API and the Web Admin Interface **Configuration > coSpaces** page. The “mapping" is shown in the table below.
+
+<table>
+    <tr>
+        <th>API</th>
+        <th>Web Admin Interface</th>
+    </tr>
+    <tr>
+        <td>allEqual</td>
+        <td>all equal</td>
+    </tr>
+    <tr>
+        <td>speakerOnly</td>
+        <td>full screen</td>
+    </tr>
+    <tr>
+        <td>telepresence</td>
+        <td>overlay (the loudest speaker is in a large pane and a number of the previous speakers are in small panes which overlay the bottom of the loudest speaker’s pane).
+        </td>
+    </tr>
+    <tr>
+        <td>stacked</td>
+        <td>stack (the loudest speaker is in a large pane and a number of the previous speakers are in small panes below the loudest speaker’s pane).
+        </td>
+    </tr>
+</table>
+
+### Secondary coSpace URIs
+Per coSpace, there is an optional secondaryUri parameter as shown above. This allows flexibility; for example, numeric dialing in addition to a name.
+* When creating or modifying a coSpace (see the previous section) you can supply a secondaryUri parameter in addition to the form parameters in the table above e.g. uri
+* The secondary URI will be checked for validity and uniqueness in the same way as the uri, and if valid, establishes a new URI by which the coSpace can be reached
+* When retrieving information on an individual coSpace (see below) the secondaryUri value will be returned, if it is defined for this coSpace
+* The secondaryUri can be created automatically during an LDAP sync if the new LDAP mapping parameter is used. See coSpaceSecondaryUriMapping
+
+### Auto-generation of coSpace callID
+A new auto-generated Call Id is assigned if "requireCallId=true" is set via a create (POST) or modify (PUT) method on the coSpace, and no callId is currently specified for the coSpace.
+
++ Request (application/x-www-form-urlencoded)
+    + Attributes
+        + name: `PLACEHOLDER` (string) - The human-readable name that will be shown on clients’ UI for this coSpace
+        + uri: `PLACEHOLDER` (URI user part) - The URI that a SIP system would use to dial in to this coSpace
+        + secondaryUri (URI user part, optional)- The secondary URI for this coSpace – this provide the same functionality as the “uri” parameter, but allows more than one URI to be configured for a coSpace
+        + callId (ID, optional) - The numeric ID that a user would enter at the IVR (or via a web client) to connect to this coSpace
+        + cdrTag (string, optional) - Up to 100 characters of free form text to identify this coSpace in a CDR; when a "callStart" CDR is generated for a call associated with this coSpace, this tag will be written (as "cdrTag") to the callStart CDR. See the Acano solution CDR Reference for details. The cdrTag can be modified in a PUT method
+        + passcode (string, optional) - The security code for this coSpace
+        + tenant (ID, optional) - If provided, associates the specified tenant with this coSpace
+        + callLegProfile (ID, optional) - If provided, associates the specified call leg profile with this coSpace
+        + callProfile (ID, optional) - If provided, associates the specified call profile with this coSpace
+        + callBrandingProfile (ID, optional) - If provided, associates the specified call branding profile with this coSpace
+        + requireCallId: `true` (boolean) - If this value is supplied as true, and no callId is currently specified for the coSpace, a new auto-generated call Id will be assigned
+        + secret (string, optional) - If provided, sets the security string for this coSpace. If absent, a security string is chosen automatically if the coSpace has a callId value. This is the security value associated with the coSpace that needs to be supplied with the callId for guest access to the coSpace. Present from R1.7 onwards
+        + regenerateSecret: `false` (boolean) - If provided as true - a new security value is generated for this coSpace and the former value is no longer valid (for instance, any hyperlinks including it will cease to work) If provided as false - do not generate a new secret value for this coSpace; this has no effect. This parameter is only valid for the modify (PUT) case. Present from R1.7 onwards
+        + defaultLayout (defaultLayout) - The default layout to be used for new call legs in this coSpace. See Default layout options for the difference in naming between the API and the Web Admin interface
+
+    + Body
+
+            name=MyNewCoSpace
+
++ Response 200 (text/xml)
+    + Body
+
+            <?xml version="1.0"?>
+            <coSpaces total="1">
+            <coSpace id="527089d6-6581-4331-8417-971c05c9e274">
+            <name>MyNewCoSpace</name>
+            </coSpace>
+            </coSpaces>
+
+## Retrieving Detailed Information about a Single coSpace [GET /coSpaces/{coSpaceId}]
+GET method performed on a `/coSpaces/<coSpace ID>` node. If the coSpace ID supplied is valid, a “200 OK” response is received, containing a single `<coSpace id=<ID>` object with data as described above for the creating and modifying case.
+
+In addition to the data in common with the create and modify methods, retrieved information about a single coSpace will also include:
+* a count of the number of additional access methods for that coSpace, if any have been configured, as a numeric `numAccessMethods` value
+* the `autoGenerated` value, which shows whether the coSpace was added automatically as part of an LDAP sync operation
+
+The following information is not included:
+* `requireCallID`
+
++ Parameters
+    + coSpaceID (ID)
+
++ Response 200
+    + Body
+
+            <?xml version="1.0"?>
+            <coSpace id="527089d6-6581-4331-8417-971c05c9e274">
+            <name>MyNewCoSpace</name>
+            </coSpace>
+
+
+## coSpace Member Methods [/coSpaces/{coSpaceId}/coSpaceUsers/{?filter,offset,limit,callLegProfileFilter}]
+## Retrieving the members of a coSpace [GET]
+GET method on a `/coSpaces/<coSpace ID>/coSpaceUsers` node.
+
+The response includes the total count of coSpace users configured for the queried coSpace which match the filter, irrespective of the number returned within the response. (With no filter, this value is the total number of users associated with the coSpace).
+
+Response is structured as a top-level `<coSpaceUsers total=”N”>` tag with potentially multiple `<coSpaceUser>` elements within it.
+`<coSpaceUser>` elements follow the general form on the left.
+`<coSpaceUser>` elements have their own ID and also contain an ID for the user.
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>coSpaceUser id</td>
+        <td>ID</td>
+        <td>The “ID” value returned in the opening tag is a unique identifier for the coSpace, and can be used for future modify / delete / query methods on that coSpace</td>
+    </tr>
+    <tr>
+        <td>userJid</td>
+        <td>String</td>
+        <td>The XMPP ID of the user</td>
+    </tr>
+    <tr>
+        <td>userId</td>
+        <td>ID</td>
+        <td>Identifies the user with no relationship to any coSpace association, and may or may not be the same as the ID of the “coSpaceUser” object.</td>
+    </tr>
+    <tr>
+        <td>autoGenerated</td>
+        <td>bool</td>
+        <td>Whether this coSpace has been added automatically or manually. true - this coSpace has been added automatically as part of an LDAP sync operation. therefore it is not possible, to remove it except by modifying the parameters of the sync operation -- false - this coSpace has been added either via an API method or by using an Acano client; it can be modified or removed via the API</td>
+    </tr>
+</table>
+
++ Parameters
+    + coSpaceId (ID)
+    + filter (string, optional)
+        Supply filter=`<string`> in the URI to return just those coSpace users that match the filter
+    + offset (number, optional)
+        An "offset" and "limit" can be supplied to retrieve coSpaces other than the first "page" in the notional list (see Section 4.1.2).
+    + limit (number, optional)
+        An "offset" and "limit" can be supplied to retrieve coSpaces other than the first "page" in the notional list (see Section 4.1.2).
+    + callLegProfileFilter (ID, optional)
+        Supply callLegProfileFilter=<ID> to return just members using that call leg profile
+
++ Response 200
+    + Body
+
+            <?xml version="1.0"?>
+            <coSpaceUser id="527089d6-6581-4331-8417-971c05c9e274">
+            <userJid>darth@empire.net</userJid>
+            <userId>"de41b1e5-7a56-4894-a5c1-493df2086799"</userId>
+            <autoGenerated>"true"</autoGenerated>
+            </coSpaceUser>
+
+## Adding and modifying a coSpace member [POST]
+* Adding: POST method to a `/coSpaces/<coSpace ID>/coSpaceUsers` node
+* Modifying: PUT method performed on a `/coSpaces/<coSpace ID>/coSpaceUsers/<coSpaceUser ID>` node. The parameters that you can modify are listed below, with the exception of `userJid`
+
+If the member was added successfully, a “200 OK” response is received, and the “Location” header in the response contains the new user ID.
+
+#### coSpace Permissions
+Members with `canAddRemoveMember` set to true can add other users as members of the coSpace from an Acano client (depending on client type and version). New members have identical permissions to the member who added them, except in one case: when the original member also has canRemoveSelf set to false.
+
+Members who cannot remove themselves from the coSpace (as controlled by `canRemoveSelf`) should not be able to create a second member in order to delete their own membership. Therefore any member created from an Acano client by another member in this situation will have `canAddRemoveMember` set to false and `canRemoveSelf` set to true (see the table below). All other permissions are copied from the original member.
+
+<table>
+    <tr>
+        <th colspan="2">Original user permission</th>
+        <th colspan="2">Created user permissions</th>
+        <th>Notes</th>
+    </tr>
+    <tr>
+        <th>canAddRemoveMember</th>
+        <th>canRemoveSelf</th>
+        <th>canAddRemoveMember</th>
+        <th>canRemoveSelf</th>
+        <th></th>
+    </tr>
+    <tr>
+        <td>False</td>
+        <td>NA</td>
+        <td>NA</td>
+        <td>NA</td>
+        <td>They can’t add another user</td>
+    </tr>
+    <tr>
+        <td>True</td>
+        <td>True</td>
+        <td>True</td>
+        <td>True</td>
+        <td>All permissions copied</td>
+    </tr>
+    <tr>
+        <td>True</td>
+        <td>False</td>
+        <td>False</td>
+        <td>True</td>
+        <td>All other permissions copied</td>
+    </tr>
+</table>
+
+Using the API provides more flexibility: it is possible to create coSpaces with members who cannot remove themselves, but who can be removed by another member. Members can always be removed via the API.
+
+Auto-generated members (created by an LDAP sync) have auto-generated permissions because it makes no sense to allow them to make changes that will be overwritten by the next LDAP sync. Therefore, for these users the following parameters are always set to false: `canDestroy`, `canChangeName`, `canChangeUri`, `canChangeCallId` and `canRemoveSelf`. The other “can” parameters are set to true. Note that changing any of these settings for an auto-generated member via the API will only have a temporary effect and will be overwritten at the next LDAP sync: from R1.7 you could discover whether a member is auto-generated – see the next section.
+
+Finally, if a user creates a coSpace from the Acano client, then all members get all permissions (all “can” parameters above are set to true by default).
+
++ Parameters
+    + coSpaceId (ID)
+
++ Attributes (coSpaceMember)
+
++ Response 200
+    + Headers
+
+            Location: ID
+
+## Retrieving Information on a coSpace member [GET /coSpaces/{coSpaceId}/coSpaceUsers/{coSpaceUserId}]
+GET method performed on a `/coSpaces/<coSpace ID>/coSpaceUsers/<coSpaceUser ID>` node. If the retrieval is valid, a “200 OK” response is received, with containing a single `<coSpaceUser id=<ID>>` object with data as described above for the creating and modifying case. In addition
+* the `autoGenerated` value shows whether the coSpace member was added to the coSpace automatically as part of an LDAP sync operation
+* the `canDeleteAllMessages` shows whether this member is allowed to delete chat in the coSpace
+
++ Parameters
+    + coSpaceId (ID)
+    + coSpaceUserId (ID)
+
++ Response 200
+    + Body
+
+            <?xml version="1.0"?>
+            <coSpaceUser id="527089d6-6581-4331-8417-971c05c9e274">
+            <userJid>darth@empire.net</userJid>
+            <userId>"de41b1e5-7a56-4894-a5c1-493df2086799"</userId>
+            <autoGenerated>"true"</autoGenerated>
+            </coSpaceUser>
+
+## coSpace Chat/Message Board Methods [/coSpaces/{coSpaceId}/messages{?minAge,maxAge}]
+## Posting to the message board of a coSpace [POST]
+POST method performed on the `/coSpaces/<coSpace id>/messages` node.
+
+If successful, the message is posted to the message board and an ID for the message is returned in the `Location` field of the response header.
+
++ Parameters
+    + coSpaceId (ID)
+
++ Attributes (message)
+
++ Response 200
+    + Headers
+
+            Location:ID
+
+## Deleting messages from a coSpace message board [DELETE]
+DELETE method on a `/coSpaces/<coSpace ID>/messages` node with the form parameters below which select messages by age. With no additional parameters, all messages for that coSpace will be deleted.
+
++ Parameters
+    + minAge (number, optional)
+    + maxAge (number, optional)
+
++ Response 200
+
+## Multiple coSpace Access Methods [/coSpaces/{coSpaceId}/accessMethods/{?filter,offset,limit,callLegProfileFilter}]
+There are two related tables of objects:
+* Access method per-coSpace, `/coSpaces/<cospace ID>/accessMethods [/<accessMethod ID>]`
+* Call leg profile, `/callLegProfiles/<callLegProfile ID>`
+
+### Access method per coSpace
+Access methods define `URI` / `passcode` / `callID` combinations that can be used to access a coSpace
+
+Optionally, Access methods can have an associated Call Leg Profile; any call leg joining via such an Access method has that Call leg profile applied to it. If the Access method has no Call leg profile but the coSpace does, then so does coSpace’s call
+
+---
+**Note:** When you send an email invitation from an Acano client to one or more people to join a coSpace or active call, only one set of `URI` / `passcode` / `callID` information is included. If the scope field for an access method is set to public then this information is used. If no access methods have a public scope then the call information from the coSpace’s own configuration is included.
+
+---
+### Call leg profile
+A call leg profile can be associated with a coSpace object, making it the default call leg profile for all call legs in that coSpace (for instance, those that connect via its configured URI and secondaryUri). (The effect of the coSpace call leg profile can still be overridden by more specific overrides imposed via call leg profiles configured for additional coSpace access methods. See the Call Leg Profile section.
+
+## Retrieving coSpace access methods [GET]
+
+Response is a collection of `<accessMethod id=<access method id>>` objects contained within an `<accessMethods>` object
+
+`<accessMethod>` elements follow the general form on the left.
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>accessMethod id</td>
+        <td>ID</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>uri</td>
+        <td>String</td>
+        <td>The URI to be used for dialing in via this access method</td>
+    </tr>
+    <tr>
+        <td>callId</td>
+        <td>ID</td>
+        <td>The "call ID" to be used for connecting via this access method (using the IVR or Web Bridge login)</td>
+    </tr>
+    <tr>
+        <td>passcode</td>
+        <td>String</td>
+        <td>A passcode required for this access method</td>
+    </tr>
+    <tr>
+        <td>callLegProfile</td>
+        <td>ID</td>
+        <td>The ID of a call leg profile to apply to calls in via this access method</td>
+    </tr>
+</table>
+
++ Parameters
+    + coSpaceId (ID)
+    + filter (string, optional) - Supply filter=`<string`> in the URI to return just those coSpace access methods that match the filter
+    + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve coSpaces other than the first "page" in the notional list (see Section 4.1.2)
+    + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve coSpaces other than the first "page" in the notional list (see Section 4.1.2)
+    + callLegProfileFilter (ID, optional) - Supply callLegProfileFilter=`<ID`> to return just accessMethods for coSpaces using that call leg profile
+
++ Response 200
+    + Body
+
+            <?xml version="1.0"?>
+            <coSpaceUser id="527089d6-6581-4331-8417-971c05c9e274">
+            <userJid>darth@empire.net</userJid>
+            <userId>"de41b1e5-7a56-4894-a5c1-493df2086799"</userId>
+            <autoGenerated>"true"</autoGenerated>
+            </coSpaceUser>
+
+## Creating and modifying coSpace access methods [POST]
+* Creating: POST method to the `/coSpaces/<coSpace id>/accessMethods` node
+* Modifying: PUT method on a `/coSpaces/<coSpace id>/accessMethods/<accessMethod id>` node
+
+If the coSpace access method is created successfully, a “200 OK” response will be received, and the `Location` header in the response will contain the new coSpace access method ID.
+
++ Attributes (accessMethod)
+
++ Response 200
+    + Headers
+
+            Location:ID
+
+## Retrieving information on an individual coSpace access method [GET /coSpaces/{coSpaceId}/accessMethods/{accessMethodId}]
+GET method on a `/coSpaces/<coSpace id>/accessMethods/<access method id>` node.
+If the access method ID supplied is valid, a "200 OK" response and a single `<accessMethod id=access method id>` object will be returned with data in the previous section.
+
++ Parameters
+    + coSpaceId (ID)
+    + accessMethodId (ID)
+
++ Response 200
+    + Body
+
+            <accessMethod id=access method id>
+
+## coSpace Diagnostics Methods [/coSpaces/{coSpaceId}/diagnostics]
+A POST to `/coSpaces/<coSpace id>/diagnostics` triggers the generation of call diagnostics for the specified coSpace.
+
+## Generate call diagnostics [POST]
++ Parameters
+    + coSpaceId (ID)
++ Response 200
+
+
+# Group Calling Out from a coSpace
+Adding a remote party to a coSpace requires that this coSpace has an active call from which connections can be made. Essentially this makes an initial call out from a
+coSpace a combination of two other API methods:
+
+1. Creation of a new call
+2. Adding a new outgoing call leg to a call
+
+These methods are described in later sections.
+
+
+# Group Dial Plan Methods
+This chapter details the API methods related to configuring dial plans for outbound calls, inbound calls and call forwarding. The chapter covers:
+* retrieving outbound dial plan rules
+* creating and modifying outbound dial plan rules
+* retrieving information on an individual outbound dial plan rule
+* retrieving dial plan rules for incoming calls
+* creating and modifying dial plan rules for incoming calls
+* retrieving information on the dial plan rule for an individual incoming call
+* retrieving dial plan rules for forwarding incoming calls
+* creating and modifying dial plan rules for forwarding incoming calls
+* retrieving information on the dial plan rule to forward an individual incoming call
+
+## Outgoing Dial Plan API Methods [/outboundDialPlanRules/{?filter,offset,limit,tenantFilter}]
+### Access to the outgoing dial plan
+Typically, the configuration of which trunks / proxies to use for outbound calls is based on the domain of the (SIP) destination being called, which is specified in the outgoing dial plan. The outgoing dial plan sits in the API object tree under the `/outboundDialPlanRules` node, use the POST method to create the outgoing dial plan or set it up via the Web Admin Interface (see note below).
+
+From R1.7, if you are deploying Call Bridge clustering, use the API parameter scope to choose whether to apply each outbound dial plan rule to every Call Bridge in the cluster, or just to a particular Call Bridge so the Call Bridge can be trunked to its local Call Control solution (if appropriate).
+
+
+From R1.8, use the API parameter `callRouting` to specify the mechanism for traversal of outgoing SIP/Lync calls.
+
+---
+**Note:** On the Web Admin Interface, the table of outbound rules is configured through the **Configuration > Dial plan** page. From R1.7, all rules added via the Web Admin Interface are global and applied to every Call Bridge in the cluster. You cannot use the Web Admin interface to specify the call routing for outbound SIP/Lync calls.
+
+---
+## Retrieving outbound dial plan rules [GET]
+Response is a collection of `<outboundDialPlanRule id=<ID>>` objects contained within an `<outboundDialPlanRules>` object
+
+`<outboundDialPlanRule>` elements follow the general form on the left.
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>outboundDialPlanRule id</td>
+        <td>ID</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>domain</td>
+        <td>String</td>
+        <td>The domain to match in order to apply the dial plan rule; either a complete value (e.g. "example.com") or a “wildcarded” one (e.g. "*.com")</td>
+    </tr>
+    <tr>
+        <td>priority</td>
+        <td>Number</td>
+        <td>A numeric value which determines the order in which dial plan rules (including rules with wild-carded domains) will be applied. Rules with higher priority values are applied first</td>
+    </tr>
+    <tr>
+        <td>tenant</td>
+        <td>ID</td>
+        <td>If a tenant is specified, this rule will only be used to make outbound call legs from calls associated with that tenant; otherwise, this rule may be used from any call. This parameter is present from R1.8 onwards.</td>
+    </tr>
+</table>
+
++ Parameters
+    + filter (optional) - Supply filter=`<string`> in the URI to return just those outbound dial plan rules that match the filter
+    + offset (optional) - An "offset" and "limit" can be supplied to retrieve coSpaces other than the first "page" in the notional list (see Section 4.1.2)
+    + limit (optional) - An "offset" and "limit" can be supplied to retrieve coSpaces other than the first "page" in the notional list (see Section 4.1.2)
+    + tenantFilter (ID, optional) - If supplied, this filter only returns those outbound dial plan rules associated with the specified tenant. This parameter is present from version 1.8 onwards
++ Response 200
+    + Body
+
+            TODO:
+
+## Creating and modifying outbound dial plan rules [POST]
+* Creating: POST method to the `/outboundDialPlanRules` node. If the outgoing dial plan rule is created successfully, a “200 OK” response will be received, and the `Location` header in the response will contain the new outgoing dial plan rule ID
+* Modifying: PUT method on an `/outboundDialPlanRules/<outbound dial plan rule ID>` node
+
++ Attributes (outboundDialPlanRule)
++ Response 200
+    + Headers
+
+            Location:ID
+
+## Retrieving information on an individual outbound dial plan rule [GET /outboundDialPlanRules/{outboundDialPlanRuleId}]
+GET method on a `/outboundDialPlanRules/<outbound dial plan rule ID>` node. If the outbound dial plan rule ID supplied is valid, a "200 OK" response and a single `<outboundDialPlanRule id=<ID>>` object will be returned with data as per the previous section.
++ Parameters
+    + outboundDialPlanRuleId (ID)
++ Response 200
+    + Body
+
+            TODO: outbound dial plan rule object goes here
+
+## Incoming Call Matching Dial Plan API Methods [/inboundDialPlanRules/{?filter,offset,limit,tenantFilter}]
+### Access to incoming domain matching rules
+When an incoming SIP call is routed to the Acano server, the Call Bridge looks through the configured Incoming Domain Matching rules first, and evaluates which rule applies to the "domain" part of the destination URI `<user>@<domain>`. The Incoming Domain Matching rules are specified in the incoming call matching dial plan, which sits in the API object tree under the `/inboundDialPlanRules` node. Use the POST method to create the incoming call matching dial plan or set it up via the Web Admin Interface (see note below)
+
+---
+**Note:** On the Web Admin Interface, the table of inbound rules is configured through the **Configuration > Incoming calls** page.
+
+---
+## Retrieving incoming dial plan rules [GET]
+Response is a collection of `<inboundDialPlanRule id=<ID>>` objects contained within an `<inboundDialPlanRules>` object `<inboundDialPlanRule>` elements follow the general form on the left.
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>inboundDialPlanRule id</td>
+        <td>ID</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>domain</td>
+        <td>Text</td>
+        <td>The domain to match in order to apply the dial plan rule. Must be a complete value (e.g. "example.com")</td>
+    </tr>
+    <tr>
+        <td>tenant</td>
+        <td>Text</td>
+        <td>If specified, calls to this inbound domain will only be matched against user JIDs and coSpace URIs for the specified tenant</td>
+    </tr>
+</table>
+
++ Parameters
+    + filter (optional) - Supply filter=`<string`> in the URI to return just those incoming dial plan rules that match the filter
+    + offset (optional) - An "offset" and "limit" can be supplied to retrieve incoming dial plan rules other than the first "page" in the notional list (see above)
+    + limit (optional) - An "offset" and "limit" can be supplied to retrieve incoming dial plan rules other than the first "page" in the notional list (see above)
+    + tenantFilter (ID, optional) - If supplied, this filter only those inbound dial plan rules associated with the specified tenant
++ Response 200
+    + Body
+
+            TODO: Need a inboundDialPlanRule object for this area
+
+## Creating and modifying incoming dial plan rules [POST]
+* Creating: POST method to the `/inboundDialPlanRules` node. If the incoming dial plan rule is created successfully, a “200 OK” response will be received, and the `Location` header in the response will contain the new incoming dial plan rule ID
+* Modifying: PUT method on an `/inboundDialPlanRules/<inbound dial plan rule ID>` node
+
++ Attributes (inboundDialPlanRule)
++ Response 200
+    + Headers
+
+            Location:ID
+
+## Retrieving information on an individual incoming dial plan rule [GET /inboundDialPlanRules/{inboundDialPlanRuleId}]
+GET method on a `/inboundDialPlanRules/<inbound dial plan rule ID>` node. If the incoming dial plan rule ID supplied is valid, a "200 OK" response and a single `<inboundDialPlanRule id=<ID>>` object will be returned with data as per the previous section.
++ Parameters
+    + inboundDialPlanRuleId (ID)
++ Response 200
+    + Body
+
+            TODO: Need inboundDialPlanRuleId object here...
+
+## Incoming Call Forwarding Dial Plan API Methods [/forwardingDialPlanRules{?filter,offset,limit,tenantFilter}]
+### Access to incoming call forwarding rules
+If the "domain" part of the destination URI of an incoming SIP call fails to match any of the inbound dial plan rules, the call will be handled according to the rules in the call forwarding dial plan. The rules decide whether to reject the call outright or to forward the call in bridge mode.
+
+Call forwarding rules can overlap, and include wildcards. You order rules using the Priority value; higher numbered rules are tried first. By defining rules, you decide whether to forward the call or not. It might be appropriate to “catch” certain calls and reject them.
+
+For calls that will be forwarded, you can rewrite the destination domain, a new call is created to the specified domain.
+
+The call forwarding dial plan sits in the API object tree under a `/forwardingDialPlanRules` node. Use the POST method to create the forwarding rules or set them up via the Web Admin Interface (see note below)
+
+---
+**Note:** On the Web Admin Interface, the Incoming Call Forwarding rules are configured through the Call Forwarding section of the **Configuration > Incoming calls** page.
+
+---
+## Retrieving incoming call forwarding dial plan rules [GET]
+Response is a collection of `<forwardingDialPlanRule id=<ID>>` objects contained within an `<forwardingDialPlanRules>` object `<forwardingDialPlanRule>` elements follow the general form on the left. The matchPattern and priority are described in the next section
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>forwardingDialPlanRule id</td>
+        <td>ID</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>matchPattern</td>
+        <td>Text</td>
+        <td>The domain to match in order to apply the dial plan rule. Must be a complete domain name (e.g. "example.com") or a “wildcarded” one (e.g. *.com)</td>
+    </tr>
+    <tr>
+        <td>priority</td>
+        <td>Number</td>
+        <td>Numeric value used when determining the order in which to apply forwarding dial plan rules; higher values will be applied first</td>
+    </tr>
+    <tr>
+        <td>tenant</td>
+        <td>ID</td>
+        <td>If specified, calls using this forwardingDialPlanRule will only be matched against the specified tenant</td>
+    </tr>
+</table>
+
++ Parameters
+    + filter (optional) - Supply filter=`<string`> in the URI to return just those incoming call forwarding rules that match the filter
+    + offset (optional) - An "offset" and "limit" can be supplied to retrieve coSpaces other than the first "page" in the notional list (see Section 4.1.2)
+    + limit (optional) - An "offset" and "limit" can be supplied to retrieve coSpaces other than the first "page" in the notional list (see Section 4.1.2)
+    + tenantFilter (ID, optional) - If supplied, this filter restricts the results returned to those forwarding dial plan rules that are associated with the specified tenant. This parameter is present from version 1.8 onwards
++ Response 200
+    + Body
+
+            TODO: forwardingDialPlanRules objects go here!
+
+## Creating and modifying incoming call forwarding dial plan rules [POST]
+* Creating: POST method to the `/forwardingDialPlanRules` node. If the forwarding dial plan rule is created successfully, a “200 OK” response will be received, and the `Location` header in the response will contain the new forwarding dial plan rule ID
+* Modifying a forwarding dial plan rule is a PUT method on a `/forwardingDialPlanRules/<forwarding dial plan rule ID>` node
+
+
++ Attributes (forwardingDialPlanRule)
++ Response 200
+    + Headers
+
+            Location:ID
+
+## Retrieving information on an individual incoming call forwarding dial plan rule [GET /forwardingDialPlanRules/{forwardingDialPlanRuleId}]
+GET method on a `/forwardingDialPlanRules/<forwarding dial plan rule ID>` node. If the forwarding dial plan rule ID supplied is valid, a "200 OK" response and a single `<forwardingDialPlanRule id=<ID>>` object will be returned with data as per the previous section.
+
++ Parameters
+    + forwardingDialPlanRuleId
++ Response 200
+    + Body
+
+            TODO: Need forwardingDialPlanRule object
+
+
+# Group Call Related Methods
+This chapter details the API methods for:
+* active calls
+* call profiles
+* call legs
+* call leg profiles
+* dial transforms
+* call branding profiles
+* dtmf profiles
+* ivr branding profiles
+* participants
+
+## Call Methods [/calls{?offset,limit,coSpaceFilter,tenantFilter}]
+
+## Retrieving Information on Active Calls [GET]
+GET method performed on the `/calls` node.
+
+Response is structured as a top-level `<calls total=”N”>` tag with potentially multiple `<call>` elements within it. `<call>` elements follow the general form on the left.
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>callCorrelator</td>
+        <td>ID</td>
+        <td>An id that is the same across all distributed instances of this call. This parameter is present from R1.7 onwards</td>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>String</td>
+        <td>The associated (human-readable) name for the call</td>
+    </tr>
+    <tr>
+        <td>coSpace</td>
+        <td>ID</td>
+        <td>If the call represents the instantiation of a coSpace, this value will be present and hold the id of the coSpace</td>
+    </tr>
+    <tr>
+        <td>tenant</td>
+        <td>ID</td>
+        <td>The specific tenant that the call belongs to</td>
+    </tr>
+</table>
+
++ Parameters
+    + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list (see Section 4.1.2)
+    + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list (see Section 4.1.2)
+    + coSpaceFilter (optional) - Supply an ID to return just those calls that match the filter
+    + tenantFilter (optional) - Supply an ID to return just those calls that belong to the specified tenant
+
+
++ Response 200
+    + Body
+
+            TODO: call object goes hereabouts
+
+## Creating a New Call and Modifying an Active call [POST]
+POST method performed on the `/calls` node or PUT method to `/calls/<call id>`
+
+If a call is instantiated for the coSpace successfully, that call’s ID is returned in the `Location` field of the response header. You can now add call legs to this call as described below.
+
++ Attributes (call)
++ Response 200
+    + Headers
+
+            Location:ID
+
+## Retrieving Information on an Individual Active Call [GET /call/{callId}]
+GET method performed on a `/calls/<call ID>` node. If the call ID supplied is valid, a “200 OK” response is received, with XML content of the form:
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>coSpace</td>
+        <td>ID</td>
+        <td>If the call represents the instantiation of a coSpace, this value will be present and hold the id of the coSpace</td>
+    </tr>
+    <tr>
+        <td>callCorrelator</td>
+        <td>ID</td>
+        <td>An id that is the same across all distributed instances of this call. Present from R1.7 onwards</td>
+    </tr>
+    <tr>
+        <td>tenant</td>
+        <td>ID</td>
+        <td>The ID of the tenant that owns the call</td>
+    </tr>
+    <tr>
+        <td>durationSeconds</td>
+        <td>Number</td>
+        <td>The duration of the call, as thea number of seconds since the call started</td>
+    </tr>
+    <tr>
+        <td>numCallLegs</td>
+        <td>Number</td>
+        <td>The number of call legs currently active within this call</td>
+    </tr>
+    <tr>
+        <td>maxCallLegs</td>
+        <td>Number</td>
+        <td>The highest number of call legs that have been simultaneously present within this call</td>
+    </tr>
+    <tr>
+        <td>numParticipantsLocal</td>
+        <td>Number</td>
+        <td>The number of participants within this call locally hosted by the Call Bridge to which the request is being made</td>
+    </tr>
+    <tr>
+        <td>numParticipantsRemote</td>
+        <td>Number</td>
+        <td>The number of participants in this call hosted by other Call Bridges</td>
+    </tr>
+    <tr>
+        <td>numDistributedInstances</td>
+        <td>Number</td>
+        <td>The number of other Call Bridges hosting participants in this call</td>
+    </tr>
+    <tr>
+        <td>presenterCallLeg</td>
+        <td>ID</td>
+        <td>The presenterCallLeg value is only present if a call leg is actively presenting within this call</td>
+    </tr>
+    <tr>
+        <td>locked</td>
+        <td>bool</td>
+        <td>Indicates whether the call is locked (true) or unlocked (false). This parameter is present from version 1.8 onwards</td>
+    </tr>
+    <tr>
+        <td>recording</td>
+        <td>bool</td>
+        <td>If true, this call is currently being recorded. Present from version 1.9 onwards</td>
+    </tr>
+    <tr>
+        <td>allowAllMuteSelf</td>
+        <td>bool</td>
+        <td>If true, participants have the permission to mute and unmute themselves. If false, this permission is dependent on muteSelfAllowed in the call leg profile. Present from version 1.9 onwards</td>
+    </tr>
+    <tr>
+        <td>allowAllPresentationContribution</td>
+        <td>bool</td>
+        <td>If true, participants have the permission to present. If false, this permission is dependent on presentationContributionAllowed in the call leg profile. Default is false. Present from version 1.9 onwards</td>
+    </tr>
+    <tr>
+        <td>joinAudioMuteOverride</td>
+        <td>bool</td>
+        <td>If true, new participants will be muted when joining the call. Present from version 1.9 onwards</td>
+    </tr>
+</table>
+
++ Parameters
+    + callId (ID)
++ Response 200
+    + Body
+
+            TODO: need call object
+
+## Generating diagnostics for an individual call [POST /calls/{callId}/diagnostics]
+POST method performed on `/calls/<call id>diagnostics` generates call diagnostics for the call in question.
+
++ Parameters
+    + callId
++ Response 200
+    + Body
+
+            TODO: No idea what gets returned for these things.
+
+## Call Profile Methods [/callProfiles{?offset,limit,usageFilter}]
+Call profiles were introduced in R1.6. More information is provided on profiles in section 14.
+
+## Retrieving call profiles [GET]
+GET method performed on the `/callProfiles` node.
+
+Response is structured as a top-level `<callProfiles total="N">` tag with potentially multiple `<callProfile>` elements within it.
+Each `<callProfile>` tag may include the following elements:
+
+See the next section
+
++ Parameters
+    + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list (see Section 4.1.2)
+    + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list (see Section 4.1.2)
+    + usageFilter (enum, optional)
+        + unreferenced `Supply "usageFilter=unreferenced" in the request to retrieve only those call profiles that are not referenced by global settings or any other object. This is a useful check before deleting the profile.`
+        + referenced `To retrieve just those call profiles which are referenced in at least one place, you can supply "usageFilter=referenced"`
++ Response 200
+
+## Setting up and modifying call profiles [POST]
+
++ Attributes (callProfile)
++ Response 200
+    + Body
+
+            TODO: Need callProfile response
+
+## Retrieving detailed information about an individual call profile [GET /callProfiles/{callProfileId}]
+GET method performed on a `/callProfiles/<call profile id>` node. If the call profile id ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
++ Response 200
+    + Body
+
+            TODO: Need detailed callProfile object here
+
+## Call Leg Methods [/callLegs{?offset,limit,filter,participantFilter,tenantFilter,activeLayoutFilter,availableVideoStreamsLowerBound,availableVideoStreamsUpperBound,ownerIdSet,alarms}]
+
+## Retrieving Information on Active Call Legs [GET]
+GET method performed on the `/callLeg` node (to retrieve information on all active call legs within the system).
+Alternatively, a GET method performed on the `/calls/<call id>/callLegs` node (to retrieve information on active call legs for a specific call).
+
+Response is structured as a top-level `<callLegs total=”N”>` tag with potentially multiple `<callLeg>` elements within it.
+`<callLeg>` elements follow the general form on the left.
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>callLeg id</td>
+        <td>ID</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>String</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>remoteParty</td>
+        <td>String</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>call</td>
+        <td>ID</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>tenant</td>
+        <td>ID</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>alarms</td>
+        <td>Object</td>
+        <td>For call legs which have active alarm conditions, there will be an additional "alarms" tag under the encompassing "callLeg" which details the currently active alarms. Within this “alarms” tag there will be one or more subsidiary indications—also see the note below:</td>
+    </tr>
+    <tr>
+        <td>packetLoss</td>
+        <td>String</td>
+        <td>Present if packet loss is being experienced on one or more of the call leg’s active media streams</td>
+    </tr>
+    <tr>
+        <td>excessiveJitter</td>
+        <td>String</td>
+        <td>Present if there is a high level of jitter on one or more of the call leg’s active media streams</td>
+    </tr>
+    <tr>
+        <td>highRoundTripTime</td>
+        <td>String</td>
+        <td>Present if a high round trip time has been detected for one or more of the call leg’s media streams</td>
+    </tr>
+</table>
+
+---
+**Note on alarms:**
+
+Call leg alarms provide information that may be useful in raising alarms or troubleshooting issues after they have occurred but they should not necessarily be treated as if they are alarm conditions in themselves—unlike system level alarms.
+
+A call leg alarm may be triggered by a number of factors, not necessarily a set percentage packet loss for example. An alarm condition is attached to a call leg when the Acano solution believes that the call leg may be being degraded. These "conditions" may include a simple threshold, but potentially other things too such as a more adaptive threshold and taking other factors into account. This does not necessarily mean that the user’s experience was poor but it provides information to troubleshoot in the event that it was. Therefore you could consider adding filters to this alarm information and deciding when to flag an event as an alarm to the operator (i.e. setting your own thresholds) and/or storing call leg alarm information alongside CDRs so that if a user reports a poor quality call you can retrieve this information after the event to determine what the cause might have been.
+
+---
+
++ Parameters
+    + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + filter (optional) - Supply filter=`<string`> in the URI to return just those call legs that match the filter
+    + participantFilter (ID, optional) - Supply participantFilter to return only those call legs associated with the specified participant
+    + tenantFilter (ID, optional) - Supply tenantFilter to return only those call legs associated with the specified tenant
+    + activeLayoutFilter (optional) - If supplied, this filter will restrict results returned to those call legs using the specified layout. This parameter is present from version 1.8 onwards
+    + availableVideoStreamsLowerBound (number, optional) - If supplied, this filter will restrict results returned to those call legs with this many or more available video streams. This parameter is present from version 1.8 onwards
+    + availableVideoStreamsUpperBound (number, optional) - If supplied, this filter will restrict results returned to those call legs with many or fewer available video streams. This parameter is present from version 1.8 onwards
+    + ownerIdSet (boolean, optional) - Used to return those call legs that have an owner Id set, or those that do not
+    + alarms (enum, optional) - Used to return just those call legs for which the specified alarm names are currently active. Either “all”, which covers all supported alarm conditions, or one or more specific alarm conditions to filter on, separated by the ‘|’ character
+        + packetLoss – packet loss is currently affecting this call leg
+        + excessiveJitter - there is currently a high level of jitter on one or more of this call leg’s active media streams
+        + highRoundTripTime - the Acano solution measures the round trip time between itself and the call leg destination; if a media stream is detected to have a high round trip time (which might impact call quality), then this alarm condition is set for the call leg
+        + all
+    
+    
+    
++ Response 200
+    + Body
+
+            TODO: List of callLeg objects
+
+## Adding and Modifying Call Legs [POST]
+* Adding: POST method to a `/calls/<call ID>/callLegs` node. The `<call ID>` is learnt from a GET on `/calls` or from a newly created call (see Creating a new call above). If a profile has been applied to this call leg, it starts with the values set in the profile
+* Modifying: PUT method performed on a `/callLegs/<callLeg ID>` node. It makes live, dynamic, changes to an in-progress connection to a remote party.
+
+---
+**Note:** You cannot modify the remoteParty, bandwidth or confirmation.
+
+---
+
++ Attributes (callLeg)
+
++ Response 200
+    + Body
+
+            TODO: callleg object
+
+## Retrieving Information on an Individual Call Leg [GET /callLegs/{callLegId}]
+GET method performed on a `/callLegs/<callLeg ID>` node.
+
+If the call leg ID supplied is valid, a “200 OK” response is received, with XML content:
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>callLeg id</td>
+        <td>ID</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>String</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>remoteParty</td>
+        <td>String</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>localAddress</td>
+        <td>String</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>call</td>
+        <td>ID</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>tenant</td>
+        <td>ID</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>type</td>
+        <td>Enum</td>
+        <td>sip | acano</td>
+    </tr>
+    <tr>
+        <td>subtype</td>
+        <td>Enum</td>
+        <td>lync | avaya</td>
+    </tr>
+    <tr>
+        <td>lyncSubType</td>
+        <td>Enum</td>
+        <td>audioVideo | applicationSharing | instantMessaging A further specialization of the call leg type if the call leg sub type is "lync".
+audioVideo - this is a Lync call leg used for exchange of audio and video between the Acano Call Bridge and Lync
+applicationSharing - this is a Lync call leg used for application or desktop sharing between Lync and the Acano Call Bridge
+instantMessaging - this is a Lync call leg used for the exchange of instant messages between Lync and the Acano Call Bridge
+This parameter is present from version 1.8 onwards
+If present in the reply, these parameters are overrides currently active specifically for this call leg (i.e. not those values in force because of a “higher level” such as the call leg's associated tenant)</td>
+    </tr>
+    <tr>
+        <td>direction</td>
+        <td>Enum</td>
+        <td>incoming | outgoing</td>
+    </tr>
+    <tr>
+        <td>configuration</td>
+        <td></td>
+        <td>see Appendix A</td>
+    </tr>
+    <tr>
+        <td>status</td>
+        <td></td>
+        <td>see Appendix A</td>
+    </tr>
+</table>
+
+
++ Response 200
+    + Body
+
+            TODO: work...
+
+## Creating a new participant for a specified call [POST /calls/{callId}/participants]
+---
+**Note:** Also see the section on participant related methods.
+
+---
+POST method on the `/calls/<call id>/participants` node.
+
+The parameters are as per the call leg create operation described above, but may result in the call leg instantiation ("owned" by the participant object) occurring on a remote clustered Call Bridge.
+
++ Response 200
+    + Body
+
+            TODO: something awesome goes here
+
+## Call Leg Profile Methods [/callLegProfiles{?offset,limit,usageFilter}]
+
+### General information
+A call leg profile defines a set of in-call behaviors. coSpace, coSpaceUser, accessMethod, and tenant objects can optionally have a callLegProfile association – if so, call legs that correspond to those objects inherit the in-call behavior defined by the call leg profile.
+
+## Retrieving call leg profiles [GET]
+GET method on the `/callLegProfiles/` node.
+
+Response is a collection of `<callLegProfile id=<call leg profile id>` objects contained within an `<callLegProfiles>` object
+
+`<callLegProfile>` elements follow the general form on the left.
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>needsActivation</td>
+        <td>bool</td>
+        <td>If set to "true", the participant is unable to receive or contribute audio and video until one or more “full/activator” participants join.</td>
+    </tr>
+    <tr>
+        <td>defaultLayout</td>
+        <td>allEqual | speakerOnly | telepresence| stacked | allEqualQuarters | allEqualNinths | allEqualSixteenths | allEqualTwentyFifths | onePlusFive | onePlusSeven | onePlusNine| automatic</td>
+        <td>The default layout to be used for call legs using this call leg profile. Note: From R1.9, the "allEqual" layout reverts to the pre-1.7 arrangement where the layout expands from a 4 person view up to a 25 person view, with all participants shown at equal size. The "allEqual" layout that was introduced in R1.7 is renamed "automatic".</td>
+    </tr>
+    <tr>
+        <td>changeLayoutAllowed</td>
+        <td>bool</td>
+        <td>If set to “true” all legs using this call leg profile are allowed to change their screen layout on a SIP endpoint. This parameter is present from version 1.8 onwards</td>
+    </tr>
+    <tr>
+        <td>participantLabels</td>
+        <td>bool</td>
+        <td>If set to "true", call legs using this call leg profile will have participant pane labels shown on their video panes</td>
+    </tr>
+    <tr>
+        <td>presentationDisplayMode</td>
+        <td>dualStream | singleStream</td>
+        <td>singleStream provides a single composited content+video BFCP stream rather than outgoing content being in a separate stream</td>
+    </tr>
+    <tr>
+        <td>presentationContributionAllowed</td>
+        <td>bool</td>
+        <td>If true, the participant using the call leg can contribute content</td>
+    </tr>
+    <tr>
+        <td>allowAllPresentationContributionAllowed</td>
+        <td>bool</td>
+        <td>Whether call legs using this call leg profile are allowed to change the permission to present of all call legs. Present from version 1.8 onwards</td>
+    </tr>
+    <tr>
+        <td>presentationViewingAllowed</td>
+        <td>bool</td>
+        <td>If true, the participant using the call leg can view content con- tributed by others</td>
+    </tr>
+    <tr>
+        <td>endCallAllowed</td>
+        <td>bool</td>
+        <td>If true, the participant using the call leg profile can end the meeting for everyone</td>
+    </tr>
+    <tr>
+        <td>muteOthersAllowed</td>
+        <td>bool</td>
+        <td>If true, the participant using the call leg profile can mute other participants</td>
+    </tr>
+    <tr>
+        <td>changeJoinAudioMuteOverrideAllowed</td>
+        <td>bool</td>
+        <td>Whether call legs using this call leg profile are allowed to set the initial mute state of new par- ticipants. Present from version 1.8 onwards</td>
+    </tr>
+    <tr>
+        <td>videoMuteOthersAllowed</td>
+        <td>bool</td>
+        <td>Whether call legs using this call leg profile are allowed to mute or unmute their own audio</td>
+    </tr>
+    <tr>
+        <td>muteSelfAllowed</td>
+        <td>bool</td>
+        <td>Whether call legs using this call leg profile are allowed to mute or unmute (block/unblock) the video of other participants</td>
+    </tr>
+    <tr>
+        <td>allowAllMuteSelfAllowed</td>
+        <td>bool</td>
+        <td>Whether or not call legs using this call leg profile are allowed to change the permission of all call legs to mute and unmute them- selves. Present from version 1.9 onwards</td>
+    </tr>
+    <tr>
+        <td>videoMuteSelfAllowed</td>
+        <td>bool</td>
+        <td>Whether call legs using this call leg profile are allowed to mute or unmute (block/unblock) their own video</td>
+    </tr>
+    <tr>
+        <td>joinToneParticipantThreshold</td>
+        <td>Number</td>
+        <td>Number of participants up to which a "join tone" will be played (a value of 0 “disables” the feature)</td>
+    </tr>
+    <tr>
+        <td>leaveToneParticipantThreshold</td>
+        <td>Number</td>
+        <td>Number of participants up to which a "leave tone" will be played out (a value of 0 “dis- ables” the feature)</td>
+    </tr>
+    <tr>
+        <td>videoMode</td>
+        <td>auto | disabled</td>
+        <td>If disabled is set then call legs using this call leg profile will be audio-only, or audio and content – depending on the values for presentationViewingAllowed and txAudioMute. No main stream video will be shown. For devices which show content in the main video stream, content but no participant video will be shown in the main video stream when appropriate.</td>
+    </tr>
+    <tr>
+        <td>rxAudioMute</td>
+        <td>bool</td>
+        <td>If true, other participants will not hear audio from call legs using this call leg profile.</td>
+    </tr>
+    <tr>
+        <td>txAudioMute</td>
+        <td>bool</td>
+        <td>If true, audio to call legs using this call leg profile will be muted.</td>
+    </tr>
+    <tr>
+        <td>rxVideoMute</td>
+        <td>bool</td>
+        <td>If true, contributing ("camera") video from call legs using this call leg profile will not be seen by other participants</td>
+    </tr>
+    <tr>
+        <td>txVideoMute</td>
+        <td>bool</td>
+        <td>If true, video streams to call legs using this call leg profile will be muted (a SIP endpoint's screen just shows the logo, for example, and an Acano client will be sent no video at all)</td>
+    </tr>
+    <tr>
+        <td>sipMediaEncryption</td>
+        <td>optional | required | prohibited</td>
+        <td>Same as Web Admin Interface setting</td>
+    </tr>
+    <tr>
+        <td>audioPacketSizeMs</td>
+        <td>Number</td>
+        <td>Numeric value for preferred packet size for outgoing audio streams (in milliseconds, the default value is 20ms)</td>
+    </tr>
+    <tr>
+        <td>deactivationMode</td>
+        <td>deactivate | disconnect | remainActivated</td>
+        <td>Action for "needsActivation" call legs when the last "activator" leaves</td>
+    </tr>
+    <tr>
+        <td>deactivationModeTime</td>
+        <td>Number</td>
+        <td>Number of seconds after the last "activator" leaves before which the deactivationMode action is taken</td>
+    </tr>
+    <tr>
+        <td>telepresenceCallsAllowed</td>
+        <td>bool</td>
+        <td>If true, a call leg using this call leg profile is allowed to make TIP (Telepresence Interoperability Protocol) calls</td>
+    </tr>
+    <tr>
+        <td>sipPresentationChannelEnabled</td>
+        <td>bool</td>
+        <td>If true, a call leg using this call leg profile is permitted to perform presentation video channel operations</td>
+    </tr>
+    <tr>
+        <td>bfcpMode</td>
+        <td>serverOnly | serverAndClient</td>
+        <td>If presentation video channel operations are enabled for SIP calls, this setting determines the Acano Call Bridge's BFCP behaviour. serverOnly - this is the normal setting for a conferencing device, and is intended for use with BFCP client mode devices (for instance, SIP endpoints). serverAndClient - this setting allows the Acano Call Bridge to operate in either BFCP client or BFCP server mode in calls with remote devices. This can allow improved presentation video sharing with a remote conference- hosting device such as a third party MCU</td>
+    </tr>
+    <tr>
+        <td>callLockAllowed</td>
+        <td>bool</td>
+        <td>Determines whether or not call legs using this call leg profile are allowed to lock the call. Present from version 1.8 onwards</td>
+    </tr>
+    <tr>
+        <td>recordingControlAllowed</td>
+        <td>bool</td>
+        <td>Whether call legs using this call leg profile are allowed to start/stop recording the call. Present from version 1.9 onwards</td>
+    </tr>
+</table>
+
++ Parameters
+    + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" on the notional list
+    + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" on the notional list
+    + usageFilter (enum, optional) - Using unreferenced retrieves only those call leg profiles that are not referenced by global settings or any other object. This is a useful check before deleting a call Leg profile.
+        + unreferenced
+        + referenced
++ Response 200
+    + Body
+
+            TODO: callLeg Profile object/list
+
+## Creating and modifying a call leg profile [POST]
+* Creating: POST method to the `/callLegProfiles` node. If the call leg profile is created successfully, a “200 OK” response will be received, and the `Location` header in the response will contain the ID of the new call leg profile
+* Modifying a call leg profile is a PUT method on a `/callLegProfiles/<call leg profile id>` node
+
+In all cases, if you explicitly set a parameter to an empty value in the POST or PUT, that parameter is "unset" for that profile. Those call legs then "inherit" the value for that parameter from the level above's call leg profile.
+
++ Attributes (callLegProfile)
++ Response 200
+    + Body
+
+            TODO: Put a callLegProfile here <
+
+## Retrieving information on an individual call leg profile [GET /callLegProfiles/{callLegProfileId}]
+### Example call leg profile & access method use
+
+The main use for being able to associate call leg profiles with access methods is to be able to construct separate URI / call ID / passcode combinations giving different in- call behaviors. For example, one call leg profile whose “needsActivation” value is “true” could be associated with one access method, and another call leg profile whose “needsActivation” value is “false” could be associated with a different access method.
+
+Effectively this sets up separate “activator” and “guest” access methods for that coSpace, with callers to the “needsActivation=true” access method needing to wait until a successful call in to the other access method before their conference audio and video become active. For the multiple access methods linked to different call leg profiles in this way, you can choose to distinguish between them only by passcode; essentially, activator and guest users dial the same URI but enter a different PIN depending on whether they’re an activator or guest participant.
++ Response 200
+    + Body
+
+            TODO: More callLegProfile stuff here
+
+## usage object method [GET /callLegProfiles/{callLegProfileId}/usage]
+From R1.7 there is a `/callLegs/<call leg id>/usage` object in the hierarchy. Performing a GET on this object retrieves, for the queried call leg, a list of where the specified call leg profile is used: whether it is set to be the global call leg profile or any associations it has with tenants, coSpaces, coSpace users, coSpace access methods.
++ Response 200
+
+## callLegProfileTrace object method [GET /callLegProfiles/{callLegProfileId}/callLegProfileTrace]
+There is a `/callLegs/<call leg id>/callLegProfileTrace` object in the hierarchy. Performing a GET on this object retrieves, for the call leg that you queried, how its in- force call leg profile has been arrived at; that is, the hierarchy of overrides that have contributed to the currently "in force" call leg profile. Specifically, the response includes a section for each level in the profile hierarchy, and details which call leg profile elements have been applied at which level.
+
+The end result for each parameter is the lowest level’s override for that parameter; for example, if the tenant-level call leg profile has set “participantLabels” to true but the coSpace call leg profile has it set to false, then call legs in that coSpace will not display participant labels.
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>scope</td>
+        <td>global | tenant | coSpace | accessMethod | coSpaceUser | callOut | callLeg</td>
+        <td>Indicates at which level the set of profile parameters have been applied</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>ID</td>
+        <td>If present, the callLegProfile applicable to the scope of this entry</td>
+    </tr>
+    <tr>
+        <td>userId</td>
+        <td>ID</td>
+        <td>Identifies the user with no relationship to any coSpace association, and may or may not be the same as the ID of the “coSpaceUser” object.</td>
+    </tr>
+    <tr>
+        <td>needsActivation</td>
+        <td></td>
+        <td>Parameters that show which call leg profile values have been overridden at this level</td>
+    </tr>
+    <tr>
+        <td>defaultLayout</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>changeLayoutAllowed</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>participantLabels</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>presentationDisplayMode</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>presentationContributionAllowed</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>presentationViewingAllowed</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>endCallAllowed</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>muteOthersAllowed</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>videoMuteOthersAllowed</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>muteSelfAllowed</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>videoMuteSelfAllowed</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>joinToneParticipantThreshold</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>leaveToneParticipantThreshold</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>videoMode</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>rxAudioMute</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>txAudioMute</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>rxVideoMute</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>txVideoMute</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>sipMediaEncryption</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>audioPacketSizeMs</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>deactivationMode</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>deactivationModeTime</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>telepresenceCallsAllowed</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>sipPresentationChannelEnabled</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>bfcpMode</td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+
++ Response 200
+    + Body
+
+            TODO: Figure out what this thing looks like
+
+## Group Dial Transform Methods
+R1.6 introduced more flexibility in telephone dialing.
+
+As before dial transforms are applied to all outbound calls, then the outbound dial plan rules are applied to the transformed number.
+
+Previously, the Web Admin Interface Configuration > Outbound Calls page controlled how dialed numbers were transformed. It is still possible to use this page but it has changed as shown below to provide more flexibility e.g. ensuring that outbound "+1" (US) calls use one Call Bridge and +44 (UK) calls use another.
+
+---
+**Note:** Any dialTransforms defined on a Call Bridge before R1.6 are kept and placed in the coSpace database in R1.7 (or later). They appear on the Configuration > Outbound Calls page but in the format above.
+
+---
+
+From R1.7 we recommend that you use the API for dialTransforms if you use Call Bridge clustering because the shared coSpace database is a single configuration location for all Call Bridges in a cluster you do not need to configure the dialTransforms separately on each one. The dialTransforms for the cluster are those defined on the Call Bridge host server (Acano Server or virtualized deployment) that is co-located with the first coSpace database in the database cluster. Although the same dialTransforms are applied to all Call Bridges in the cluster, the outbound dial plan rules can be configured per-Call Bridge as described previously.
+
+There are three stages to the transform
+* A “type” is applied, which breaks the input number/string into components $1, $2 etc.
+* The components are matched using regular expressions to see if the rule is valid
+* An output string is created from the components according to the defined transform
+
+---
+**Note:** A phone URI is recognized as a purely numeric string (optionally prefixed by a ‘+’) when it begins with a valid international dial code (e.g. 44 for UK or 1 for US) followed by the correct number of digits for a phone number for that region.
+
+---
+
+## Dial Transforms [/dialTransforms{?offset,limit,filter}]
+
+### Examples
+<table>
+    <tr>
+        <th>Example</th>
+        <th>Type</th>
+        <th>Match</th>
+        <th>Transform</th>
+    </tr>
+    <tr>
+        <td>For US numbers, use 'vcs1' directly</td>
+        <td>Phone</td>
+        <td>($1/01/)</td>
+        <td>$2@vcs1</td>
+    </tr>
+    <tr>
+        <td>For UK numbers, add a prefix and use 'vcs2'</td>
+        <td>Phone</td>
+        <td>($1/44/)</td>
+        <td>90044$2@vcs2</td>
+    </tr>
+    <tr>
+        <td>For UK numbers starting with a 7, add '90044' as a prefix, add '123@mobilevcs' as a suffix</td>
+        <td>Phone</td>
+        <td>($1/44/)($2/^7/)</td>
+        <td>90044$2{}123@mobilevcs</td>
+    </tr>
+    <tr>
+        <td>For unrecognized all-digit strings, use '@vcs3' as a suffix</td>
+        <td>Strip</td>
+        <td>($1/(\d){6,}/)</td>
+        <td>$1@vcs3</td>
+    </tr>
+    <tr>
+        <td>Replace + with 00</td>
+        <td>Strip</td>
+        <td>($1/\+(\d)+/)</td>
+        <td>$1{/\+/00/}</td>
+    </tr>
+    <tr>
+        <td>Replace an alphanumeric regex e.g. (.*)@example.com and replace with \1.endpoint@vc.example.com</td>
+        <td>Raw</td>
+        <td>($1/(.*)@example.com/)</td>
+        <td>$1{/@example.com$/.endpoint@vc.example.com/}</td>
+    </tr>
+</table>
+
+
+
+
+## Retrieving dial transforms [GET]
+GET method performed on the `/dialTransforms` node.
+
+Response is structured as a top-level `<dialTransforms total="N">` tag with potentially multiple `<dialTransform>` elements within it.
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>Type</td>
+        <td>raw | strip | phone</td>
+        <td><p>The type of pre-processing to apply to this transform</p><p>Raw: produces one component $1</p><p>Strip: removes dots, dashes, spaces and produces one component $1</p><p>Phone: An international phone number produces two components $1 county code and $2 number</p></td>
+    </tr>
+</table>
+
+
++ Parameters
+    + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + filter (string, optional) - Enter a filter to retrieve only those dial transforms that match the string.
+
+
++ Response 200
+    + Body
+
+            TODO: DialTransform object here
+
+## Setting up and modifying dial transforms [POST]
+* Creating: POST method to the `/dialTransforms` node
+* Modifying: PUT to `/dialTransforms/<dialTransform id>`
+
+#### match
+If provided, the regular expression describing whether this rule will be applied. An empty string means “match all”.
+
+This is a logically AND'd combination of regular expressions, each applied to a component of the pre-processed expression. The format is:
+
+`($<componentnum_1>/<regex_1>/)($<componentnum_2>/<regex_2>/) ($<componentnum_3>/<regex_3>/)...`
+
+For example:
+* `($2/abc/)` Component2 must contain 'abc'
+* `($1/^0/)($1/9$/)` Component1 must start with a 0 and end with a 9
+* `($1/^44$/)($2/^7/)` Component1 must be '44' and component2 must start with a 7
+
+
+#### transform
+The replacement transform to be applied. This allows references to the pre-processed components, as well as one or more regular expression substitutions encased in curly braces with the following special strings replaced as described.
+
+`$<componentnum>` Replace with component
+
+`$<componentnum>{}` Replace with component
+
+`$<componentnum>{/<matchregex1>/<replaceregex1/} {/<matchregex2>/<replaceregex2/}{/<matchregex3>/<replaceregex3/}...`
+
+Replace with component, with all instances of matchregex1 replaced by replaceregex1, and subsequently matchregex2 replaced by replaceregex2, etc. Capture groups are supported.
+
+Examples are:
+* `abc` Replace everything with 'abc'
+* `$1$2@t.com` Component1 followed by component2 followed by "@t.com"
+* `$1{}123@t.com` Component1 followed by "123@t.com"
+* `$1{/999/123/}@t.com` Component1 with all instances of '999' replaced by '123', followed by "@t.com"
+* `$1{/\D//}{/^9//}@example.com` Component1 with all non-digits removed and leading 9 removed, followed by "@example.com"
+
+
++ Attributes (dialTransform)
+
++ Response 200
+    + Body
+
+            TODO: dialTransform needed
+
+## Retrieving detailed information about an individual dial transform [GET /dialTransform/{dialTransformId}]
+GET method performed on a `/dialTransform/<dialTransform id>` node. If the call branding profile id ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
+
++ Response 200
+    + Body
+
+            TODO: detailed dialTransform object goes here
+
+
+# Group Setting Individual Features for a Call Leg
+In R1.1, independently of whether a call leg had a profile applied, you could set, modify and retrieve on a per active call leg basis, whether a presentation should be restricted to single screen mode (i.e. one combined main and presentation video stream) or allowed to use separate video streams if this is supported by the receiving party.
+
+From R1.2 there have been several additional parameters that can be set – both in a call leg profile (as shown in the previous sections) or specifically on a call leg (which overrides the value of the call leg profile). See the table in the Creating and modifying a call leg profile section for details.
+
+
+# Group Call Branding Profile Methods
+Call branding profiles were introduced in R1.6. They control the in- call experience for SIP (including Lync) calls, and the ability to customize text within invitations.
+
+---
+**Note:** that the use of callBrandingProfiles requires a branding license.
+
+---
+
+## Call Branding Profiles [/callBrandingProfiles{?offset,limit,usageFilter}]
+
+## Retrieving Call Branding Profiles [GET]
+Response is structured as a top-level `<callBrandingProfiles total="N">` tag with potentially multiple `<callBrandingProfiles>` elements within it.
+
++ Parameters
+    + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + usageFilter (enum, optional) - Using unreferenced retrieves only those call branding profiles that are not referenced by global settings or any other object. This is a useful check before deleting a call branding profile
+        + referenced
+        + unreferenced
+
++ Response 200
+    + Body
+
+            TODO: List of callBrandingProfiles?
+
+## Setting up and modifying call branding profiles [POST]
+* Creating: POST method to the `/callBrandingProfiles` node
+* Modifying: PUT to `/callBrandingProfiles/<call branding profile id>`
+
++ Attributes (callBrandingProfile)
++ Response 200
+    + Body
+
+            TODO: callBrandingProfile object, right about here <
+
+## Retrieving detailed information about an individual call branding profile [GET /callBrandingProfiles/{callBrandingProfileId}]
+GET method performed on a `/callBrandingProfiles/<call branding profile id>` node. If the call branding profile ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
+
++ Response 200
+    + Body
+
+            TODO: callBrandingProfile object, right about here <
+
+
+# Group DTMF Profile Methods
+dtmfProfiles were introduced in R1.6. They can be used to define a number of DTMF sequences that can be used to control audio – as explained in this section. The dtmfProfile does not define the ability to perform the actions, it defines the DTMF string that will invoke action. The definition for who has the authority to invoke that action within the coSpace is defined at the callLegProfile level.
+
+If you are using the Acano solution alongside third party solutions, or to replace an existing solution, then set the values to match the values that solution uses e.g. Lync conferencing uses *6 for both mute and unmute, so set toggleMuteSelfAudio to *6.
+
+## DTMF Profiles [/dtmfProfiles{?offset,limit,usageFilter}]
+
+## Retrieving DTMF Profiles [GET]
+Response is structured as a top-level `<dtmfProfiles total="N">` tag with potentially multiple `<dtmfProfile>` elements within it.
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>muteSelfAudio</td>
+        <td>String</td>
+        <td>DTMF sequence to be used by a participant to mute the audio being contributed to their call</td>
+    </tr>
+    <tr>
+        <td>unmuteSelfAudio</td>
+        <td>String</td>
+        <td>DTMF sequence to be used by a participant to unmute their audio</td>
+    </tr>
+    <tr>
+        <td>toggleMuteSelfAudio</td>
+        <td>String</td>
+        <td>DTMF sequence to be used by a participant to toggle between mute and unmute audio from themselves</td>
+    </tr>
+    <tr>
+        <td>muteAllExceptSelfAudio</td>
+        <td>String</td>
+        <td>DTMF sequence to be used by a participant to mute all other participants in the call</td>
+    </tr>
+    <tr>
+        <td>unmuteAllExceptSelfAudio</td>
+        <td>String</td>
+        <td>DTMF sequence to be used by a participant to unmute all other participants in the call.</td>
+    </tr>
+    <tr>
+        <td>startRecording</td>
+        <td>String</td>
+        <td>DTMF sequence to be used by a participant to start recording the active call. Present from version 1.9 onwards</td>
+    </tr>
+    <tr>
+        <td>stopRecording</td>
+        <td>String</td>
+        <td>DTMF sequence to be used by a participant to stop recording the active call. Present from version 1.9 onwards</td>
+    </tr>
+    <tr>
+        <td>muteAllNewAudio</td>
+        <td>String</td>
+        <td>DTMF sequence to be used by a participant to mute all new participants. Sets joinAudioMuteOverride Call object to true. Present from version 1.9 onwards</td>
+    </tr>
+    <tr>
+        <td>unmuteAllNewAudio</td>
+        <td>String</td>
+        <td>DTMF sequence to be used by a participant to unmute all new participants. . Sets joinAu- dioMuteOverride Call object to false. Present from version 1.9 onwards</td>
+    </tr>
+    <tr>
+        <td>defaultMuteAllNewAudio</td>
+        <td>String</td>
+        <td>DTMF sequence to be used by a participant to use the audio mute value from the call leg profile for new participants. Present from version 1.9 onwards</td>
+    </tr>
+    <tr>
+        <td>muteAllNewAndAllExceptSelfAudio</td>
+        <td>String</td>
+        <td>DTMF sequence to be used by a participant to mute all new participants and all other participants in the call. Sets joinAudioMuteOverride in the call object to `true` and mutes all call legs except for the issuer. This requires ‘muteOthersAllowed’ to be ‘true’ in the call leg profile of the issuer. Present from version 1.9 onwards</td>
+    </tr>
+    <tr>
+        <td>unmuteAllNewAndAllExceptSelfAudio</td>
+        <td>String</td>
+        <td>DTMF sequence to be used by a participant to unmute all new participants and all other participants in the call. Sets joinAudioMuteOverride in the call object to `false` and unmutes all call legs except for the issuer. This requires ‘muteOthersAllowed’ to be ‘true’ in the call leg profile of the issuer. Present from version 1.9 onwards</td>
+    </tr>
+</table>
+
++ Parameters
+    + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + usageFilter (eunm, optional)  - This is a useful check before deleting the profile
+        + referenced - retrieves just those DTMF profiles which are referenced in at least one place
+        + unreferenced - retrieves only those DTMF profiles that are not referenced by global settings or any other object. 
+
++ Response 200
+    + Body
+
+            TODO: List of dtmf profiles
+
+## Setting up and modifying DTMF Profiles [POST]
+* Creating: POST method to the `/dtmfProfiles` node
+* Modifying: PUT to `/dtmfProfiles/<dtmfprofile id>`
+
++ Attributes (dtmfProfile)
++ Response 200
+    + Body
+
+            TODO: dtmfProfile object
+
+## Retrieving detailed information about an individual dtmfProfile [GET /dtmfProfiles/{dtmfProfileId}]
+GET method performed on a `/dtmfProfiles/<dtmfprofile id>` node. If the dtmfProfile ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
+
++ Response 200
+    + Body
+
+            TODO: detailed dtmfProfile should go here
+
+
+# Group IVR Related Methods
+
+## IVR Methods [/ivrs{?filter,offset,limit,tenantFilter}]
+
+## Retrieving IVRs [GET]
+Response is structured as a top-level `<ivrs total="N">` tag with potentially mutiple `<ivr>` elements within it.
+
+Each `<ivr>` tag may include the following elements:
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>uri</td>
+        <td>URI user part</td>
+        <td>The URI to be used for this IVR</td>
+    </tr>
+</table>
+
++ Parameters
+    + filter (string, optional) - Supply filter=`<string`> in the URI to return just those IVRs that match the filter
+    + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + tenantFilter (ID, optional) - Supply tenantFilter to return only those IVRs associated with the specified tenant
+
++ Response 200
+    + Body
+
+            TODO: ivr something list
+
+## Setting up and modifying IVRs [POST]
+* Creating: POST method to the `/ivrs` node
+* Modifying: PUT to `/ivrs/<ivr id>`
+
++ Attributes (ivr)
++ Response 200
+    + Headers
+
+            Location:ID
+
+## Retrieving detailed information about an individual IVR [GET /ivrs/{ivrId}]
+GET method performed on a `/ivrs/<ivr id>` node. If the IVR ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
+
++ Response 200
+    + Body
+
+            TODO: ivr object needed
+
+## IVR Branding Profile Methods [/ivrBrandingProfiles{?offset,limit,usageFilter}]
+IVR branding profiles were introduced in R1.6. They can define the experience when dialing into an IVR.
+
+## Retrieving IVR branding profiles [GET]
+Response is structured as a top-level `<ivrBrandingProfiles total="N">` tag with potentially multiple `<ivrBrandingProfile>` elements within it.
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>resourceLocation</td>
+        <td>URL</td>
+        <td>The HTTP or HTTPS URL that the IVR branding files will be retrieved from. This should be the "directory" in which the individual audio and graphic files reside. Details of these files are in the Acano solution Customization Guide</td>
+    </tr>
+</table>
+
++ Parameters
+    + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + usageFilter (enum, optional) - This is a useful check before deleting an ivr branding profile
+        + referenced
+        + unreferenced - retrieves only those ivr branding profiles that are not referenced by global settings or any other object
+
++ Response 200
+    + Body
+
+            TODO: list of ivr branding profiles
+
+## Setting up and modifying an IVR branding profile [POST]
+* Creating: POST method to the `/ivrBrandingProfiles` node
+* Modifying: PUT to `/ivrBrandingProfiles/<ivr branding profile id>`
+
++ Attributes (ivrBrandingProfile)
++ Response 200
+    + Headers
+
+            Location:ID
+
+## Retrieving detailed information about an individual IVR branding profile [GET /ivrBrandingProfiles/{ivrBrandingProfileId}]
+GET method performed on a `/ivrBrandingProfiles/<ivr branding profile id>` node. If the IVR branding profile ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
+
++ Response 200
+    + Body
+
+            TODO: ivr branding profile object
+
+
+# Group Participant Related Methods
+Release 1.6 introduced the new object type or concept of a "participant" alongside the existing "callLeg" objects. The two should not be confused: for example, a "participant" can be a user's Lync session in which there might be separate call legs for audio and video, application sharing and IM.
+
+Each Call Bridge involved in a distributed call has an overall picture of the "participant" list for that call, including participants hosted on other Call Bridges. For participants hosted on the Call Bridge being queried, you can enumerate the constituent call legs but for participants hosted on another Call Bridge, querying those participants yields the ID of the Call Bridge on which they are hosted. (You can then query the "owning" Call Bridge using the same participant ID in order to retrieve call leg-level detail.)
+
+---
+**Note:** Also see the section on `/call/callLegId/participants`
+
+---
+
+## Limiting a call’s participants
+You can set a limit on the number of participants that are permitted to be in a call. You can set:
+* A per-tenant participantLimit value, which imposes a limit on the total number of participants that are allowed to be active for that tenant.
+* A `participantLimit` value within a `callProfile` object; this means that calls (e.g. coSpace instantiations) for whom that `callProfile` is in force will have the limit enforced
+
+The callProfiles can be attached at the system, tenant or coSpace level, with the most specific taking effect
+
+Therefore a call’s participantLimit depends on a number of factors.
+
+If a call's `participantLimit` has been reached:
+* No new participants can be added to it
+* However:
+    * A participant on an Acano client can use any combination of chat, use video, audio and show/receive a presentation. These elements comprise one callLeg, and count as one participant. Using a slaved endpoint does not increase the participant count.
+    * A participant in a meeting on a SIP endpoint can use video, audio and receive a presentation. These elements comprise one callLeg, and count as one participant
+    * A participant on a Lync client can use any combination of chat, use video, audio and send a presentation. Any combination of these elements counts as one participant but each element is a separate callLeg. (A received presentation is displayed in the main video stream.)
+    * New call legs for existing participants can still be added; for example, a Lync presentation call leg to go with a Lync audio/video call leg
+
+If creation of a call leg or participant via an API method fails because a limit has been reached, you see the appropriate `failureReason`. If an incoming connection attempt is unsuccessful because a limit has been reached, you also see an error message (with a separate callLegEnd reason for whether the call's own limit has been reached or that of its owning tenant).
+
+## Participant Methods [/participants{?filter,offset,limit,tenantFilter,callBridgeFilter}]
+
+## Retrieving participants [GET]
+Response is structured as a top-level `<participants total=”N”>` tag with potentially multiple `<participant>` elements within it.
+
+`<participant>` elements follow the general form on the left.
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>String</td>
+        <td>The human-readable display name associated with this participant</td>
+    </tr>
+        <tr>
+        <td>call</td>
+        <td>ID</td>
+        <td>The call that this participant is part of</td>
+    </tr>
+        <tr>
+        <td>tenant</td>
+        <td>ID</td>
+        <td>If present, the id of the tenant that this participant is associated with</td>
+    </tr>
+    <tr>
+        <td>callBridge</td>
+        <td>ID</td>
+        <td>If present, the remote, clustered, Call Bridge that this participant is connected to</td>
+    </tr>
+</table>
+
++ Parameters
+    + filter (string, optional) - Supply filter=`<string`> in the URI to return just those active participants that match the filter
+    + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + tenantFilter (ID, optional) - Supply the tenantFilter to return only those participants belonging to that tenant
+    + callBridgeFilter (ID, optional) - Supply the callBridgeFilter to return only those participants located on that tenant
+
++ Response 200
+    + Body
+
+            TODO: List of participants
+
+## Retrieving detailed information on an individual participant [GET /participants/{participantId}]
+GET method performed on a `/participants/<participant ID>` node
+
+If the participant ID supplied is valid, a “200 OK” response is received, with XML content of the form:
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>String</td>
+        <td>The human-readable display name associated with this participant</td>
+    </tr>
+        <tr>
+        <td>call</td>
+        <td>ID</td>
+        <td>The call that this participant is part of</td>
+    </tr>
+        <tr>
+        <td>tenant</td>
+        <td>ID</td>
+        <td>If present, the id of the tenant that this participant is associated with</td>
+    </tr>
+        <tr>
+        <td>callBridge</td>
+        <td>ID</td>
+        <td>If present, the remote, clustered, Call Bridge that this participant is connected to</td>
+    </tr>
+    </tr>
+        <tr>
+        <td>uri</td>
+        <td>String</td>
+        <td>The URI associated with this participant</td>
+    </tr>
+    </tr>
+        <tr>
+        <td>numCallLegs</td>
+        <td>Number</td>
+        <td>The current number of active call legs associated with this participant. This value will only be present for those participants local to the Call Bridge to which the request is made</td>
+    </tr>
+    </tr>
+        <tr>
+        <td>userJid</td>
+        <td>String</td>
+        <td>The userJid associated with this participant</td>
+    </tr>
+    </tr>
+    <tr>
+        <td>isActivator</td>
+        <td>bool</td>
+        <td>Whether this participant is considered to be an "activator". true - this participant is an activator - it is itself "activated" and that it will cause any currently-connected "de-activated" participants to become activated. false - this participant is not an activator - it needs to wait for one or more "activator" participants to be present before it is fully "activated"</td>
+    </tr>
+</table>
+
++ Response 200
+    + Body
+
+            TODO: participant object here
+
+## Retrieving a participant’s call legs [GET /participant/{participantId}/callLegs]
+GET method performed on a `/participant/<participant ID>/callLegs` node retrieves the participant’s active call legs. If successful, the parameters described above for call legs are returned.
+
+---
+**Note:** that if this call leg is part of a distributed meeting (one hosted by more than one Call Bridge) then these details are only returned for local participants. If the participant’s call legs are hosted by another call Bridge the id of that Call Bridge is returned.
+
+---
++ Response 200
+    + Body
+
+            TODO: participants call legs stuff <<
+
+
+# Group User Related Methods
+Users are created by synchronizing against LDAP servers (as discussed later); however, there are a number of methods for retrieving user information. This section covers:
+* retrieving information on users
+* retrieving detailed information on an individual user
+* configuring user profiles
+
+## User Methods [/users{?filter,offset,limit,tenantFilter}]
+
+## Retrieving Users [GET]
+GET method performed on the `/users` node.
+
+Response is structured as a top-level `<users total=”N”>` tag with potentially multiple `<user>` elements within it.
+
+`<user>` elements follow the general form on the left.
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>user id</td>
+        <td>ID</td>
+        <td></td>
+    </tr>
+        <tr>
+        <td>userJid</td>
+        <td>String</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>tenant</td>
+        <td>ID</td>
+        <td>The id of the tenant with which this user is associated, if applicable</td>
+    </tr>
+</table>
+
++ Parameters
+    + filter (string, optional) - Supply filter=`<string`> in the URI to return just those users that match the filter
+    + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + tenantFilter (ID, optional) - Supply tenantFilter to return only those users associated with the specified tenant
+
++ Response 200
+    + Body
+
+            TODO: List of user objects would be nice here
+
+## Retrieving Detailed Information on an Individual User [GET /users/{userId}]
+GET method performed on a `/users/<user ID>` node
+
+If the user ID supplied is valid, a “200 OK” response is received, with XML content of the form:
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>user id</td>
+        <td>ID</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>userJid</td>
+        <td>String</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>tenant</td>
+        <td>ID</td>
+        <td>The id of the tenant with which this user is associated, if applicable</td>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>String</td>
+        <td>User's display name</td>
+    </tr>
+    <tr>
+        <td>email</td>
+        <td>String</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>authenticationId</td>
+        <td>String</td>
+        <td>The id used for authentication; this value is checked against values from the certificate that the user presents during certificate-based authentication. Present from version 1.8 onwards</td>
+    </tr>
+</table>
+
++ Response 200
+    + Body
+
+            TODO: user object <
+
+## Retrieving a User’s coSpace Associations [GET /users/{userId}/usercoSpaces]
+GET method performed on a `/users/<user ID>/usercoSpaces` node retrieves the coSpaces that the user is a member of. (Also see the note on coSpace member permissions for auto-generated members.)
+
+Response is structured as a top-level `<usercoSpaces total=”N”>` tag with potentially multiple `<usercoSpace>` elements within it.
+
+`<usercoSpace>` elements follow the general form on the left.
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>coSpace</td>
+        <td>ID</td>
+        <td></td>
+    </tr>
+</table>
+
++ Response 200
+    + Body
+
+            TODO: need user cospace node list
+
+## User Profile Methods [/userProfiles{?offset,limit,usageFilter}]
+User profiles were introduced in R1.6.
+
+## Retrieving user profiles [GET]
+GET method performed on the `/userProfiles` node.
+
+Response is structured as a top-level `<userProfiles total="N">` tag with potentially multiple `<userProfile>` elements within it.
+
++ Parameters
+    + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + usageFilter (enum, optional) - This is a useful check before deleting a user profile
+        + referenced - to retrieve just those user profiles which are referenced in at least one place
+        + unreferenced - retrieves only those user profiles that are not referenced by global settings or any other object
+
++ Response 200
+    + Body
+
+            TODO: List of user profiles
+
+## Setting up and modifying user profiles [POST]
+* Creating: POST method to the `/userProfiles` node
+* Modifying: PUT to `/userProfiles/<user profile id>`
+
++ Attributes (userProfile)
++ Response 200
+    + Headers
+
+            Location:ID
+
+## Retrieving detailed information about an individual user profile [GET /userProfiles/{userProfileId}]
+GET method performed on a `/userProfiles/<user profile id >` node. If the user profile ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
+
++ Response 200
+    + Body
+
+            TODO: detailed user profile object goes here
+
+
+# Group System Related Methods
+This chapter details the API methods related to management of the system. The chapter covers:
+* retrieving system status
+* retrieving system alarm status
+* retrieving system database status
+* retrieving and setting the URI of the CDR receivers
+* retrieving and setting the global profile
+* configuring the TURN server
+* configuring the Web Bridge
+* configuring the Call Bridge
+* configuring the XMPP server
+* configuring Call Bridge clustering
+* configuring the Recorder
+* system diagnostics
+
+## System Methods [/system]
+
+## Retrieving System Status [GET /system/status]
+GET method performed on the `/system/status` node.
+
+Returns the elements on the left within a `<status>` element
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>softwareVersion</td>
+        <td>String</td>
+        <td>The software version currently running on the Acano Call Bridge</td>
+    </tr>
+    <tr>
+        <td>uptimeSeconds</td>
+        <td>Number</td>
+        <td>The length of time that the unit has been running</td>
+    </tr>
+    <tr>
+        <td>activated</td>
+        <td>bool</td>
+        <td>Whether the Acano Call Bridge is currently activated (licensed); if not, it will have a reduced call capacity. Currently always true for an Acano X Server.</td>
+    </tr>
+    <tr>
+        <td>cdrTime</td>
+        <td>Number</td>
+        <td>The current timestamp as would be written to a CDR generated at the time the request is received. This will be in the same format as the "time" field in CDRs themselves (see RFC 3339, for instance "2014-02-11T12:10:47Z").</td>
+    </tr>
+    <tr>
+        <td>callLegsActive</td>
+        <td>Number</td>
+        <td>The number of active call legs at the time of the request</td>
+    </tr>
+    <tr>
+        <td>callLegsMaxActive</td>
+        <td>Number</td>
+        <td>The highest number of call legs simultaneously active on this Acano solution</td>
+    </tr>
+    <tr>
+        <td>callLegsCompleted</td>
+        <td>Number</td>
+        <td>The total number of call legs that have been active but are no longer connected / present</td>
+    </tr>
+    <tr>
+        <td>audioBitRateOutgoing</td>
+        <td>Number</td>
+        <td>The current total bit rate (in bits per second) summed over all outgoing audio streams (audio media sent from the Acano solution to a remote party)</td>
+    </tr>
+    <tr>
+        <td>audioBitRateIncoming</td>
+        <td>Number</td>
+        <td>The current total bit rate for incoming audio streams</td>
+    </tr>
+    <tr>
+        <td>videoBitRateOutgoing</td>
+        <td>Number</td>
+        <td>The current total bit rate for outgoing video streams</td>
+    </tr>
+    <tr>
+        <td>videoBitRateIncoming</td>
+        <td>Number</td>
+        <td>The current total bit rate for incoming video streams</td>
+    </tr>
+</table>
+
++ Response 200
+    + Body
+
+            TODO: System status object
+
+## Retrieving System Alarm Status [GET /system/alarms]
+GET method performed on the `/system/alarms` node. An offset and limit can be supplied to retrieve alarm conditions other than those in the first page of the notional list. This method returns a table detailing the currently active system-wide alarm conditions.
+
+Returns a list of individual `<alarm>` elements. If there are no currently active alarm conditions, this list will be empty. Each active alarm condition will have an “alarm” tag, which contains:
+
+#### type
+* callBrandingResourceInvalid - the supplied resource has an invalid format; the call branding profile is specified by the accompanying "callBrandingProfiles" GUID parameter and the problematic file is specified by the accompanying "fileName" text parameter
+* callBridgeConnectionFailure - the CallBridge has failed to establish a connection to one of its peer clustered Call Bridges which specified by the accompanying "callBridge" GUID parameter
+* callDistributionFailure - the CallBridge has failed to establish a distributed link for one of its active calls; the Call Bridge that the link should have been to is identified by the accompanying "callBridgeName" text parameter, and the call is present as the "call" GUID parameter
+* cdrConnectionFailure - the Acano solution has failed to establish a connection to its configured CDR receiver, and therefore may be unable to push out new call detail records
+* databaseClusternodeOutofSync - a node in the database cluster is out of sync and is not syncing
+* databaseConnectionError - the Acano solution has failed to establish a connection to its database
+* guestAccountConnectionFailure - the Acano solution has been unable to establish a connection to the configured Web Bridge in order to allow guest logins
+* ivrBrandingResourceInvalid - the supplied resource has an invalid format; the IVR branding profile is specified by the accompanying "ivrBrandingProfile" GUID parameter and the problematic file is specified by the accompanying "fileName" text parameter
+* recorderLowDiskSpace (1.9 onwards) - a recorder has limited disk space; the recorder is specified by the accompanying "recorder" GUID parameter
+* recorderUnavailable (1.9 onwards) - the Acano callbridge has not managed to successfully contact a configured recorder; the recorder is specified by the accompanying "recorder" GUID parameter
+* turnServerUnavailable - the Acano CallBridge has not managed to contact a configured TURN server; this TURN server is specified by the accompanying "turnServer" GUID parameter
+* webBridgeArchivePushFailure - the Acano CallBridge has not been able to push a required customization archive to a Web Bridge
+* webBridgeArchiveRetrievalFailure - the Acano CallBridge has not been able to retrieve a required Web Bridge customization archive
+* webBridgeBackgroundImagePushFailure - the Acano CallBridge has not been able to push a required customized background image file to a Web Bridge
+* webBridgeBackgroundImageRetrievalFailure - the Acano CallBridge has not been able to retrieve a required customized background image file
+* webBridgeLoginLogoImagePushFailure — the Acano CallBridge has not been able to push a required customized login logo image to a Web Bridge
+* webBridgeLoginLogoImageRetrievalFailure - the Acano CallBridge has not been able to retrieve a required customized login logo image file
+* xmppAuthenticationRegistrationFailure - the Acano solution has not been able to register successfully with the named XMPP authentication component
+* xmppRegistrationFailure - the Acano solution has not been able to register successfully with its configured XMPP server
+
+#### failureReason
+* authenticationFailure
+* connectFailure - a failure to connect to a remote destination;for example, a TCP or TLS connection was not able to be established
+* dataFormatInvalid - the Acano CallBridge is configured to use a particular data set (for example, a remotely-hosted resource file) that it then found was not in a useable format
+* destinationReadOnly - a critical resource, for example the database, was found by the Acano Call Bridge to be read only when write access was needed
+* dnsFailure - a failure to resolve the hostname of a remote destination; for example, as part of the process of establishing a connection to a remote system
+* error
+* fileNotFound - the alarm condition was raised because the Acano call bridge failed to load a required file; for instance, if the resourceArchive needed for a web bridge was not able to be retrieved from a remote server
+* fileSizeLimitExceeded - the Acano CallBridge is configured to use a resource, for example, a remotely-hosted resource file, that was not able to be retrieved because it exceeded an internal file size limit
+* internalServerError - the Acano CallBridge was not able to perform an operation, for example the upload or download of a resource file, because the remote party returned "internal server error" when the operation was attempted
+* serviceUnavailable
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>Id</td>
+        <td>ID</td>
+        <td>A unique ID for this instance of this fault condition</td>
+    </tr>
+    <tr>
+        <td>activeTimeSeconds</td>
+        <td>Number</td>
+        <td>The amount of time that this alarm condition has been active.</td>
+    </tr>
+    <tr>
+        <td>type</td>
+        <td>String</td>
+        <td>see type</td>
+    </tr>
+    <tr>
+        <td>failureReason</td>
+        <td>String</td>
+        <td>For some of the alarm types, additional information is provided about the cause of that particular failure: see failureReason</td>
+    </tr>
+</table>
+
++ Response 200
+    + Body
+
+            TOTO: alarm object goes here 
+
+## Retrieving System Database Status [GET /system/database]
+GET method performed on the `/system/database` node.
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>clustered</td>
+        <td>enabled | disabled</td>
+        <td>Whether database clustering is enabled.</td>
+    </tr>
+    <tr>
+        <td>Cluster</td>
+        <td></td>
+        <td>If clustering is enabled then the "cluster" element includes the elements on the left</td>
+    </tr>
+    <tr>
+        <td>Error</td>
+        <td>String</td>
+        <td>Error description</td>
+    </tr>
+    <tr>
+        <td>totalNodes</td>
+        <td>Number</td>
+        <td>Number of database nodes in the cluster</td>
+    </tr>
+    <tr>
+        <td>nodeInUse</td>
+        <td>String</td>
+        <td>Which database node is currently in use (the master)</td>
+    </tr>
+    <tr>
+        <td>node</td>
+        <td></td>
+        <td>
+            <table>
+                <tr>
+                    <th>Attribue</th>
+                    <th>Description</th>
+                <tr>
+                <tr>
+                    <td>hostname</td>
+                    <td>the hostname or IP address of the node</td>
+                <tr>
+                <tr>
+                    <td>up</td>
+                    <td>if the node is visible from this CallBridge (true|false)</td>
+                <tr>
+                <tr>
+                    <td>syncBehind</td>
+                    <td>approximate number of bytes that this node is behind the current state of the master. 0 means in sync, and -1 means the calculation is unavailable</td>
+                <tr>
+                <tr>
+                    <td>master</td>
+                    <td>whether this node is the master database (true|false), if set to false it is a host standby (slave)</td>
+                <tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
++ Response 200
+    + Body
+
+            TODO: system database object
+
+
+
+## CDR Receiver URI Methods [/system/cdrReceivers{?offset,limit}]
+You can find the URIs of the CDR receivers through the API (as well as the Web Admin Interface). Issue a GET on the `/system/cdrReceivers` node to retrieve the URIs that are the full URLs of the configured CDR receivers.
+
+---
+**Note:** To support multiple CDR receivers in R1.8, `/system/cdrReceiver` is deprecated, use the new `/system/cdrReceivers`
+
+---
+
+This method accesses the URIs of the CDR receivers using the Web Admin Interface **Configuration > CDR settings** page.
+
+## Retrieving the CDR Receivers URI [GET]
+GET method performed on the `/system/cdrReceivers` node.
+
+Response is structured as a top-level `<cdrReceivers total="N">` tag with potentially multiple `<cdrReceiver>` elements within it.
+
+Each `<cdrReceiver>` tag may include the following element:
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>uri</td>
+        <td>String</td>
+        <td>Full URL of the configured CDR receiver address</td>
+    </tr>
+</table>
+
+---
+**Note:** GET of `/system/cdrReceivers/<cdr receiver id>` allows you to retrieve the configuration for a single specified CDR receiver.
+
+---
+
++ Parameters
+    + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+
++ Response 200
+    + Body
+
+            TODO: cdr receiver object list
+
+## Setting the CDR Receivers URI [POST]
+Set the CDR receiver URI through the API (as well as the Web Admin Interface). You can issue a PUT or a POST on the `/system/cdrReceivers node`
+
+Use POST and specify a "url" value to create and configure the CDR receiver in one operation, or use PUT to initially create the CDR receiver but configure the “url” separately later.
+
+If the creation is successful, you should receive a “200 OK” response and a `Location: /api/v1/system/cdrReceivers/<cdr receiver id>` object reference; if too many CDR receivers are already configured, you will receive a "tooManyCdrReceivers" error (in a "failureDetails" section).
+
+---
+**Note:** To support multiple CDR receivers in R1.8, `/system/cdrReceiver` is deprecated, use the new `/system/cdrReceivers`
+
+**Note:** If you perform a PUT with an empty "url" to the legacy `/system/cdrReceiver` node, any GUID associated with that CDR receiver is removed, and effectively that CDR receiver is no longer present. If you later PUT a non-empty "url" value to the same (legacy) node, a new GUID will be generated for that CDR receiver.
+
+If you perform a PUT with an empty "url" to a non-legacy CDR receiver `/system/cdrReceivers/<cdr receiver id>` then that CDR receiver remains with the same GUID, but no "url" value. It will continue to show up in GET operations. This is because there is an explicit "DELETE" method for the new CDR receiver objects, whereas for the legacy CDR receiver the only deconfiguration method is to set its location to the empty value.
+
+---
+
+To set or update the URIs of the CDR receivers via the Web Admin Interface use the **Configuration > CDR settings** page.
+
++ Attributes (cdrReceiver)
+
++ Response 200
+    + Headers
+
+            Location:ID
+
+## Global Profile Methods [/system/profiles]
+
+## Retrieving the Global Profile [GET]
+GET to `/system/profiles` returns the values described in the following section.
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>callLegProfile</td>
+        <td>ID</td>
+        <td>Sets the top level call leg profile to the one with the specified ID</td>
+    </tr>
+    <tr>
+        <td>callProfile</td>
+        <td>ID</td>
+        <td>Sets the top level call profile to the one specified</td>
+    </tr>
+    <tr>
+        <td>dtmfProfile</td>
+        <td>ID</td>
+        <td>Sets the top level DTMF profile to the one specified</td>
+    </tr>
+    <tr>
+        <td>userProfile</td>
+        <td>ID</td>
+        <td>Sets the top level user profile to the one specified</td>
+    </tr>
+    <tr>
+        <td>ivrBrandingProfile</td>
+        <td>ID</td>
+        <td>Sets the top level IVR branding profile to the one specified</td>
+    </tr>
+    <tr>
+        <td>callBrandingProfile</td>
+        <td>ID</td>
+        <td>Sets the top level call branding profile to the one specified</td>
+    </tr>
+</table>
+
++ Response 200
+    + Body
+
+            TODO: get system profile stuff for dis right here <
+
+## Setting the Global Profile [POST]
+You can set (or unset) the callLegProfile ID value under `/system/profiles` to impose (or remove) a top-level profile.
+
+PUT or POST to `/system/profiles`. Supplying an empty value unsets the top-level profile.
+
++ Attributes (systemProfile)
++ Response 200
+
+
+# Group TURN Server Methods
+
+## TURN Server [/turnServers{?filter,offset,limit}]
+
+## Retrieving Information on TURN Servers [GET]
+GET method performed on the `/turnServers` node.
+
+Response is structured as a top-level `<turnServers total="N">` tag with potentially multiple `<turnServer>` elements within it.
+Each `<turnServer>` tag may include the following elements.
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>serverAddress</td>
+        <td>String</td>
+        <td>The address for the Call Bridge to use to reach this TURN server</td>
+    </tr>
+    <tr>
+        <td>clientAddress</td>
+        <td>String</td>
+        <td>The address that Acano clients should use to reach this TURN server</td>
+    </tr>
+</table>
+
++ Parameters
+    + filter (string, optional) - Supply filter=`<string`> in the URI to return just those TURN servers that match the filter
+    + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+
++ Response 200
+    + Body
+
+
+            TODO: List of turn servers
+
+## Setting up and modifying TURN servers [POST]
+* Creating: POST method to the `/turnServers` node
+* Modifying: PUT to `/turnServers/<turn server id>`
+
++ Attributes (turnServer)
+
++ Response 200
+    + Headers
+
+            Location:ID
+
+## Retrieving detailed information about an individual TURN server [GET /turnServers/{turnServerId}]
+GET method performed on a `/turnServers/<turn server id>` node. If the turn server ID supplied is valid, a “200 OK” response is received, with XML content:
+
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>address</td>
+        <td>String</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>portNumber</td>
+        <td>Number</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>reachable</td>
+        <td>bool</td>
+        <td>true if this TURN server is currently reachable, false if it is not</td>
+    </tr>
+    <tr>
+        <td>roundTripTimeMs</td>
+        <td>Number</td>
+        <td>If this TURN server is reachable, the round trip time (in milliseconds) of the Call Bridge's path to it.</td>
+    </tr>
+    <tr>
+        <td>mappedAddress</td>
+        <td>String</td>
+        <td>if populated, indicates the source IP and source port that the TURN server saw the STUN binding request coming from when the Acano Call Bridge performed TURN server reachability checks. This can be different to the IP address of the Acano Call Bridge in deployments where there is a NAT between the Call Bridge and the TURN server</td>
+    </tr>
+    <tr>
+        <td>mappedPortNumber</td>
+        <td>Number</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>numAllocations</td>
+        <td>Number</td>
+        <td>Number of active TURN allocations on the Acano TURN server</td>
+    </tr>
+</table>
+
++ Response 200
+    + Body
+
+            TODO: TURN Server object
+
+
+# Group Web Bridge Methods
+
+
+
+
+
+
+
+
+# Group Call Bridge Methods
+# Group XMPP Methods
+# Group Call Bridge Cluster Methods
+# Group Recorder Methods
+# Group System Diagnostics Methods
+
+# Group LDAP Methods
+## LDAP Server Methods
+## LDAP Mapping Methods
+## LDAP Source Methods
+## LDAP Sync Methods
+## External Directory Search Locations
+
+# Group Multi-tenancy
+## Tenants
+## Tenant group operations
+
+# Group accessQuery Method
+
+
+
+
+
+
+
+# Data Structures
+
+## URI user part (string)
+## URL (string)
+## ID (string)
+
+## defaultLayout (enum)
++ allEqual
++ speakerOnly
++ telepresence
++ stacked
++ allEqualQuarters - present from R1.7 onwards
++ allEqualNinths - present from R1.7 onwards
++ allEqualSixteenths - present from R1.7 onwards
++ allEqualTwentyFifths - present from R1.7 onwards
++ onePlusFive - present from R1.8 onwards
++ onePlusSeven - present from R1.8 onwards
++ onePlusNine - present from R1.8 onwards
++ automatic - From R1.9, the "allEqual" layout reverts to the pre-1.7 arrangement where the layout expands from a 4 person view up to a 25 person view, with all participants shown at equal size. The "allEqual" layout that was introduced in R1.7 is renamed "automatic"
+
+## coSpaceMember
++ userJid (ID) - JID of the user to be added as a member
++ callLegProfile (ID) - If provided, associates the specified call leg profile with this coSpace user
++ canDestroy: `false` (boolean) - Whether this user is allowed to delete the coSpace
++ canAddRemoveMember: `false` (boolean) - Whether this user is allowed to add or remove other members of the coSpace
++ canChangeName: `false` (boolean) - Whether this user is allowed to change the name of the coSpace
++ canChangeUri: `false` (boolean) - Whether this user is allowed to change the URI of the coSpace
++ canChangeCallId: `false` (boolean) - Whether this user is allowed to change the Call ID of the coSpace
++ canChangePasscode: `false` (boolean) - Whether this user is allowed to change the passcode of the coSpace
++ canPostMessage: `false` (boolean) - Whether this user is allowed to write messages in the coSpace
++ canRemoveSelf: `false` (boolean) - Whether this user is allowed to remove himself from the coSpace
++ canDeleteAllMessages: `false` (boolean) - Whether this user is allowed to delete all messages from the coSpace message board
+
+## message
++ message (required) - The message string to be posted to the message board
++ from - A “from” name to be shown to message board viewers as the originator of the message
+
+## accessMethod
++ uri (URI user part) - The URI to be used for dialing in via this access method
++ callID (ID) - The "call ID" to be used for connecting via this access method (using the IVR or Web Bridge login)
++ passcode - A passcode required for this access method
++ callLegProfile (ID) - The ID of a call leg profile to apply to calls in via this access method
++ secret - If provided, sets the security string for this coSpace access method. If absent, a security string is chosen automatically if the coSpace access method has a callId value. This is the security value associated with the coSpace access method that needs to be supplied with the callId for guest access to the coSpace via this access method. 
+This parameter is present from R1.7 onwards
++ regenerateSecret (boolean) - If provided as true - a new security value is generated for this coSpace access method and the former value is no longer valid (for instance, any hyperlinks including it will cease to work)
+If provided as false - do not generate a new secret value for this coSpace access method; this has no effect. This parameter is only valid for the modify (PUT) case. This parameter is present from R1.7 onwards
++ scope (enum) - The visibility of this coSpace access method to users of Acano clients who are members of the coSpace
+    + public - details of this coSpace access method can be made available to members of the coSpace
+    + private - details of this coSpace access method will not be made available to members of the coSpace
+
+## outboundDialPlanRule
++ domain - The domain to match in order to apply the dial plan rule; either a complete value (e.g. "example.com") or a “wildcarded” one (e.g. "*.com")
++ priority (number) - A numeric value which determines the order in which dial plan rules (including rules with wildcarded domains) will be applied. Rules with higher priority values are applied first
++ localContactDomain - Used when forming an explicit contact domain to be used: if you leave this field blank then the localContactDomain is derived from the local IP address (as in previous releases)
++ localFromDomain - Used when forming the calling party for outgoing calls using this dial plan rule
++ sipProxy - The address (IP address or hostname) of the proxy device through which to make the call
++ trunkType (enum) - If set to lync or avaya then outgoing calls established that use this rule will be made as Lync or Avaya calls with some specialized behavior. SIP means that calls using this rule will be standard SIP calls
+    + sip
+    + lync
+    + avaya
++ failureAction (enum) - Whether or not to try the next outbound dial plan rule if the current one did not result in a connected call
+    + stop
+    + continue
++ sipControlEncryption (enum) - Whether to enforce use of encrypted control traffic on calls made via this rule
+    + auto - attempt to use encrypted control connections first, but allow fall back to unencrypted control traffic in the event of failure
+    + encrypted - allow only encrypted SIP control traffic (TLS connections)
+    + unencrypted - use only unencrypted traffic (TCP or UDP)
++ scope (enum) - The entities for which this outbound dial plan rule is valid
+    + global - all Call Bridges are able to use this outbound dial plan rule to reach a matching domain
+    + callBridge - this outbound dial plan rule is only valid for a single nominated Call Bridge
++ callBridge (ID) - If the rule has a scope of callBridge, this is the id of the Call Bridge for which the rule is valid
++ tenant (ID) - If a tenant is specified, this rule will only be used to make outbound call legs from calls associated with that tenant; otherwise, this rule may be used from any call. This parameter is present from R1.8 onwards
++ callRouting (enum) - (beta feature) This is the media routing that should be used for SIP calls originating from this rule
+    + default - calls using this rule will use normal, direct, media routing
+    + traversal - media for calls using this rule will flow via a TURN server
+
+## inboundDialPlanRule
++ domain - The domain to match in order to apply the dial plan rule. Must be a complete value (e.g. "example.com")
++ priority (number) - inbound dial plan rules' configured domain values are always exactly matched against incoming calls. For the purposes of generating full URIs to advertise for incoming calls (especially cases where multiple rules are applicable) you can also set a numeric priority value - higher values will be preferred
++ resolveToUsers (boolean) - If set to true, calls to this domain will be matched against user JIDs (if a match is then found, that incoming call leg causes a "point to point" call to that user's client
++ resolveTocoSpaces (boolean) - If set to true, calls to this domain will be matched against coSpace URIs (if a match is then found, the incoming call leg becomes a participant in the coSpace)
++ resolveToIvrs (boolean) - If set to true, calls to this domain will be matched against configured IVR URIs (if a match is then found, the incoming call leg connects to that IVR)
++ resolveToLyncConferences (boolean) - If set to true, calls to this domain will be resolved to a Lync conference URI; if the resolution is successful, the incoming call leg becomes a participant in the Lync conference. If this parameter is not supplied in a create (POST) operation, it defaults to "false".
++ tenant (ID) - If specified, calls to this inbound domain will only be matched against user JIDs and coSpace URIs for the specified tenant
+
+## forwardingDialPlanRule
++ matchPattern - The domain to match in order to apply the dial plan rule. Must be a complete domain name (e.g. "example.com") or a “wildcarded” one (e.g. *.com)
++ destinationDomain - Calls that are forwarded with this rule will have their destination domain rewritten to be this value
++ action (enum)
+    + forward - If set to "forward" causes matching call legs to become point-to- point calls with a new destination
+    + reject - "reject" causes the incoming call leg to be rejected
++ callerIdMode (enum) - When forwarding an incoming call to a new destination address, whether to preserve the original calling party's ID or to generate a new one. If this parameter is not supplied in a create (POST) operation, it defaults to "regenerate"
+    + regenerate - default
+    + preserve
++ priority (number) - Numeric value used when determining the order in which to apply forwarding dial plan rules; higher values will be applied first
++ tenant (ID) - If a tenant is specified, calls using this rule will be associated with the specified tenant. This parameter is present from R1.8 onwards
+
+## call
++ coSpace (ID) - Specifies the coSpace for which the call is being instantiated
++ name - The name of the new call
++ locked (boolean) - Allows the locking/unlocking of a meeting lobby in order to control the process of activating participants. Par- ticipants requiring activation are typically guests to a coSpace that have not yet been ‘activated’. Members of a coSpace are not affected, and can join the coSpace at any time. When a meeting is locked, the guests requiring activ- ation wait in the meeting lobby until the host unlocks the coSpace, at which point they are activated and join the coSpace. Participants that are already activated are NOT deactivated when the conference goes from the unlocked state to the locked state.
+If set to true, new participants that need activation are not activated even if there are activators in the call. This parameter is present from version 1.8 onwards
++ recording (boolean) - If true, this call is currently being recorded. Present from version 1.9 onwards
++ allowAllMuteSelf (boolean) - If true, participants have the permission to mute and unmute themselves. Present from version 1.9 onwards
++ allowAllPresentationContribution: `false`(boolean) - If true, participants have the permission to present. If false, this permission is dependent on present- ationContributionAllowed in the call leg profile. Default is false. Present from version 1.9 onwards
++ joinAudioMuteOverride (boolean) - If true, new participants will be muted when joining the call. Present from version 1.9 onwards
+
+## callProfile
++ participantLimit (number) - Sets the maximum number of participants for calls (coSpace instantiations or ad hoc calls) using this call profile that can be active simultaneously; new participants beyond this limit are not permitted
++ messageBoardEnabled (boolean) - If specified, sets whether a message board (chat) is allowed for this coSpace or ad hoc call
++ locked (boolean)
++ recordingMode (enum) - Controls how this coSpace or ad hoc call can be recorded. If this parameter is not supplied in a create (POST) operation, it defaults to "manual". Present from version 1.9 onwards
+    + disabled - call is not recorded
+    + manual - users can start/stop recording
+    + automatic - call is automatically recorded and users cannot start/stop recording
+
+## Layouts (enum)
++ allEqual
++ speakerOnly
++ telepresence
++ stacked
++ allEqualQuarters
++ allEqualNinths
++ allEqualSixteenths
++ allEqualTwentyFifths
++ onePlusFive
++ onePlusSeven
++ onePlusNine
++ automatic
+
+## callLeg
++ remoteParty - For POST only, specifies the call leg’s address; this could be a SIP URI, a phone number, or a user JID to invite that user to the call
++ bandwidth (number) - For POST only, if supplied, sets the bandwidth for the call leg, in bits per second (e.g. 2000000 for 2Mbit/s). If not supplied, the Acano Call Bridge configured value will be used
++ confirmation (boolean) - For POST only, if supplied, this overrides the automatic choice of whether to require a confirmation from the remote party to join the call. true - always require a confirmation from the remote party; typically this takes the form of a voice prompt requiring them to hit a key to join. false - never require a confirmation from the remote party; the remote party will be joined into the coSpace when they accept the incoming call
++ ownerId (ID) - If supplied must be an ID for the Acano server to associate with this call leg. This will be returned by the Acano servern when the call leg is later queried and therefore should be a value that has meaning to the requestor
++ chosenLayout (Layouts) - This parameter overrides the prevailing default layout for this call leg. This parameter is present from version 1.8 onwards. Note: From R1.9, the "allEqual" layout reverts to the pre-1.7 arrangement where the layout expands from a 4 person view up to a 25 person view, with all participants shown at equal size. The "allEqual" layout that was introduced in R1.7 is renamed "automatic"
++ dtmfSequence - A sequence of DTMF key press commands to send to the far end either when the call leg initially connects, or during the call. In the supplied sequence, you can use the digits 0 to 9, * and #, as well as one or more comma characters (",") which add a pause between digits. this parameter is present from ver- sion 1.9 onwards
++ callLegProfile - If provided, associates the specified call leg profile with this call leg. You can also supply individual values for all parameters that can be part of a call leg profile to override this call leg profiles’ value. See below
++ needsActivation
++ defaultLayout (Layouts) - If provided changes the call leg to use the specified video stream layout. Setting this parameter will only have an effect on those call legs for which the user does not already have layout control: that is, SIP calls (including Lync). (The layout for call legs that correspond to Acano client connections will always be chosen by the user of that client.) Note: that the callLegProfile "defaultLayout" parameter replaces an equivalent "layout" parameter in early (pre- 1.2) Acano releases. If both are supplied, defaultLayout takes precedence. Note: From R1.9, the "allEqual" layout reverts to the pre-1.7 arrangement where the layout expands from a 4 person view up to a 25 person view, with all participants shown at equal size. The "allEqual" layout that was introduced in R1.7 is renamed "automatic".
++ participantLabels
++ presentationDisplayMode
++ presentationContributionAllowed (boolean)
++ presentationViewingAllowed (boolean)
++ endCallAllowed (boolean)
++ muteOthersAllowed: `false` (boolean)
++ videoMuteOthersAllowed: `false` (boolean)
++ muteSelfAllowed: `true` (boolean)
++ videoMuteSelfAllowed: `true` (boolean)
++ changeLayoutAllowed (boolean)
++ joinToneParticipantThreshold
++ leaveToneParticipantThreshold
++ videoMode
++ rxAudioMute
++ txAudioMute
++ rxVideoMute
++ txVideoMute
++ sipMediaEncryption
++ audioPacketSizeMs
++ deactiviationMode
++ deactivationModeTime
++ telepresenceCallsAllowed
++ sipPresentationChannelEnabled (boolean)
++ bfcpMode
++ layout (Layouts) - This parameter is provided for backward compatibility with versions prior to 1.2 - it has the equivalent functionality to changing "defaultLayout", and if both are supplied then "defaultLayout" will take precedence
+
+## callLegProfile
++ needsActivation: `false` (boolean) - If set to "true", the participant is unable to receive or contribute audio and video until one or more “full/activator” participants join.
++ defaultLayout (Layouts) - The default layout to be used for call legs using this call leg profile. Note: From R1.9, the "allEqual" layout reverts to the pre-1.7 arrangement where the layout expands from a 4 person view up to a 25 person view, with all participants shown at equal size. The "allEqual" layout that was introduced in R1.7 is renamed "automatic".
++ changeLayoutAllowed (boolean) - If set to “true” all legs using this call leg profile are allowed to change their screen layout on a SIP endpoint. This parameter is present from version 1.8 onwards
++ participantLabels (boolean) - If set to "true", call legs using this call leg profile will have par- ticipant pane labels shown on their video panes.
++ presentationDisplayMode (enum) - singleStream provides a single composited content+video BFCP stream rather than outgoing content being in a separate stream
+    + dualStream
+    + singleStream
++ presentationContributionAllowed (boolean) - If true, the participant using the call leg can contribute content
++ allowAllPresentationContributionAllowed (boolean) - Whether call legs using this call leg profile are allowed to change the permission to present of all call legs. Present from version 1.8 onwards
++ presentationViewingAllowed (boolean) - If true, the participant using the call leg can view content contributed by others
++ endCallAllowed (boolean) - If true, the participant using the call leg profile can end the meeting for everyone
++ muteOthersAllowed: `false` (boolean) - If true, the participant using the call leg profile can mute other participants
++ changeJoinAudioMuteOverrideAllowed (boolean) - Whether call legs using this call leg profile are allowed to set the initial mute state of new par- ticipants. Present from version 1.8 onwards
++ videoMuteOthersAllowed: `false` (boolean) - Whether call legs using this call leg profile are allowed to mute or unmute their own audio
++ muteSelfAllowed: `true` (boolean) - Whether call legs using this call leg profile are allowed to mute or unmute (block/unblock) the video of other participants
++ allowAllMuteSelfAllowed (boolean) - Whether or not call legs using this call leg profile are allowed to change the permission of all call legs to mute and unmute them- selves. Present from version 1.9 onwards
++ videoMuteSelfAllowed: `true` (boolean) - Whether call legs using this call leg profile are allowed to mute or unmute (block/unblock) their own video
++ joinToneParticipantThreshold (number) - Number of participants up to which a "join tone" will be played (a value of 0 “disables” the feature)
++ leaveToneParticipantThreshold (number) - Number of participants up to which a "leave tone" will be played out (a value of 0 “disables” the feature)
++ videoMode (enum) - If disabled is set then call legs using this call leg profile will be audio-only, or audio and content – depending on the values for presentationViewingAllowed and txAudioMute. No main stream video will be shown. For devices which show content in the main video stream, content but no participant video will be shown in the main video stream when appropriate
+    + auto
+    + disabled
++ rxAudioMute (boolean) - If true, other participants will not hear audio from call legs using this call leg profile
++ txAudioMute (boolean) - If true, audio to call legs using this call leg profile will be muted
++ rxVideoMute (boolean) - If true, contributing ("camera") video from call legs using this call leg profile will not be seen by other participants
++ txVideoMute (boolean) - If true, video streams to call legs using this call leg profile will be muted (a SIP endpoint's screen just shows the logo, for example, and an Acano client will be sent no video at all)
++ sipMediaEncryption (enum) - Same as Web Admin Interface setting
+    + optional
+    + required
+    + prohibited
++ audioPacketSizeMs (number) - Numeric value for preferred packet size for outgoing audio streams (in milliseconds, the default value is 20ms)
++ deactivationMode (enum) - Action for "needsActivation" call legs when the last "activator" leaves
+    + deactivate
+    + disconnect
+    + remainActivated
++ deactivationModeTime (number) - Number of seconds after the last "activator" leaves before which the deactivationMode action is taken
++ telepresenceCallsAllowed (boolean) - If true, a call leg using this call leg profile is allowed to make TIP (Telepresence Interoperability Protocol) calls
++ sipPresentationChannelEnabled (boolean) - If true, a call leg using this call leg profile is permitted to perform presentation video channel operations
++ bfcpMode (enum) - If presentation video channel operations are enabled for SIP calls, this setting determines the Acano Call Bridge's BFCP behaviour
+    + serverOnly - this is the normal setting for a conferencing device, and is intended for use with BFCP client mode devices (for instance, SIP endpoints)
+    + serverAndClient - this setting allows the Acano Call Bridge to operate in either BFCP client or BFCP server mode in calls with remote devices. This can allow improved presentation video sharing with a remote conference- hosting device such as a third party MCU
++ callLockAllowed (boolean) - Determines whether or not call legs using this call leg profile are allowed to lock the call. Present from version 1.8 onwards
++ recordingControlAllowed (boolean) - Whether call legs using this call leg profile are allowed to start/stop recording the call. Present from version 1.9 onwards
+
+## dialTransform
++ type (enum) - The type of preprocessing to apply to this transform
+    + raw - produces one component - $1
+    + strip - removes dots, dashes, spaces and produces one component - $1
+    + phone - An international phone number - produces two components $1county code and $2number
++ match - see match in the documentation
++ transform - see transform in the documentation
++ priority (number) - The priority this transform rule should have. Rules with higher priorities are applied first
++ action (enum) - The action to take if this rule matches
+    + accept
+    + acceptPhone
+    + deny
+
+## callBrandingProfile
++ invitationTemplate (URL) - The HTTP or HTTPS URL of the invitation template text which clients will use when constructing textual invitations. Refer to the Acano solution Customization Guide for details on how to customize the text within the invitation. This parameter is present from version 1.8 onwards.
++ resourceLocation (URL) - The HTTP or HTTPS URL that the Call Bridge call branding files will be retrieved from. This is the "directory" in which the individual audio and graphic files reside. Details of these files are in the Acano solution Customization Guide.
+
+## dtmfProfile
++ lockCall - DTMF sequence to be used by a participant to lock the call; new call legs that require activation will not be activated even if an activator has joined the call. This parameter is present from version 1.8 onwards
++ unlockCall - DTMF sequence to be used by a participant to unlock the call; this will activate all call legs that need activation if there is an activator in the call. This parameter is present from version 1.8 onwards
++ nextLayout - DTMF sequence to be used by a participant to change the participant's video layout to the next one in the list. This parameter is present from version 1.8 onwards
++ previousLayout - DTMF sequence to be used by a participant to change the participant's video layout to the previous one in the list. This parameter is present from version 1.8 onwards
++ muteSelfAudio - DTMF sequence to be used by a participant to mute the audio being contributed to their call
++ unmuteSelfAudio - DTMF sequence to be used by a participant to unmute their audio
++ toggleMuteSelfAudio - DTMF sequence to be used by a participant to toggle between mute and unmute audio from themselves
++ muteAllExceptSelfAudio - DTMF sequence to be used by a participant to mute all other participants in the call
++ unmuteAllExceptSelfAudio - DTMF sequence to be used by a participant to unmute all other participants in the call
++ startRecording - DTMF sequence to be used by a participant to start recording the active call. Present from version 1.9 onwards
++ stopRecording - DTMF sequence to be used by a participant to stop recording the active call. Present from version 1.9 onwards
++ allowAllMuteSelf - DTMF sequence to be used by a participant to allow all participants to mute and unmute them- selves. Sets allowAllMuteSelf in the Call object to true. Present from version 1.9 onwards
++ cancelAllowAllMuteSelf - DTMF sequence to be used by a participant to can- cel the permission to allow all participants to mute and unmute themselves. Sets allowAllMuteSelf in the Call object to false. Present from version 1.9 onwards
++ allowAllPresentationContribution - DTMF sequence to be used by a participant to allow all participants to present. Present from ver- sion 1.9 onwards
++ cancelAllowAllPresentationContribution - DTMF sequence to be used by a participant to can- cel the permission for all participants to present. Present from version 1.9 onwards
++ muteAllNewAudio - DTMF sequence to be used by a participant to mute all new participants. Sets joinAu- dioMuteOverride Call object to true. Present from version 1.9 onwards
++ unmuteAllNewAudio - DTMF sequence to be used by a participant to unmute all new participants. . Sets joinAu- dioMuteOverride Call object to false. Present from version 1.9 onwards
++ defaultMuteAllNewAudio - DTMF sequence to be used by a participant to use the audio mute value from the call leg profile for new participants. Present from version 1.9 onwards
++ muteAllNewAndAllExceptSelfAudio - DTMF sequence to be used by a participant to mute all new participants and all other participants in the call. Sets joinAudioMuteOverride in the call object to `true` and mutes all call legs except for the issuer. This requires ‘muteOthersAllowed’ to be ‘true’ in the call leg profile of the issuer. Present from version 1.9 onwards
++ unmuteAllNewAndAllExceptSelfAudio - DTMF sequence to be used by a participant to unmute all new participants and all other par- ticipants in the call. Sets joinAudioMuteOverride in the call object to `false` and unmutes all call legs except for the issuer. This requires ‘muteOth- ersAllowed’ to be ‘true’ in the call leg profile of the issuer. Present from version 1.9 onwards
++ endCall - DTMF sequence to be used by a participant to end the call; this will disconnect all participants including the participant who initiated the operation
+
+## ivr
++ uri (URI user part) - The URI to be used for this IVR
++ tenant (ID) - If specified, calls to this IVR will only be able to join coSpaces associated with the specified tenant. If no tenant is supplied, calls to this IVR will be able to join any call on the system that has a call ID configured
++ tenantGroup (ID) - Calls to this IVR will only be able to join coSpaces associated with tenants within the specified tenant group. If no tenant group is supplied, calls to this IVR will only be able to join coSpaces without a tenant, or associated with a tenant in no tenant group. This parameter is present from version 1.8 onwards
++ ivrBrandingProfile (ID) - If supplied, specifies an IVR branding profile to be used for calls to this IVR - an IVR branding profile supplied here will take precedence over any top-level or tenant-level IVR branding profile
++ resolveCoSpaceCallIds: `true` (boolean) - Whether calls to this IVR will accept coSpace and coSpace access method call IDs for the purpose of allowing callers to join Acano coSpaces
++ resolveLyncConferenceIds: `false` (boolean) - Whether calls to this IVR will accept IDs to be resolved to Lync scheduled conference IDs
+
+## ivrBrandingProfile
++ resourceLocation (URL) - The HTTP or HTTPS URL that the IVR branding files will be retrieved from. This should be the "directory" in which the individual audio and graphic files reside. Details of these files are in the Acano solution Customization Guide
+
+## userProfile
++ cancreateCoSpaces (boolean) - Whether a user associated with this user profile is permitted to create new coSpaces
++ canCreateCalls (boolean) - Whether a user associated with this user profile is permitted to create new calls
++ canUseExternalDevices (boolean) - Whether a user associated with this user profile is permitted to use slave SIP devices
++ canMakePhoneCalls (boolean) - Whether a user associated with this user profile will be displayed the option to make phone calls in the client
++ userToUserMessagingAllowed (boolean) - Whether a user associated with this user profile will be allowed to send and receive messages when in a point to point call with another user
+
+## cdrReceiver
++ uri
+
+## systemProfile
++ callLegProfile (ID) - Sets the top level call leg profile to the one with the specified ID
++ callProfile (ID) - Sets the top level call profile to the one specified
++ dtmfProfile (ID) - Sets the top level DTMF profile to the one specified
++ userProfile (ID) - Sets the top level user profile to the one specified
++ ivrBrandingProfile (ID) - Sets the top level IVR branding profile to the one specified
++ callBrandingProfile (ID) - Sets the top level call branding profile to the one specified
+
+## turnServer
++ serverAddress - The address for the Call Bridge to use to reach this TURN server
++ clientAddress - The address that Acano clients should use to reach this TURN server
++ username - The username to use when making allocations on this TURN server
++ password - The password to use when making allocations on this TURN server
++ type (enum) - The TURN server type
+    + acano
+    + lyncEdge
+    + standard
++ numRegistrations (number) - The number of registrations that should be made to this TURN server. This parameter is only meaningful for configured Lync Edge servers
++ tcpPortNumberOverride (number) - An optional override for the port number to use when using this TURN server for TCP media (for example, Lync present- ation call legs). This parameter is not needed for configured Lync Edge servers, where the TCP port number can always be determined automatically. this parameter is present from ver- sion 1.8 onwards
