@@ -1436,10 +1436,8 @@ Response is structured as a top-level <coSpaceBulkParameterSets total=”N”> t
     <td>Whether non-members will be able to access the bulk created coSpaces. If this parameter is not supplied in a create (POST) operation, it defaults to "true" and non members can access the coSpace.</td>
   </tr>
 </table>
-
-
     
-+ Attributes ()
++ Attributes (coSpaceBulkParameterSets)
 
 + Response 200
     + Headers
@@ -1671,11 +1669,11 @@ This chapter details the API methods related to configuring dial plans for outbo
 ### Access to the outgoing dial plan
 Typically, the configuration of which trunks or proxies to use for outbound calls is based on the domain of the (SIP) destination being called, which is specified in the outgoing dial plan. The outgoing dial plan sits in the API object tree under the `/outboundDialPlanRules` node, use the POST method to create the outgoing dial plan or set it up via the Web Admin Interface (see note below).
 
-If you are deploying Call Bridge clustering, use the API parameter scope to choose whether to apply each outbound dial plan rule to every Call Bridge in the cluster, or just to a particular Call Bridge so the Call Bridge can be trunked to its local Call Control solution (if appropriate).
+If you are deploying Call Bridge clustering, use the API parameter `scope` to choose whether to apply each outbound dial plan rule to every Call Bridge in the cluster, or just to a particular Call Bridge so the Call Bridge can be trunked to its local Call Control solution (if appropriate).
 
 
 ---
-**Note:** The API parameter callRouting specifies the mechanism for traversal of outgoing SIP/Lync calls, use this parameter to set up firewall traversal for SIP and Lync devices. This is still a beta feature.
+**Note:** The API parameter `callRouting` specifies the mechanism for traversal of outgoing SIP/Lync calls, use this parameter to set up firewall traversal for SIP and Lync devices. This is still a beta feature.
 
 ---
 
@@ -1722,6 +1720,7 @@ Response is a collection of `<outboundDialPlanRule id=<ID>>` objects contained w
     + offset (optional) - An "offset" and "limit" can be supplied to retrieve coSpaces other than the first "page" in the notional list (see Section 4.1.2)
     + limit (optional) - An "offset" and "limit" can be supplied to retrieve coSpaces other than the first "page" in the notional list (see Section 4.1.2)
     + tenantFilter (ID, optional) - If supplied, this filter only returns those outbound dial plan rules associated with the specified tenant. This parameter is present from version 1.8 onwards
+
 + Response 200
     + Body
 
@@ -1822,13 +1821,16 @@ GET method on a `/outboundDialPlanRules/<outbound dial plan rule ID>` node. If t
 ## Incoming Call Matching Dial Plan API Methods [/inboundDialPlanRules/{?filter,offset,limit,tenantFilter}]
 ### Access to incoming domain matching rules
 
-When an incoming SIP call is routed to the Meeting Server, the Call Bridge looks through the configured inbound dial plan rules first and tries to match the "domain" part of the destination URI "<user>@<domain>"against the rules. Use the POST method on API object `/inboundDialPlanRules` to create a new inbound dial plan rule to match against incoming SIP calls, or set it up via the Web Admin Interface (see note below)
+When an incoming SIP call is routed to the Meeting Server, the Call Bridge looks through the configured inbound dial plan rules first and tries to match the "domain" part of the destination URI "<user>@<domain>"against the rules. 
+
+Use the POST method on API object `/inboundDialPlanRules` to create a new inbound dial plan rule to match against incoming SIP calls, or set it up via the Web Admin Interface (see note below)
 ---
 **Note:** On the Web Admin Interface, the table of inbound rules is configured through the **Configuration > Incoming calls** page.
 
 ---
 ## Retrieving incoming dial plan rules [GET]
-Response is a collection of `<inboundDialPlanRule id=<ID>>` objects contained within an `<inboundDialPlanRules>` object `<inboundDialPlanRule>` elements follow the general form on the left.
+Response is a collection of `<inboundDialPlanRuleId=<ID>>` objects contained within an `<inboundDialPlanRules>` object `<inboundDialPlanRule>` elements follow the general form on the left.
+
 
 <table>
   <tr>
@@ -2228,7 +2230,7 @@ If a call is instantiated for the coSpace successfully, that call’s ID is retu
             Location:ID
 
 ## Retrieving Information on an Individual Active Call [GET /call/{callId}]
-GET method performed on a `/calls/<call ID>` node. If the call ID supplied is valid, a “200 OK” response is received, with XML content of the form:
+GET method performed on a `/calls/<callId>` node. If the call ID supplied is valid, a “200 OK” response is received, with XML content of the form:
 
 <table>
   <tr>
@@ -2366,16 +2368,16 @@ GET method performed on a `/calls/<call ID>` node. If the call ID supplied is va
             TODO: need call object
 
 ## Generating diagnostics for an individual call [POST /calls/{callId}/diagnostics]
-POST method performed on `/calls/<call id>diagnostics` generates call diagnostics for the call in question.
+POST method performed on `/calls/<callId>/diagnostics` generates call diagnostics for the call in question.
 
 + Parameters
-    + callId
+    + callId (ID)
 + Response 200
     + Body
 
             TODO: No idea what gets returned for these things.
 
-## Retrieve participants in a conference [GET /calls/{call id}/participants/{?offset,limit,filter,tenantFilter,callBridgeFilter}]
+## Retrieve participants in a conference [GET /calls/{callId}/participants/{?offset,limit,filter,tenantFilter,callBridgeFilter}]
 GET method performed on the `/calls/<call id>/participants` node. Retrieves a list of all of the participants associated with the specified call.
 
 Response is structured as a top-level <participants total=”N”> tag with potentially multiple <participant> elements within it.
@@ -4312,6 +4314,10 @@ GET method performed on a `/turnServers/<turn server id>` node. If the turn serv
 + canRemoveSelf: `false` (boolean) - Whether this user is allowed to remove himself from the coSpace
 + canDeleteAllMessages: `false` (boolean) - Whether this user is allowed to delete all messages from the coSpace message board
 
+## coSpaceBulkParameterSets
++ startIndex (number) - Index that coSpace mappings start from (inclusive)
++ endIndex (number) - Index that coSpace mappings end at (inclusive)
+
 ## message
 + message (required) - The message string to be posted to the message board
 + from - A “from” name to be shown to message board viewers as the originator of the message
@@ -4332,10 +4338,10 @@ If provided as false - do not generate a new secret value for this coSpace acces
 ## outboundDialPlanRule
 + domain - The domain to match in order to apply the dial plan rule; either a complete value (e.g. "example.com") or a “wildcarded” one (e.g. "*.com")
 + priority (number) - A numeric value which determines the order in which dial plan rules (including rules with wildcarded domains) will be applied. Rules with higher priority values are applied first
-+ localContactDomain - Used when forming an explicit contact domain to be used: if you leave this field blank then the localContactDomain is derived from the local IP address (as in previous releases)
-+ localFromDomain - Used when forming the calling party for outgoing calls using this dial plan rule
-+ sipProxy - The address (IP address or hostname) of the proxy device through which to make the call
-+ trunkType (enum) - If set to lync or avaya then outgoing calls established that use this rule will be made as Lync or Avaya calls with some specialized behavior. SIP means that calls using this rule will be standard SIP calls
++ localContactDomain (string) - Used when forming an explicit contact domain to be used: if you leave this field blank then the localContactDomain is derived from the local IP address (as in previous releases)
++ localFromDomain (string) - Used when forming the calling party for outgoing calls using this dial plan rule
++ sipProxy (string) - The address (IP address or hostname) of the proxy device through which to make the call
++ trunkType (enum) - Used to set up rules to route calls out to third party SIP control devices such as CiscoExpressway, Avaya Manager or Lync servers. If set to lync or avaya then outgoing calls established that use this rule will be made as Lync or Avaya calls with some specialized behavior. SIP means that calls using this rule will be standard SIP calls
     + sip
     + lync
     + avaya
@@ -4378,14 +4384,24 @@ If provided as false - do not generate a new secret value for this coSpace acces
 
 ## call
 + coSpace (ID) - Specifies the coSpace for which the call is being instantiated
-+ name - The name of the new call
++ name (string) - The name of the new call
 + locked (boolean) - Allows the locking/unlocking of a meeting lobby in order to control the process of activating participants. Par- ticipants requiring activation are typically guests to a coSpace that have not yet been ‘activated’. Members of a coSpace are not affected, and can join the coSpace at any time. When a meeting is locked, the guests requiring activ- ation wait in the meeting lobby until the host unlocks the coSpace, at which point they are activated and join the coSpace. Participants that are already activated are NOT deactivated when the conference goes from the unlocked state to the locked state.
 If set to true, new participants that need activation are not activated even if there are activators in the call. This parameter is present from version 1.8 onwards
-+ recording (boolean) - If true, this call is currently being recorded. Present from version 1.9 onwards
++ recording (boolean) - If true, this call is currently being recorded. Present from version 1.9 onwards.
++ streaming (boolean) - If true, this call is currently being streamed. (From version 2.1).
 + allowAllMuteSelf (boolean) - If true, participants have the permission to mute and unmute themselves. Present from version 1.9 onwards
 + allowAllPresentationContribution: `false`(boolean) - If true, participants have the permission to present. If false, this permission is dependent on present- ationContributionAllowed in the call leg profile. Default is false. Present from version 1.9 onwards
-+ joinAudioMuteOverride (boolean) - If true, new participants will be muted when joining the call. Present from version 1.9 onwards
-
++ joinAudioMuteOverride (boolean) - If true, new participants will be muted when joining the call. Present from version 1.9 onwards.
++ messageText (string) - Text to display to every participant in the call (only displayed if configured `messageDuration` is non zero). (From version 2.1)
++ messagePosition  - Position to display configured messageText on screen (for SIP endpoints).(From version 2.1)
+    + top
+    + middle
+    + bottom
++ messageDuration - Time in seconds to display configured messageText on screen . Typing the string “permanent” will result in the string being permanently shown until it is reconfigured. (From version 2.1)
+    + Number
+    + permanent
++ activeWhenEmpty (boolean) - If true, this call is considered “active for load balancing” when no participants are present,. This means that the first call to the empty conference is preferentially load balanced. You can prevent the load balancing preferentially using the empty conferences by setting this parameter to false. If this parameter is not supplied in a create (POST) operation, it defaults to “true”. (From version 2.2)     
+    
 ## callProfile
 + participantLimit (number) - Sets the maximum number of participants for calls (coSpace instantiations or ad hoc calls) using this call profile that can be active simultaneously; new participants beyond this limit are not permitted
 + messageBoardEnabled (boolean) - If specified, sets whether a message board (chat) is allowed for this coSpace or ad hoc call
