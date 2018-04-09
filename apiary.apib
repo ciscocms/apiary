@@ -1545,6 +1545,8 @@ GET method on `/coSpaceBulkParameterSets/<set Id>` node.
 + Parameters
     + bulk_sync_guid (ID)
 
++ Attributes (coSpaceBulkParameterSets)
+
 + Response 200
     + Body
 
@@ -4354,6 +4356,18 @@ GET method performed on a `/turnServers/<turn server id>` node. If the turn serv
 ## coSpaceBulkParameterSets
 + startIndex (number) - Index that coSpace mappings start from (inclusive)
 + endIndex (number) - Index that coSpace mappings end at (inclusive)
++ coSpaceBulkParameterSet (ID) - Parameter set GUID that is going to be synchronised.
++ status - Status of the sync operation:
+    + pending - the sync operation is in a queue waiting to execute
+    + running - the sync operation is currently running
+    + complete - the sync operation has successfully completed
+    + failedCoSpaceUriConflict - the sync failed because it would involve creating a URI that conflicts with one that already exists
+    + failedCallIdConflict - the sync failed because it would involve creating a call ID that conflicts with one that already exists
+    + failedIndexRangeInvalid - the sync failed because the "startIndex" was greater than the "endIndex"
+    + failedIndexRangeTooGreat - the sync failed because the difference between "endIndex" and "startIndex" was too large
+    + failedNoSuchParameterSet - the "coSpaceBulkParameterSet" refered to in the sync command did not exist
+    + failed - the sync operation failed
++ removeAll (boolean) - If supplied, determines whether the sync will remove all entries that were created using the parameter set. Used only if you need to remove all spaces that were created previously. If set to true then no spaces will be created. If set to false, or omitted, then all spaces previously created using this parameter set will be removed and new spaces based on the new mappings will be created. If this parameter is not supplied in a create (POST) operation, it defaults to "false".
 
 ## message
 + message (required) - The message string to be posted to the message board
@@ -4497,6 +4511,15 @@ If set to true, new participants that need activation are not activated even if 
 + sipPresentationChannelEnabled (boolean)
 + bfcpMode
 + layout (Layouts) - This parameter is provided for backward compatibility with versions prior to 1.2 - it has the equivalent functionality to changing "defaultLayout", and if both are supplied then "defaultLayout" will take precedence
+    + allEqual
+    + speakerOnly
+    + telepresence
+    + stacked
+    + allEqualQuarters
+    + allEqualNinths
+    + allEqualSixteenths
+    + allEqualTwentyFifths
+    + onePlusFive
 
 ## callLegProfile
 + needsActivation: `false` (boolean) - If set to "true", the participant is unable to receive or contribute audio and video until one or more “full/activator” participants join.
