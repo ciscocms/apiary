@@ -2474,7 +2474,7 @@ TODO table of parameters
 + Parameters
     + callId (ID)
 
-+ Attributes (message)
++ Attributes (ParticipantProperties)
 
 + Response 200
     + Headers
@@ -4535,6 +4535,14 @@ If set to true, new participants that need activation are not activated even if 
 + callBridge (ID) - If supplied, attempt to add the participant from the specified Call Bridge (from version 2.2).
 + callBridgeGroup (ID) - If supplied, attempt to add the participant from the specified Call Bridge Group (from version 2.2).
 + importance (number) - The importance value of the participant to be created. (From version 2.2)
+
+## ParticipantProperties
++ rxAudioMute (boolean) - If true, mute the receiving of audio from all endpoints.
++ txAudioMute (boolean) - If true, mute the transmission of audio from all endpoints.
++ rxVideoMute (boolean) - If true, mute (block) the receiving of video from all endpoints.
++ txVideoMute (boolean) - If true, mute (block)the transmission of video from all endpoints.
++ layout (Layouts)
++ importance (number) - Set importance of all participants.
 
 ## callLegProfile
 + needsActivation: `false` (boolean) - If set to "true", the participant is unable to receive or contribute audio and video until one or more “full/activator” participants join.
