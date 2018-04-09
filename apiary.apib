@@ -1580,6 +1580,7 @@ Response is structured as a top-level <coSpaceBulkSyncs total=”N”> tag with 
     <td>If supplied, determines whether the sync will remove all entries that were created using the parameter set. Used only to remove all spaces that were created previously. If set to true then no spaces will be created. If set to false, or omitted, then all spaces previously created using this parameter set will be removed and new spaces based on the new mappings will be created.If this parameter is not supplied in a create (POST) operation, it defaults to "false"</td>
   </tr>
 </table>
+
 + Parameters
     + coSpaceBulkParameterSet (ID)
 
@@ -4353,7 +4354,7 @@ GET method performed on a `/turnServers/<turn server id>` node. If the turn serv
 + canRemoveSelf: `false` (boolean) - Whether this user is allowed to remove himself from the coSpace
 + canDeleteAllMessages: `false` (boolean) - Whether this user is allowed to delete all messages from the coSpace message board
 
-## coSpaceBulkParameterSets
+## coSpaceBulkParameterSets1
 + startIndex (number) - Index that coSpace mappings start from (inclusive)
 + endIndex (number) - Index that coSpace mappings end at (inclusive)
 + coSpaceBulkParameterSet (ID) - Parameter set GUID that is going to be synchronised.
@@ -4367,6 +4368,12 @@ GET method performed on a `/turnServers/<turn server id>` node. If the turn serv
     + failedIndexRangeTooGreat - the sync failed because the difference between "endIndex" and "startIndex" was too large
     + failedNoSuchParameterSet - the "coSpaceBulkParameterSet" refered to in the sync command did not exist
     + failed - the sync operation failed
++ removeAll (boolean) - If supplied, determines whether the sync will remove all entries that were created using the parameter set. Used only if you need to remove all spaces that were created previously. If set to true then no spaces will be created. If set to false, or omitted, then all spaces previously created using this parameter set will be removed and new spaces based on the new mappings will be created. If this parameter is not supplied in a create (POST) operation, it defaults to "false".
+
+## coSpaceBulkParameterSets
++ startIndex (number) - Index that coSpace mappings start from (inclusive)
++ endIndex (number) - Index that coSpace mappings end at (inclusive)
++ coSpaceBulkParameterSet (ID) - Parameter set GUID that is going to be synchronised.
 + removeAll (boolean) - If supplied, determines whether the sync will remove all entries that were created using the parameter set. Used only if you need to remove all spaces that were created previously. If set to true then no spaces will be created. If set to false, or omitted, then all spaces previously created using this parameter set will be removed and new spaces based on the new mappings will be created. If this parameter is not supplied in a create (POST) operation, it defaults to "false".
 
 ## message
