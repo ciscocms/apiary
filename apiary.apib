@@ -1386,7 +1386,7 @@ Response is structured as a top-level <coSpaceBulkParameterSets total=”N”> t
 
 <table>
   <tr>
-    <th>Attributes</th>
+    <th>Parameter</th>
     <th>Type</th>
     <th>Description</th>
   </tr>
@@ -1436,8 +1436,10 @@ Response is structured as a top-level <coSpaceBulkParameterSets total=”N”> t
     <td>Whether non-members will be able to access the bulk created coSpaces. If this parameter is not supplied in a create (POST) operation, it defaults to "true" and non members can access the coSpace.</td>
   </tr>
 </table>
+
+
     
-+ Attributes (coSpaceBulkParameterSets)
++ Attributes ()
 
 + Response 200
     + Headers
@@ -1448,7 +1450,7 @@ Response is structured as a top-level <coSpaceBulkParameterSets total=”N”> t
             <location ID>
 
 ## Retrieving information on an individual coSpace Bulk Parameter sets [GET /coSpaceBulkParameterSets/{setId}]
-GET method on `/coSpaceBulkParameterSets/<setId>` node.
+GET method on `/coSpaceBulkParameterSets/<set Id>` node.
 
 <table>
   <tr>
@@ -1516,8 +1518,7 @@ GET method on `/coSpaceBulkParameterSets/<setId>` node.
 
             <location ID>
 
-## Bulk sync operations [/coSpaceBulkSyncs/{bulk_sync_guid}]
-## Queueing the bulk sync operations [POST]
+## Queueing the bulk sync operations [POST /coSpaceBulkSyncs/{bulk_sync_guid}]
 * Creating: POST method to the `/coSpaceBulkSyncs` node. Queues the bulk sync operations for execution as soon as possible. Returns location `/cospaceBulkSync/<bulk_sync_guid>`
 * Modifying: PUT method to the `/coSpaceBulkSyncs` node not supported.
 
@@ -1638,6 +1639,7 @@ GET method on `/coSpaceBulkSyncs/<coSpacebulksyncid>` node.
 
 ## coSpace Diagnostics Methods [/coSpaces/{coSpaceId}/diagnostics]
 A POST to `/coSpaces/<coSpace id>/diagnostics` triggers the generation of call diagnostics for the specified coSpace.
+
 
 ## Generate call diagnostics [POST]
 + Parameters
@@ -2368,9 +2370,6 @@ POST method performed on `/calls/<call id>diagnostics` generates call diagnostic
 
 + Parameters
     + callId
-    
-+ Attributes (call)
-    
 + Response 200
     + Body
 
@@ -4317,11 +4316,6 @@ GET method performed on a `/turnServers/<turn server id>` node. If the turn serv
 + message (required) - The message string to be posted to the message board
 + from - A “from” name to be shown to message board viewers as the originator of the message
 
-## coSpaceBulkParameterSets
-+ startIndex (number) - Index that coSpace mappings start from (inclusive)
-+ endIndex (number) - Index that coSpace mappings end at (inclusive)
-+ coSpaceUriMapping (string) - If specified, this is the mapping that describes what URIs will be used for the coSpaces created with a `/coSpaceBulkSync` using this coSpaceBulkParameterSet. If not set, coSpace will not have a dialable URI.
-
 ## accessMethod
 + uri (URI user part) - The URI to be used for dialing in via this access method
 + callID (ID) - The "call ID" to be used for connecting via this access method (using the IVR or Web Bridge login)
@@ -4388,7 +4382,6 @@ If provided as false - do not generate a new secret value for this coSpace acces
 + locked (boolean) - Allows the locking/unlocking of a meeting lobby in order to control the process of activating participants. Par- ticipants requiring activation are typically guests to a coSpace that have not yet been ‘activated’. Members of a coSpace are not affected, and can join the coSpace at any time. When a meeting is locked, the guests requiring activ- ation wait in the meeting lobby until the host unlocks the coSpace, at which point they are activated and join the coSpace. Participants that are already activated are NOT deactivated when the conference goes from the unlocked state to the locked state.
 If set to true, new participants that need activation are not activated even if there are activators in the call. This parameter is present from version 1.8 onwards
 + recording (boolean) - If true, this call is currently being recorded. Present from version 1.9 onwards
-+ streaming (boolean) - If true, this call is currently being streamed. Present from version 2.1 onwards.
 + allowAllMuteSelf (boolean) - If true, participants have the permission to mute and unmute themselves. Present from version 1.9 onwards
 + allowAllPresentationContribution: `false`(boolean) - If true, participants have the permission to present. If false, this permission is dependent on present- ationContributionAllowed in the call leg profile. Default is false. Present from version 1.9 onwards
 + joinAudioMuteOverride (boolean) - If true, new participants will be muted when joining the call. Present from version 1.9 onwards
