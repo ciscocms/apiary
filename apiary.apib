@@ -2227,6 +2227,7 @@ If a call is instantiated for the coSpace successfully, that call’s ID is retu
 
 
 + Attributes (call)
+
 + Response 200
     + Headers
 
@@ -2365,6 +2366,7 @@ GET method performed on a `/calls/<callId>` node. If the call ID supplied is val
 
 + Parameters
     + callId (ID)
+    
 + Response 200
     + Body
 
@@ -2455,7 +2457,7 @@ on a remote clustered Call Bridge.
 + Parameters
     + callId (ID)
     
-+ Attributes (message)
++ Attributes (callLeg)
 
 + Response 200
     + Headers
@@ -4482,6 +4484,7 @@ If set to true, new participants that need activation are not activated even if 
 + onePlusSeven
 + onePlusNine
 + automatic
++ onePlusN
 
 ## callLeg
 + remoteParty - For POST only, specifies the call leg’s address; this could be a SIP URI, a phone number, or a user JID to invite that user to the call
@@ -4518,15 +4521,20 @@ If set to true, new participants that need activation are not activated even if 
 + sipPresentationChannelEnabled (boolean)
 + bfcpMode
 + layout (Layouts) - This parameter is provided for backward compatibility with versions prior to 1.2 - it has the equivalent functionality to changing "defaultLayout", and if both are supplied then "defaultLayout" will take precedence
-    + allEqual
-    + speakerOnly
-    + telepresence
-    + stacked
-    + allEqualQuarters
-    + allEqualNinths
-    + allEqualSixteenths
-    + allEqualTwentyFifths
-    + onePlusFive
++ disconnectOthersAllowed (boolean)
++ qualityMain - Restricts the maximum negotiated main video call quality for this call leg based on limiting transcoding resources. Specified using a typical resolution and framerate. Note that call legs may operate at lower resolutions or framerates due to endpoint limitations or overall Call Bridge load.
+    + unrestricted - this is the default setting if not specified, and matches the behavior of older Call Bridge versions, where no restrictions are placed on resolution or frame rate
+    + max1080p30 - restricts the bridge to negotiating at most 1920x1080 screen size at 30 frames per second or equivalent transcoding resources, for example 1280x720 screen size at 60 frames per second
+    + max720p30 - restricts the bridge to negotiating at most 1280x720 screen size at 30 frames per second or equivalent transcoding resources
+    + max480p30 - restricts the bridge to negotiating at most 868x480 screen size at 30 frames per second or equivalent transcoding resources.(From version 2.2)
++ qualityPresentation - Restrict the maximum negotiated presentation video call quality for this call leg based on limiting transcoding resources. Specified using a typical resolution and frame rate. This only affects legs which use a separate presentation stream.
+    + unrestricted - this is the default setting if not specified, and matches the behavior of older Call Bridge versions, where no restrictions are placed on resolution or framerate
+    + max1080p30 - restricts the Call Bridge to negotiating at most 1920x1080 screen size at 30 frames per second or equivalent transcoding resources
+    + max720p5 - restricts the Call Bridge to negotiating at most 1280x720 screen size at 5 frames per second or equivalent transcoding resources. (From version 2.2)
++ participantCounter (number) - (From version 2.2)
++ callBridge (ID) - If supplied, attempt to add the participant from the specified Call Bridge (from version 2.2).
++ callBridgeGroup (ID) - If supplied, attempt to add the participant from the specified Call Bridge Group (from version 2.2).
++ importance (number) - The importance value of the participant to be created. (From version 2.2)
 
 ## callLegProfile
 + needsActivation: `false` (boolean) - If set to "true", the participant is unable to receive or contribute audio and video until one or more “full/activator” participants join.
