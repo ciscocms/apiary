@@ -2437,7 +2437,44 @@ Response is structured as a top-level <participants total=”N”> tag with pote
             <?xml version="1.0"?>
             <TODO conference details>
 
+## Creating a new participant for a specified call [POST /calls/{callId}/participants]
+POST method on the `/calls/<callId>/participants` node.
+
+---
+***Note:***: This may result in the call leg instantiation ("owned" by the participant object) occurring
+on a remote clustered Call Bridge.
+
+---
+---
+***Note***: See also the section on participant related methods.
+
+---
++ Parameters
+    + callId (ID)
     
++ Attributes (message)
+
++ Response 200
+    + Headers
+
+            Location:ID
+
+## Set properties for all participants in a conference [PUT /calls/{callId}/participants/]
+
+PUT to `/calls/<callId>/participants/*` node. Set properties for all participants associated with
+the specified call.
+
+TODO table of parameters
+
++ Parameters
+    + callId (ID)
+
++ Attributes (message)
+
++ Response 200
+    + Headers
+
+            TODO: something
 
 ## Call Profile Methods [/callProfiles{?offset,limit,usageFilter}]
 Call profiles were introduced in R1.6. More information is provided on profiles in section 14.
