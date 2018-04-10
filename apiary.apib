@@ -2457,7 +2457,7 @@ on a remote clustered Call Bridge.
 + Parameters
     + callId (ID)
     
-+ Attributes (callLeg)
++ Attributes (CreateParticipantforspecifiedcall)
 
 + Response 200
     + Headers
@@ -4499,8 +4499,8 @@ If set to true, new participants that need activation are not activated even if 
 + automatic
 + onePlusN
 
-## callLeg
-+ remoteParty - For POST only, specifies the call leg’s address; this could be a SIP URI, a phone number, or a user JID to invite that user to the call
+## CreateParticipantforspecifiedcall
++ remoteParty (string) - For POST only, specifies the call leg’s address; this could be a SIP URI, a phone number, or a user JID to invite that user to the call
 + bandwidth (number) - For POST only, if supplied, sets the bandwidth for the call leg, in bits per second (e.g. 2000000 for 2Mbit/s). If not supplied, the Acano Call Bridge configured value will be used
 + confirmation (boolean) - For POST only, if supplied, this overrides the automatic choice of whether to require a confirmation from the remote party to join the call. true - always require a confirmation from the remote party; typically this takes the form of a voice prompt requiring them to hit a key to join. false - never require a confirmation from the remote party; the remote party will be joined into the coSpace when they accept the incoming call
 + ownerId (ID) - If supplied must be an ID for the Acano server to associate with this call leg. This will be returned by the Acano servern when the call leg is later queried and therefore should be a value that has meaning to the requestor
@@ -4518,8 +4518,8 @@ If set to true, new participants that need activation are not activated even if 
 + videoMuteOthersAllowed: `false` (boolean)
 + muteSelfAllowed: `true` (boolean)
 + videoMuteSelfAllowed: `true` (boolean)
-+ changeLayoutAllowed (boolean)
-+ joinToneParticipantThreshold
++ changeLayoutAllowed: `true` (boolean)
++ joinToneParticipantThreshold (number)
 + leaveToneParticipantThreshold
 + videoMode
 + rxAudioMute
@@ -4530,9 +4530,9 @@ If set to true, new participants that need activation are not activated even if 
 + audioPacketSizeMs
 + deactiviationMode
 + deactivationModeTime
-+ telepresenceCallsAllowed
++ telepresenceCallsAllowed (boolean)
 + sipPresentationChannelEnabled (boolean)
-+ bfcpMode
++ bfcpMode (boolean)
 + layout (Layouts) - This parameter is provided for backward compatibility with versions prior to 1.2 - it has the equivalent functionality to changing "defaultLayout", and if both are supplied then "defaultLayout" will take precedence
 + disconnectOthersAllowed (boolean)
 + qualityMain - Restricts the maximum negotiated main video call quality for this call leg based on limiting transcoding resources. Specified using a typical resolution and framerate. Note that call legs may operate at lower resolutions or framerates due to endpoint limitations or overall Call Bridge load.
@@ -4548,6 +4548,53 @@ If set to true, new participants that need activation are not activated even if 
 + callBridge (ID) - If supplied, attempt to add the participant from the specified Call Bridge (from version 2.2).
 + callBridgeGroup (ID) - If supplied, attempt to add the participant from the specified Call Bridge Group (from version 2.2).
 + importance (number) - The importance value of the participant to be created. (From version 2.2)
+
+## callLeg
++ remoteParty (string) - For POST only, specifies the call leg’s address; this could be a SIP URI, a phone number, or a user JID to invite that user to the call
++ bandwidth (number) - For POST only, if supplied, sets the bandwidth for the call leg, in bits per second (e.g. 2000000 for 2Mbit/s). If not supplied, the Acano Call Bridge configured value will be used
++ confirmation (boolean) - For POST only, if supplied, this overrides the automatic choice of whether to require a confirmation from the remote party to join the call. true - always require a confirmation from the remote party; typically this takes the form of a voice prompt requiring them to hit a key to join. false - never require a confirmation from the remote party; the remote party will be joined into the coSpace when they accept the incoming call
++ ownerId (ID) - If supplied must be an ID for the Acano server to associate with this call leg. This will be returned by the Acano servern when the call leg is later queried and therefore should be a value that has meaning to the requestor
++ chosenLayout (Layouts) - This parameter overrides the prevailing default layout for this call leg. This parameter is present from version 1.8 onwards. Note: From R1.9, the "allEqual" layout reverts to the pre-1.7 arrangement where the layout expands from a 4 person view up to a 25 person view, with all participants shown at equal size. The "allEqual" layout that was introduced in R1.7 is renamed "automatic"
++ dtmfSequence - A sequence of DTMF key press commands to send to the far end either when the call leg initially connects, or during the call. In the supplied sequence, you can use the digits 0 to 9, * and #, as well as one or more comma characters (",") which add a pause between digits. this parameter is present from ver- sion 1.9 onwards
++ callLegProfile (ID) - If provided, associates the specified call leg profile with this call leg. You can also supply individual values for all parameters that can be part of a call leg profile to override this call leg profiles’ value. See below
++ needsActivation
++ defaultLayout (Layouts) - If provided changes the call leg to use the specified video stream layout. Setting this parameter will only have an effect on those call legs for which the user does not already have layout control: that is, SIP calls (including Lync). (The layout for call legs that correspond to Acano client connections will always be chosen by the user of that client.) Note: that the callLegProfile "defaultLayout" parameter replaces an equivalent "layout" parameter in early (pre- 1.2) Acano releases. If both are supplied, defaultLayout takes precedence. Note: From R1.9, the "allEqual" layout reverts to the pre-1.7 arrangement where the layout expands from a 4 person view up to a 25 person view, with all participants shown at equal size. The "allEqual" layout that was introduced in R1.7 is renamed "automatic".
++ participantLabels
++ presentationDisplayMode
++ presentationContributionAllowed (boolean)
++ presentationViewingAllowed (boolean)
++ endCallAllowed (boolean)
++ muteOthersAllowed: `false` (boolean)
++ videoMuteOthersAllowed: `false` (boolean)
++ muteSelfAllowed: `true` (boolean)
++ videoMuteSelfAllowed: `true` (boolean)
++ changeLayoutAllowed: `true` (boolean)
++ joinToneParticipantThreshold (number)
++ leaveToneParticipantThreshold
++ videoMode
++ rxAudioMute
++ txAudioMute
++ rxVideoMute
++ txVideoMute
++ sipMediaEncryption
++ audioPacketSizeMs
++ deactiviationMode
++ deactivationModeTime
++ telepresenceCallsAllowed (boolean)
++ sipPresentationChannelEnabled (boolean)
++ bfcpMode (boolean)
++ layout (Layouts) - This parameter is provided for backward compatibility with versions prior to 1.2 - it has the equivalent functionality to changing "defaultLayout", and if both are supplied then "defaultLayout" will take precedence
++ disconnectOthersAllowed (boolean)
++ qualityMain - Restricts the maximum negotiated main video call quality for this call leg based on limiting transcoding resources. Specified using a typical resolution and framerate. Note that call legs may operate at lower resolutions or framerates due to endpoint limitations or overall Call Bridge load.
+    + unrestricted - this is the default setting if not specified, and matches the behavior of older Call Bridge versions, where no restrictions are placed on resolution or frame rate
+    + max1080p30 - restricts the bridge to negotiating at most 1920x1080 screen size at 30 frames per second or equivalent transcoding resources, for example 1280x720 screen size at 60 frames per second
+    + max720p30 - restricts the bridge to negotiating at most 1280x720 screen size at 30 frames per second or equivalent transcoding resources
+    + max480p30 - restricts the bridge to negotiating at most 868x480 screen size at 30 frames per second or equivalent transcoding resources.(From version 2.2)
++ qualityPresentation - Restrict the maximum negotiated presentation video call quality for this call leg based on limiting transcoding resources. Specified using a typical resolution and frame rate. This only affects legs which use a separate presentation stream.
+    + unrestricted - this is the default setting if not specified, and matches the behavior of older Call Bridge versions, where no restrictions are placed on resolution or framerate
+    + max1080p30 - restricts the Call Bridge to negotiating at most 1920x1080 screen size at 30 frames per second or equivalent transcoding resources
+    + max720p5 - restricts the Call Bridge to negotiating at most 1280x720 screen size at 5 frames per second or equivalent transcoding resources. (From version 2.2)
++ participantCounter (number) - (From version 2.2)
 
 ## ParticipantProperties
 + rxAudioMute (boolean) - If true, mute the receiving of audio from all endpoints.
