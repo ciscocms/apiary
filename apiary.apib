@@ -2599,7 +2599,7 @@ A call leg alarm may be triggered by a number of factors, not necessarily a set 
     + alarms (enum, optional) - Used to return just those call legs for which the specified alarm names are currently active. Either “all”, which covers all supported alarm conditions, or one or more specific alarm conditions to filter on, separated by the ‘|’ character
         + packetLoss – packet loss is currently affecting this call leg
         + excessiveJitter - there is currently a high level of jitter on one or more of this call leg’s active media streams
-        + highRoundTripTime - the Acano solution measures the round trip time between itself and the call leg destination; if a media stream is detected to have a high round trip time (which might impact call quality), then this alarm condition is set for the call leg
+        + highRoundTripTime -  the Meeting Server measures the round trip time between itself and the call leg destination; if a media stream is detected to have a high round trip time (which might impact call quality), then this alarm condition is set for the call leg
         + all
     
     
