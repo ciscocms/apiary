@@ -2482,7 +2482,7 @@ TODO table of parameters
             TODO: something
 
 ## Call Profile Methods [/callProfiles{?offset,limit,usageFilter}]
-Call profiles were introduced in R1.6. More information is provided on profiles in section 14.
+Call profiles control the maximum number of active simultaneous participants and the in-call experience for SIP (including Lync) calls. For more information see also Section 14.
 
 ## Retrieving call profiles [GET]
 GET method performed on the `/callProfiles` node.
@@ -4470,6 +4470,19 @@ If set to true, new participants that need activation are not activated even if 
     + disabled - call is not recorded
     + manual - users can start/stop recording
     + automatic - call is automatically recorded and users cannot start/stop recording
++ streamingMode (enum) - Controls how this coSpace or ad hoc call can be streamed. If this parameter is not supplied in a create (POST) operation, it defaults to "manual".(From version 2.1)
+    + disabled - call is not streamed
+    + manual - users can start/stop streaming
+    + automatic - call is automatically streamed and users cannot start/stop streaming
++ passcodeMode - Determines the behavior for passcode entry when a mixture of blank and set passcodes can be used to access a coSpace via the same URI/call Id.
+    + required - requires passcode to be entered, with blank passcode needing to be explicitly entered
+    + timeout - after an amount of time has elapsed with no passcode being entered, interpret this as a blank passcode. Amount of timeout is determined by value of "passcodeTimeout"
++ passcodeTimeout (number) - If specified, this is the amount of time, in seconds, that the Call Bridge will wait before before interpreting passcode as a blank passcode (if "passcodeMode" is set to "timeout"). Timeout time is measured from the end of the passcode prompt.
++ gatewayAudioCallOptimization (boolean) - If set to true, outgoing gateway call legs will be audio-only if the incoming call leg was audio-only. (From version 2.3)
++ lyncConferenceMode - Defines the behavior of the Call Bridge when connecting participants to Lync conferences.
+    + dualHomeCluster - all the Call Bridges will share the same conference
+    + dualHomeCallBridge - each Call Bridge will host their own conference and each will connect to the AVMCU
+    + gateway - each participant will have dedicated connection to the Lync AVMCU server(From version 2.3).
 
 ## Layouts (enum)
 + allEqual
