@@ -2626,7 +2626,7 @@ A call leg alarm may be triggered by a number of factors, not necessarily a set 
             TODO: callleg object
 
 ## Retrieving Information on an Individual Call Leg [GET /callLegs/{callLegId}]
-GET method performed on a `/callLegs/<callLeg ID>` node.
+GET method performed on a `/callLegs/<callLegId>` node.
 
 If the call leg ID supplied is valid, a “200 OK” response is received, with XML content:
 
@@ -2652,6 +2652,11 @@ If the call leg ID supplied is valid, a “200 OK” response is received, with 
         <td></td>
     </tr>
     <tr>
+        <td>originalRemoteParty</td>
+        <td>String</td>
+        <td>For outbound calls this is the original destination address . For inbound calls this is the remote address first signaled to the Call Bridge. From version 2.3.
+    </tr>
+    <tr>
         <td>localAddress</td>
         <td>String</td>
         <td></td>
@@ -2674,16 +2679,15 @@ If the call leg ID supplied is valid, a “200 OK” response is received, with 
     <tr>
         <td>subtype</td>
         <td>Enum</td>
-        <td>lync | avaya</td>
+        <td>lync | avaya | distributionLink| lyncDistribution</td>
     </tr>
     <tr>
         <td>lyncSubType</td>
         <td>Enum</td>
         <td>audioVideo | applicationSharing | instantMessaging A further specialization of the call leg type if the call leg sub type is "lync".
-audioVideo - this is a Lync call leg used for exchange of audio and video between the Acano Call Bridge and Lync
-applicationSharing - this is a Lync call leg used for application or desktop sharing between Lync and the Acano Call Bridge
-instantMessaging - this is a Lync call leg used for the exchange of instant messages between Lync and the Acano Call Bridge
-This parameter is present from version 1.8 onwards
+audioVideo - this is a Lync call leg used for exchange of audio and video between the Call Bridge and Lync
+applicationSharing - this is a Lync call leg used for application or desktop sharing between Lync and the Call Bridge
+instantMessaging - this is a Lync call leg used for the exchange of instant messages between Lync and the Call Bridge
 If present in the reply, these parameters are overrides currently active specifically for this call leg (i.e. not those values in force because of a “higher level” such as the call leg's associated tenant)</td>
     </tr>
     <tr>
@@ -4594,7 +4598,10 @@ If set to true, new participants that need activation are not activated even if 
     + unrestricted - this is the default setting if not specified, and matches the behavior of older Call Bridge versions, where no restrictions are placed on resolution or framerate
     + max1080p30 - restricts the Call Bridge to negotiating at most 1920x1080 screen size at 30 frames per second or equivalent transcoding resources
     + max720p5 - restricts the Call Bridge to negotiating at most 1280x720 screen size at 5 frames per second or equivalent transcoding resources. (From version 2.2)
-+ participantCounter (number) - (From version 2.2)
++ participantCounter - Controls the behavior of the onscreen participant counter. (From version 2.2)
+    + never - never show an onscreen participant count value
+    + auto - show the onscreen participant count value when appropriate. Typically this will be to indicate that there are additional participants present that you cannot currently see.
+    + always - always show the onscreen participant count value
 
 ## ParticipantProperties
 + rxAudioMute (boolean) - If true, mute the receiving of audio from all endpoints.
