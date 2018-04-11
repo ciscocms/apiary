@@ -3096,14 +3096,53 @@ The end result for each parameter is the lowest level’s override for that para
         <td></td>
         <td></td>
     </tr>
+    <tr>
+        <td>disconnectOthersAllowed</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>addParticipantAllowed (from version 2.3)</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>qualityMain (from version 2.2)</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>qualityPresentation (from version 2.2)</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>participantCounter (from version 2.2)</td>
+        <td></td>
+        <td></td>
+    </tr>
 </table>
+
+
 
 
 + Response 200
     + Body
 
             TODO: Figure out what this thing looks like
+            
+## GenerateKeyFrame [POST /callLegs/{callLegProfileId}/generateKeyframe]
+POST to /callLegs/<call leg id>/generateKeyframe to trigger the generation of a new keyframe in outgoing video streams for the call leg in question. This is a debug facility, and Cisco Support may ask you to use the feature when diagnosing an issue.
 
+
++ Parameters
+    + callLegProfileId (ID)
+
++ Response 200
+    + Headers
+
+            new: key frame
+            
 ## Group Dial Transform Methods
 R1.6 introduced more flexibility in telephone dialing.
 
