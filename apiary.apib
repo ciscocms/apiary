@@ -3292,7 +3292,7 @@ Examples are:
 ## Retrieving detailed information about an individual dial transform [GET /dialTransform/{dialTransformId}]
 GET method performed on a `/dialTransform/<dialTransform id>` node. If the call branding profile id ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
 
-### Examples
+#### Examples
 
 <table>
   <tr>
@@ -3345,9 +3345,12 @@ GET method performed on a `/dialTransform/<dialTransform id>` node. If the call 
             TODO: detailed dialTransform object goes here
 
 # Group Setting Individual Features for a Call Leg
-In R1.1, independently of whether a call leg had a profile applied, you could set, modify and retrieve on a per active call leg basis, whether a presentation should be restricted to single screen mode (i.e. one combined main and presentation video stream) or allowed to use separate video streams if this is supported by the receiving party.
 
-From R1.2 there have been several additional parameters that can be set – both in a call leg profile (as shown in the previous sections) or specifically on a call leg (which overrides the value of the call leg profile). See the table in the Creating and modifying a call leg profile section for details.
+You can set, modify and retrieve on a per active call leg basis, these settings include whether a presentation should be restricted to single screen mode (i.e. one combined main and presentation video stream), or allowed to use separate video streams if this is supported by the receiving party.
+---
+**Note:** Setting individual parameters for a call leg overrides the values of the call leg profile.
+
+---
 
 
 # Group Call Branding Profile Methods
@@ -3395,9 +3398,9 @@ GET method performed on a `/callBrandingProfiles/<call branding profile id>` nod
 
 
 # Group DTMF Profile Methods
-dtmfProfiles were introduced in R1.6. They can be used to define a number of DTMF sequences that can be used to control audio – as explained in this section. The dtmfProfile does not define the ability to perform the actions, it defines the DTMF string that will invoke action. The definition for who has the authority to invoke that action within the coSpace is defined at the callLegProfile level.
+dtmfProfiles can be used to define a number of DTMF sequences that can be used to control audio – as explained in this section. The dtmfProfile does not define the ability to perform the actions, it defines the DTMF string that will invoke action. The definition for who has the authority to invoke that action within the coSpace is defined at the callLegProfile level.
 
-If you are using the Acano solution alongside third party solutions, or to replace an existing solution, then set the values to match the values that solution uses e.g. Lync conferencing uses *6 for both mute and unmute, so set toggleMuteSelfAudio to *6.
+If you are using the Meeting Server alongside third party solutions, or to replace an existing solution, then set the values to match the values that solution uses e.g. Lync conferencing uses *6 for both mute and unmute, so set toggleMuteSelfAudio to *6.
 
 ## DTMF Profiles [/dtmfProfiles{?offset,limit,usageFilter}]
 
@@ -3486,7 +3489,7 @@ Response is structured as a top-level `<dtmfProfiles total="N">` tag with potent
 
 ## Setting up and modifying DTMF Profiles [POST]
 * Creating: POST method to the `/dtmfProfiles` node
-* Modifying: PUT to `/dtmfProfiles/<dtmfprofile id>`
+* Modifying: PUT to `/dtmfProfiles/<dtmfProfileId>`
 
 + Attributes (dtmfProfile)
 + Response 200
@@ -3495,7 +3498,7 @@ Response is structured as a top-level `<dtmfProfiles total="N">` tag with potent
             TODO: dtmfProfile object
 
 ## Retrieving detailed information about an individual dtmfProfile [GET /dtmfProfiles/{dtmfProfileId}]
-GET method performed on a `/dtmfProfiles/<dtmfprofile id>` node. If the dtmfProfile ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
+GET method performed on a `/dtmfProfiles/<dtmfProfileId>` node. If the dtmfProfile ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
 
 + Response 200
     + Body
@@ -3538,7 +3541,7 @@ Each `<ivr>` tag may include the following elements:
 
 ## Setting up and modifying IVRs [POST]
 * Creating: POST method to the `/ivrs` node
-* Modifying: PUT to `/ivrs/<ivr id>`
+* Modifying: PUT to `/ivrs/<ivrId>`
 
 + Attributes (ivr)
 + Response 200
@@ -4757,27 +4760,27 @@ If set to true, new participants that need activation are not activated even if 
 + resourceLocation (URL) - The HTTP or HTTPS URL that the Call Bridge call branding files will be retrieved from. This is the "directory" in which the individual audio and graphic files reside. Details of these files are in the Acano solution Customization Guide.
 
 ## dtmfProfile
-+ lockCall - DTMF sequence to be used by a participant to lock the call; new call legs that require activation will not be activated even if an activator has joined the call. This parameter is present from version 1.8 onwards
-+ unlockCall - DTMF sequence to be used by a participant to unlock the call; this will activate all call legs that need activation if there is an activator in the call. This parameter is present from version 1.8 onwards
-+ nextLayout - DTMF sequence to be used by a participant to change the participant's video layout to the next one in the list. This parameter is present from version 1.8 onwards
-+ previousLayout - DTMF sequence to be used by a participant to change the participant's video layout to the previous one in the list. This parameter is present from version 1.8 onwards
-+ muteSelfAudio - DTMF sequence to be used by a participant to mute the audio being contributed to their call
-+ unmuteSelfAudio - DTMF sequence to be used by a participant to unmute their audio
-+ toggleMuteSelfAudio - DTMF sequence to be used by a participant to toggle between mute and unmute audio from themselves
-+ muteAllExceptSelfAudio - DTMF sequence to be used by a participant to mute all other participants in the call
-+ unmuteAllExceptSelfAudio - DTMF sequence to be used by a participant to unmute all other participants in the call
-+ startRecording - DTMF sequence to be used by a participant to start recording the active call. Present from version 1.9 onwards
-+ stopRecording - DTMF sequence to be used by a participant to stop recording the active call. Present from version 1.9 onwards
-+ allowAllMuteSelf - DTMF sequence to be used by a participant to allow all participants to mute and unmute them- selves. Sets allowAllMuteSelf in the Call object to true. Present from version 1.9 onwards
-+ cancelAllowAllMuteSelf - DTMF sequence to be used by a participant to can- cel the permission to allow all participants to mute and unmute themselves. Sets allowAllMuteSelf in the Call object to false. Present from version 1.9 onwards
-+ allowAllPresentationContribution - DTMF sequence to be used by a participant to allow all participants to present. Present from ver- sion 1.9 onwards
-+ cancelAllowAllPresentationContribution - DTMF sequence to be used by a participant to can- cel the permission for all participants to present. Present from version 1.9 onwards
-+ muteAllNewAudio - DTMF sequence to be used by a participant to mute all new participants. Sets joinAu- dioMuteOverride Call object to true. Present from version 1.9 onwards
-+ unmuteAllNewAudio - DTMF sequence to be used by a participant to unmute all new participants. . Sets joinAu- dioMuteOverride Call object to false. Present from version 1.9 onwards
-+ defaultMuteAllNewAudio - DTMF sequence to be used by a participant to use the audio mute value from the call leg profile for new participants. Present from version 1.9 onwards
-+ muteAllNewAndAllExceptSelfAudio - DTMF sequence to be used by a participant to mute all new participants and all other participants in the call. Sets joinAudioMuteOverride in the call object to `true` and mutes all call legs except for the issuer. This requires ‘muteOthersAllowed’ to be ‘true’ in the call leg profile of the issuer. Present from version 1.9 onwards
-+ unmuteAllNewAndAllExceptSelfAudio - DTMF sequence to be used by a participant to unmute all new participants and all other par- ticipants in the call. Sets joinAudioMuteOverride in the call object to `false` and unmutes all call legs except for the issuer. This requires ‘muteOth- ersAllowed’ to be ‘true’ in the call leg profile of the issuer. Present from version 1.9 onwards
-+ endCall - DTMF sequence to be used by a participant to end the call; this will disconnect all participants including the participant who initiated the operation
++ lockCall (string) - DTMF sequence to be used by a participant to lock the call; new call legs that require activation will not be activated even if an activator has joined the call. This parameter is present from version 1.8 onwards
++ unlockCall(string)  - DTMF sequence to be used by a participant to unlock the call; this will activate all call legs that need activation if there is an activator in the call. This parameter is present from version 1.8 onwards
++ nextLayout (string) - DTMF sequence to be used by a participant to change the participant's video layout to the next one in the list. This parameter is present from version 1.8 onwards
++ previousLayout (string) - DTMF sequence to be used by a participant to change the participant's video layout to the previous one in the list. This parameter is present from version 1.8 onwards
++ muteSelfAudio (string) - DTMF sequence to be used by a participant to mute the audio being contributed to their call
++ unmuteSelfAudio (string) - DTMF sequence to be used by a participant to unmute their audio
++ toggleMuteSelfAudio (string) - DTMF sequence to be used by a participant to toggle between mute and unmute audio from themselves
++ muteAllExceptSelfAudio (string) - DTMF sequence to be used by a participant to mute all other participants in the call
++ unmuteAllExceptSelfAudio (string)  - DTMF sequence to be used by a participant to unmute all other participants in the call
++ startRecording (string) - DTMF sequence to be used by a participant to start recording the active call. Present from version 1.9 onwards
++ stopRecording (string) - DTMF sequence to be used by a participant to stop recording the active call. Present from version 1.9 onwards
++ allowAllMuteSelf (string) - DTMF sequence to be used by a participant to allow all participants to mute and unmute them- selves. Sets allowAllMuteSelf in the Call object to true. Present from version 1.9 onwards
++ cancelAllowAllMuteSelf (string) - DTMF sequence to be used by a participant to can- cel the permission to allow all participants to mute and unmute themselves. Sets allowAllMuteSelf in the Call object to false. Present from version 1.9 onwards
++ allowAllPresentationContribution(string)  - DTMF sequence to be used by a participant to allow all participants to present. Present from ver- sion 1.9 onwards
++ cancelAllowAllPresentationContribution (string) - DTMF sequence to be used by a participant to can- cel the permission for all participants to present. Present from version 1.9 onwards
++ muteAllNewAudio(string)  - DTMF sequence to be used by a participant to mute all new participants. Sets joinAu- dioMuteOverride Call object to true. Present from version 1.9 onwards
++ unmuteAllNewAudio (string) - DTMF sequence to be used by a participant to unmute all new participants. . Sets joinAu- dioMuteOverride Call object to false. Present from version 1.9 onwards
++ defaultMuteAllNewAudio (string) - DTMF sequence to be used by a participant to use the audio mute value from the call leg profile for new participants. Present from version 1.9 onwards
++ muteAllNewAndAllExceptSelfAudio(string)  - DTMF sequence to be used by a participant to mute all new participants and all other participants in the call. Sets joinAudioMuteOverride in the call object to `true` and mutes all call legs except for the issuer. This requires ‘muteOthersAllowed’ to be ‘true’ in the call leg profile of the issuer. Present from version 1.9 onwards
++ unmuteAllNewAndAllExceptSelfAudio(string)  - DTMF sequence to be used by a participant to unmute all new participants and all other par- ticipants in the call. Sets joinAudioMuteOverride in the call object to `false` and unmutes all call legs except for the issuer. This requires ‘muteOth- ersAllowed’ to be ‘true’ in the call leg profile of the issuer. Present from version 1.9 onwards
++ endCall (string) - DTMF sequence to be used by a participant to end the call; this will disconnect all participants including the participant who initiated the operation
 
 ## ivr
 + uri (URI user part) - The URI to be used for this IVR
