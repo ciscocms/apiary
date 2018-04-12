@@ -3747,8 +3747,23 @@ Response is structured as a top-level `<participants total=”N”>` tag with po
 
             TODO: List of participants
 
+
+## Making a participant important if they are already in a conference [PUT /participants/{participantId}]
+* Modifying: PUT to `/participants/<participantId>`
+ 
++ Parameters
+    + participantId (ID)
+
++ Attributes (important)
+
++ Response 200
+    + Headers
+
+            Partcipantid: something to indicate importance assigned
+
+
 ## Retrieving detailed information on an individual participant [GET /participants/{participantId}]
-GET method performed on a `/participants/<participant ID>` node
+GET method performed on a `/participants/<participantId>` node
 
 If the participant ID supplied is valid, a “200 OK” response is received, with XML content of the form:
 
@@ -4856,6 +4871,9 @@ If set to true, new participants that need activation are not activated even if 
 
 ## ivrBrandingProfile
 + resourceLocation (URL) - The HTTP or HTTPS URL that the IVR branding files will be retrieved from. This should be the "directory" in which the individual audio and graphic files reside. Details of these files are in the Acano solution Customization Guide
+
+## important
++ importance (number) - Set the importance of this participant already in a conference. For example to 1. (From version 2.2)
 
 ## userProfile
 + cancreateCoSpaces (boolean) - Whether a user associated with this user profile is permitted to create new coSpaces
