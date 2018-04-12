@@ -3669,6 +3669,70 @@ Response is structured as a top-level `<participants total=”N”>` tag with po
         <td>ID</td>
         <td>If present, the remote, clustered, Call Bridge that this participant is connected to</td>
     </tr>
+    <tr>
+        <td>uri</td>
+        <td>String</td>
+        <td>The URI associated with this participant</td>
+    </tr>
+    <tr>
+        <td>originalUri</td>
+        <td>String</td>
+        <td>The remote address first used by or signaled to the Call Bridge. From version 2.3.</td>
+    </tr>
+    <tr>
+        <td>numCallLegs</td>
+        <td>Number</td>
+        <td>The current number of active call legs associated with this participant. This value will only be present for those participants local to the Call Bridge to which the request is made</td>
+    </tr>
+     <tr>
+        <td>numCallLegs</td>
+        <td>Number</td>
+        <td>The current number of active call legs associated with this participant. This value will only be present for those participants local to the Call Bridge to which the request is made</td>
+    </tr>
+    <tr>
+    <td>userJid</td>
+    <td>String</td>
+    <td>The userJid associated with this participant</td>
+    </tr>
+    <tr>
+    <td>isActivator</td>
+    <td>true|false</td>
+    <td>Whether this participant is considered to be an "activator"
+        <ul>
+        <li>true - this participant is an activator - it is itself "activated" and that it will cause any currently-connected "de-activated" participants to become activated</li>
+        <li>false - this participant is not an activator - it needs to wait for one or more "activator" participants to be present before it is fully "activated"</li>
+        </ul>
+        </td>
+    </tr>
+</table>
+
+#### status (from version 2.2)
+<table>
+<tr>
+<td>Name</td>
+<td>Type</td>
+<td>Description</td>
+</tr>
+<tr>
+<td>state</td>
+<td>initial|ringing|connected|onHold</td>
+<td>The call state of this participant.</td>
+</tr>
+</table>
+
+
+#### configuration (from version 2.2)
+<table>
+<tr>
+<td>Name</td>
+<td>Type</td>
+<td>Description</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>Number</td>
+<td>The importance of this participant.</td>
+</tr>
 </table>
 
 + Parameters
