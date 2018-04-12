@@ -2937,11 +2937,11 @@ Effectively this sets up separate “activator” and “guest” access methods
             TODO: More callLegProfile stuff here
 
 ## usage object method [GET /callLegProfiles/{callLegProfileId}/usage]
-From R1.7 there is a `/callLegs/<call leg id>/usage` object in the hierarchy. Performing a GET on this object retrieves, for the queried call leg, a list of where the specified call leg profile is used: whether it is set to be the global call leg profile or any associations it has with tenants, coSpaces, coSpace users, coSpace access methods.
+From R1.7 there is a `/callLegs/<callLegId>/usage` object in the hierarchy. Performing a GET on this object retrieves, for the queried call leg, a list of where the specified call leg profile is used: whether it is set to be the global call leg profile or any associations it has with tenants, coSpaces, coSpace users, coSpace access methods.
 + Response 200
 
 ## callLegProfileTrace object method [GET /callLegProfiles/{callLegProfileId}/callLegProfileTrace]
-There is a `/callLegs/<call leg id>/callLegProfileTrace` object in the hierarchy. Performing a GET on this object retrieves, for the call leg that you queried, how its in- force call leg profile has been arrived at; that is, the hierarchy of overrides that have contributed to the currently "in force" call leg profile. Specifically, the response includes a section for each level in the profile hierarchy, and details which call leg profile elements have been applied at which level.
+There is a `/callLegs/<callLegId>/callLegProfileTrace` object in the hierarchy. Performing a GET on this object retrieves, for the call leg that you queried, how its in- force call leg profile has been arrived at; that is, the hierarchy of overrides that have contributed to the currently "in force" call leg profile. Specifically, the response includes a section for each level in the profile hierarchy, and details which call leg profile elements have been applied at which level.
 
 The end result for each parameter is the lowest level’s override for that parameter; for example, if the tenant-level call leg profile has set “participantLabels” to true but the coSpace call leg profile has it set to false, then call legs in that coSpace will not display participant labels.
 
@@ -3131,12 +3131,12 @@ The end result for each parameter is the lowest level’s override for that para
 
             TODO: Figure out what this thing looks like
             
-## GenerateKeyFrame [POST /callLegs/{callLegProfileId}/generateKeyframe]
-POST to /callLegs/<call leg id>/generateKeyframe to trigger the generation of a new keyframe in outgoing video streams for the call leg in question. This is a debug facility, and Cisco Support may ask you to use the feature when diagnosing an issue.
+## GenerateKeyFrame [POST /callLegs/{callLegId}/generateKeyframe]
+POST to /callLegs/<callLegId>/generateKeyframe to trigger the generation of a new keyframe in outgoing video streams for the call leg in question. This is a debug facility, and Cisco Support may ask you to use the feature when diagnosing an issue.
 
 
 + Parameters
-    + callLegProfileId (ID)
+    + callLegId (ID)
 
 + Response 200
     + Headers
