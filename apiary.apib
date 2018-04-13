@@ -4104,7 +4104,7 @@ Returns the elements on the left within a `<status>` element
     <tr>
         <td>softwareVersion</td>
         <td>String</td>
-        <td>The software version currently running on the Acano Call Bridge</td>
+        <td>The software version currently running on the Call Bridge</td>
     </tr>
     <tr>
         <td>uptimeSeconds</td>
@@ -4114,7 +4114,12 @@ Returns the elements on the left within a `<status>` element
     <tr>
         <td>activated</td>
         <td>bool</td>
-        <td>Whether the Acano Call Bridge is currently activated (licensed); if not, it will have a reduced call capacity. Currently always true for an Acano X Server.</td>
+        <td>Whether the Call Bridge is currently activated (licensed); if not, it will have a reduced call capacity. Currently always true for a Meeting Server.</td>
+    </tr>
+    <tr>
+        <td>clusterEnabled</td>
+        <td>bool</td>
+        <td>If set to true then the Call Bridge is currently running with clustering enabled. This parameter is present from version 2.0 onwards</td>
     </tr>
     <tr>
         <td>cdrTime</td>
@@ -4155,6 +4160,11 @@ Returns the elements on the left within a `<status>` element
         <td>videoBitRateIncoming</td>
         <td>Number</td>
         <td>The current total bit rate for incoming video streams</td>
+    </tr>
+    <tr>
+        <td>cdrCorrelatorIndex</td>
+        <td>Number</td>
+        <td>The correlator index of the next CDR record that will be sent. When no CDR records have been sent, this will have the value of 0. (From version 2.2).</td>
     </tr>
 </table>
 
@@ -4431,6 +4441,7 @@ PUT or POST to `/system/profiles`. Supplying an empty value unsets the top-level
 + Response 200
 
 
+
 # Group TURN Server Methods
 
 ## TURN Server [/turnServers{?filter,offset,limit}]
@@ -4455,7 +4466,7 @@ Each `<turnServer>` tag may include the following elements.
     <tr>
         <td>clientAddress</td>
         <td>String</td>
-        <td>The address that Acano clients should use to reach this TURN server</td>
+        <td>The address that Cisco Meeitng Apps should use to reach this TURN server</td>
     </tr>
 </table>
 
@@ -4970,12 +4981,15 @@ If set to true, new participants that need activation are not activated even if 
 
 ## turnServer
 + serverAddress - The address for the Call Bridge to use to reach this TURN server
-+ clientAddress - The address that Acano clients should use to reach this TURN server
++ clientAddress - The address that Cisco Meeting Apps should use to reach this TURN server
 + username - The username to use when making allocations on this TURN server
 + password - The password to use when making allocations on this TURN server
 + type (enum) - The TURN server type
-    + acano
-    + lyncEdge
-    + standard
+    + acano/cms - Select “cms” or “acano” if using the TURN server within the Meeting Server; uses UDP/TCP port 3478 to connect to the TURN server.
+    + expressway - Select “expressway” if connecting to the Cisco Expressway rather than using the TURN server in the Meeting Server; uses UDP/TCP port 3478.
+    + lyncEdge - Select “lyncEdge” if connecting to a Lync or Skype for Business deployment; uses port 443 to connect to the TURN server.
+    + standard - If the “type” field is not set it defaults to “standard”; uses port 443 to connect to the TURN server.
 + numRegistrations (number) - The number of registrations that should be made to this TURN server. This parameter is only meaningful for configured Lync Edge servers
-+ tcpPortNumberOverride (number) - An optional override for the port number to use when using this TURN server for TCP media (for example, Lync present- ation call legs). This parameter is not needed for configured Lync Edge servers, where the TCP port number can always be determined automatically. this parameter is present from ver- sion 1.8 onwards
++ tcpPortNumberOverride (number) - An optional override for the port number to use when using this TURN server for TCP media (for example, Lync present- ation call legs). This parameter is not needed for configured Lync Edge servers, where the TCP port number can always be determined automatically.
++ callBridge (ID) - If specified, associate this TURN server with the supplied Call Bridge (from version 2.1)
++ callBridgeGroup (ID) - If specified, associate this TURN server with the supplied Call Bridge group (from version 2.1)
