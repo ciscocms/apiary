@@ -3922,12 +3922,17 @@ If the user ID supplied is valid, a “200 OK” response is received, with XML 
     <tr>
         <td>email</td>
         <td>String</td>
-        <td></td>
+        <td>e.g. first.last@mail.example.com</td>
     </tr>
     <tr>
         <td>authenticationId</td>
         <td>String</td>
         <td>The id used for authentication; this value is checked against values from the certificate that the user presents during certificate-based authentication. Present from version 1.8 onwards</td>
+    </tr>
+    <tr>
+        <td>userProfile</td>
+        <td>ID</td>
+        <td>If present, this is the ID of the user profile associated with this user. This parameter is present from version 2.0 onwards.</td>
     </tr>
 </table>
 
@@ -3937,7 +3942,7 @@ If the user ID supplied is valid, a “200 OK” response is received, with XML 
             TODO: user object <
 
 ## Retrieving a User’s coSpace Associations [GET /users/{userId}/usercoSpaces]
-GET method performed on a `/users/<user ID>/usercoSpaces` node retrieves the coSpaces that the user is a member of. (Also see the note on coSpace member permissions for auto-generated members.)
+GET method performed on a `/users/<userId>/usercoSpaces` node retrieves the coSpaces that the user is a member of. (Also see the note on coSpace member permissions for auto-generated members.)
 
 Response is structured as a top-level `<usercoSpaces total=”N”>` tag with potentially multiple `<usercoSpace>` elements within it.
 
@@ -3962,12 +3967,75 @@ Response is structured as a top-level `<usercoSpaces total=”N”>` tag with po
             TODO: need user cospace node list
 
 ## User Profile Methods [/userProfiles{?offset,limit,usageFilter}]
-User profiles were introduced in R1.6.
+User profiles control the facilities provided to the users in the profile, for instance whether they can create new coSpaces, create new calls, make phone calls, slave SIP endpoints, allowed to send and receive chat messages when in a point to point call with another user. For more information see also Section 14.
 
 ## Retrieving user profiles [GET]
 GET method performed on the `/userProfiles` node.
 
 Response is structured as a top-level `<userProfiles total="N">` tag with potentially multiple `<userProfile>` elements within it.
+<table>
+  <tr>
+    <th>Response elements</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>canCreateCoSpaces</td>
+    <td>true|false</td>
+    <td>Whether a user associated with this user profile is permitted to create new coSpaces</td>
+  </tr>
+  <tr>
+    <td>canCreateCalls</td>
+    <td>true|false</td>
+    <td>Whether a user associated with this user profile is permitted to create new calls</td>
+  </tr>
+  <tr>
+    <td>canUseExternalDevices</td>
+    <td>true|false</td>
+    <td>Whether a user associated with this user profile is permitted to use slave SIP devices</td>
+  </tr>
+  <tr>
+    <td>canMakePhoneCalls</td>
+    <td>true|false</td>
+    <td>Whether a user associated with this user profile will be displayed the option to make phone calls in the client</td>
+  </tr>
+  <tr>
+    <td>userToUserMessagingAllowed</td>
+    <td>true|false</td>
+    <td>Whether a user associated with this user profile will be allowed to send and receive messages when in a point to point call with another user</td>
+  </tr>
+  <tr>
+    <td>audioParticipationAllowed</td>
+    <td>true|false</td>
+    <td>Whether or not a user associated with this user profile and using the Cisco Meeting App will be allowed to send or receive live audio when in a call. This restriction does not apply to dialing directly into the call via SIP, or slaving to a SIP endpoint.This parameter is present from version 2.0 onwards.</td>
+  </tr>
+  <tr>
+    <td>videoParticipationAllowed</td>
+    <td>true|false</td>
+    <td>Whether or not a user associated with this user profile will be allowed to send or receive live video when in a call. This restriction does not apply to dialing directly into the call via SIP, or slaving to a SIP endpoint.This parameter is present from version 2.0 onwards.</td>
+  </tr>
+  <tr>
+    <td>presentationParticipationAllowed</td>
+    <td>true|false</td>
+    <td>Whether or not a user associated with this user profile will be allowed to send or receive presentation media when in a call. This restriction does not apply to dialing directly into the call via SIP, or slaving to a SIP endpoint.This parameter is present from version 2.0 onwards.</td>
+  </tr>
+  <tr>
+    <td>hasLicense</td>
+    <td>true|false</td>
+    <td>Whether or not a user associated with this user profile has a Cisco user license.This parameter is present from version 2.0 onwards.</td>
+  </tr>
+  <tr>
+    <td>canReceiveCalls</td>
+    <td>true|false</td>
+    <td>Determines whether or not a user associated with this user profile can receive incoming calls using the Cisco Meeting App. This parameter is present from version 2.1 onwards</td>
+  </tr>
+  <tr>
+    <td>canSendEmailInvite</td>
+    <td>true|false</td>
+    <td>Determines whether or not a Cisco Meeting App user associated with this user profile can email invitations to a meeting space. This parameter is present from version 2.3 onwards</td>
+  </tr>
+</table>
+
 
 + Parameters
     + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
@@ -4007,12 +4075,17 @@ This chapter details the API methods related to management of the system. The ch
 * retrieving system database status
 * retrieving and setting the URI of the CDR receivers
 * retrieving and setting the global profile
+* retrieving licensing information
 * configuring the TURN server
 * configuring the Web Bridge
 * configuring the Call Bridge
+* configuring Call Bridge groups
 * configuring the XMPP server
 * configuring Call Bridge clustering
 * configuring the Recorder
+* configuring the Streamer
+* configuring the SIP Endpoint Registrar
+* system load
 * system diagnostics
 
 ## System Methods [/system]
