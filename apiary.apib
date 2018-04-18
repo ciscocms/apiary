@@ -4544,14 +4544,24 @@ GET method performed on a `/turnServers/<turn server id>` node. If the turn serv
             TODO: TURN Server object
 
 
-# Group Web Bridge Methods
+# Group Web Bridge Methods /webBridges{?filter,offset,limit,tenantFilter}
 
+## Retrieving Information on Web Bridges[GET]
 
+Response is structured as a top-level <webBridges total="N"> tag with potentially multiple <webBridge> elements within it. Each <webBridge> tag may include the following elements.
 
++ Parameters
+    + filter (string, optional) - Supply filter=`<string`> in the URI to return just those Web Bridges that match the filter
+    + offset (number, optional) - An "offset" can be supplied to retrieve elements other than the first "page" in the notional list
+    + limit (number, optional) - A "limit" can be supplied to retrieve elements other than the first "page" in the notional list
+    + tenantFilter (ID, optional) - Supply tenantFilter to return only those Web Bridges associated with the specified tenant
 
+## Setting Up and Modifying a Web Bridge [POST]
 
+* Creating: POST method to the `/webBridges` node
+* Modifying: PUT to `/webBridges/<web bridge id>`
 
-
++ Attributes (WebBridge)
 
 # Group Call Bridge Methods
 # Group XMPP Methods
@@ -4993,3 +5003,9 @@ If set to true, new participants that need activation are not activated even if 
 + tcpPortNumberOverride (number) - An optional override for the port number to use when using this TURN server for TCP media (for example, Lync present- ation call legs). This parameter is not needed for configured Lync Edge servers, where the TCP port number can always be determined automatically.
 + callBridge (ID) - If specified, associate this TURN server with the supplied Call Bridge (from version 2.1)
 + callBridgeGroup (ID) - If specified, associate this TURN server with the supplied Call Bridge group (from version 2.1)
+
+## WebBridge
+
++ url (URL) - The address for the Call Bridge to use to reach this Web Bridge
++ resourceArchive (URL) - The address of any customization archive file for the Call Bridge to use or the background image and logo branding on the login page for this Web Bridge Note: When specifying the path any port value other than :80 for http and :443 for https is considered invalid.
++ tenant (ID) - If you supply the ID for a tenant to associate with this Web Bridge, only call IDs for coSpaces owned by that tenant can be joined through it
