@@ -863,7 +863,7 @@ A new auto-generated Call Id is assigned if "requireCallId=true" is set via a cr
             </coSpaces>
 
 ## Retrieving Detailed Information about a Single coSpace [GET /coSpaces/{coSpaceId}]
-GET method performed on a `/coSpaces/<coSpace Id>` node. If the coSpace ID supplied is valid, a “200 OK” response is received, containing a single `<coSpace id=<ID>` object with data as described above for the creating and modifying case.
+GET method performed on a `/coSpaces/<coSpaceId>` node. If the coSpace ID supplied is valid, a “200 OK” response is received, containing a single `<coSpace id=<ID>` object with data as described above for the creating and modifying case.
 
 In addition to the data in common with the create and modify methods, retrieved information about a single coSpace will also include:
 * a count of the number of additional access methods for that coSpace, if any have been configured, as a numeric `numAccessMethods` value
@@ -889,7 +889,7 @@ Response values are "uri" and "callId".
 
 ## coSpace Member Methods [/coSpaces/{coSpaceId}/coSpaceUsers/{?filter,offset,limit,callLegProfileFilter}]
 ## Retrieving the members of a coSpace [GET]
-GET method on a `/coSpaces/<coSpace ID>/coSpaceUsers` node.
+GET method on a `/coSpaces/<coSpaceId>/coSpaceUsers` node.
 
 The response includes the total count of coSpace users configured for the queried coSpace which match the filter, irrespective of the number returned within the response. (With no filter, this value is the total number of users associated with the coSpace).
 
