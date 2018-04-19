@@ -4544,9 +4544,9 @@ GET method performed on a `/turnServers/<turn server id>` node. If the turn serv
             TODO: TURN Server object
 
 
-# Group Web Bridge Methods /webBridges{?filter,offset,limit,tenantFilter}
+# Group Web Bridge Methods [/webBridges{?filter,offset,limit,tenantFilter}]
 
-## Retrieving Information on Web Bridges[GET]
+## Retrieving Information on Web Bridges [GET]
 
 Response is structured as a top-level <webBridges total="N"> tag with potentially multiple <webBridge> elements within it. Each <webBridge> tag may include the following elements.
 
@@ -4556,12 +4556,22 @@ Response is structured as a top-level <webBridges total="N"> tag with potentiall
     + limit (number, optional) - A "limit" can be supplied to retrieve elements other than the first "page" in the notional list
     + tenantFilter (ID, optional) - Supply tenantFilter to return only those Web Bridges associated with the specified tenant
 
++ Response 200
+    + Body
+
+            TODO: Web Bridge
+            
 ## Setting Up and Modifying a Web Bridge [POST]
 
 * Creating: POST method to the `/webBridges` node
 * Modifying: PUT to `/webBridges/<web bridge id>`
 
 + Attributes (WebBridge)
+
++ Response 200
+    + Headers
+
+            Location:IDh
 
 # Group Call Bridge Methods
 # Group XMPP Methods
