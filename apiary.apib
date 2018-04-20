@@ -4572,7 +4572,36 @@ Response is structured as a top-level <webBridges total="N"> tag with potentiall
     + Headers
 
             Location:ID
+            
+## Retrieving detailed information about an individual Web Bridge [GET /webBridges/{webbridgeId}]
 
+GET method performed on a `/webBridges/<webbridgeId>` node. If the web bridge ID supplied is valid, a “200 OK” response is received, with XML content described in the previous section.
+
++ Parameters
+    
+    + webbridgeId (ID)
+    
++ Response 200
+    + Headers
+
+            Location:ID
+            
+## Updating the Web Bridge customization [POST /webBridges/<webbridgeId>/updateCustomization]
+A POST to `/webBridges/<webbridgeId>/updateCustomization` node causes any configured customization archive for the specified Web Bridge to be re-retrieved and pushed to that Web Bridge. For example, this allows the contents of a customization archive to be changed, and for those changes to take effect without needing to restart either the Call Bridge or the Web Bridge. 
+
++ Attributes ()
+
++ Response 200
+    + Headers
+
+            Location:ID
+
+## Retrieving diagnostics on a Web Bridge - from version 2.2 [GET /webBridges/{webbridgeId}/status]
+
+GET method performed on a `/webBridges/<webbridgeId>/status` node. If the web bridge ID supplied is valid, a “200 OK” response is received, with XML content matching the table below.
+
+
+            
 # Group Call Bridge Methods
 # Group XMPP Methods
 # Group Call Bridge Cluster Methods
