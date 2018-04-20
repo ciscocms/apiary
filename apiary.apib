@@ -4571,7 +4571,7 @@ Response is structured as a top-level <webBridges total="N"> tag with potentiall
 + Response 200
     + Headers
 
-            Location:IDh
+            Location:ID
 
 # Group Call Bridge Methods
 # Group XMPP Methods
@@ -5018,4 +5018,15 @@ If set to true, new participants that need activation are not activated even if 
 
 + url (URL) - The address for the Call Bridge to use to reach this Web Bridge
 + resourceArchive (URL) - The address of any customization archive file for the Call Bridge to use or the background image and logo branding on the login page for this Web Bridge Note: When specifying the path any port value other than :80 for http and :443 for https is considered invalid.
-+ tenant (ID) - If you supply the ID for a tenant to associate with this Web Bridge, only call IDs for coSpaces owned by that tenant can be joined through it
++ tenant (ID) - If you supply the ID for a tenant to associate with this Web Bridge, only call IDs for coSpaces owned by that tenant can be joined through it.
++ tenantGroup (ID) - Only coSpaces associated with tenants within the specified tenant group can be accessed by call ID through this web bridge. If no tenant group is supplied, only coSpaces without a tenant, or associated with a tenant in no tenant group, can be accessed by call ID.
++ idEntryMode - Controls coSpace access via call ID and passcode; If this parameter is not supplied in a create (POST) operation, it defaults to secure. Note: Legacy mode is deprecated from version 2.3. If upgrading a Web Bridge from a 2.2 or earlier release that is configured to use 'legacy' mode, the Web Bridge will default to 'secure' mode in 2.3.
+    + disabled - access via call ID and passcode is disabled
+    + secure - both the call ID and the passcode must be specified to look up and join a coSpace
+    + legacy - only a call ID need be specified to look up a coSpace. (Deprecated in 2.3)
++ allowWeblinkAccess - Whether this Web Bridge will allow users to access coSpace (and coSpace access methods) as guests by following a weblink. If this parameter is not supplied in a create (POST) operation, it defaults to true.    
++ showSignIn (boolean) - Whether this Web Bridge will display the sign in tab on the index page. If this parameter is not supplied in a create (POST) operation, it defaults to true.
++ resolveCoSpace CallIds (boolean) - Whether this Web Bridge should accept coSpace and coSpace access method call IDs for the purpose of allowing visitors to join coSpaces. If this parameter is not supplied in a create (POST) operation, it defaults to true.
++ resolveLync ConferenceIds (boolean) - Whether this Web Bridge will accept IDs to be resolved to Lync scheduled conference IDs. If this parameter is not supplied in a create (POST) operation, it defaults to false.
++ callBridge (ID) - If specified, associate this Web bridge with the supplied Call Bridge (from version 2.1)
++ callBridgeGroup (ID) - If specified, associate this Web bridge with the supplied Call Bridge group (from version 2.1)
