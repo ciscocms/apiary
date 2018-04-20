@@ -4684,7 +4684,10 @@ GET method performed on a “/callBridges/<call bridge id>” node. If the call 
 
 ## Retrieving Information on Call Bridge Groups [GET]
 
-GET method performed on the `/callBridgeGroups` node.
+GET method performed on the `/callBridgeGroups` node. Response is structured as a top-level <callBridges total="N"> tag with potentially multiple <callBridgeGroup> elements within it.
+Each <callBridgeGroup> tag may include the following elements:
+
+name (string) - Name of Call Bridge group. 
 
 + Parameters
     + offset (number) - An "offset" can be supplied to retrieve elements other than the first "page" in the notional list
