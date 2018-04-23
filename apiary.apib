@@ -5242,7 +5242,24 @@ GET method performed on a `/ldapMappings/<ldapMapping Id>` node. If the ldapMapp
             TODO:info
 
 
-# Group LDAP Source Methods
+# Group LDAP Source Methods [/ldapSources/{?filter,offset,limit,tenantFilter}]
+
+## Retrieving Information on LDAP Sources [GET]
+
+GET method performed on the `/ldapSources` node.
+
++ Parameters
+    + filter (string) - Supply filter=<string> in the URI to return just those LDAP sources that match the filter.
+    + offset - An "offset" can be supplied to retrieve elements other than the first "page" in the notional list (see above).
+    + limit (number) - A "limit" can be supplied to retrieve elements other than the first "page" in the notional list (see above).
+    + tenantFilter(ID) - Supply tenantFilter to return only those LDAP sources associated with the specified tenant. (ID)
+
++ Response 200
+    + Headers
+
+            TODO:info
+
+
 ## Group LDAP Sync Methods
 ## External Directory Search Locations
 
