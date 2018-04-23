@@ -5007,7 +5007,46 @@ Response is structured as a top-level <streamers total="N"> tag with potentially
     + Headers
 
             Info: recorder
+            
+
+## Setting up and modifying streaming operations [POST]
+
+* Creating: POST method to the `/streamers` node
+* Modifying: PUT to `/streamers/<streamerId>`
+
++ Attributes (streamer)
+
++ Response 200
+
+    + Headers
+
+            TODO: update streamer operation
+
+## Retrieving detailed information about an individual streaming node [GET /streamers/{streamerId}]
+
+GET method performed on a `/streamers/<streamerId>` node. If the streamer ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
     
++ Response 200
+    + Headers
+
+            Location:ID
+
+# Group System Load Method [/system/load]
+
+## System Load Method [GET]
+
+GET method performed on the `/system/load` node.
+
+### Response elements
+mediaProcessingLoad(Number) - Current media processing load on the Call Bridge.
+
++ Response 200
+    + Headers
+
+            TODO: mediaProcessingLoadnumber
+
+# Group Compatibility Profile Methods
+
 # Group System Diagnostics Methods
 
 
@@ -5494,3 +5533,8 @@ If set to true, new participants that need activation are not activated even if 
 + url (URL) - The HTTP or HTTPS URL address that theCall Bridge should use to reach this recorder.
 + callBridge (ID) - If specified, associate this recorder with the supplied Call Bridge (from version 2.1).
 + callBridgeGroup (ID) - If specified, associate this recorder with the supplied Call Bridge group (from version 2.1).
+
+## streamer
++ url(URL) - The HTTP or HTTPS URL address that theCall Bridge should use to reach this streamer.
++ callBridge (ID) - If specified, associate this streamer with the supplied Call Bridge.
++ callBridgeGroup (ID) - If specified, associate this streamer with the supplied Call Bridge group.
