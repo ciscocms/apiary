@@ -5248,6 +5248,24 @@ GET method performed on a `/ldapMappings/<ldapMapping Id>` node. If the ldapMapp
 
 GET method performed on the `/ldapSources` node.
 
+Response is structured as a top-level < ldapSources total=”N”> tag with potentially multiple “<ldapSource>” elements within it.
+
+“<ldapSource>” elements returned follow the general form on the left.
+
+All as per LDAP source creation described below:
+
+* ldapSource id (ID)
+
+* server (ID)
+
+* mapping (ID)
+
+* baseDn (string)
+
+* filter (string) 
+
+* tenant (ID)
+
 + Parameters
     + filter (string) - Supply filter=<string> in the URI to return just those LDAP sources that match the filter.
     + offset - An "offset" can be supplied to retrieve elements other than the first "page" in the notional list (see above).
@@ -5259,8 +5277,21 @@ GET method performed on the `/ldapSources` node.
 
             TODO:info
 
+## Adding and modifying an LDAP Source [POST]
 
-## Group LDAP Sync Methods
+* Creating: POST method to the `/ldapSources` node. If the LDAP source is configured on the system successfully, its ID is returned in the “Location” field of the response header
+* Modifying: PUT method on a `/ldapSources/<ldapSource id>` node
+
+
++ Attributes (ldap source)
+
++ Response 200
+    + Headers
+
+            TODO:info
+
+
+# Group LDAP Sync Methods
 ## External Directory Search Locations
 
 # Group Multi-tenancy
@@ -5775,3 +5806,5 @@ If set to true, new participants that need activation are not activated even if 
 + coSpaceSecondaryUriMapping (string) - In order for that coSpace to be set up as required, these parameters provide the template for setting the coSpaces’ URI, displayed name and configured Call ID. For example, setting coSpaceNameMapping to “$cn$ personal coSpace” ensures that each user’s coSpace is labelled with their name followed by “personal coSpace”.
 + coSpaceNameMapping (string) - Note that the generated coSpace will have its own cdrTag – and it will be the same as the user’s cdrTag and cannot be changed other than by changing the cdrTagMapping above and re-syncing. (The coSpace’s cdrTag is used in the callStart CDR. See the Cisco Meeting Server CDR Reference for details.)
 + coSpaceCallIdMapping (string) - Note that the normal uniqueness rules apply to the URI and Call IDs of coSpaces set up in this way: it is not valid to have the same URI or Call ID for more than one coSpace set up by a given LDAP mapping, nor is it valid for such a coSpace URI or Call ID to be the same as one currently in use elsewhere on the Meeting Server.
+
+## ldap source
