@@ -4832,7 +4832,62 @@ Issue a PUT or a POST on the '/system/configuration/cluster node`
 
             Node: cluster bridge details
 
-# Group Recorder Methods
+# Group Recorder Methods [/recorders/{?offset,limit}]
+---
+**Note**: At the end of recording a meeting, the recording is automatically converted to MP4. The converted file is suitable for placing within a document storage/distribution system, for example, in a network file system (NFS) they are stored in the NFS folder `spaces/<space Id>`; tenant spaces are stored in `tenants/<tenant ID>/spaces/<space Id>`.
+
+---
+
+
+## Retrieving recorder operations [GET]
+
+GET method performed on the `/recorders` node. 
+
+Response is structured as a top-level <recorders total="N"> tag with potentially multiple <recorder> elements within it. Each <recorder> tag may include these elements:
+
+<table>
+  <tr>
+    <th>Response elements</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>url</td>
+    <td>URL</td>
+    <td>The address that theCall Bridge uses to reach this recorder</td>
+  </tr>
+  <tr>
+    <td>callBridge</td>
+    <td>ID</td>
+    <td>The ID of the Call Bridge associated with this recorder (from version 2.1)</td>
+  </tr>
+  <tr>
+    <td>callBridgeGroup</td>
+    <td>ID</td>
+    <td>The ID of the Call Bridge group associated with this recorder (from version 2.1)</td>
+  </tr>
+</table>
+
++ Parameters
+    + offset (number) - An "offset" can be supplied to retrieve recorders other than those in the first "page" of the notional list.
+    + limit (number) - A "limit" can be supplied to retrieve recorders other than those in the first "page" of the notional list.
+    
++ Response 200
+    + Headers
+
+            Info: recorder
+    
+## Setting up and modifying recording operations [POST]
+
+* Creating: POST method to the /recorders " node
+* Modifying: PUT to "/recorders/<recorder id>"
+
++ Attributes (recorder)
+
++ Response 200
+    + Headers
+
+            Location:ID
 
 
 # Group System Diagnostics Methods
@@ -5309,7 +5364,6 @@ If set to true, new participants that need activation are not activated even if 
 + sharedSecret (string) - The password value set by the XMPP server for this Call Bridge when it was configured
 + serverAddressOverride (string) - If supplied, the Call Bridge will connect to an XMPP server at the specified address rather than using the "domain" to discover it (via DNS).
 
-
 ## call bridge cluster
 + uniqueName (string) - The name by which this call bridge is known within the call bridge cluster; this should match the "name" value for its entry in the /callBridges table.
 + peerLinkBitRate (number) - If supplied. the maximum media bit rate to use for call distribution connections between call bridges.
@@ -5317,3 +5371,8 @@ If set to true, new participants that need activation are not activated even if 
 + loadLimit (number) - If supplied, the maximum number of load units to be used on this Call Bridge (from version 2.1).
 + newConferenceLoadLimitBasisPoints (number) - Basis points (1 in 10,000) of the load limit at which incoming calls to non-active conferences will be disfavored, ranges from 0 to 10000, defaults to 5000 (50% load). Value is scaled relative to load limit. (From version 2.1).
 + existingConferenceLoadLimitBasisPoints (number) - Basis points of the load limit at which incoming calls to non-active conferences will be rejected, ranges from 0 to 10000, defaults to 5000 (from version 2.1).
+
+## recorder
++ url (URL) - The HTTP or HTTPS URL address that theCall Bridge should use to reach this recorder.
++ callBridge (ID) - If specified, associate this recorder with the supplied Call Bridge (from version 2.1).
++ callBridgeGroup (ID) - If specified, associate this recorder with the supplied Call Bridge group (from version 2.1).
