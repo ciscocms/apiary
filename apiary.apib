@@ -4968,7 +4968,46 @@ GET method performed on a `/recorders/<recorderId>/status` node. If the recorder
 
             TODO: recorder diagnostics info
 
+# Group Streamer methods [/streamers/{?offset,limit}]
 
+## Retrieving streamer operations [GET]
+
+GET method performed on the “/streamers” node.
+
+Response is structured as a top-level <streamers total="N"> tag with potentially multiple <streamer> elements within it. Each <streamer> tag may include these elements: 
+
+<table>
+  <tr>
+    <th>Response elements</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>url</td>
+    <td>URL</td>
+    <td>The address that theCall Bridge uses to reach this streamer</td>
+  </tr>
+  <tr>
+    <td>callBridge</td>
+    <td>ID</td>
+    <td>The ID of the Call Bridge associated with this streamer</td>
+  </tr>
+  <tr>
+    <td>callBridgeGroup</td>
+    <td>ID</td>
+    <td>The ID of the Call Bridge group associated with this streamer</td>
+  </tr>
+</table>
+
++ Parameters
+    + offset (number) - An "offset" can be supplied to retrieve recorders other than those in the first "page" of the notional list.
+    + limit (number) - A "limit" can be supplied to retrieve recorders other than those in the first "page" of the notional list.
+    
++ Response 200
+    + Headers
+
+            Info: recorder
+    
 # Group System Diagnostics Methods
 
 
