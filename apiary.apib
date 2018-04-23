@@ -5079,7 +5079,46 @@ usageFilter (unreferenced/referenced) - Indicates whether the compatibility prof
 
             TODO: uppdate profile
 
-# Group System Diagnostics Methods
+# Group System Diagnostics Methods [/system/diagnostics{?offset,limit,coSpaceFilter,callCorrelatorFilter}]
+
+## Retrieving system diagnostics [GET]
+
+Issue a GET on the new '/system/diagnostics' node to retrieve the information below.
+
+label (string) - Text description associated with the specified diagnostics log.
+
++ Parameters
+    + offset (number) - An "offset" can be supplied to retrieve elements other than the first "page" in the notional list.
+    + limit (number) - A "limit" can be supplied to retrieve elements other than the first "page" in the notional list.
+    + coSpaceFilter (ID) - If supplied, this filter restricts results returned to those diagnostics that correspond to the specified coSpace
+    + callCorrelatorFilter (ID) - If supplied, this filter restricts results returned to those diagnostics that correspond to the specified callCorrelator
+
++ Response 200
+    + Headers
+
+            Label:string
+
+## Retrieving an individual system diagnostic [GET /system/diagnostics/{diagnosticsId}]
+
+Issue a GET on the /system/diagnostics/<diagnosticsId> node.
+
++ Parameters
+    + diagnosticsId (ID)- 
+    
++ Response 200
+    + Headers
+
+            Diagnostics:ID
+
+
+## Retrieving the content of an individual system diagnostic [GET /system/diagnostics/{diagnosticsId}/contents] 
+
+Issue a GET method on the `/system/diagnostics/<diagnosticsId>/contents` node to retrieve the data stored in the system diagnostic.
+
++ Response 200
+    + Headers
+
+            Diagnostics:contents
 
 
 # Group LDAP Methods
