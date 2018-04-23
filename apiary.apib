@@ -5192,12 +5192,12 @@ GET method performed on a `/ldapServers/<ldapServer Id>` node. If the ldapServer
 
             TODO: Ldap server detail
 
-# Group LDAP Mapping Methods
+# Group LDAP Mapping Methods [/ldapMappings/{?offset,limit,filter}]
 
 ## Adding and modifying an LDAP Mapping [POST]
 
 * Creating: POST method to the `/ldapMappings` If the LDAP mapping is configured on the system successfully, its ID is returned in the “Location” field of the response header
-* Modifying: PUT method on a `/ldapMappings/<ldapMapping id>` node.
+* Modifying: PUT method on a `/ldapMappings/<ldapMapping Id>` node.
 
 + Attributes (ldap mapping)
 
@@ -5206,18 +5206,40 @@ GET method performed on a `/ldapServers/<ldapServer Id>` node. If the ldapServer
 
             Location:ID
             
-## Secondary LDAP Mapping parameter            
+## Retrieving information on LDAP Mappings [GET]
 
-Per LDAP mapping, there is a new optional coSpaceSecondaryUriMapping parameter so that the coSpaces that are created automatically have a secondary URI.
+---
+**Note** Secondary LDAP Mapping parameter            
 
-* When creating an LDAP mapping (see the previous section) or modifying the configuration of an existing LDAP mapping you can supply a "coSpaceSecondaryUriMapping" parameter
-* When retrieving information on an individual LDAP mapping (a GET method on a "/ldapMappings/<LDAP mapping ID>" node) the coSpaceSecondaryUriMapping value will be returned if it is defined for that LDAP mapping
-  
+Per LDAP mapping, there is a new optional `coSpaceSecondaryUriMapping` parameter so that the coSpaces that are created automatically have a secondary URI.
 
- 
-## Retrieving information on LDAP Mappings
+* When creating an LDAP mapping (see the previous section) or modifying the configuration of an existing LDAP mapping you can supply a `coSpaceSecondaryUriMapping` parameter
+* When retrieving information on an individual LDAP mapping (a GET method on a `/ldapMappings/<LDAPmapping Id>` node) the `coSpaceSecondaryUriMapping` value will be returned if it is defined for that LDAP mapping
 
+---  
 
+GET method performed on the `/ldapMappings` node.
+
+Response is structured as a top-level <ldapMappings total=”N”> tag with potentially multiple “<ldapMapping>” elements within it. “<ldapMapping>” elements returned follow the general form on the left.
+
++ Parameters
+    + filter (string) - Supply filter=<string> in the URI to return just those LDAP mappings that match the filter.
+    + offset (number) - An "offset" can be supplied to retrieve elements other than the first "page" in the notional list (see above). 
+    + limit (number) - A "limit" can be supplied to retrieve elements other than the first "page" in the notional list (see above).
+
++ Response 200
+    + Headers
+
+            TODO:Info
+
+## Retrieving detailed Information about an individual LDAP Mapping [GET /ldapMappings/{ldapMapping Id}]
+
+GET method performed on a `/ldapMappings/<ldapMapping Id>` node. If the ldapMapping ID supplied is valid, a “200 OK” response is received, with XML content described in the creating
+
++ Response 200
+    + Headers
+
+            TODO:info
 
 
 # Group LDAP Source Methods
