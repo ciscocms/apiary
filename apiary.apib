@@ -4760,8 +4760,16 @@ Issue a GET on the new `/system/configuration/xmpp node` to retrieve the informa
 
             TODO: something
 
+## Setting Up and Modifying an XMPP server [POST]
 
+Issue a PUT or a POST on the new `/system/configuration/xmpp` node
 
++ Attributes (xmpp)
+
++ Response 200
+    + Headers
+
+            Location:ID
 
 # Group Call Bridge Cluster Methods
 # Group Recorder Methods
@@ -5231,3 +5239,9 @@ If set to true, new participants that need activation are not activated even if 
 + loadBalanceLyncCalls: `false` (boolean) - Whether or not incoming calls to coSpaces from Lync are load balanced within the Call Bridge Group. If this parameter is not supplied in a create (POST) operation, it defaults to "false" (from version 2.1)
 + loadBalanceOutgoingCalls: `false` (boolean) - Whether or not calls from coSpaces should be load balanced within the group. If this parameter is not supplied in a create (POST) operation, it defaults to "false" (from version 2.2)
 + loadBalanceUserCalls: `true` (boolean) - Whether or not Cisco Meeting App calls to coSpaces should be load balanced within the group. If this parameter is not supplied in a create (POST) operation, it defaults to "true" (from version 2.3)
+
+## xmpp
++ uniqueName (string) - The name by which this Call Bridge should be known by the XMPP server
++ domain (string) - The domain that the Call Bridge should use for XMPP
++ sharedSecret (string) - The password value set by the XMPP server for this Call Bridge when it was configured
++ serverAddressOverride (string) - If supplied, the Call Bridge will connect to an XMPP server at the specified address rather than using the "domain" to discover it (via DNS).
