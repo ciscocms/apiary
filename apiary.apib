@@ -4890,6 +4890,85 @@ Response is structured as a top-level <recorders total="N"> tag with potentially
             Location:ID
 
 
+
+## Retrieving detailed information about an individual recording node[GET /recorders/{recorderId}]
+
+GET method performed on a `/recorders/<recorderId>` node. If the recorder ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
+
++ Parameters
+    + recorderId (ID) - 
+    
++ Response 200
+
+    + Headers
+
+            TODO: recorder details
+
+
+## Retrieving diagnostics on a Recorder[GET /recorders/{recorder Id}/status]
+
+GET method performed on a `/recorders/<recorderId>/status` node. If the recorder ID supplied is valid, a “200 OK” response is received, with XML content matching the table below.
+
+<table>
+  <tr>
+    <th>Response elements</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>status</td>
+    <td>unused|</td>
+    <td>The Recorder is not used by the queried Call Bridge</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>success|</td>
+    <td>The Recorder is connected to the queried Call Bridge</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>invalidAddress|</td>
+    <td>The configured Recorder URL is invalid</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>dnsFailure|</td>
+    <td>The configured Recorder URL could not be resolved</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>connectionFailure|</td>
+    <td>The Recorder could not connect to the queried Call Bridge</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>remoteFailure|</td>
+    <td>A connection was established with the Recorder but received a failure response</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>unknownFailure|</td>
+    <td>An unknown failure occurred</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>lowDiskSpace</td>
+    <td>The Recorder has limited disk space available</td>
+  </tr>
+  <tr>
+    <td>activeRecordings</td>
+    <td>Number</td>
+    <td>Total number of active recordings on this Recorder</td>
+  </tr>
+</table>
+
++ Response 200
+
+    + Headers
+
+            TODO: recorder diagnostics info
+
+
 # Group System Diagnostics Methods
 
 
