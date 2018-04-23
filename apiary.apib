@@ -5045,7 +5045,28 @@ mediaProcessingLoad(Number) - Current media processing load on the Call Bridge.
 
             TODO: mediaProcessingLoadnumber
 
-# Group Compatibility Profile Methods
+# Group Compatibility Profile Methods [/compatibilityProfiles/{?offset,limit,usageFilter}]
+
+## Retrieving compatibility profile operations[GET]
+
+GET method performed on the `/compatibilityProfiles` node.
+
+Response is structured as a top-level <compatibilityProfiles total="N"> tag with potentially multiple <compatibilityProfile> elements within it. Each <compatibilityProfile> tag may include these elements:
+
+#### Response elements
+
+usageFilter (unreferenced/referenced) - Indicates whether the compatibility profile is referenced by another object.
+
++ Parameters
+    + offset (number) - An "offset" can be supplied to retrieve compatibility profiles other than those in the first "page" of the notional list.
+    + limit (number) - A "limit" can be supplied to retrieve compatibility profiles other than those in the first "page" of the notional list.
+    + usageFilter (unreferenced/referenced) - Supply "usageFilter=unreferenced" in the request to retrieve only those compatibility profiles that are not referenced by another object. This is a useful check before deleting the profile. To retrieve just those compatibility profiles which are referenced in at least one place, you can supply "usageFilter=referenced".
+    
++ Response 200
+    + Headers
+
+            Info: compatibility profiles
+
 
 # Group System Diagnostics Methods
 
