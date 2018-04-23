@@ -5067,6 +5067,17 @@ usageFilter (unreferenced/referenced) - Indicates whether the compatibility prof
 
             Info: compatibility profiles
 
+## Setting up and modifying compatibility profile operations [POST]
+
+* Creating: POST method to the `/compatibilityProfiles` node
+* Modifying: PUT to `/compatibilityProfiles/<compatibility profile id>`
+
++ Attributes (compatibility)
+
++ Response 200
+    + Headers
+
+            TODO: uppdate profile
 
 # Group System Diagnostics Methods
 
@@ -5559,3 +5570,14 @@ If set to true, new participants that need activation are not activated even if 
 + url(URL) - The HTTP or HTTPS URL address that theCall Bridge should use to reach this streamer.
 + callBridge (ID) - If specified, associate this streamer with the supplied Call Bridge.
 + callBridgeGroup (ID) - If specified, associate this streamer with the supplied Call Bridge group.
+
+## compatibility
++ sipUdt - Controls whether use of UDT is allowed within SIP calls. Active Control uses UDT transport for certain features, for example sending roster lists to endpoints, allowing users to disconnect other participants while in call, and inter-deployment participant lists. |(From version 2.1)
+    + true - UDT is allowed within SIP calls
+    + false - UDT is not allowed within SIP calls
++ sipMultistream - Controls whether use of Cisco multistream protocols is allowed within SIP calls. The dual video feature for Cisco dual endpoints uses this protocol. If this is disabled, then no calls will be able to use dual screen video. (From version 2.2.3)
+    + true - Cisco multistream signalling is allowed within SIP calls (default from version 2.3)
+    + false - Cisco multistream signalling is not allowed within SIP calls (default for version 2.2)
++ sipMediaPayloadTypeMode - Controls whether the default codec media payload types are used, or a special variant. (From version 2.2)
+    + auto - the default mode, where the normal media payload type values are used.
+    + broadsoft - a special exception mode, where the H.264 video codec is advertised with payload type 109.
