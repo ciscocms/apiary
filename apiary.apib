@@ -4697,10 +4697,72 @@ name (string) - Name of Call Bridge group.
     + Body
 
             TODO: Call Bridge
+            
+## Setting Up and Modifying a Call Bridge Group[POST]
+
+* Creating: POST method to the `/callBridgeGroups` node
+* Modifying: PUT to `/callBridgeGroups/<call bridge groupId>`
+
+
++ Attributes (call bridge group)
+
++ Response 200
+    + Headers
+
+            Status:call bridge
+
+## Retrieving detailed information about an individual Call Bridge Group [GET /callBridgeGroups/{call bridge groupId}]
+
+GET method performed on a `/callBridgeGroups/<call bridge groupId>` node. If the Call Bridge group ID supplied is valid, a “200 OK” response is received, with XML content described in the previous section.
+
++ Response 200
+    + Headers
+
+            Status:call bridge group
+
+
+# Group XMPP Methods [/system/configuration/xmpp node]
+
+## Retrieving the XMPP server details [GET]
+
+Issue a GET on the new `/system/configuration/xmpp node` to retrieve the information below.
+
+<table>
+  <tr>
+    <th>Response elements</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>uniqueName</td>
+    <td>String</td>
+    <td>The name by which this Call Bridge is known by the XMPP server</td>
+  </tr>
+  <tr>
+    <td>domain</td>
+    <td>String</td>
+    <td>The domain that the Call Bridge is using for XMPP</td>
+  </tr>
+  <tr>
+    <td>sharedSecret</td>
+    <td>String</td>
+    <td>The password value set by the XMPP server for this Call Bridge when it was configured</td>
+  </tr>
+  <tr>
+    <td>serverAddressOverride</td>
+    <td>String</td>
+    <td>If supplied, the Call Bridge is connecting to an XMPP server at the specified address rather than using the "domain" to discover it (via DNS).</td>
+  </tr>
+</table>
+
++ Response 200
+    + Body
+
+            TODO: something
 
 
 
-# Group XMPP Methods
+
 # Group Call Bridge Cluster Methods
 # Group Recorder Methods
 # Group System Diagnostics Methods
@@ -5162,3 +5224,10 @@ If set to true, new participants that need activation are not activated even if 
 + address (string) - The address at which this Call Bridge in the cluster can be reached
 + sipDomain (string) - The SIP domain to use for establishing peer-to-peer links with this clustered Call Bridge
 + callBridgeGroup (ID) - If specified, associate this Call Bridge with the supplied Call Bridge group (from version 2.1)
+
+## call bridge group
++ name (string) - Optional name of the Call Bridge group
++ loadBalancingEnabled: `false` (boolean) - Whether or not Call Bridges in this Call Bridge group will attempt to load balance calls within the group. If this parameter is not supplied in a create (POST) operation, it defaults to "false" (from version 2.1)
++ loadBalanceLyncCalls: `false` (boolean) - Whether or not incoming calls to coSpaces from Lync are load balanced within the Call Bridge Group. If this parameter is not supplied in a create (POST) operation, it defaults to "false" (from version 2.1)
++ loadBalanceOutgoingCalls: `false` (boolean) - Whether or not calls from coSpaces should be load balanced within the group. If this parameter is not supplied in a create (POST) operation, it defaults to "false" (from version 2.2)
++ loadBalanceUserCalls: `true` (boolean) - Whether or not Cisco Meeting App calls to coSpaces should be load balanced within the group. If this parameter is not supplied in a create (POST) operation, it defaults to "true" (from version 2.3)
