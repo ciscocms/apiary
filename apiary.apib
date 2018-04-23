@@ -4442,9 +4442,7 @@ PUT or POST to `/system/profiles`. Supplying an empty value unsets the top-level
 
 
 
-# Group TURN Server Methods
-
-## TURN Server [/turnServers{?filter,offset,limit}]
+# Group TURN Server Methods [/turnServers{?filter,offset,limit}]
 
 ## Retrieving Information on TURN Servers [GET]
 GET method performed on the `/turnServers` node.
@@ -5123,7 +5121,7 @@ Issue a GET method on the `/system/diagnostics/<diagnosticsId>/contents` node to
 
 # Group LDAP Methods
 
-## Group LDAP Server Methods  [/ldapServers/{?filter,offset,limit}]
+# Group LDAP Server Methods  [/ldapServers/{?filter,offset,limit}]
 
 ## Retrieving Information on LDAP Servers [GET]
 
@@ -5194,7 +5192,7 @@ GET method performed on a `/ldapServers/<ldapServer Id>` node. If the ldapServer
 
             TODO: Ldap server detail
 
-## Group LDAP Mapping Methods
+# Group LDAP Mapping Methods
 
 ## Adding and modifying an LDAP Mapping [POST]
 
@@ -5208,7 +5206,21 @@ GET method performed on a `/ldapServers/<ldapServer Id>` node. If the ldapServer
 
             Location:ID
             
-## Group LDAP Source Methods
+## Secondary LDAP Mapping parameter            
+
+Per LDAP mapping, there is a new optional coSpaceSecondaryUriMapping parameter so that the coSpaces that are created automatically have a secondary URI.
+
+* When creating an LDAP mapping (see the previous section) or modifying the configuration of an existing LDAP mapping you can supply a "coSpaceSecondaryUriMapping" parameter
+* When retrieving information on an individual LDAP mapping (a GET method on a "/ldapMappings/<LDAP mapping ID>" node) the coSpaceSecondaryUriMapping value will be returned if it is defined for that LDAP mapping
+  
+
+ 
+## Retrieving information on LDAP Mappings
+
+
+
+
+# Group LDAP Source Methods
 ## Group LDAP Sync Methods
 ## External Directory Search Locations
 
