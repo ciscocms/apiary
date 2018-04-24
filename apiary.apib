@@ -5571,9 +5571,42 @@ GET method performed on a `/tenantGroups/<tenant group id>` node. If the tenant 
 
 ## accessQuery Method [POST]
 
-The accessQuery method finds details of how a given URI or call ID (for example, one that could be associated with a coSpace) might be reached. One use is an external system discovering that a coSpace with URI "sales.meeting" would be reached via the SIP URI "sales.meeting@example.com".
+The accessQuery method finds details of how a given URI or call ID (for example, one that could be associated with a coSpace) might be reached. One use is an external system discovering that a coSpace with URI "sales.meeting" would be reached via the SIP URI "sales.meeting@example.com". 
 
-POST performed on the /api/v1/accessQuery node.
+Response format: The response includes one or more of the elements on the left within an "<accessQuery>" tag
+
+<table>
+  <tr>
+    <th>Response elements</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>uri</td>
+    <td>String</td>
+    <td>The full URI corresponding to the  uri supplied in the request</td>
+  </tr>
+  <tr>
+    <td>webAddress</td>
+    <td>String</td>
+    <td>An HTTPS URI for web access to the callId supplied in the request</td>
+  </tr>
+  <tr>
+    <td>ivr</td>
+    <td>String</td>
+    <td>A telephone number to reach an IVR that can be supplied with the callId  supplied in the request</td>
+  </tr>
+</table>
+
+
+POST performed on the `/api/v1/accessQuery` node.
+
++ Attributes (accessQuery)
+
++ Response 200
+    + Headers
+
+            TODO:info
 
 ## conversationIdQuery Method [GET]
 
@@ -6155,3 +6188,8 @@ If set to true, new participants that need activation are not activated even if 
 + callBrandingProfile (ID) - If specified, associates the specified call branding profile with this tenant
 + participantLimit(number) - f specified, sets a limit on the number of participants associated with this tenant that can be simultaneously active; new participants beyond this limit will not be permitted.
 + userProfile(ID) - If supplied, a user profile to associate with this tenant; unless otherwise overridden, all users associated with this tenant will use this user profile.
+
+## accessQuery
++ uri(string) - The "user part" of the URI; that is, the part before any '@' character in a full URI
++ callId(string) - A numeric ID (typically 9 digits long)
++ tenant(ID) - If supplied, limits the search to the specific tenant.
