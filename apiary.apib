@@ -5439,8 +5439,53 @@ GET method performed on a '/directorySearchLocations/<directory search location 
             Location:info
 
 # Group Multi-tenancy
-## Tenants
-## Tenant group operations
+
+# Group Tenants [/tenants/{?filter,offset,limit,callLegProfileFillter}]
+
+## Retrieving Tenants [GET]
+
+GET method performed on a '/tenants' node.
+
+Response is structured as a top-level <tenants total=”N”> tag with potentially multiple <tenant> elements within it. <tenant> elements follow the general form on the left.
+
+<table>
+  <tr>
+    <th>Response elements</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>tenant id</td>
+    <td>ID</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>Text</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>tenantGroup</td>
+    <td>ID</td>
+    <td>If specified, associate this tenant with the supplied tenant group; the IDs of coSpaces in tenants within the same tenant group must be unique.</td>
+  </tr>
+</table>
+
++ Parameters
+    + filter (Text) - Supply filter=<tenant> in the URI to return just those tenants that match the filter
+    + offset (number) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list (see above).
+    + limit (number) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list (see above).
+    + callLegProfileFillter (ID) - Supply callLegProfileFilter=<call leg profile id> to return just those coSpaces using that call leg profile
+
++ Response 200
+ 
+    + Headers
+
+            TODO:info
+
+# Group Tenant group operations
+
+
 
 # Group accessQuery Method
 
