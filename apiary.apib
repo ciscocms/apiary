@@ -5531,9 +5531,23 @@ Response is structured as a top-level <tenants total=”N”> tag with potential
 
             TODO:info
 
-# Group Tenant group operations
+# Group Tenant group operations [/tenantGroups/{?offset,limit,tenantGroups,tenantGroupId}]
 
+## Retrieving Tenant Groups [GET]
 
+GET method performed on a `/tenantGroups` node.
+Response is structured as a top-level <tenantGroups total=”N”> tag with potentially multiple <tenantGroup> elements within it. 
+
++ Parameters
+    + offset(Number) - An "offset"can be supplied to retrieve elements other than the first "page" in the notional list (see above).
+    + limit(Number) - A "limit" can be supplied to retrieve elements other than the first "page" in the notional list (see above).
+    + tenantGroups(Number) - Number of tenant groups
+    + tenantGroupId(ID) - ID for each tenant group
+    
++ Response 200
+    + Headers
+
+            TODO:info    
 
 # Group accessQuery Method
 
