@@ -5375,9 +5375,24 @@ GET method on an `/ldapSyncs/<LDAP sync ID>` node.
             TODO:info
 
 
-# Group External Directory Search Locations
+# Group External Directory Search Locations [/directorySearchLocations/{?offset,limit,tenantFilter}]
 
+Via the API you can add to the Call Bridge, additional directory search locations to be consulted when users of Cisco Meeting Apps perform searches. External directory search locations can be added on a per-tenant level. Results from these locations will be added to the "normal" results (e.g. those from our LDAP-sourced user lists) and presented in the Cisco Meeting App. 
 
+## Retrieving Information on external directory search locations [GET]
+
+GET method performed on the `directorySearchLocations` node.
+
++ Parameters
+    + offset(Number) - An "offset" can be supplied to retrieve elements other than the first "page" in the notional list.
+    + limit(Number) - A "limit" can be supplied to retrieve elements other than the first "page" in the notional list.
+    + tenantFilter(ID) - Supply tenantFilter to return only those external directory search locations associated with the specified tenant.
+
++ Response 200
+    
+    + Headers
+
+            TODO:info
 
 # Group Multi-tenancy
 ## Tenants
