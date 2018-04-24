@@ -4443,6 +4443,10 @@ PUT or POST to `/system/profiles`. Supplying an empty value unsets the top-level
 
 
 # Group TURN Server Methods [/turnServers{?filter,offset,limit}]
+---
+**Note**: The TURN Server is not available on the Cisco Meeting Server 2000.
+
+---
 
 ## Retrieving Information on TURN Servers [GET]
 GET method performed on the `/turnServers` node.
@@ -5383,9 +5387,9 @@ Via the API you can add to the Call Bridge, additional directory search location
 
 GET method performed on the `directorySearchLocations` node.
 
-<directorySearchLocations total="N"> tag with potentially multiple
-<directorySearchLocation> elements within it. .
-<directorySearchLocation> elements returned follow the general form on the left.
+* <directorySearchLocations total="N"> tag with potentially multiple
+* <directorySearchLocation> elements within it. .
+* <directorySearchLocation> elements returned follow the general form on the left.
 
 + Parameters
     + offset(Number) - An "offset" can be supplied to retrieve elements other than the first "page" in the notional list.
