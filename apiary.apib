@@ -5549,6 +5549,24 @@ Response is structured as a top-level <tenantGroups total=”N”> tag with pote
 
             TODO:info    
 
+## Creating and Modifying a Tenant Group [POST]
+
+* Creating: POST method to the `/tenantGroups` node. If the tenant group is created successfully, an ID for the new tenant group is returned in the “Location” field of the response header
+* Modifying: PUT method performed on a `/tenantGroups/<tenantGroupId>` node
+
++ Response 200
+    + Headers
+
+            TODO:info
+
+## Retrieving Detailed Information about an Individual Tenant Group [GET /tenantGroups/{tenantGroupId}]
+GET method performed on a `/tenantGroups/<tenant group id>` node. If the tenant ID supplied is valid, a “200 OK” response is received.
+
++ Response 200
+    + Headers
+
+            TODO:info
+
 # Group accessQuery Method
 
 
