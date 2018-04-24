@@ -5567,7 +5567,7 @@ GET method performed on a `/tenantGroups/<tenant group id>` node. If the tenant 
 
             TODO:info
 
-# Group accessQuery Method
+# Group accessQuery Method [/accessQuery/{?uri,callId,tenant}]
 
 ## accessQuery Method [POST]
 
@@ -5632,14 +5632,24 @@ The conversationIdQuery method finds whether a conversation with a specified ID 
 
 GET performed on the /api/v1/conversationIdQuery node.
 
-+ Parameters
-    + conversationId(String) - The conversation id to search for.
+    
++ Response 200
+    + Headers
+
+            TODO:info    
 
 ## uriUsageQuery Method [POST]
 
 The uriUsageQuery method finds the coSpace, user and/or IVR using the specified URI within the specified tenant.
 
-POST performed on the /api/v1/uriUsageQuery node.
+POST performed on the `/api/v1/uriUsageQuery` node.
+
++ Attributes (uriusagequery)
+
++ Response 200
+    + Headers
+
+            TODO:info
 
 
 
@@ -6193,3 +6203,7 @@ If set to true, new participants that need activation are not activated even if 
 + uri(string) - The "user part" of the URI; that is, the part before any '@' character in a full URI
 + callId(string) - A numeric ID (typically 9 digits long)
 + tenant(ID) - If supplied, limits the search to the specific tenant.
+
+## uriusagequery
++ uri(string) - The "user part" of the URI; that is, the part before any '@' character in a full URI.
++ tenant(ID) - If supplied, only those coSpaces, users and IVRs within the specified tenant will be returned. If omitted only entities without a tenant will be returned.
