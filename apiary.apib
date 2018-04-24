@@ -5402,7 +5402,43 @@ GET method performed on the `directorySearchLocations` node.
 * <directorySearchLocation> elements within it. .
 * <directorySearchLocation> elements returned follow the general form on the left.
 
-<table of response elements TODO>
+<table>
+  <tr>
+    <th>Response elements</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>ldapServer</td>
+    <td>ID</td>
+    <td>All as per external directory search location creation described below</td>
+  </tr>
+  <tr>
+    <td>tenant</td>
+    <td>ID</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>baseDn</td>
+    <td>String</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>filterFormat</td>
+    <td>String</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>label</td>
+    <td>String</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>priority</td>
+    <td>Number</td>
+    <td></td>
+  </tr>
+</table>
 
 
 + Parameters
@@ -5479,6 +5515,18 @@ Response is structured as a top-level <tenants total=”N”> tag with potential
 
 + Response 200
  
+    + Headers
+
+            TODO:info
+
+## Creating and Modifying a Tenant [POST]
+
+* Creating: POST method to the `/tenants` node. If the tenant is created successfully, an ID for the new tenant is returned in the “Location” field of the response header
+* Modifying: PUT method performed on a `/tenants/<tenant id>` node
+
++ Attributes (tenant)
+
++ Response 200
     + Headers
 
             TODO:info
@@ -6029,3 +6077,14 @@ If set to true, new participants that need activation are not activated even if 
 + email
 + sip
 + organisation
+
+## tenant
++ name*(string) - A label for the tenant.
++ tenantGroup(ID) - If specified, associate this tenant with the supplied tenant group; the IDs of coSpaces in tenants within the same tenant group must be unique.
++ callLegProfile(ID) - If specified, associates the specified call leg profile with this tenant
++ callProfile(ID) - If specified, associates the specified call profile with this tenant
++ dtmfProfile(ID) - If specified, associates the specified DTMF profile with this tenant
++ ivrBrandingProfile(ID) - If specified, associates the specified IVR branding profile with this tenant
++ callBrandingProfile (ID) - If specified, associates the specified call branding profile with this tenant
++ participantLimit(number) - f specified, sets a limit on the number of participants associated with this tenant that can be simultaneously active; new participants beyond this limit will not be permitted.
++ userProfile(ID) - If supplied, a user profile to associate with this tenant; unless otherwise overridden, all users associated with this tenant will use this user profile.
