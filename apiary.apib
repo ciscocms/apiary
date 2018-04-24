@@ -5402,6 +5402,9 @@ GET method performed on the `directorySearchLocations` node.
 * <directorySearchLocation> elements within it. .
 * <directorySearchLocation> elements returned follow the general form on the left.
 
+<table of response elements TODO>
+
+
 + Parameters
     + offset(Number) - An "offset" can be supplied to retrieve elements other than the first "page" in the notional list.
     + limit(Number) - A "limit" can be supplied to retrieve elements other than the first "page" in the notional list.
@@ -5412,6 +5415,28 @@ GET method performed on the `directorySearchLocations` node.
     + Headers
 
             TODO:info
+            
+## Adding and modifying external directory search locations [POST]
+
+* Creating: POST method to the `/directorySearchLocations` node. If the LDAP source is configured on the system successfully, its ID is returned in the “Location” field of the response header.
+* Modifying: PUT method on a `/directorySearchLocations/<directory search location id>` node.
+
++ Attributes (directory)
+
++ Response 200
+    + Headers
+
+            TODO:info
+
+## Retrieving detailed information on external directory search locations [GET /directorySearchLocations/{directory search location id}]
+
+GET method performed on a '/directorySearchLocations/<directory search location id>' node. If the directory search location ID supplied is valid, a “200 OK” response is received, with XML content as per directory search location creation described above.
+
++ Response 200
+
+    + Headers
+
+            Location:info
 
 # Group Multi-tenancy
 ## Tenants
@@ -5942,3 +5967,20 @@ If set to true, new participants that need activation are not activated even if 
 + removeWhenFinished `true` - If this parameter is not supplied in a create (POST) operation, it defaults to "true".
     + true - this LDAP sync will, when it has finished (either successfully or with an error), be removed from the system's tracked list, and so can no longer be queried
     + false - this LDAP sync will persist in the system's tracked list when it has finished, at which point its success or failure status may then be queried. To avoid it remaining permanently on the system's tracked list, it needs to be deleted explicitly.
+
+## directory
+
++ ldapServer*(ID) - The ID of a previously-configured LDAP server (see above)
++ tenant (ID) - if supplied, the tenant to which this external directory applies; entries from the remote directory will only be supplied to users associated with this tenant
++ baseDn (string) - The distinguished name of the node in the LDAP server's tree within which to search
++ filterFormat(string) - The LDAP filter used to select directory search results; $1 should be used to represent the user-supplied search string
++ label (string) - The human-readable name that should be associated with search results from this directory when displayed by requesting clients.
++ priority (number) - Controls the order in which directorySearchLocations should be used in searching; entries with higher priorities will be used first
++ firstName - The following fields specify the name of a field from LDAP to be used when populating the contents of the search result. For example, displayName might be set to "cn" to use the canonical name.
++ lastName
++ displayName
++ phone
++ mobile
++ email
++ sip
++ organisation
