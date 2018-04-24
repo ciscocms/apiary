@@ -5173,20 +5173,12 @@ Response is structured as a top-level <ldapServers total=”N”> tag with poten
 + Attributes (ldap server)
 
 + Response 200
+    
     + Headers
-
+    
             TODO:update LDAP server.
 
-## Retrieving detailed information about an individual LDAP Server [GET /ldapServers/{ldapServer Id}]
 
-GET method performed on a `/ldapServers/<ldapServer Id>` node. If the ldapServer Id supplied is valid, a “200 OK” response is received, with XML content:
-
-<table of response elements>
-
-+ Response 200
-    + Body
-
-            TODO: Ldap server detail
 
 # Group LDAP Mapping Methods [/ldapMappings/{?offset,limit,filter}]
 
@@ -5362,10 +5354,28 @@ POST method on the `/ldapSyncs` node. If neither parameter in the following tabl
 + Response 200
     + Headers
 
-            LOCATION: Format `/api/v1/ldapSyncs/<LDAPsync ID>`
+            LOCATION: Format `/api/v1/ldapSyncs/<LDAPsync Id>`
+
+## Cancelling a scheduled LDAP sync [DELETE]
+
+DELETE method on a `/ldapSyncs/<LDAP sync Id>` node. This method cancels a scheduled LDAP sync. This method will fail if the sync method has already started (or started and completed).
+
++ Response 200
+    + Headers
+
+            TODO:deleted
+
+## Retrieving information on a single LDAP sync method [GET /ldapSyncs/{LDAP sync ID}]
+
+GET method on an `/ldapSyncs/<LDAP sync ID>` node.
+
++ Response 200
+    + Headers
+
+            TODO:info
 
 
-## External Directory Search Locations
+# Group External Directory Search Locations
 
 
 
