@@ -5575,6 +5575,35 @@ The accessQuery method finds details of how a given URI or call ID (for example,
 
 POST performed on the /api/v1/accessQuery node.
 
+## conversationIdQuery Method [GET]
+
+The conversationIdQuery method finds whether a conversation with a specified ID has been found. Response format is follows:
+
+<table>
+  <tr>
+    <th>Response elements</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>conversationId</td>
+    <td>String</td>
+    <td>The conversation id searched for</td>
+  </tr>
+  <tr>
+    <td>found</td>
+    <td>true|false</td>
+    <td>Whether or not a conversation with the specified id has been found.</td>
+  </tr>
+</table>
+
+GET performed on the /api/v1/conversationIdQuery node.
+
++ Parameters
+    + conversationId(String) - The conversation id to search for.
+
+
+
 # Data Structures
 
 ## URI user part (string)
