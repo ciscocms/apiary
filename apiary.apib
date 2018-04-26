@@ -5157,8 +5157,9 @@ Issue a GET method on the `/system/diagnostics/<diagnosticsId>/contents` node to
 
             Diagnostics:contents
 
+# Group LDAP Methods
 
-# Group LDAP Server Methods  [/ldapServers/{?filter,offset,limit}]
+# LDAP Server Methods  [/ldapServers/{?filter,offset,limit}]
 
 ## Retrieving Information on LDAP Servers [GET]
 
@@ -5219,7 +5220,7 @@ Response is structured as a top-level <ldapServers total=”N”> tag with poten
 
 
 
-# Group LDAP Mapping Methods [/ldapMappings/{?offset,limit,filter}]
+# LDAP Mapping Methods [/ldapMappings/{?offset,limit,filter}]
 
 ## Adding and modifying an LDAP Mapping [POST]
 
@@ -5269,7 +5270,7 @@ GET method performed on a `/ldapMappings/<ldapMapping Id>` node. If the ldapMapp
             TODO:info
 
 
-# Group LDAP Source Methods [/ldapSources/{?filter,offset,limit,tenantFilter}]
+# LDAP Source Methods [/ldapSources/{?filter,offset,limit,tenantFilter}]
 
 ## Retrieving Information on LDAP Sources [GET]
 
@@ -5327,7 +5328,7 @@ GET method performed on a `/ldapSources/<ldapSource ID>` node. If the ldapSource
 
             TODO:info
 
-# Group LDAP Sync Methods [/ldapSyncs/{?offset,limit}]
+# LDAP Sync Methods [/ldapSyncs/{?offset,limit}]
 
 API support for LDAP synchronization comprises the ability to:
 
@@ -5414,7 +5415,7 @@ GET method on an `/ldapSyncs/<LDAP sync ID>` node.
             TODO:info
 
 
-# Group External Directory Search Locations [/directorySearchLocations/{?offset,limit,tenantFilter}]
+# External Directory Search Locations [/directorySearchLocations/{?offset,limit,tenantFilter}]
 
 Via the API you can add to the Call Bridge, additional directory search locations to be consulted when users of Cisco Meeting Apps perform searches. External directory search locations can be added on a per-tenant level. Results from these locations will be added to the "normal" results (e.g. those from our LDAP-sourced user lists) and presented in the Cisco Meeting App. 
 
