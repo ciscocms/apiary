@@ -587,7 +587,7 @@ As described in Section 4.1, retrieval methods using GET involve no body content
 
 # Group coSpace Related Methods
 
-
+---
 **Note:** From release 1.9, coSpace has been renamed as space. Although the Cisco Meeting App and other Cisco Meeting Server guides refer to
 "spaces" rather than "coSpaces", the API still uses /coSpace objects. The Web Admin
 interface has been changed to refer to "spaces".
@@ -858,6 +858,11 @@ A new auto-generated Call Id is assigned if "requireCallId=true" is set via a cr
         + secret (string, optional) - If provided, sets the security string for this coSpace. If absent, a security string is chosen automatically if the coSpace has a callId value. This is the security value associated with the coSpace that needs to be supplied with the callId for guest access to the coSpace. Present from R1.7 onwards
         + regenerateSecret: `false` (boolean) - If provided as true - a new security value is generated for this coSpace and the former value is no longer valid (for instance, any hyperlinks including it will cease to work) If provided as false - do not generate a new secret value for this coSpace; this has no effect. This parameter is only valid for the modify (PUT) case. Present from R1.7 onwards
         + defaultLayout (defaultLayout) - The default layout to be used for new call legs in this coSpace. See Default layout options for the difference in naming between the API and the Web Admin interface
+        + nonMemberAccess: `true` (boolean) - Controls whether non-members of the coSpace are able to have access to the coSpace. If not provided, behaviour defaults to true. (From version 2.0).
+        + ownerJid (string) - Indicates the coSpace is owned by the user with the specified JID. (From version 2.0).
+        + streamUrl (URL) - Indicates where the coSpace is streamed to, if streaming is initiated. (From version 2.1).
+        + ownerAdGuid (ID) - If provided, the coSpace will be owned by the user with the given AD GUID. (From version 2.1).
+        + meetingScheduler (string) - Name of person (not necessarily a user) who scheduled the creation of this coSpace, which if set is propagated to any call objects as the “ownerName” field. (From version 2.2).
 
     + Body
 
