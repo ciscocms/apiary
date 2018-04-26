@@ -8,12 +8,9 @@ Computing Server (UCS) technology as well as on the Acano X-Series hardware, or 
 specification-based VM server. Cisco Meeting Server is referred to as the Meeting Server
 throughout this document.
 
-This document covers release 2.3 of the Application Program Interface for the Cisco Meeting server.
+This document covers release 2.3 of the Application Program Interface for the Cisco Meeting server. For version specific API changes, refer to the Release Notes for Cisco Meeting Server.
 
-This document is one of a number of reference guides, as shown below
-We suggest that you start by reading sections 2 to 5 inclusive and in order. They provide the concepts behind the API, the way to use the API methods and some examples of usage.
-Then use the remaining sections as reference material for the method(s) that you want to use.
-In addition to this guide, the material shown in the figure below can be found at the Acano Documentation & software page. If you need any technical assistance with the configuration, or you want to report a suspected bug, email support@acano.com
+In addition to this reference  you can find documentation for Cisco Meeting Server here: https://www.cisco.com/c/en/us/support/conferencing/meeting-server/tsd-products-support-series-home.html. 
 
 * support for recording meetings
 * additional DTMF support
@@ -58,11 +55,21 @@ They are:
     * unmuteAllNewAndAllExceptSelfAudio
 
 ## General Structure of Methods
-Conceptually, the API methods are designed to work on a hierarchical tree of objects. For example, each configured coSpace exists as a node in this tree, and all of the users who are members of that coSpace exist as nodes “beneath” the coSpace object’s node. The API objects are accessed using a suitable REST
-client.
 
-In order to work within the environs of the Acano server’s high capacity in terms of the potentially large number of active calls and coSpaces, it is important that the methods supported do not require the entire collection of active objects of any particular type to be able to be retrieved in a single response. For this reason, rather than returning such an oversized data set in a single response, responses typically return the first “N” matching entries and a count of the total number of objects of that type. In order to find a specific object for further methods (for example, for the purposes of a deeper dive into an individual object’s active status, or to modify or delete it) filters can be applied to the initial retrieval in order to identify the object in question. Refer to Section 4.1 for more information on filters and the GET command.
+The Meeting Server‘s Application Programming Interface (API) is designed as a hierarchy of
+objects, like the trunk and roots of a tree. 
+For example, each configured coSpace exists as a
+node in this tree, and all of the users who are members of that coSpace exist as nodes
+“beneath” the coSpace object’s node. The API objects are accessed using a suitable REST
+client, see Section 3.3.
 
+---
+**Note:**Although the Cisco Meeting App and other Cisco Meeting Server guides refer to "spaces" rather than "coSpaces", the API still uses /coSpace objects.
+
+---
+
+The Meeting Server has the potential to host a large number of active calls and coSpaces. To reduce the overhead of retrieving the entire collection of objects in a single response, responses
+typically return the first “N” matching entries and a count of the total number of objects of that type. To find an individual object’s active status, or to modify or delete it, use filters on the initial retrieval in order to identify the object in question. 
 
 ### Object Hierarchy
 The hierarchy of objects addressable via the API is:
