@@ -697,7 +697,7 @@ TODO: Response is structured as a top-level \<coSpaces total=”N”\> tag with 
 
 ## Creating and Modifying a coSpace [POST /coSpace]
 * Creating: POST method to the `/coSpaces` node. If the coSpace was created successfully, a “200 OK” response is received, and the “Location” header contains the ID for the new coSpace
-* Modifying: PUT method on a `/coSpaces/<coSpaceId>` node
+* Modifying: PUT method on a `/coSpaces/<coSpace id>` node
 
 ---
 **Note:** You can also use this PUT to modify the values of a coSpace created in an Acano Client. For example, the coSpace will have been created with the cdrTag of the user who created it but you can change that value with an API call. (This is unlike the cdrTag of an automatically generated coSpace, which cannot be updated with an API call).
@@ -747,7 +747,7 @@ TODO: Response is structured as a top-level \<coSpaces total=”N”\> tag with 
   </tr>
   <tr>
     <td>tenant</td>
-    <td>ID</td>
+    <td>id</td>
     <td>If provided, associates the specified tenant with this coSpace</td>
   </tr>
   <tr>
