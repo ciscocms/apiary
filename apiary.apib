@@ -2236,19 +2236,19 @@ POST method performed on the `/calls` node or PUT method to `/calls/<callId>`
   <tr>
     <td>messagePosition</td>
     <td>top|middle|bottom</td>
-    <td>Position to display configured messageText on screen (for SIP endpoints).(From version 2.1)<
+    <td>Position to display configured messageText on screen (for SIP endpoints). (From version 2.1)<
     /td>
   </tr>
   <tr>
     <td>messageDuration</td>
     <td>Number|permanent</td>
-    <td>Time in seconds to display configured messageText on screen . Typing the string “permanent” will result in the string being permanently shown 
+    <td>Time in seconds to display configured messageText on screen. Typing the string “permanent” will result in the string being permanently shown 
     until it is reconfigured. (From version 2.1)</td>
   </tr>
   <tr>
     <td>activeWhenEmpty</td>
     <td>true|false</td>
-    <td>If true, this call is considered “active for load balancing” when no participants are present,. This means that the first call to the empty conference is preferentially load balanced. You can prevent the load balancing preferentially using the empty conferences by setting this parameter to false. If this parameter is not supplied in a create (POST) operation, it defaults to “true”.  (From version 2.2)</td>
+    <td>If true, this call is considered “active for load balancing” when no participants are present. This means that the first call to the empty conference is preferentially load balanced. You can prevent the load balancing preferentially using the empty conferences by setting this parameter to false. If this parameter is not supplied in a create (POST) operation, it defaults to “true”.  (From version 2.2)</td>
   </tr>
 </table>
 
@@ -2284,7 +2284,7 @@ GET method performed on a `/calls/<callId>` node. If the call ID supplied is val
   </tr>
   <tr>
     <td>callType</td>
-    <td>coSpace|forwarding|adHoc|lyncConferencing</td>
+    <td>coSpace<br>|forwarding<br>|adHoc<br>|lyncConferencing<br></td>
     <td>Indicates the call type:coSpace - this call is the instantiation of a spaceforwarding - this is a forwarded or “gateway” calladHoc - this is an ad hoc multiparty calllyncConferencing - this call leg is participating in a Lync conference(From version 2.3)</td>
   </tr>
   <tr>
@@ -2370,7 +2370,7 @@ GET method performed on a `/calls/<callId>` node. If the call ID supplied is val
   <tr>
     <td>messagePosition</td>
     <td>top|middle|bottom</td>
-    <td>Position to display configured messageText on screen (for SIP endpoints).(From version 2.1)</td>
+    <td>Position to display configured messageText on screen (for SIP endpoints). (From version 2.1)</td>
   </tr>
   <tr>
     <td>messageDuration</td>
@@ -2380,7 +2380,7 @@ GET method performed on a `/calls/<callId>` node. If the call ID supplied is val
   <tr>
     <td>messageTimeRemaining</td>
     <td>Number</td>
-    <td>Time remaining in  seconds for configured messageText to be displayed on screen.(From version 2.1)</td>
+    <td>Time remaining in  seconds for configured messageText to be displayed on screen. (From version 2.1)</td>
   </tr>
   <tr>
     <td>ownerName</td>
@@ -2390,7 +2390,7 @@ GET method performed on a `/calls/<callId>` node. If the call ID supplied is val
   <tr>
     <td>activeWhenEmpty</td>
     <td>true|false</td>
-    <td>If true, this call is considered active for load balancing when no participants are present.If this parameter is not supplied in a create (POST) operation, it defaults to “true”.  (From version 2.2)</td>
+    <td>If true, this call is considered active for load balancing when no participants are present. If this parameter is not supplied in a create (POST) operation, it defaults to “true”.  (From version 2.2)</td>
   </tr>
 </table>
 
@@ -5917,7 +5917,7 @@ If set to true, new participants that need activation are not activated even if 
 + importance (number) - The importance value of the participant to be created. (From version 2.2)
 
 ## callLeg
-+ remoteParty (string) - For POST only, specifies the call leg’s address; this could be a SIP URI, a phone number, or a user JID to invite that user to the call
++ remoteParty* (string) - For POST only, specifies the call leg’s address; this could be a SIP URI, a phone number, or a user JID to invite that user to the call
 + bandwidth (number) - For POST only, if supplied, sets the bandwidth for the call leg, in bits per second (e.g. 2000000 for 2Mbit/s). If not supplied, the Acano Call Bridge configured value will be used
 + confirmation (boolean) - For POST only, if supplied, this overrides the automatic choice of whether to require a confirmation from the remote party to join the call. true - always require a confirmation from the remote party; typically this takes the form of a voice prompt requiring them to hit a key to join. false - never require a confirmation from the remote party; the remote party will be joined into the coSpace when they accept the incoming call
 + ownerId (ID) - If supplied must be an ID for the Acano server to associate with this call leg. This will be returned by the Acano servern when the call leg is later queried and therefore should be a value that has meaning to the requestor
@@ -5953,12 +5953,12 @@ If set to true, new participants that need activation are not activated even if 
 + layout (Layouts) - This parameter is provided for backward compatibility with versions prior to 1.2 - it has the equivalent functionality to changing "defaultLayout", and if both are supplied then "defaultLayout" will take precedence
 + disconnectOthersAllowed (boolean)
 + qualityMain - Restricts the maximum negotiated main video call quality for this call leg based on limiting transcoding resources. Specified using a typical resolution and framerate. Note that call legs may operate at lower resolutions or framerates due to endpoint limitations or overall Call Bridge load.
-    + unrestricted - this is the default setting if not specified, and matches the behavior of older Call Bridge versions, where no restrictions are placed on resolution or frame rate
+    + `unrestricted` - this is the default setting if not specified, and matches the behavior of older Call Bridge versions, where no restrictions are placed on resolution or frame rate
     + max1080p30 - restricts the bridge to negotiating at most 1920x1080 screen size at 30 frames per second or equivalent transcoding resources, for example 1280x720 screen size at 60 frames per second
     + max720p30 - restricts the bridge to negotiating at most 1280x720 screen size at 30 frames per second or equivalent transcoding resources
     + max480p30 - restricts the bridge to negotiating at most 868x480 screen size at 30 frames per second or equivalent transcoding resources.(From version 2.2)
 + qualityPresentation - Restrict the maximum negotiated presentation video call quality for this call leg based on limiting transcoding resources. Specified using a typical resolution and frame rate. This only affects legs which use a separate presentation stream.
-    + unrestricted - this is the default setting if not specified, and matches the behavior of older Call Bridge versions, where no restrictions are placed on resolution or framerate
+    + `unrestricted` - this is the default setting if not specified, and matches the behavior of older Call Bridge versions, where no restrictions are placed on resolution or framerate
     + max1080p30 - restricts the Call Bridge to negotiating at most 1920x1080 screen size at 30 frames per second or equivalent transcoding resources
     + max720p5 - restricts the Call Bridge to negotiating at most 1280x720 screen size at 5 frames per second or equivalent transcoding resources. (From version 2.2)
 + participantCounter - Controls the behavior of the onscreen participant counter. (From version 2.2)
