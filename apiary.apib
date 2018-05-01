@@ -3697,7 +3697,7 @@ Response is structured as a top-level `<participants total=”N”>` tag with po
     <tr>
         <td>callBridge</td>
         <td>ID</td>
-        <td>If present, the remote, clustered, Call Bridge that this participant is connected to</td>
+        <td>If present, the remote clustered Call Bridge that this participant is connected to</td>
     </tr>
     <tr>
         <td>uri</td>
@@ -3707,7 +3707,7 @@ Response is structured as a top-level `<participants total=”N”>` tag with po
     <tr>
         <td>originalUri</td>
         <td>String</td>
-        <td>The remote address first used by or signaled to the Call Bridge. From version 2.3.</td>
+        <td>The remote address first used by or signaled to the Call Bridge. (From version 2.3)</td>
     </tr>
     <tr>
         <td>numCallLegs</td>
@@ -3770,7 +3770,7 @@ Response is structured as a top-level `<participants total=”N”>` tag with po
     + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
     + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
     + tenantFilter (ID, optional) - Supply the tenantFilter to return only those participants belonging to that tenant
-    + callBridgeFilter (ID, optional) - Supply the callBridgeFilter to return only those participants located on that tenant
+    + callBridgeFilter (ID, optional) - Supply the callBridgeFilter to return only those participants located on that Call Bridge
 
 + Response 200
     + Body
@@ -3829,6 +3829,11 @@ If the participant ID supplied is valid, a “200 OK” response is received, wi
         <td>String</td>
         <td>The URI associated with this participant</td>
     </tr>
+    <tr>
+        <td>originalUri</td>
+        <td>String</td>
+        <td>The remote address first used by or signalled to the Call Bridge. (From version 2.3)</td>
+    </tr>
     </tr>
         <tr>
         <td>numCallLegs</td>
@@ -3847,6 +3852,34 @@ If the participant ID supplied is valid, a “200 OK” response is received, wi
         <td>bool</td>
         <td>Whether this participant is considered to be an "activator". true - this participant is an activator - it is itself "activated" and that it will cause any currently-connected "de-activated" participants to become activated. false - this participant is not an activator - it needs to wait for one or more "activator" participants to be present before it is fully "activated"</td>
     </tr>
+</table>
+#### status (from version 2.2)
+<table>
+<tr>
+<td>Name</td>
+<td>Type</td>
+<td>Description</td>
+</tr>
+<tr>
+<td>state</td>
+<td>initial<br>|ringing<br>|connected<br>|onHold<br></td>
+<td>The call state of this participant.</td>
+</tr>
+</table>
+
+
+#### configuration (from version 2.2)
+<table>
+<tr>
+<td>Name</td>
+<td>Type</td>
+<td>Description</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>Number</td>
+<td>The importance of this participant.</td>
+</tr>
 </table>
 
 + Response 200
@@ -3910,7 +3943,7 @@ Response is structured as a top-level `<users total=”N”>` tag with potential
     + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
     + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
     + tenantFilter (ID, optional) - Supply tenantFilter to return only those users associated with the specified tenant
-    + emailFilter (String) - Supply emailFilter to restrict results returned to those users whose email value exactly matches the specified email address(from version 2.1).
+    + emailFilter (String) - Supply emailFilter to restrict results returned to those users whose email value exactly matches the specified email address (from version 2.1).
     + cdrTagFilter (String) - Supply cdrTagFilter to restrict results returned to those users whose cdrTag value exactly matches the specified cdrTag (from version 2.1).
 
 + Response 200
@@ -3962,7 +3995,7 @@ If the user ID supplied is valid, a “200 OK” response is received, with XML 
     <tr>
         <td>userProfile</td>
         <td>ID</td>
-        <td>If present, this is the ID of the user profile associated with this user. This parameter is present from version 2.0 onwards.</td>
+        <td>If present, this is the ID of the user profile associated with this user. (From version 2.0 onwards)</td>
     </tr>
 </table>
 
@@ -4037,32 +4070,32 @@ Response is structured as a top-level `<userProfiles total="N">` tag with potent
   <tr>
     <td>audioParticipationAllowed</td>
     <td>true|false</td>
-    <td>Whether or not a user associated with this user profile and using the Cisco Meeting App will be allowed to send or receive live audio when in a call. This restriction does not apply to dialing directly into the call via SIP, or slaving to a SIP endpoint.This parameter is present from version 2.0 onwards.</td>
+    <td>Whether or not a user associated with this user profile and using the Cisco Meeting App will be allowed to send or receive live audio when in a call. This restriction does not apply to dialing directly into the call via SIP, or slaving to a SIP endpoint. (From version 2.0)</td>
   </tr>
   <tr>
     <td>videoParticipationAllowed</td>
     <td>true|false</td>
-    <td>Whether or not a user associated with this user profile will be allowed to send or receive live video when in a call. This restriction does not apply to dialing directly into the call via SIP, or slaving to a SIP endpoint.This parameter is present from version 2.0 onwards.</td>
+    <td>Whether or not a user associated with this user profile will be allowed to send or receive live video when in a call. This restriction does not apply to dialing directly into the call via SIP, or slaving to a SIP endpoint. (From version 2.0)</td>
   </tr>
   <tr>
     <td>presentationParticipationAllowed</td>
     <td>true|false</td>
-    <td>Whether or not a user associated with this user profile will be allowed to send or receive presentation media when in a call. This restriction does not apply to dialing directly into the call via SIP, or slaving to a SIP endpoint.This parameter is present from version 2.0 onwards.</td>
+    <td>Whether or not a user associated with this user profile will be allowed to send or receive presentation media when in a call. This restriction does not apply to dialing directly into the call via SIP, or slaving to a SIP endpoint. (From version 2.0) onwards.</td>
   </tr>
   <tr>
     <td>hasLicense</td>
     <td>true|false</td>
-    <td>Whether or not a user associated with this user profile has a Cisco user license.This parameter is present from version 2.0 onwards.</td>
+    <td>Whether or not a user associated with this user profile has a Cisco user license. (From version 2.0)</td>
   </tr>
   <tr>
     <td>canReceiveCalls</td>
     <td>true|false</td>
-    <td>Determines whether or not a user associated with this user profile can receive incoming calls using the Cisco Meeting App. This parameter is present from version 2.1 onwards</td>
+    <td>Determines whether or not a user associated with this user profile can receive incoming calls using the Cisco Meeting App. (From version 2.0)</td>
   </tr>
   <tr>
     <td>canSendEmailInvite</td>
     <td>true|false</td>
-    <td>Determines whether or not a Cisco Meeting App user associated with this user profile can email invitations to a meeting space. This parameter is present from version 2.3 onwards</td>
+    <td>Determines whether or not a Cisco Meeting App user associated with this user profile can email invitations to a meeting space. (From version 2.0)</td>
   </tr>
 </table>
 
@@ -4474,7 +4507,7 @@ PUT or POST to `/system/profiles`. Supplying an empty value unsets the top-level
 
 # TURN Server Methods [/turnServers{?filter,offset,limit}]
 ---
-**Note**: The TURN Server is not available on the Cisco Meeting Server 2000.
+**Note**: The TURN Server is not available on the Cisco Meeting Server 2000. It is more suited to the lower capacity Cisco Meeting Server 1000 and specification-based VM servers.
 
 ---
 
@@ -4845,6 +4878,11 @@ Issue a GET on the `/system/configuration/cluster node` to retrieve the informat
     <td>Number</td>
     <td>Basis points of load limit at which incoming calls to this Call Bridge will be rejected, ranges from 0 to 10000, defaults to 8000 (from version 2.1)</td>
   </tr>
+   <tr>
+    <td>maxPeerVideoStreams</td>
+    <td>Number</td>
+    <td>The maximum number of streams sent over a call distribution connection between Call Bridges, defaults to 4 if not supplied. (from version 2.3.3)</td>
+  </tr>
 </table>
 
 + Response 200
@@ -4867,7 +4905,7 @@ Issue a PUT or a POST on the '/system/configuration/cluster node`
 # Recorder Methods [/recorders/{?offset,limit}]
 
 ---
-**Note**: The Recorder is not available on the Cisco Meeting Server 2000.
+**Note**: The Recorder is not available on the Cisco Meeting Server 2000. It is more suited to the lower capacity Cisco Meeting Server 1000 and specification-based VM servers.
 
 ---
 
@@ -4892,7 +4930,7 @@ Response is structured as a top-level <recorders total="N"> tag with potentially
   <tr>
     <td>url</td>
     <td>URL</td>
-    <td>The address that theCall Bridge uses to reach this recorder</td>
+    <td>The address that the Call Bridge uses to reach this recorder</td>
   </tr>
   <tr>
     <td>callBridge</td>
@@ -5009,7 +5047,7 @@ GET method performed on a `/recorders/<recorderId>/status` node. If the recorder
 # Streamer methods [/streamers/{?offset,limit}]
 
 ---
-**Note:**The Streamer is not available on the Cisco Meeting Server 2000.
+**Note:**The Streamer is not available on the Cisco Meeting Server 2000. It is more suited to the lower capacity Cisco Meeting Server 1000 and specification-based VM servers.
 
 ---
 
@@ -6237,7 +6275,7 @@ If set to true, new participants that need activation are not activated even if 
 + userProfile(ID) - If supplied, a user profile to associate with this tenant; unless otherwise overridden, all users associated with this tenant will use this user profile.
 
 ## accessQuery
-+ uri(string) - The "user part" of the URI; that is, the part before any '@' character in a full URI
++ uri(string) - The URI "user part" is the part before any '@' character in a full URI
 + callId(string) - A numeric ID (typically 9 digits long)
 + tenant(ID) - If supplied, limits the search to the specific tenant.
 
