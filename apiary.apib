@@ -12,56 +12,11 @@ This document covers release 2.3 of the Application Program Interface for the Ci
 
 In addition to this reference  you can find documentation for Cisco Meeting Server here: https://www.cisco.com/c/en/us/support/conferencing/meeting-server/tsd-products-support-series-home.html. 
 
-* support for recording meetings
-* additional DTMF support
-* change in behavior of the "allEqual" screen layout for SIP endpoints, (see the defaultLayout parameter for `/coSpaces` and `/callLegProfiles` objects, and defaultLayout, chosenLayout and layout parameters for the `/calls` object).
-
-## Support for recording meetings
-New API objects to enable the recording of meetings hosted on the Acano server.
- 
-They are: 
-
-    * `/recorders`
-    * `/recorders/<recorder id>`
-
-* New recording parameter for `/calls` and `/calls/<call id>`
-* New recordingControlAllowed parameter for `/callLegProfiles` and `/callLegProfiles/<call leg profile id>`
-* New recordingMode parameter for `/callProfiles` and `/callProfiles/<call profile id>`
-* New startRecording and stopRecording parameters for `/dtmfProfiles` and `/dtmfProfiles/<dtmf profile id>`
-* Two new error codes to aid diagnostics:
-    * callRecordingCannotBeModified
-    * recorderDoesNotExist
-
-### Additional parameters giving meeting participants greater control over audio and presenting content
-* New parameters for `/calls` and `/calls/<call id>`, `/callLegProfiles` and `callLegProfiles/<call leg profile id>` as follows:
-    * recording
-    * allowAllMuteSelf
-    * allowAllPresentationContribution
-    * joinAudioMuteAllNewAudio
-
-### Additional support for DTMF
-* New dtmfSequence parameter for `/calls/<call id>/callLegs` and `/callsLegs/<call leg id>`
-* New parameters for `/dtmfProfiles` and `/dtmfProfiles/<dtmf profile id>` as follows:
-    * startRecording
-    * stopRecording
-    * allowAllMuteSelf
-    * cancelAllMuteSelf
-    * allowAllPresentationContribution
-    * cancelAllPresentationContribution
-    * muteAllNewAudio
-    * unmuteAllNewAudio
-    * defaultMuteAllNewAudio
-    * muteAllNewAndAllExceptSelfAudio
-    * unmuteAllNewAndAllExceptSelfAudio
-
 ## General Structure of Methods
 
-The Meeting Server‘s Application Programming Interface (API) is designed as a hierarchy of
-objects, like the trunk and roots of a tree. 
-For example, each configured coSpace exists as a
-node in this tree, and all of the users who are members of that coSpace exist as nodes
-“beneath” the coSpace object’s node. The API objects are accessed using a suitable REST
-client, see Section 3.3.
+The Meeting Server‘s Application Programming Interface (API) is designed as a hierarchy of objects, like the trunk and roots of a tree. 
+For example, each configured coSpace exists as a node in this tree, and all of the users who are members of that coSpace exist as nodes
+“beneath” the coSpace object’s node. The API objects are accessed using a suitable REST client.
 
 ---
 **Note:**Although the Cisco Meeting App and other Cisco Meeting Server guides refer to "spaces" rather than "coSpaces", the API still uses /coSpace objects.
@@ -196,8 +151,6 @@ Suitable tools to access and update the API include:
 * Firefox Poster
 * Chrome Postman
 * Chrome Advanced Rest Client
-
-Appendix B provides an example of using the Firefox Poster tool.
 
 ## API Methods
 There are four methods:
