@@ -994,17 +994,17 @@ Response is structured as a top-level `<coSpaceUsers total=”N”>` tag with po
   </tr>
   <tr>
     <td>canRemoveSelf</td>
-    <td>true|false</td>
+    <td>true|`false`</td>
     <td>Whether this user is allowed to remove himself from the coSpace</td>
   </tr>
   <tr>
     <td>canDeleteAllMessages</td>
-    <td>true|false</td>
+    <td>true|`false`</td>
     <td>Whether this user is allowed to delete all messages from the coSpace message board</td>
   </tr>
   <tr>
     <td>canChangeNonMemberAccessAllowed</td>
-    <td>true|false</td>
+    <td>`true`|false</td>
     <td>Whether this user is allowed to change the “non-member access allowed setting” of the coSpace. From version 2.3.</td>
   </tr>
 </table>
@@ -1334,7 +1334,7 @@ Response is a collection of `<accessMethod id=<access method id>>` objects conta
   </tr>
   <tr>
     <td>uri</td>
-    <td>URI user part</td>
+    <td>String(URI user part)</td>
     <td>The URI to be used for dialing in via this access method</td>
   </tr>
   <tr>
@@ -1855,7 +1855,7 @@ GET method on a `/outboundDialPlanRules/<outbound dial plan rule ID>` node. If t
 
 When an incoming SIP call is routed to the Meeting Server, the Call Bridge looks through the configured inbound dial plan rules first and tries to match the "domain" part of the destination URI "<user>@<domain>"against the rules. 
 
-Use the POST method on API object `/inboundDialPlanRules` to create a new inbound dial plan rule to match against incoming SIP calls, or set it up via the Web Admin Interface (see note below)
+Use the POST method on API object `/inboundDialPlanRules` to create a new inbound dial plan rule to match against incoming SIP calls, or set it up via the Web Admin Interface (see note below).
 ---
 **Note:** On the Web Admin Interface, the table of inbound rules is configured through the **Configuration > Incoming calls** page.
 
@@ -2049,6 +2049,7 @@ Response is a collection of `<forwardingDialPlanRule id=<ID>>` objects contained
     + offset (optional) - An "offset" and "limit" can be supplied to retrieve coSpaces other than the first "page" in the notional list (see Section 4.1.2)
     + limit (optional) - An "offset" and "limit" can be supplied to retrieve coSpaces other than the first "page" in the notional list (see Section 4.1.2)
     + tenantFilter (ID, optional) - If supplied, this filter restricts the results returned to those forwarding dial plan rules that are associated with the specified tenant. This parameter is present from version 1.8 onwards
+
 + Response 200
     + Body
 
@@ -2096,7 +2097,7 @@ Response is a collection of `<forwardingDialPlanRule id=<ID>>` objects contained
   </tr>
   <tr>
     <td>uriParameters</td>
-    <td>discard|forward</td>
+    <td>`discard`|forward</td>
     <td>When forwarding an incoming call to a new destination address, this parameter determines whether to discard any additional parameters that are present in the destination URI of the incoming call, or to forward them on to the destination URI of the outbound call. If this parameter is not supplied in a create (POST) operation, it defaults to "discard”. This parameter is present from version 2.0 onwards</td>
   </tr>
 </table>
