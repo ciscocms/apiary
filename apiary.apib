@@ -10,7 +10,7 @@ throughout this document.
 
 This document covers release 2.3 of the Application Program Interface for the Cisco Meeting server. For version specific API changes, refer to the Release Notes for Cisco Meeting Server.
 
-In addition to this reference  you can find documentation for Cisco Meeting Server here: https://www.cisco.com/c/en/us/support/conferencing/meeting-server/tsd-products-support-series-home.html. 
+In addition to this reference  you can find documentation for Cisco Meeting Server [here](https://www.cisco.com/c/en/us/support/conferencing/meeting-server/tsd-products-support-series-home.html). 
 
 ## General Structure of Methods
 
@@ -19,7 +19,7 @@ For example, each configured coSpace exists as a node in this tree, and all of t
 “beneath” the coSpace object’s node. The API objects are accessed using a suitable REST client.
 
 ---
-**Note:**Although the Cisco Meeting App and other Cisco Meeting Server guides refer to "spaces" rather than "coSpaces", the API still uses /coSpace objects.
+**Note:** Although the Cisco Meeting App and other Cisco Meeting Server guides refer to "spaces" rather than "coSpaces", the API still uses /coSpace objects.
 
 ---
 
@@ -28,107 +28,109 @@ typically return the first “N” matching entries and a count of the total num
 
 ### Object Hierarchy
 The hierarchy of objects addressable via the API is:
+
 `/accessQuery`
-`/callBrandingProfiles`
+
+`/callBrandingProfiles`  
 `/callBrandingProfiles/<call branding profile id>`
 
-`/callBridges`
+`/callBridges`  
 `/callBridges/<call bridge id>`
 
-`/calls`
-`/calls/<call id>`
-`/calls/<call id>/callLegs`
-`/calls/<call id>/diagnostics`
-`/calls/<call id>/participants`
-
-`/callProfiles`
+`/calls`  
+`/calls/<call id>`  
+`/calls/<call id>/callLegs`  
+`/calls/<call id>/diagnostics`  
+`/calls/<call id>/participants`  
+`/callProfiles`  
 `/callProfiles/<call profile id>`
 
-`/callLegs`
-`/callLegs/<callLeg id>`
-`/callLegs/<callLeg id>/callLegProfileTrace`
-
-`/callLegProfiles`
-`/callLegProfiles/<call leg profile id>`
+`/callLegs`  
+`/callLegs/<callLeg id>`  
+`/callLegs/<callLeg id>/callLegProfileTrace`  
+`/callLegProfiles`  
+`/callLegProfiles/<call leg profile id>`  
 `/callLegProfiles/<call leg profile id>/usage`
 
-`/coSpaces`
-`/coSpaces/<coSpace id>`
-`/coSpaces/<coSpace id>/accessMethods`
-`/coSpaces/<coSpace id>/accessMethods/<access method id>`
-`/coSpaces/<coSpace id>/coSpaceUsers`
-`/coSpaces/<coSpace id>/coSpaceUsers/<coSpaceUser id>`
-`/coSpaces/<coSpace id>/diagnostics`
+`/coSpaces`  
+`/coSpaces/<coSpace id>`  
+`/coSpaces/<coSpace id>/accessMethods`  
+`/coSpaces/<coSpace id>/accessMethods/<access method id>`  
+`/coSpaces/<coSpace id>/coSpaceUsers`  
+`/coSpaces/<coSpace id>/coSpaceUsers/<coSpaceUser id>`  
+`/coSpaces/<coSpace id>/diagnostics`  
 `/coSpaces/<coSpace id>/messages`
 
-`/dialTransforms`
+`/dialTransforms`  
 `/dialTransforms/<dial transform id>`
 
-`/directorySearchLocations`
+`/directorySearchLocations`  
 `/directorySearchLocations/<directory search location id>`
 
-`/dtmfProfiles`
+`/dtmfProfiles`  
 `/dtmfProfiles/<dtmf profile id>`
 
-`/forwardingDialPlanRules`
+`/forwardingDialPlanRules`  
 `/forwardingDialPlanRules/<forwarding dial plan rule id>`
 
-`/inboundDialPlanRules`
+`/inboundDialPlanRules`  
 `/inboundDialPlanRules/<inbound dial plan rule id>`
 
-`/ivrs`
-`/ivrs/<ivr id>`
-`/ivrBrandingProfiles`
+`/ivrs`  
+`/ivrs/<ivr id>`  
+`/ivrBrandingProfiles` 
 `/ivrBrandingProfiles/<ivr branding profile id>`
 
-`/ldapMappings`
-`/ldapMapping/<ldap mapping id>`
-`/ldapServers`
-`/ldapServers/<ldap server id>`
-`/ldapSources`
-`/ldapSources/<ldap source id>`
-`/ldapSyncs`
+`/ldapMappings`  
+`/ldapMapping/<ldap mapping id>`  
+`/ldapServers`  
+`/ldapServers/<ldap server id>`  
+`/ldapSources`  
+`/ldapSources/<ldap source id>`  
+`/ldapSyncs`  
 `/ldapSyncs/<ldap sync id>`
 
-`/outboundDialPlanRules`
+`/outboundDialPlanRules`  
 `/outboundDialPlanRules/<outbound dial plan rule id>`
-`/participants`
-`/participants/<participantId>`
+
+`/participants`  
+`/participants/<participantId>`  
 `/participants/<participantId>/callLegs`
 
-`/recorders`
+`/recorders`  
 `/recorders/<recorder id>`
-`/system/alarms`
-`/system/cdrReceiver (deprecated in R1.8)`
-`/system/cdrReceivers`
-`/system/cdrReceivers/<CDR receiver id>`
-`/system/configuration/cluster`
-`/system/configuration/xmpp`
-`/system/database`
-`/system/diagnostics`
-`/system/diagnostics/<diagnostics id>`
-`/system/diagnostics/<diagnostics id>/contents`
-`/system/profiles`
+
+`/system/alarms`  
+`/system/cdrReceiver (deprecated in R1.8)`  
+`/system/cdrReceivers`  
+`/system/cdrReceivers/<CDR receiver id>`  
+`/system/configuration/cluster`  
+`/system/configuration/xmpp`  
+`/system/database`  
+`/system/diagnostics` 
+`/system/diagnostics/<diagnostics id>`  
+`/system/diagnostics/<diagnostics id>/contents`  
+`/system/profiles`  
 `/system/status`
 
-`/tenantGroups`
+`/tenantGroups`  
 `/tenantGroups/<tenant group id>`
 
-`/tenants`
+`/tenants`  
 `/tenants/<tenant id>`
 
-`/turnServers`
-`/turnServers/<turn server id>`
+`/turnServers`  
+`/turnServers/<turn server id>`  
 `/turnServers/<turn server id>/status`
 
-`/users`
-`/users/<user id>`
-`/users/<user id>/usercoSpaces`
-`/userProfiles`
+`/users`  
+`/users/<user id>`  
+`/users/<user id>/usercoSpaces`  
+`/userProfiles`  
 `/userProfiles/<user profile id>`
 
-`/webBridges`
-`/webBridges/<web bridge id>`
+`/webBridges`  
+`/webBridges/<web bridge id>`  
 `/webBridges/<web bridge id>/updateCustomization`
 
 In each case, the top level plural term sits above potentially many individual object nodes; these individual object nodes are identified by an <ID> which is a GUID, typically. For example, if there are 100 coSpaces configured on an Acano server, conceptually there would be 100 nodes directly beneath `/coSpaces` in the hierarchy.
@@ -139,7 +141,7 @@ The API uses HTTPS as a transport mechanism.
 ### Configuration Settings
 To use the API, you need to connect via HTTPS via the same TCP ports as you would use to access the Web Admin Interface – typically port 443; that is, they use the same interface.
 
-You also need to configure a username and password: you must provide these credentials in order to use the API. From R1.7, you set them using the MMP command `user add <username> (admin|crypto|audit|appadmin|api)`. This command prompts for the user’s password; see the MMP Command Reference for details.
+You also need to configure a username and password: you must provide these credentials in order to use the API. From R1.7, you set them using the MMP command `user add <username> (admin|crypto|audit|appadmin|api)`. This command prompts for the user’s password; see the [MMP Command Reference](https://www.cisco.com/c/en/us/support/conferencing/meeting-server/products-programming-reference-guides-list.html) for details.
 
 ### Authentication
 The API user supplies a shared secret username and password to the Acano server configured with the same username and password. The username and password are set in the MMP command line.
@@ -148,16 +150,17 @@ While the authentication credentials are sent in essentially plain text within t
 
 ### Tools to Use
 Suitable tools to access and update the API include:
-* Firefox Poster
-* Chrome Postman
-* Chrome Advanced Rest Client
+* [Firefox Poster](https://addons.mozilla.org/en-US/firefox/addon/poster/)
+* [Postman](https://www.getpostman.com) (OS X, Windows, Linux, and Chrome)
+* [Paw](https://paw.cloud) (OS X)
+* [Insomnia](https://insomnia.rest) (OS X, Windows, and Linux)
 
 ## API Methods
 There are four methods:
-* [GET]() is used for retrieval of existing information
-* [POST]() is used to create new objects in the hierarchy
-* [PUT]() is used to modify an existing object
-* [DELETE]() is used to destroy an object in the tree
+* [GET](#get) is used for retrieval of existing information
+* [POST](#post) is used to create new objects in the hierarchy
+* [PUT](#put) is used to modify an existing object
+* [DELETE](#delete) is used to destroy an object in the tree
 
 These methods are described in more detail below.
 
@@ -179,6 +182,7 @@ For 4xx and 5xx error cases, extended error information may be returned as “te
 More generally, such a response consists of a “failureDetails” section and a list of errors; in the above case a method was attempted using a coSpace ID that did not correspond to an active coSpace. The possible failure reasons are described in Section 4.5.
 
 ### GET Methods
+<a name="get"></a>
 As mentioned above, GET methods allow retrieval of information about existing API accessible objects, and are used at two levels: Collections level and Individual object level.
 
 #### Collections level
@@ -261,6 +265,7 @@ For each GET method at the Individual level the following information is provide
 The form parameters are those for the Collections level, unless otherwise indicated.
 
 ### POST Methods
+<a id="post"></a>
 POST methods create new objects; for example, to create a new configured coSpace or dial plan rule. Using a POST method to create a new call leg associated with a coSpace is the way to make a new outbound SIP connection.
 
 #### HTTP specifics
@@ -275,6 +280,7 @@ For each POST method the following information is provided:
 * The format of each parameter (e.g. `ID` or `string`) or the possible values (e.g. `true`|`false`). If appropriate the default value of a parameter (the value used if you do not specify a parameter) is shown in **bold** (e.g. `true`|`false`).
 
 ### PUT Methods
+<a name="put"></a>
 PUT methods modify existing objects; for example, changing the name of a coSpace, muting a specific call leg or changing the layout.
 
 In general, when using PUT in an object:
@@ -288,6 +294,7 @@ Parameters for a request must be supplied in “x-www-form-urlencoded” format.
 Each PUT method is in the same section as the POST method for the same object e.g. creating and modifying a coSpace are dealt with together. Form parameters for modifying an object (PUT) are only noted if they differ from the POST method; for example, for callLegs.
 
 ### DELETE Methods
+<a name="delete"></a>
 A DELETE method removes an individual object from the hierarchy; for example, disconnecting a call leg or disassociating a user from a coSpace so that the user is no longer a member.
 
 Therefore the DELETE method is typically performed at the Individual level e.g. `DELETE on /api/v1/coSpace/<id>/accessMethods/<id>`
@@ -513,10 +520,10 @@ As described in Section 4.1, retrieval methods using GET involve no body content
     
             <?xml version="1.0"?>
             <calls total="1">
-            <call id="527089d6-6581-4331-8417-971c05c9e274">
-            <name>Sales coSpace</name>
-            <coSpace>2dcf2b7a-3410-4066-b638-46273698d469</coSpace>
-            </call>
+              <call id="527089d6-6581-4331-8417-971c05c9e274">
+                <name>Sales coSpace</name>
+                <coSpace>2dcf2b7a-3410-4066-b638-46273698d469</coSpace>
+              </call>
             </calls>
 
 
@@ -535,7 +542,7 @@ As described in Section 4.1, retrieval methods using GET involve no body content
 + Response 200
     + Headers
 
-            Location: /api/v1/callLegs/5a3b907a-7641-42fb-ae8c- b3424a3e923f
+            Location: /api/v1/callLegs/5a3b907a-7641-42fb-ae8c-b3424a3e923f
             Connection: close
 
 # Group coSpace Related Methods
@@ -602,8 +609,8 @@ TODO: Response is structured as a top-level \<coSpaces total=”N”\> tag with 
         <td>The numeric ID that a user would enter at the IVR (or via a web client) to connect to this coSpace</td>
     </tr>
     <tr>
-        <td>tenant<br>autoGenerated</td>
-        <td>ID<br>true/false</td>
+        <td>tenant</td>
+        <td>ID</td>
         <td>If provided, associates the specified call leg profile with this tenant</td>
     </tr>
     <tr>
@@ -643,12 +650,12 @@ TODO: Response is structured as a top-level \<coSpaces total=”N”\> tag with 
     
             <?xml version="1.0"?>
             <coSpaces total="1">
-            <coSpace id="527089d6-6581-4331-8417-971c05c9e274">
-            <name>Sales coSpace</name>
-            </coSpace>
+              <coSpace id="527089d6-6581-4331-8417-971c05c9e274">
+                <name>Sales coSpace</name>
+              </coSpace>
             </coSpaces>
 
-## Creating and Modifying a coSpace [POST /coSpace]
+## Creating and Modifying a coSpace [POST /coSpaces]
 * Creating: POST method to the `/coSpaces` node. If the coSpace was created successfully, a “200 OK” response is received, and the “Location” header contains the ID for the new coSpace
 * Modifying: PUT method on a `/coSpaces/<coSpace id>` node
 
@@ -760,7 +767,10 @@ TODO: Response is structured as a top-level \<coSpaces total=”N”\> tag with 
   </tr>
 </table>
 
->>Note: You can also use this PUT to modify the values of a coSpace created in a Cisco Meeting App. For example, the coSpace will have been created with the cdrTag of the user who created it but you can change that value with an API call. (This is unlike the cdrTag of an automatically generated coSpace, which cannot be updated with an API call.)
+---
+**Note:** You can also use this PUT to modify the values of a coSpace created in a Cisco Meeting App. For example, the coSpace will have been created with the cdrTag of the user who created it but you can change that value with an API call. (This is unlike the cdrTag of an automatically generated coSpace, which cannot be updated with an API call.)
+
+---
 
 #### Default layout options
 The naming of the defaultLayout options varies between the API and the Web Admin Interface **Configuration > coSpaces** page. The “mapping" is shown in the table below.
@@ -801,26 +811,7 @@ Per coSpace, there is an optional secondaryUri parameter as shown above. This al
 A new auto-generated Call Id is assigned if "requireCallId=true" is set via a create (POST) or modify (PUT) method on the coSpace, and no callId is currently specified for the coSpace.
 
 + Request (application/x-www-form-urlencoded)
-    + Attributes
-        + name: `PLACEHOLDER` (string) - The human-readable name that will be shown on clients’ UI for this coSpace
-        + uri: `PLACEHOLDER` (URI user part) - The URI that a SIP system would use to dial in to this coSpace
-        + secondaryUri (URI user part, optional)- The secondary URI for this coSpace – this provide the same functionality as the “uri” parameter, but allows more than one URI to be configured for a coSpace
-        + callId (ID, optional) - The numeric ID that a user would enter at the IVR (or via a web client) to connect to this coSpace
-        + cdrTag (string, optional) - Up to 100 characters of free form text to identify this coSpace in a CDR; when a "callStart" CDR is generated for a call associated with this coSpace, this tag will be written (as "cdrTag") to the callStart CDR. See the Acano solution CDR Reference for details. The cdrTag can be modified in a PUT method
-        + passcode (string, optional) - The security code for this coSpace
-        + tenant (ID, optional) - If provided, associates the specified tenant with this coSpace
-        + callLegProfile (ID, optional) - If provided, associates the specified call leg profile with this coSpace
-        + callProfile (ID, optional) - If provided, associates the specified call profile with this coSpace
-        + callBrandingProfile (ID, optional) - If provided, associates the specified call branding profile with this coSpace
-        + requireCallId: `true` (boolean) - If this value is supplied as true, and no callId is currently specified for the coSpace, a new auto-generated call Id will be assigned
-        + secret (string, optional) - If provided, sets the security string for this coSpace. If absent, a security string is chosen automatically if the coSpace has a callId value. This is the security value associated with the coSpace that needs to be supplied with the callId for guest access to the coSpace. Present from R1.7 onwards
-        + regenerateSecret: `false` (boolean) - If provided as true - a new security value is generated for this coSpace and the former value is no longer valid (for instance, any hyperlinks including it will cease to work) If provided as false - do not generate a new secret value for this coSpace; this has no effect. This parameter is only valid for the modify (PUT) case. Present from R1.7 onwards
-        + defaultLayout (defaultLayout) - The default layout to be used for new call legs in this coSpace. See Default layout options for the difference in naming between the API and the Web Admin interface
-        + nonMemberAccess: `true` (boolean) - Controls whether non-members of the coSpace are able to have access to the coSpace. If not provided, behaviour defaults to true. (From version 2.0).
-        + ownerJid (string) - Indicates the coSpace is owned by the user with the specified JID. (From version 2.0).
-        + streamUrl (URL) - Indicates where the coSpace is streamed to, if streaming is initiated. (From version 2.1).
-        + ownerAdGuid (ID) - If provided, the coSpace will be owned by the user with the given AD GUID. (From version 2.1).
-        + meetingScheduler (string) - Name of person (not necessarily a user) who scheduled the creation of this coSpace, which if set is propagated to any call objects as the “ownerName” field. (From version 2.2).
+    + Attributes (coSpace)
 
     + Body
 
@@ -831,9 +822,9 @@ A new auto-generated Call Id is assigned if "requireCallId=true" is set via a cr
 
             <?xml version="1.0"?>
             <coSpaces total="1">
-            <coSpaceId="527089d6-6581-4331-8417-971c05c9e274">
-            <name>MyNewCoSpace</name>
-            </coSpace>
+              <coSpaceId="527089d6-6581-4331-8417-971c05c9e274">
+                <name>MyNewCoSpace</name>
+              </coSpace>
             </coSpaces>
 
 ## Retrieving Detailed Information about a Single coSpace [GET /coSpaces/{coSpaceId}]
@@ -846,8 +837,10 @@ In addition to the data in common with the create and modify methods, retrieved 
 The following information is not included:
 * `requireCallID`
 
->>Note: From 2.1, a “meetingEntryDetail” node is added to allow retrieval of entry details for a specific coSpace meeting. Perform a GET on `/coSpaces/<coSpaceId>/meeting EntryDetail`.
-Response values are "uri" and "callId".
+---
+**Note:** From 2.1, a “meetingEntryDetail” node is added to allow retrieval of entry details for a specific coSpace meeting. Perform a GET on `/coSpaces/<coSpaceId>/meeting EntryDetail`. Response values are "uri" and "callId".
+
+---
 
 + Parameters
     + coSpaceId
@@ -857,7 +850,7 @@ Response values are "uri" and "callId".
 
             <?xml version="1.0"?>
             <coSpace id="527089d6-6581-4331-8417-971c05c9e274">
-            <name>MyNewCoSpace</name>
+              <name>MyNewCoSpace</name>
             </coSpace>
 
 ### Retrieving entry details for a specific coSpace [GET /coSpaces/<coSpaceId>/meetingEntryDetail]
@@ -932,7 +925,7 @@ Response is structured as a top-level `<coSpaceUsers total=”N”>` tag with po
   </tr>
   <tr>
     <td>canChangeCallId</td>
-    <td>true|false&gt;</td>
+    <td>true|false</td>
     <td>Whether this user is allowed to change the Call ID of the coSpace</td>
   </tr>
   <tr>
@@ -947,17 +940,17 @@ Response is structured as a top-level `<coSpaceUsers total=”N”>` tag with po
   </tr>
   <tr>
     <td>canRemoveSelf</td>
-    <td>true|`false`</td>
+    <td>true|<b>false</b></td>
     <td>Whether this user is allowed to remove himself from the coSpace</td>
   </tr>
   <tr>
     <td>canDeleteAllMessages</td>
-    <td>true|`false`</td>
+    <td>true|<b>false</b></td>
     <td>Whether this user is allowed to delete all messages from the coSpace message board</td>
   </tr>
   <tr>
     <td>canChangeNonMemberAccessAllowed</td>
-    <td>`true`|false</td>
+    <td><b>true</b>|false</td>
     <td>Whether this user is allowed to change the “non-member access allowed setting” of the coSpace. From version 2.3.</td>
   </tr>
 </table>
@@ -979,9 +972,9 @@ Response is structured as a top-level `<coSpaceUsers total=”N”>` tag with po
 
             <?xml version="1.0"?>
             <coSpaceUser id="527089d6-6581-4331-8417-971c05c9e274">
-            <userJid>darth@empire.net</userJid>
-            <userId>"de41b1e5-7a56-4894-a5c1-493df2086799"</userId>
-            <autoGenerated>"true"</autoGenerated>
+              <userJid>darth@empire.net</userJid>
+              <userId>"de41b1e5-7a56-4894-a5c1-493df2086799"</userId>
+              <autoGenerated>"true"</autoGenerated>
             </coSpaceUser>
 
 ## Adding and modifying a coSpace member [POST]
@@ -1136,9 +1129,9 @@ GET method performed on a `/coSpaces/<coSpaceId>/coSpaceUsers/<coSpaceUser ID>` 
 
             <?xml version="1.0"?>
             <coSpaceUser id="527089d6-6581-4331-8417-971c05c9e274">
-            <userJid>darth@empire.net</userJid>
-            <userId>"de41b1e5-7a56-4894-a5c1-493df2086799"</userId>
-            <autoGenerated>"true"</autoGenerated>
+              <userJid>darth@empire.net</userJid>
+              <userId>"de41b1e5-7a56-4894-a5c1-493df2086799"</userId>
+              <autoGenerated>"true"</autoGenerated>
             </coSpaceUser>
 
 ## coSpace Chat/Message Board Methods [/coSpaces/{coSpaceId}/messages{?minAge,maxAge}]
@@ -1154,7 +1147,7 @@ If successful, the message is posted to the message board and an ID for the mess
     <th>Description/Notes</th>
   </tr>
   <tr>
-    <td>message * </td>
+    <td>message *</td>
     <td>String</td>
     <td>The message string to be posted to the message board</td>
   </tr>
@@ -5685,6 +5678,27 @@ POST performed on the `/api/v1/uriUsageQuery` node.
 ## URI user part (string)
 ## URL (string)
 ## ID (string)
+
+## coSpace
++ name: `PLACEHOLDER` (string) - The human-readable name that will be shown on clients’ UI for this coSpace
++ uri: `PLACEHOLDER` (URI user part) - The URI that a SIP system would use to dial in to this coSpace
++ secondaryUri (URI user part, optional)- The secondary URI for this coSpace – this provide the same functionality as the “uri” parameter, but allows more than one URI to be configured for a coSpace
++ callId (ID, optional) - The numeric ID that a user would enter at the IVR (or via a web client) to connect to this coSpace
++ cdrTag (string, optional) - Up to 100 characters of free form text to identify this coSpace in a CDR; when a "callStart" CDR is generated for a call associated with this coSpace, this tag will be written (as "cdrTag") to the callStart CDR. See the Acano solution CDR Reference for details. The cdrTag can be modified in a PUT method
++ passcode (string, optional) - The security code for this coSpace
++ tenant (ID, optional) - If provided, associates the specified tenant with this coSpace
++ callLegProfile (ID, optional) - If provided, associates the specified call leg profile with this coSpace
++ callProfile (ID, optional) - If provided, associates the specified call profile with this coSpace
++ callBrandingProfile (ID, optional) - If provided, associates the specified call branding profile with this coSpace
++ requireCallId: `true` (boolean) - If this value is supplied as true, and no callId is currently specified for the coSpace, a new auto-generated call Id will be assigned
++ secret (string, optional) - If provided, sets the security string for this coSpace. If absent, a security string is chosen automatically if the coSpace has a callId value. This is the security value associated with the coSpace that needs to be supplied with the callId for guest access to the coSpace. Present from R1.7 onwards
++ regenerateSecret: `false` (boolean) - If provided as true - a new security value is generated for this coSpace and the former value is no longer valid (for instance, any hyperlinks including it will cease to work) If provided as false - do not generate a new secret value for this coSpace; this has no effect. This parameter is only valid for the modify (PUT) case. Present from R1.7 onwards
++ defaultLayout (defaultLayout) - The default layout to be used for new call legs in this coSpace. See Default layout options for the difference in naming between the API and the Web Admin interface
++ nonMemberAccess: `true` (boolean) - Controls whether non-members of the coSpace are able to have access to the coSpace. If not provided, behaviour defaults to true. (From version 2.0).
++ ownerJid (string) - Indicates the coSpace is owned by the user with the specified JID. (From version 2.0).
++ streamUrl (URL) - Indicates where the coSpace is streamed to, if streaming is initiated. (From version 2.1).
++ ownerAdGuid (ID) - If provided, the coSpace will be owned by the user with the given AD GUID. (From version 2.1).
++ meetingScheduler (string) - Name of person (not necessarily a user) who scheduled the creation of this coSpace, which if set is propagated to any call objects as the “ownerName” field. (From version 2.2).
 
 ## defaultLayout (enum)
 + allEqual
