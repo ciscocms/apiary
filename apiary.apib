@@ -6008,7 +6008,24 @@ If set to true, new participants that need activation are not activated even if 
     + serverOnly - this is the normal setting for a conferencing device, and is intended for use with BFCP client mode devices (for instance, SIP endpoints)
     + serverAndClient - this setting allows the Acano Call Bridge to operate in either BFCP client or BFCP server mode in calls with remote devices. This can allow improved presentation video sharing with a remote conference- hosting device such as a third party MCU
 + callLockAllowed (boolean) - Determines whether or not call legs using this call leg profile are allowed to lock the call. Present from version 1.8 onwards
++ setImportanceAllowed (boolean) - Determines whether or not call legs using this call leg profile are allowed to change the importance of participants in the call. (From version 2.3)
 + recordingControlAllowed (boolean) - Whether call legs using this call leg profile are allowed to start/stop recording the call. Present from version 1.9 onwards
++ streamingControlAllowed (boolean) - If true, call legs using this call leg profile are allowed to start/stop streaming the call. (From version 2.1)
++ name (string) - Name of profile. This parameter is present from version 2.0 onwards.
++ maxCallDurationTime (number) - The maximum amount of time in seconds that the call leg will exist. This parameter is present from version 2.0 onwards.
++ qualityMain - Restricts the maximum negotiated min video call quality for this call leg based on limiting transcoding resources. Specified using a typical resolution and framerate. Note that call legs may operate at lower resolutions or framerates due to endpoint limitations or overall Call Bridge load. (From version 2.2)
+    + unrestricted - this is the default setting if not specified, and matches the behavior of older Call Bridge versions, where no restrictions are placed on resolution or frame rate
+    + max1080p30 - restricts the bridge to negotiating at most 1920x1080 screen size at 30 frames per second or equivalent transcoding resources, for example 1280x720 screen size at 60 frames per second
+    + max720p30 - restricts the bridge to negotiating at most 1280x720 screen size at 30 frames per second or equivalent transcoding resources
+    + max480p30 - restricts the bridge to negotiating at most 868x480 screen size at 30 frames per second or equivalent transcoding resources.
++ qualityPresentation - Restrict the maximum negotiated presentation video call quality for this call leg based on limiting transcoding resources. Specified using a typical resolution and frame rate. This only affects legs which use a separate presentation stream. (From version 2.2)
+    + unrestricted - this is the default setting if not specified, and matches the behavior of older Call Bridge versions, where no restrictions are placed on resolution or framerate 
+    + max1080p30 - restricts the Call Bridge to negotiating at most 1920x1080 screen size at 30 frames per second or equivalent transcoding resources 
+    + max720p5 - restricts the Call Bridge to negotiating at most 1280x720 screen size at 5 frames per second or Calequivalent transcoding resources .
++ participantCounter - Controls the behavior of the onscreen participant counter. (From version 2.2) 
+    + never - never show an onscreen participant count value 
+    + auto - show the onscreen participant count value when appropriate. Typically this will be to indicate that there are additional participants present that you cannot currently see.
+    + always - always show the onscreen participant count value
 
 ## dialTransform
 + type (enum) - The type of preprocessing to apply to this transform
