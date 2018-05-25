@@ -590,7 +590,7 @@ TODO: Response is structured as a top-level \<coSpaces total=”N”\> tag with 
     </tr>
     <tr>
         <td>name</td>
-        <td>string</td>
+        <td>String</td>
         <td>The human-readable name that will be shown on clients' UI for this coSpace</td>
     </tr>
     <tr>
@@ -626,12 +626,12 @@ TODO: Response is structured as a top-level \<coSpaces total=”N”\> tag with 
 </table>
 
 + Parameters
-    + offset (number, optional)
+    + offset (Number, optional)
         An "offset" and "limit" can be supplied to retrieve coSpaces other than the first “page" in the notional list (see Section 4.1.2).
-    + limit (number, optional)
+    + limit (Number, optional)
         An "offset" and "limit" can be supplied to retrieve coSpaces other than the first “page" in the notional list (see Section 4.1.2).
-    + filter (string, optional)
-        Supply “filter=`<string`>” in the URI to return just those coSpaces that match the filter
+    + filter (String, optional)
+        Supply “filter=`<String`>” in the URI to return just those coSpaces that match the filter
     + tenantFilter (ID, optional) - Supply tenantFilter=<tenant id> to return just those coSpaces associated with that tenant
     + callLegProfileFilter (ID, optional)
         Supply callLegProfileFilter=`<call leg profile id>` to return just those coSpaces using that call leg profile
