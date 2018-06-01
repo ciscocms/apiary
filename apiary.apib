@@ -981,7 +981,7 @@ Response is structured as a top-level `<coSpaceUsers total=”N”>` tag with po
 ## Adding and modifying a coSpace member [POST]
 * Adding: POST method to a `/coSpaces/<coSpaceId>/coSpaceUsers` node
 * Modifying: PUT method performed on a `/coSpaces/<coSpaceId>/coSpaceUsers/<coSpaceUser ID>` node. 
-The parameters that you can modify are listed above, with the exception of `userJid`
+The parameters that you can modify are listed above, with the exception of `userJid`. Note: `userJid` is a mandatory parameter.
 
 If the member was added successfully, a “200 OK” response is received, and the “Location” header in the response contains the new user ID.
 
@@ -1148,7 +1148,7 @@ If successful, the message is posted to the message board and an ID for the mess
     <th>Description/Notes</th>
   </tr>
   <tr>
-    <td>message *</td>
+    <td>message*</td>
     <td>String</td>
     <td>The message string to be posted to the message board</td>
   </tr>
