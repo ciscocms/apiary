@@ -760,10 +760,10 @@ Per coSpace, there is an optional secondaryUri parameter as shown above. This al
 * When creating or modifying a coSpace (see the previous section) you can supply a secondaryUri parameter in addition to the form parameters in the table above e.g. uri
 * The secondary URI will be checked for validity and uniqueness in the same way as the uri, and if valid, establishes a new URI by which the coSpace can be reached
 * When retrieving information on an individual coSpace (see below) the secondaryUri value will be returned, if it is defined for this coSpace
-* The secondaryUri can be created automatically during an LDAP sync if the new LDAP mapping parameter is used. See [coSpaceSecondaryUriMapping](## ldap mapping]
+* The secondaryUri can be created automatically during an LDAP sync if the new LDAP mapping parameter is used. See [coSpaceSecondaryUriMapping](# ldap mapping]
 
 ### Auto-generation of coSpace callID
-A new auto-generated Call Id is assigned if "requireCallId=true" is set via a create (POST) or modify (PUT) method on the coSpace, and no callId is currently specified for the coSpace.
+A new auto-generated Call Id is assigned if `requireCallId=true` is set via a create (POST) or modify (PUT) method on the coSpace, and no callId is currently specified for the coSpace.
 
 + Request (application/x-www-form-urlencoded)
     + Attributes (coSpace)
@@ -783,7 +783,7 @@ A new auto-generated Call Id is assigned if "requireCallId=true" is set via a cr
             </coSpaces>
 
 ## Retrieving Detailed Information about a Single coSpace [GET /coSpaces/{coSpaceId}]
-GET method performed on a `/coSpaces/<coSpaceId>` node. If the coSpace ID supplied is valid, a “200 OK” response is received, containing a single `<coSpaceId=<ID>` object with data as described above for the creating and modifying case.
+GET method performed on a `/coSpaces/<coSpaceId>` node. If the coSpace ID supplied is valid, a “200 OK” response is received, containing a single `<coSpaceId=<ID>` object with data as described above for the [creating and modifying] case.
 
 In addition to the data in common with the create and modify methods, retrieved information about a single coSpace will also include:
 * a count of the number of additional access methods for that coSpace, if any have been configured, as a numeric `numAccessMethods` value
