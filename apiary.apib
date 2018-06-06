@@ -760,7 +760,7 @@ Per coSpace, there is an optional secondaryUri parameter as shown above. This al
 * When creating or modifying a coSpace (see the previous section) you can supply a secondaryUri parameter in addition to the form parameters in the table above e.g. uri
 * The secondary URI will be checked for validity and uniqueness in the same way as the uri, and if valid, establishes a new URI by which the coSpace can be reached
 * When retrieving information on an individual coSpace (see below) the secondaryUri value will be returned, if it is defined for this coSpace
-* The secondaryUri can be created automatically during an LDAP sync if the new LDAP mapping parameter is used. See coSpaceSecondaryUriMapping
+* The secondaryUri can be created automatically during an LDAP sync if the new LDAP mapping parameter is used. See [coSpaceSecondaryUriMapping](## ldap mapping]
 
 ### Auto-generation of coSpace callID
 A new auto-generated Call Id is assigned if "requireCallId=true" is set via a create (POST) or modify (PUT) method on the coSpace, and no callId is currently specified for the coSpace.
