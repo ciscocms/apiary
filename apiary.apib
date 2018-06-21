@@ -2481,11 +2481,25 @@ See the next section
 
 ## Setting up and modifying call profiles [POST]
 
+POST /callProfiles
+
+
 + Attributes (callProfile)
 + Response 200
     + Body
 
             TODO: Need callProfile response
+
+## Modifying call profiles [PUT]
+
+PUT /callProfiles
+
++ Attributes (callProfile)
++ Response 200
+    + Body
+
+            TODO: confirm changed value
+
 
 ## Retrieving detailed information about an individual call profile [GET /callProfiles/{callProfileId}]
 GET method performed on a `/callProfiles/<call profile id>` node. If the call profile id ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
