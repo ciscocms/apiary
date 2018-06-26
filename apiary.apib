@@ -4466,6 +4466,126 @@ PUT or POST to `/system/profiles`. Supplying an empty value unsets the top-level
 + Attributes (systemProfile)
 + Response 200
 
+# Licensing Methods [/system/licensing]
+
+## Retrieving information on licensing [GET]
+
+GET methods performed on the `/system/licensing` node.
+
+<table>
+table of params here
+</table>
+
++ Response 200
+    + Body
+
+            TODO: get some license info here
+
+
+# Multiparty licensing [/system/multipartyLicensing]
+
+## Retrieving information on multiparty licensing [GET]
+
+GET method performed on the `/system/multipartyLicensing` node.
+
+<table>
+  <tr>
+    <th>Response elements</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>timestamp</td>
+    <td>string</td>
+    <td>UTC time at which the report was generated</td>
+  </tr>
+  <tr>
+    <td>personalLicenseLimit</td>
+    <td>Number</td>
+    <td>Number of available personal licenses</td>
+  </tr>
+  <tr>
+    <td>sharedLicenseLimit</td>
+    <td>Number</td>
+    <td>Number of available shared licenses</td>
+  </tr>
+  <tr>
+    <td>capacityUnitLimit</td>
+    <td>Number</td>
+    <td>Number of available capacity units</td>
+  </tr>
+  <tr>
+    <td>users</td>
+    <td>Number</td>
+    <td>Number of non-guest users on the system</td>
+  </tr>
+  <tr>
+    <td>personalLicenses</td>
+    <td>Number</td>
+    <td>Number of personal licenses assigned to users</td>
+  </tr>
+  <tr>
+    <td>participantsActive</td>
+    <td>Number</td>
+    <td>Number of active participants</td>
+  </tr>
+  <tr>
+    <td>callsActive</td>
+    <td>Number</td>
+    <td>Number of active calls</td>
+  </tr>
+  <tr>
+    <td>weightedCallsActive</td>
+    <td>Number</td>
+    <td>Number of weighted active calls (see note below).</td>
+  </tr>
+  <tr>
+    <td>capacityUnitUsage</td>
+    <td>Number</td>
+    <td>Number of capacity units in use</td>
+  </tr>
+  <tr>
+    <td>callsWithoutPersonalLicense</td>
+    <td>Number</td>
+    <td>Number of calls without a personal license</td>
+  </tr>
+  <tr>
+    <td>weightedCallsWithoutPersonalLicense</td>
+    <td>Number</td>
+    <td>Number of weighted calls without a personal license (see note below).</td>
+  </tr>
+  <tr>
+    <td>capacityUnitUsageWithoutPersonalLicense</td>
+    <td>Number</td>
+    <td>Number of capacity units in use in calls without a personal license</td>
+  </tr>
+</table>
+
++ Response 200
+    + Body
+
+            TODO: get some license info here
+            
+## Retrieve information on active Personal Licenses [GET /system/multipartyLicensing/activePersonalLicenses] 
+
+---
+**Note**: The sum of weighted calls across a cluster matches the number of distinct calls on the
+cluster. For example, if CMS1 shows 3 callsActive and 2 weightedCallsActive, and CMS2
+shows 2 callsActive and1 weightedCallsActive, then there are 3 conferences in total on the
+cluster and 3 licenses are required.
+
+---
+
+<table>
+table of parameters here
+</table>
+
++ Response 200
+    + Body
+
+            TODO: get some license info here
+
+
 
 
 # TURN Server Methods [/turnServers{?filter,offset,limit}]
