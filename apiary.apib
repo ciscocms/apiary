@@ -4566,7 +4566,7 @@ GET method performed on the `/system/multipartyLicensing` node.
 
             TODO: get some license info here
             
-## Retrieve information on active Personal Licenses [GET /system/multipartyLicensing/activePersonalLicenses] 
+## Retrieve information on active Personal Licenses [GET /system/multipartyLicensing/activePersonalLicenses/?{offset,limit,callsActive,weightedCallsActive}]
 
 ---
 **Note**: The sum of weighted calls across a cluster matches the number of distinct calls on the
@@ -4574,18 +4574,25 @@ cluster. For example, if CMS1 shows 3 callsActive and 2 weightedCallsActive, and
 shows 2 callsActive and1 weightedCallsActive, then there are 3 conferences in total on the
 cluster and 3 licenses are required.
 
+Response is structured as a top-level <activePersonalLicenses total="N"> tag with potentially multiple <user> elements within it. 
+Each <user> tag may include the following elements:
+
 ---
 
-<table>
-table of parameters here
-</table>
++ Parameters
+    + offset (number)
+    An "offset" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
+    + limit (number)
+    An "limit" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
+    + callsActive (number)
+    Number of active calls that use the license of this user
+    + weightedCallsActive (number)
+    Number of weighted active calls that use the license of this user (see note above).
 
 + Response 200
     + Body
 
             TODO: get some license info here
-
-
 
 
 # TURN Server Methods [/turnServers{?filter,offset,limit}]
