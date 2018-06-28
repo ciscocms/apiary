@@ -4490,18 +4490,20 @@ GET methods performed on the `/system/licensing` node.
   <tr>
     <td> callBridge</td>
     <td>status</td>
-    <td><ul>
-    <li>noLicense|</li>
-    <li>activated|</li>
-    <li>grace|</li>
-    <li>expired</li>
+    <td>
+    <ul>
+        <li>noLicense|</li>
+        <li>activated|</li>
+        <li>grace|</li>
+        <li>expired</li>
+    </ul>
     </td>
     <td>
     <ul>
-    <li>No license applied to the Call Bridge</li>
-    <li>License applied and Call Bridge activated</li> 
-    <li>License expired, now in grace period for license renewal</li>
-    <li>License expired for Call Bridge</li>
+        <li>No license applied to the Call Bridge</li>
+        <li>License applied and Call Bridge activated</li> 
+        <li>License expired, now in grace period for license renewal</li>
+        <li>License expired for Call Bridge</li>
     </ul>
     </td>
   </tr>
@@ -4512,22 +4514,22 @@ GET methods performed on the `/system/licensing` node.
     <td>Date of expiry</td>
   </tr>
   <tr>
-    <td> webBridge</td>
+    <td>webBridge</td>
     <td>status</td>
     <td>
     <ul>
-    <li>noLicense|</li>
-    <li>activated|</li>
-    <li>grace|</li>
-    <li>expired</li>
+        <li>noLicense|</li>
+        <li>activated|</li>
+        <li>grace|</li>
+        <li>expired</li>
     </ul>
     </td>
     <td>
     <ul>
-    <li>No license applied to the Web Bridge</li>
-    <li>License applied and Web Bridge activated</li>
-    <li>License expired, now in grace period for license renewal</li>
-    <li>License expired for Web Bridge</li>
+        <li>No license applied to the Web Bridge</li>
+        <li>License applied and Web Bridge activated</li>
+        <li>License expired, now in grace period for license renewal</li>
+        <li>License expired for Web Bridge</li>
     </ul>
     </td>
   </tr>
@@ -4539,9 +4541,20 @@ GET methods performed on the `/system/licensing` node.
   </tr>
   <tr>
     <td>turn</td>
-    <td>noLicense|activated|expired</td>
-    <td>noLicense|activated|grace|expired</td>
-    <td>No license applied to the TURN serverLicense applied and TURN server activatedLicense expired, now in grace period for license renewalLicense expired for TURN server</td>
+    <td>
+    noLicense|activated|expired
+    </td>
+    <td>
+    noLicense|activated|grace|expired
+    </td>
+    <td>
+    <ul>
+        <li>No license applied to the TURN server</li>
+        <li>License applied and TURN server activated
+        <li>License expired, now in grace period for license renewal</li>
+        <li>License expired for TURN server</li>
+    </ul>
+    </td>
   </tr>
   <tr>
     <td> </td>
@@ -4586,7 +4599,14 @@ GET methods performed on the `/system/licensing` node.
         <li>expired</li>
     </ul>
     </td>
-    <td>No license applied for brandingLicense applied and branding activatedLicense expired, now in grace period for license renewalLicense expired for branding</td>
+    <td>
+    <ul>
+        <li>No license applied for branding</li>
+        <li>License applied and branding activated</li>
+        <li>License expired, now in grace period for license renewal</li>
+        <li>License expired for branding</li>
+    </ul>
+    </td>
   </tr>
   <tr>
     <td> </td>
