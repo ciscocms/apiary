@@ -4473,7 +4473,182 @@ PUT or POST to `/system/profiles`. Supplying an empty value unsets the top-level
 GET methods performed on the `/system/licensing` node.
 
 <table>
-tbd add table of params here
+<table>
+  <tr>
+    <th>Response elements</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+    <th></th>
+  </tr>
+  <tr>
+    <td>features</td>
+    <td> </td>
+    <td> </td>
+    <td>If licensing is enabled then the `<features>` element includes the elements on the left</td>
+  </tr>
+  <tr>
+    <td> callBridge</td>
+    <td>status</td>
+    <td><ul>
+    <li>noLicense|</li>
+    <li>activated|</li>
+    <li>grace|</li>
+    <li>expired</li>
+    </td>
+    <td>
+    <ul>
+    <li>No license applied to the Call Bridge</li>
+    <li>License applied and Call Bridge activated</li> 
+    <li>License expired, now in grace period for license renewal</li>
+    <li>License expired for Call Bridge</li>
+    </ul>
+    </td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>expiry</td>
+    <td>String</td>
+    <td>Date of expiry</td>
+  </tr>
+  <tr>
+    <td> webBridge</td>
+    <td>status</td>
+    <td>noLicense|activated|grace|expired</td>
+    <td>No license applied to the Web BridgeLicense applied and Web Bridge activatedLicense expired, now in grace period for license renewalLicense expired for Web Bridge</td>
+  </tr>
+  <tr>
+    <td>expiry</td>
+    <td>String</td>
+    <td>Date of expiry</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>turn</td>
+    <td>noLicense|activated|expired</td>
+    <td>noLicense|activated|grace|expired</td>
+    <td>No license applied to the TURN serverLicense applied and TURN server activatedLicense expired, now in grace period for license renewalLicense expired for TURN server</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>expiry</td>
+    <td>String</td>
+    <td>Date of expiry</td>
+  </tr>
+  <tr>
+    <td>ldap</td>
+    <td>status</td>
+    <td>noLicense|activated|grace|expired</td>
+    <td>No license applied to the LDAP serverLicense applied and LDAP server activatedLicense expired, now in grace period for license renewalLicense expired for LDAP server</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>expiry</td>
+    <td>string</td>
+    <td>Date of expiry</td>
+  </tr>
+  <tr>
+    <td>branding</td>
+    <td>status</td>
+    <td>noLicense|activated|grace|expired</td>
+    <td>No license applied for brandingLicense applied and branding activatedLicense expired, now in grace period for license renewalLicense expired for branding</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>expiry</td>
+    <td>String</td>
+    <td>Date of expiry</td>
+  </tr>
+  <tr>
+    <td>recording</td>
+    <td>status</td>
+    <td>noLicense|activated|grace|expired</td>
+    <td>No license applied to the RecorderLicense applied and Recorder activatedLicense expired, now in grace period for license renewalLicense expired for Recorder</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>expiry</td>
+    <td>String</td>
+    <td>Date of expiry</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>limit</td>
+    <td>Number</td>
+    <td> </td>
+  </tr>
+  <tr>
+    <td>streaming</td>
+    <td>status</td>
+    <td>noLicense|activated|expired</td>
+    <td>No license applied to the StreamerLicense applied and Streamer activatedLicense expired for Streamder</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>expiry</td>
+    <td>String</td>
+    <td>Date of expiry</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>limit</td>
+    <td>Number</td>
+    <td> </td>
+  </tr>
+  <tr>
+    <td>personal</td>
+    <td>status</td>
+    <td>noLicense|activated|grace|expired</td>
+    <td>No Personal Multiparty license appliedPersonal Multiparty license activatedLicense expired, now in grace period for license renewalPersonal Multiparty license expired</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>expiry</td>
+    <td>String</td>
+    <td>Date of expiry</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>limit</td>
+    <td>Number</td>
+    <td> </td>
+  </tr>
+  <tr>
+    <td>shared</td>
+    <td>status</td>
+    <td>noLicense|activated|grace|expired</td>
+    <td>No Shared Multiparty license appliedShared Multiparty license activatedLicense expired, now in grace period for license renewalShared Multiparty license expired</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>expiry</td>
+    <td>String</td>
+    <td>Date of expiry</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>limit</td>
+    <td>Number</td>
+    <td> </td>
+  </tr>
+  <tr>
+    <td>capacityUnits</td>
+    <td>status</td>
+    <td>noLicense|activated|grace|expired</td>
+    <td>No license for Capacity Units appliedLicense for Capacity Units activatedLicense expired, now in grace period for license renewalLlicense for Capacity Units expired</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>expiry</td>
+    <td>String</td>
+    <td>Date of expiry</td>
+  </tr>
+  <tr>
+    <td> </td>
+    <td>limit</td>
+    <td>Number</td>
+    <td> </td>
+  </tr>
+</table>
 </table>
 
 + Response 200
