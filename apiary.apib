@@ -4518,8 +4518,8 @@ GET methods performed on the `/system/licensing` node.
     <ul>
     <li>noLicense|</li>
     <li>activated|</li>
-    <li>* grace|</li>
-    <li>* expired</li>
+    <li>grace|</li>
+    <li>expired</li>
     </ul>
     </td>
     <td>
@@ -4552,8 +4552,22 @@ GET methods performed on the `/system/licensing` node.
   <tr>
     <td>ldap</td>
     <td>status</td>
-    <td>noLicense|activated|grace|expired</td>
-    <td>No license applied to the LDAP serverLicense applied and LDAP server activatedLicense expired, now in grace period for license renewalLicense expired for LDAP server</td>
+    <td>
+    <ul>
+        <li>noLicense|</li>
+        <li>activated|</li>
+        <li>grace|</li>
+        <li>expired</li>
+    </ul>
+    </td>
+    <td>
+    <ul>
+        <li>No license applied to the LDAP server</li>
+        <li>License applied and LDAP server activated</li>
+        <li>License expired, now in grace period for license renewal</li>
+        <li>License expired for LDAP server</li>
+    </ul>
+    </td>
   </tr>
   <tr>
     <td> </td>
@@ -4564,7 +4578,14 @@ GET methods performed on the `/system/licensing` node.
   <tr>
     <td>branding</td>
     <td>status</td>
-    <td>noLicense|activated|grace|expired</td>
+    <td>
+    <ul>
+        <li>noLicense|</li>
+        <li>activated|</li>
+        <li>grace|</li>
+        <li>expired</li>
+    </ul>
+    </td>
     <td>No license applied for brandingLicense applied and branding activatedLicense expired, now in grace period for license renewalLicense expired for branding</td>
   </tr>
   <tr>
