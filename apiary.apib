@@ -4516,12 +4516,12 @@ GET methods performed on the `/system/licensing` node.
     <td rowspan=2>webBridge</td>
     <td>status</td>
     <td>
-    <ol>
+    <ul>
         <li>noLicense|</li>
         <li>activated|</li>
         <li>grace|</li>
         <li>expired</li>
-    </ol>
+    </ul>
     </td>
     <td>
     <ul>
@@ -4540,7 +4540,12 @@ GET methods performed on the `/system/licensing` node.
   <tr>
     <td rowspan=2>turn</td>
       <td>status</td>
-     <td>noLicense|activated|grace|expired</td>
+     <td><ul>
+        <li>noLicense|</li>
+        <li>activated|</li>
+        <li>grace|</li>
+        <li>expired</li>
+    </ul></td>
      <td>
         <ul>
             <li>No license applied to the TURN server</li>
@@ -4608,7 +4613,12 @@ GET methods performed on the `/system/licensing` node.
   <tr>
     <td rowspan=3>recording</td>
     <td>status</td>
-    <td>noLicense|activated|grace|expired</td>
+    <td><ul>
+        <li>noLicense|</li>
+        <li>activated|</li>
+        <li>grace|</li>
+        <li>expired</li>
+    </ul></td>
     <td>No license applied to the RecorderLicense applied and Recorder activatedLicense expired, now in grace period for license renewalLicense expired for Recorder</td>
   </tr>
   <tr>
@@ -4625,7 +4635,11 @@ GET methods performed on the `/system/licensing` node.
   <tr>
     <td rowspan=3>streaming</td>
     <td>status</td>
-    <td>noLicense|activated|expired</td>
+    <td><ul>
+        <li>noLicense|</li>
+        <li>activated|</li>
+        <li>expired</li>
+    </ul></td>
     <td>No license applied to the StreamerLicense applied and Streamer activatedLicense expired for Streamder</td>
   </tr>
   <tr>
@@ -4641,8 +4655,20 @@ GET methods performed on the `/system/licensing` node.
   <tr>
     <td rowspan=3>personal</td>
     <td>status</td>
-    <td>noLicense|activated|grace|expired</td>
-    <td>No Personal Multiparty license appliedPersonal Multiparty license activatedLicense expired, now in grace period for license renewalPersonal Multiparty license expired</td>
+    <td><ul>
+        <li>noLicense|</li>
+        <li>activated|</li>
+        <li>grace|</li>
+        <li>expired</li>
+    </ul></td>
+    <td>
+    <ul>
+    <li>No Personal Multiparty license applied</li>
+    <li>Personal Multiparty license activated</li>
+    <li>License expired, now in grace period for license renewal</li>
+    <li>Personal Multiparty license expired</li>
+    </ul>
+    </td>
   </tr>
   <tr>
     <td>expiry</td>
@@ -4657,8 +4683,21 @@ GET methods performed on the `/system/licensing` node.
   <tr>
     <td rowspan=3>shared</td>
     <td>status</td>
-    <td>noLicense|activated|grace|expired</td>
-    <td>No Shared Multiparty license appliedShared Multiparty license activatedLicense expired, now in grace period for license renewalShared Multiparty license expired</td>
+    <td>
+    <ul>
+        <li>noLicense|</li>
+        <li>activated|</li>
+        <li>grace|</li>
+        <li>expired</li>
+    </ul>
+    </td>
+    <td><ul>
+        <li>No Shared Multiparty license applied</li>
+        <li>Shared Multiparty license activated</li>
+        <li>License expired, now in grace period for license renewal</li>
+        <li>Shared Multiparty license expired</li>
+        </ul>
+        </td>
   </tr>
   <tr>
     <td> </td>
@@ -4675,8 +4714,20 @@ GET methods performed on the `/system/licensing` node.
   <tr>
     <td rowspan=2>capacityUnits</td>
     <td>status</td>
-    <td>noLicense|activated|grace|expired</td>
-    <td>No license for Capacity Units appliedLicense for Capacity Units activatedLicense expired, now in grace period for license renewalLlicense for Capacity Units expired</td>
+    <td><ul>
+        <li>noLicense|</li>
+        <li>activated|</li>
+        <li>grace|</li>
+        <li>expired</li>
+    </ul></td>
+    <td>
+    <ul>
+    <li>No license for Capacity Units applied</li>
+    <li>License for Capacity Units activated</li>
+    <li>License expired, now in grace period for license renewal</li>
+    <li>License for Capacity Units expired</li>
+    </ul>
+    </td>
   </tr>
   <tr>
     <td> </td>
