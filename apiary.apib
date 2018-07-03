@@ -4513,7 +4513,7 @@ GET methods performed on the `/system/licensing` node.
     <td>Date of expiry</td>
   </tr>
   <tr>
-    <td>webBridge</td>
+    <td rowspan=2>webBridge</td>
     <td>status</td>
     <td>
     <ol>
@@ -4536,10 +4536,9 @@ GET methods performed on the `/system/licensing` node.
     <td>expiry</td>
     <td>String</td>
     <td>Date of expiry</td>
-    <td></td>
-  </tr>
+    </tr>
   <tr>
-    <td>turn</td>
+    <td rowspan=2>turn</td>
     <td>
     noLicense|activated|expired
     </td>
@@ -4556,13 +4555,13 @@ GET methods performed on the `/system/licensing` node.
     </td>
   </tr>
   <tr>
-    <td> </td>
+    
     <td>expiry</td>
     <td>String</td>
     <td>Date of expiry</td>
   </tr>
   <tr>
-    <td>ldap</td>
+    <td rowspan=2>ldap</td>
     <td>status</td>
     <td>
     <ul>
@@ -4582,13 +4581,13 @@ GET methods performed on the `/system/licensing` node.
     </td>
   </tr>
   <tr>
-    <td> </td>
+    
     <td>expiry</td>
     <td>string</td>
     <td>Date of expiry</td>
   </tr>
   <tr>
-    <td>branding</td>
+    <td rowspan=2>branding</td>
     <td>status</td>
     <td>
     <ul>
@@ -4608,19 +4607,19 @@ GET methods performed on the `/system/licensing` node.
     </td>
   </tr>
   <tr>
-    <td> </td>
+    
     <td>expiry</td>
     <td>String</td>
     <td>Date of expiry</td>
   </tr>
   <tr>
-    <td>recording</td>
+    <td rowspan=3>recording</td>
     <td>status</td>
     <td>noLicense|activated|grace|expired</td>
     <td>No license applied to the RecorderLicense applied and Recorder activatedLicense expired, now in grace period for license renewalLicense expired for Recorder</td>
   </tr>
   <tr>
-    <td> </td>
+    
     <td>expiry</td>
     <td>String</td>
     <td>Date of expiry</td>
@@ -4632,43 +4631,43 @@ GET methods performed on the `/system/licensing` node.
     <td> </td>
   </tr>
   <tr>
-    <td>streaming</td>
+    <td rowspan=3>streaming</td>
     <td>status</td>
     <td>noLicense|activated|expired</td>
     <td>No license applied to the StreamerLicense applied and Streamer activatedLicense expired for Streamder</td>
   </tr>
   <tr>
-    <td> </td>
+    
     <td>expiry</td>
     <td>String</td>
     <td>Date of expiry</td>
   </tr>
   <tr>
-    <td> </td>
+    
     <td>limit</td>
     <td>Number</td>
     <td> </td>
   </tr>
   <tr>
-    <td>personal</td>
+    <td rowspan=3>personal</td>
     <td>status</td>
     <td>noLicense|activated|grace|expired</td>
     <td>No Personal Multiparty license appliedPersonal Multiparty license activatedLicense expired, now in grace period for license renewalPersonal Multiparty license expired</td>
   </tr>
   <tr>
-    <td> </td>
+    
     <td>expiry</td>
     <td>String</td>
     <td>Date of expiry</td>
   </tr>
   <tr>
-    <td> </td>
+    
     <td>limit</td>
     <td>Number</td>
     <td> </td>
   </tr>
   <tr>
-    <td>shared</td>
+    <td rowspan=3>shared</td>
     <td>status</td>
     <td>noLicense|activated|grace|expired</td>
     <td>No Shared Multiparty license appliedShared Multiparty license activatedLicense expired, now in grace period for license renewalShared Multiparty license expired</td>
@@ -4686,7 +4685,7 @@ GET methods performed on the `/system/licensing` node.
     <td> </td>
   </tr>
   <tr>
-    <td>capacityUnits</td>
+    <td rowspan=2>capacityUnits</td>
     <td>status</td>
     <td>noLicense|activated|grace|expired</td>
     <td>No license for Capacity Units appliedLicense for Capacity Units activatedLicense expired, now in grace period for license renewalLlicense for Capacity Units expired</td>
