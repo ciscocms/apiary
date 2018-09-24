@@ -3150,7 +3150,7 @@ If present in the reply, these parameters are overrides currently active specifi
   <tr>
     <td>encrypted</td>
     <td>trueIfalse</td>
-    <td>If Active Control has been<br>negotiated with the remote<br>party, this indicates whether<br>the Active Control connection<br>is encrypted.<br>true - an encrypted Active<br>Control connection has been<br>negotiated with the remote<br>party<br>false - an Active Control<br>connection has been<br>negotiated with the remote<br>party but it is not encrypted</td>
+    <td>If Active Control has been<br>negotiated with the remote party, this indicates whether the Active Control connection is encrypted.<ul><li>true - an encrypted Active Control connection has been negotiated with the remote party</li><li>false - an Active Control connection has been negotiated with the remote party but it is not encrypted</li></ul></td>
   </tr>
   <tr>
     <td>localSubscriptions<br>(from version 2.2)</td>
@@ -5017,6 +5017,8 @@ PUT or POST to `/system/profiles`. Supplying an empty value unsets the top-level
 # Licensing Methods [/system/licensing]
 
 ## Retrieving information on licensing [GET]
+
+***Note***: From version 2.4, a license is not required to apply single or multiple branding.
 
 GET methods performed on the `/system/licensing` node.
 
