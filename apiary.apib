@@ -6578,6 +6578,7 @@ If set to true, new participants that need activation are not activated even if 
 + loadBalanceLyncCalls: `false` (boolean) - Whether or not incoming calls to coSpaces from Lync are load balanced within the Call Bridge Group. If this parameter is not supplied in a create (POST) operation, it defaults to "false" (from version 2.1)
 + loadBalanceOutgoingCalls: `false` (boolean) - Whether or not calls from coSpaces should be load balanced within the group. If this parameter is not supplied in a create (POST) operation, it defaults to "false" (from version 2.2)
 + loadBalanceUserCalls: `true` (boolean) - Whether or not Cisco Meeting App calls to coSpaces should be load balanced within the group. If this parameter is not supplied in a create (POST) operation, it defaults to "true" (from version 2.3)
++ loadBalanceIndirectCalls: `false`(boolean) - Whether or not incoming calls with Record-Route SIP headers should be load balanced within the group. If this parameter is not supplied in a create (POST) operation, it defaults to "false" (from version 2.4)
 
 ## xmpp
 + uniqueName (string) - The name by which this Call Bridge should be known by the XMPP server
