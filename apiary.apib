@@ -3190,7 +3190,32 @@ If present in the reply, these parameters are overrides currently active specifi
     </tr>
      <tr>
     <td>localSubscriptions (from version 2.2)</td>
-    <td colspan="2">localSubscriptions table here</td>
+    <td colspan="2"><table>
+  <tr>
+    <th>Name </th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>capabilities</td>
+    <td>If present, this indicates that the local Meeting Server has subscribed to the far end's XCCP capabilities.</td>
+  </tr>
+  <tr>
+    <td>conferenceInfo</td>
+    <td>If present, this indicates that the local Meeting Server has subscribed to the far end's XCCP conference information (this includes the participant list and some conference-wide information such as whether recording is active).</td>
+  </tr>
+  <tr>
+    <td>layouts</td>
+    <td>If present, this indicates that the local Meeting Server has subscribed to the far end's XCCP layout information.</td>
+  </tr>
+  <tr>
+    <td>selfInfo</td>
+    <td>If present, this indicates that the local Meeting Server has subscribed to the far end's XCCP self information.</td>
+  </tr>
+  <tr>
+    <td>speakerInfo</td>
+    <td>If present, this indicates that the local Meeting Server has subscribed to the far end's XCCP speaker information.</td>
+  </tr>
+</table></td>
   </tr>
    <tr>
     <td>remoteSubscriptions (from version 2.2)</td>
