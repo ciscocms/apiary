@@ -768,7 +768,11 @@ TODO: Response is structured as a top-level \<coSpaces total=”N”\> tag with 
     <td>String</td>
     <td>Name of person (not necessarily a user) who scheduled the creation of this coSpace, which if set is propagated to any call objects as the “ownerName” field. (From version 2.2).</td>
   </tr>
-</table>
+  <tr>
+    <td>panePlacementHighestImportance</td>
+    <td>Number</td>
+    <td>If panePlacementHighestImportance is provided, pane placement will be activated for this coSpace - the active range of importance values will be from "highest importance" down to 1(inclusive). (From version 2.4)</td>
+  </tr></table>
 
 ---
 **Note:** You can also use this PUT to modify the values of a coSpace created in a Cisco Meeting App. For example, the coSpace will have been created with the cdrTag of the user who created it but you can change that value with an API call. (This is unlike the cdrTag of an automatically generated coSpace, which cannot be updated with an API call.)
