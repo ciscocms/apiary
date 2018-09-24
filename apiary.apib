@@ -5062,9 +5062,30 @@ GET methods performed on the `/system/licensing` node.
     <td>String</td>
     <td>Date of expiry</td>
   </tr>
+   <tr>
+    <td rowspan=2> callBridgeNoEncryption (from version 2.4)</td>
+    <td>status</td>
+    <td>
+    <ul>
+        <li>noLicense|</li>
+        <li>activated|</li>
+        <li>grace|</li>
+        <li>expired</li>
+    </ul>
+    </td>
+    <td>
+    <ul>
+        <li>No license applied to the Call Bridge</li>
+        <li>License applied and Call Bridge activated</li> 
+        <li>License expired, now in grace period for license renewal</li>
+        <li>License expired for Call Bridge</li>
+    </ul>
+    </td>
+  </tr>
   <tr>
-  <td>callBridgeNoEncryption (from version 2.4)</td>
-  <td>table here</td>
+    <td>expiry </td>
+    <td>String</td>
+    <td>Date of expiry</td>
   </tr>
   <tr>
     <td rowspan=2>webBridge</td>
