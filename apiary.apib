@@ -2986,8 +2986,39 @@ If present in the reply, these parameters are overrides currently active specifi
 </table></td>
   </tr>
    <tr>
-    <td>txAudio</td>
-    <td colspan="2">tx audio table here</td>
+    <td valign="top">txAudio</td>
+    <td colspan="2"><table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>codec</td>
+    <td>one of:<br>g711u<br>g711a<br>g722<br>g728<br>g729<br>g722_1<br>g722_1c<br>aac<br>speexNb<br>speexWb<br>speexUwb<br>isacWb<br>opus</td>
+    <td>the audio codec used:<br>g711u - G.711 mu law<br>g711a - G.711 a law<br>g722 - G.722 <br>g728 - G.728<br>g729 - G.729<br>g722_1 - G.722.1<br>g722_1c - G.722.1C (G.722.1<br>Annex C)<br>aac - AAC<br>speexNb - Speex narrowband<br>speexWb - Speex wideband<br>speexUwb - Speex ultra-wideband<br>isacWb - iSAC (internet Speech Audio Codec) wideband<br>isacSwb - iSAC (internet Speech Audio Codec) superwideband</td>
+  </tr>
+  <tr>
+    <td>jitter</td>
+    <td>Number</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>bitRate</td>
+    <td>Number</td>
+    <td>The actual measured bit rate of the incoming audio data</td>
+  </tr>
+  <tr>
+    <td>codecBitRate</td>
+    <td>Number</td>
+    <td>This value is present for audio codec types with variants that can only be distinguished <br>via bit rate (for example, the G.722.1 audio codec) - in these cases this field will be the expected audio bit rate rather than the observed, measured value (this parameter is present from version 2.1 onwards) </td>
+  </tr>
+  <tr>
+    <td>packetLossPercentage</td>
+    <td>Number</td>
+    <td></td>
+  </tr>
+</table></td>
   </tr>
      <tr>
     <td>rxVideo</td>
