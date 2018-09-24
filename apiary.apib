@@ -1320,6 +1320,11 @@ Response is a collection of `<accessMethod id=<access method id>>` objects conta
     <td> public|private</td>
     <td>The visibility of this coSpace access method to users of Cisco Meeting App who are members of the coSpaceIf provided as public - details of this coSpace access method can be made available to members of the coSpaceIf provided as private - details of this coSpace access method will not be made available to members of the coSpaceNote: if you set the scope to public then the Cisco Meeting App can no longer edit the coSpace details. In addition, the uri shown under the name is that from the access method.</td>
   </tr>
+  <tr>
+    <td>importance</td>
+    <td>Number</td>
+    <td>The importance value assigned to all participants joining via this access method. Maximum value is 2,147,483,647. (From version 2.4)</td>
+  </tr>
 </table>
 
 If the coSpace access method is created successfully, a “200 OK” response will be received, and the `Location` header in the response will contain the new coSpace access method ID.
