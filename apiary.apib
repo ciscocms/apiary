@@ -3,10 +3,8 @@ HOST: http://cmsapi.cisco.io/api/v1
 
 # Cisco Meeting Server API
 
-The Cisco Meeting Server software can be hosted on specific servers based on Cisco Unified
-Computing Server (UCS) technology as well as on the Acano X-Series hardware, or on a
-specification-based VM server. Cisco Meeting Server is referred to as the Meeting Server
-throughout this document.
+The Cisco Meeting Server software can be hosted on specific servers based on Cisco Unified Computing Server (UCS) technology as well as on the Acano X-Series hardware, or on a
+specification-based VM server. Cisco Meeting Server is referred to as the Meeting Server throughout this document.
 
 This document covers release 2.3 of the Application Program Interface for the Cisco Meeting server. For version specific API changes, refer to the Release Notes for Cisco Meeting Server.
 
@@ -2881,9 +2879,18 @@ If present in the reply, these parameters are overrides currently active specifi
     <td></td>
   </tr>
   <tr>
-    <td>nameLabelOverride (from version<br>2.4)</td>
-    <td></td>
-    <td></td>
+    <td>nameLabelOverride <br>(from version 2.4)</td>
+    <td>String (maximum of 50 bytes of UTF-8)</td>
+    <td>If supplied, overrides the name for this participant. Setting an empty string clears  the value and restores the original name. Overriding the name of a participant and its associated call leg(s) is interchangeable and affects both; the latest change takes precedence.It changes the name of the participant in the following:
+    <ul>
+    <li>on-screen name label viewed by other conference</li>
+participants,
+<li>ActiveControl roster list,</li>
+<li>any place that the Meeting App sees the name of the participant in a call,</li>
+<li>CDR records,</li>
+<li>where the name appears in the web interface.</li>
+    </ul>
+    </td>
   </tr>
 </table></td>
     </tr>
