@@ -3261,6 +3261,10 @@ If present in the reply, these parameters are overrides currently active specifi
 
 ## Creating a new participant for a specified call [POST /calls/{callId}/participants]
 ---
+**Note:** Due to load balancing across clustered Meeting Servers, an explicit selection of a Call Bridge or Call Bridge Group or from configured dial plan rules, may result in the call leg instantiation ("owned" by the participant object) occurring on a remote clustered Call Bridge.
+
+---
+---
 **Note:** Also see the section on participant related methods.
 
 ---
