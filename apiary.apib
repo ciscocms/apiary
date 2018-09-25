@@ -3373,7 +3373,7 @@ Response is a collection of `<callLegProfile id=<call leg profile id>` objects c
     <tr>
         <td>joinToneParticipantThreshold</td>
         <td>Number</td>
-        <td>Number of participants using SIP endpoints that will have a "join tone” played;  maximum 100, a value of 0 “disables” the feature. Cisco Meeting App users do not  receive these audio indications because the 'Participant' List provides a visual indication of who is joining and leaving.</td>
+        <td>Number of participants using SIP endpoints that will have a "join tone” played;  maximum 100, a value of 0 “disables” the feature. Cisco Meeting App users do not  receive these audio indications because the 'Participant' List (roster list) provides a visual indication of who is joining and leaving.</td>
     </tr>
     <tr>
         <td>leaveToneParticipantThreshold</td>
@@ -7003,7 +7003,7 @@ If set to true, new participants that need activation are not activated even if 
 + muteSelfAllowed: `true` (boolean) - Whether call legs using this call leg profile are allowed to mute or unmute (block/unblock) the video of other participants
 + allowAllMuteSelfAllowed (boolean) - Whether or not call legs using this call leg profile are allowed to change the permission of all call legs to mute and unmute them- selves. Present from version 1.9 onwards
 + videoMuteSelfAllowed: `true` (boolean) - Whether call legs using this call leg profile are allowed to mute or unmute (block/unblock) their own video
-+ joinToneParticipantThreshold (number) - Number of participants up to which a "join tone" will be played (maximum 100, a value of 0 “disables” the feature). Note: Cisco Meeting App users do not receive these audio indications because the Roster List provides a visual indication of who is joining and leaving.
++ joinToneParticipantThreshold (number) - Number of participants up to which a "join tone" will be played (maximum 100, a value of 0 “disables” the feature). Note:Cisco Meeting App users do not receive these audio indications because the Participant List (Roster List) provides a visual indication of who is joining and leaving.
 + leaveToneParticipantThreshold (number) - Number of participants up to which a "leave tone" will be played out (a value of 0 “disables” the feature)
 + videoMode (enum) - If disabled is set then call legs using this call leg profile will be audio-only, or audio and content – depending on the values for presentationViewingAllowed and txAudioMute. No main stream video will be shown. For devices which show content in the main video stream, content but no participant video will be shown in the main video stream when appropriate
     + auto
