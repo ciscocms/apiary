@@ -2623,6 +2623,11 @@ A call leg alarm may be triggered by a number of factors, not necessarily a set 
 
 ## Adding and Modifying Call Legs [POST]
 * Adding: POST method to a `/calls/<call ID>/callLegs` node. The `<call ID>` is learnt from a GET on `/calls` or from a newly created call (see Creating a new call above). If a profile has been applied to this call leg, it starts with the values set in the profile
+
+---
+**Note:** these added or modified call legs will not be load balanced across clustered Meeting Servers.
+
+---
 * Modifying: PUT method performed on a `/callLegs/<callLeg ID>` node. It makes live, dynamic, changes to an in-progress connection to a remote party.
 
 ---
