@@ -6115,7 +6115,7 @@ Response is structured as a top-level <compatibilityProfiles total="N"> tag with
   <tr>
     <td>h264CHPMode</td>
     <td>auto|<br>basic</td>
-    <td>Indicates which parts of the H.264 Constrained High Profile<br><br>(CHP) are used.<br>(from version 2.4)</td>
+    <td>Indicates which parts of the H.264 Constrained High Profile (CHP) are used.<br>(from version 2.4)</td>
   </tr>
 </table>
 
@@ -7235,7 +7235,9 @@ If set to true, new participants that need activation are not activated even if 
 + sipMediaPayloadTypeMode - Controls whether the default codec media payload types are used, or a special variant. (From version 2.2)
     + auto - the default mode, where the normal media payload type values are used.
     + broadsoft - a special exception mode, where the H.264 video codec is advertised with payload type 109.
- 
++ h264CHPMode - Controls which parts of the H.264 Constrained High Profile (CHP) are used (From version 2.4).
+    + auto - default behavior, based on endpoint identification, appropriate parts are used
+    + basic - only a minimal subset of parts are used
 
     
 ## ldap server    
