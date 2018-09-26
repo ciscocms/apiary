@@ -6080,9 +6080,39 @@ GET method performed on the `/compatibilityProfiles` node.
 
 Response is structured as a top-level <compatibilityProfiles total="N"> tag with potentially multiple <compatibilityProfile> elements within it. Each <compatibilityProfile> tag may include these elements:
 
-#### Response elements
+### Response elements
 
 usageFilter (unreferenced/referenced) - Indicates whether the compatibility profile is referenced by another object.
+
+Response is structured as a top-level <compatibilityProfiles total="N"> tag with potentially multiple <compatibilityProfile> elements within it. Each <compatibilityProfile> tag may include these elements:
+
+<table>
+  <tr>
+    <th>sipUdt</th>
+    <th>true|<br>false</th>
+    <th>Indicates whether use of UDT is allowed within SIP calls. (From<br>version 2.1)</th>
+  </tr>
+  <tr>
+    <td>sipMultistream</td>
+    <td>true|<br>false</td>
+    <td>Indicates whether use of Cisco multistream protocols is<br>allowed within SIP calls. (From version 2.2)</td>
+  </tr>
+  <tr>
+    <td>sipMediaPayloadTypeMode</td>
+    <td>auto|<br>broadsoft</td>
+    <td>Indicates whether the default codec media payload types are<br>used, or a special variant. (From version 2.2)</td>
+  </tr>
+  <tr>
+    <td>chromeWebRtcVideoCodec</td>
+    <td>auto|<br>avoidH264</td>
+    <td>Indicates which codec Chrome will use for WebRTC calls.<br>(From version 2.3)</td>
+  </tr>
+  <tr>
+    <td>h264CHPMode</td>
+    <td>auto|<br>basic</td>
+    <td>Indicates which parts of the H.264 Constrained High Profile<br><br>(CHP) are used.<br>(from version 2.4)</td>
+  </tr>
+</table>
 
 + Parameters
     + offset (number) - An "offset" can be supplied to retrieve compatibility profiles other than those in the first "page" of the notional list.
