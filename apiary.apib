@@ -2442,8 +2442,7 @@ Response is structured as a top-level <participants total=”N”> tag with pote
 POST method on the `/calls/<callId>/participants` node.
 
 ---
-***Note:***: This may result in the call leg instantiation ("owned" by the participant object) occurring
-on a remote clustered Call Bridge.
+***Note:***: Due to load balancing across clustered Meeting Servers, an explicit selection of a Call Bridge or Call Bridge Group or from configured dial plan rules, may result in the call leg instantiation ("owned" by the participant object) occurring on a remote clustered Call Bridge.
 
 ---
 ---
@@ -2472,7 +2471,7 @@ PUT to `/calls/<callId>/participants/*` node. Set properties for all participant
 + Response 200
     + Headers
 
-            TODO: something
+            TODO: something awesome goes here
 
 ## Call Profile Methods [/callProfiles{?offset,limit,usageFilter}]
 Call profiles control the maximum number of active simultaneous participants and the in-call experience for SIP (including Lync) calls. For more information see also Section 14.
@@ -3249,24 +3248,6 @@ If present in the reply, these parameters are overrides currently active specifi
     + Body
 
             TODO: work...
-
-## Creating a new participant for a specified call [POST /calls/{callId}/participants]
----
-**Note:** Due to load balancing across clustered Meeting Servers, an explicit selection of a Call Bridge or Call Bridge Group or from configured dial plan rules, may result in the call leg instantiation ("owned" by the participant object) occurring on a remote clustered Call Bridge.
-
----
----
-**Note:** Also see the section on participant related methods.
-
----
-POST method on the `/calls/<call id>/participants` node.
-
-The parameters are as per the call leg create operation described above, but may result in the call leg instantiation ("owned" by the participant object) occurring on a remote clustered Call Bridge.
-
-+ Response 200
-    + Body
-
-            TODO: something awesome goes here
 
 ## Call Leg Profile Methods [/callLegProfiles{?offset,limit,usageFilter}]
 
