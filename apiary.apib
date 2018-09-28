@@ -553,7 +553,7 @@ interface has been changed to refer to "spaces".
 ---
 
 This chapter details the API methods related to management of coSpaces. The chapter covers:
-* [retrieving coSpaces](#retrievingspace)
+* retrieving coSpaces
 * creating and modifying a coSpace
 * retrieving detailed information about a single coSpace
 * retrieving the members of a coSpace
@@ -6717,6 +6717,7 @@ POST performed on the `/api/v1/uriUsageQuery` node.
 + streamUrl (URL) - Indicates where the coSpace is streamed to, if streaming is initiated. (From version 2.1).
 + ownerAdGuid (ID) - If provided, the coSpace will be owned by the user with the given AD GUID. (From version 2.1).
 + meetingScheduler (string) - Name of person (not necessarily a user) who scheduled the creation of this coSpace, which if set is propagated to any call objects as the “ownerName” field. (From version 2.2).
++ panePlacementHighestImportance (number) - If panePlacementHighestImportance is provided, pane placement will be activated for this coSpace - the active range of importance values will be from "highest importance" down to 1(inclusive). (From version 2.4)
 
 ## defaultLayout (enum)
 + allEqual
