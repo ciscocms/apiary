@@ -177,7 +177,7 @@ Equally, a request supplying a <coSpace id> which does not correspond to a valid
 For 4xx and 5xx error cases, extended error information may be returned as “text/xml” body data, for example:
 `<failureDetails><coSpaceDoesNotExist/></failureDetails>`
 
-More generally, such a response consists of a “failureDetails” section and a list of errors; in the above case a method was attempted using a coSpace ID that did not correspond to an active coSpace. The possible failure reasons are described in Section 4.5.
+More generally, such a response consists of a “failureDetails” section and a list of errors; in the above case a method was attempted using a coSpace ID that did not correspond to an active coSpace. The possible failure reasons are described in Section [Failure Reasons](failreason).
 
 ### GET Methods
 <a name="get"></a>
@@ -304,6 +304,7 @@ If the object is removed successfully, the Meeting Server sends a “200 OK” r
 Because of the relative simplicity of this method, it is not detailed elsewhere in this document – with the exception of deleting chat messages.
 
 ### Failure Reasons
+<a name="failreason"></a>
 The following "failureDetails" codes can be returned by the API for any of the above methods, in the form in response to a user error:
 `<failureDetails><tenantDoesNotExist /></failureDetails>`
 
