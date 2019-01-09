@@ -131,7 +131,7 @@ The hierarchy of objects addressable via the API is:
 `/webBridges/<web bridge id>`  
 `/webBridges/<web bridge id>/updateCustomization`
 
-In each case, the top level plural term sits above potentially many individual object nodes; these individual object nodes are identified by an <ID> which is a GUID, typically. For example, if there are 100 coSpaces configured on an Acano server, conceptually there would be 100 nodes directly beneath `/coSpaces` in the hierarchy.
+In each case, the top level plural term sits above potentially many individual object nodes; these individual object nodes are identified by an <ID> which is a GUID, typically. For example, if there are 100 coSpaces configured on an Meeting Server, conceptually there would be 100 nodes directly beneath `/coSpaces` in the hierarchy.
 
 ## Accessing the API
 The API uses HTTPS as a transport mechanism.
@@ -142,7 +142,7 @@ To use the API, you need to connect via HTTPS via the same TCP ports as you woul
 You also need to configure a username and password: you must provide these credentials in order to use the API. From R1.7, you set them using the MMP command `user add <username> (admin|crypto|audit|appadmin|api)`. This command prompts for the user’s password; see the [MMP Command Reference](https://www.cisco.com/c/en/us/support/conferencing/meeting-server/products-programming-reference-guides-list.html) for details.
 
 ### Authentication
-The API user supplies a shared secret username and password to the Acano server configured with the same username and password. The username and password are set in the MMP command line.
+The API user supplies a shared secret username and password to the Meeting Server configured with the same username and password. The username and password are set in the MMP command line.
 
 While the authentication credentials are sent in essentially plain text within the HTTP traffic, by using HTTPS the traffic itself cannot be read by an external party.
 
@@ -168,9 +168,9 @@ For the purposes of addressing or creating individual objects, the URL format mi
 
 Specifically, at the top level, including `/api` means that the on-board HTTP server process can distinguish this HTTP method from a normal browser method, and including `v1` means the API handler knows that the request is being made by an object that understands version 1 of the API.
 
-If an API method is successful, it yields a “200 OK” response from the Acano server. If an error occurs, the Acano server responses with a 4xx or 5xx HTTP status code.
+If an API method is successful, it yields a “200 OK” response from the Meeting Server. If an error occurs, the Meeting Server responses with a 4xx or 5xx HTTP status code.
 
-A 503 (“Service Unavailable”) status code is returned for API calls unable to be serviced due to a temporary “busy” condition on the Acano server – this can be used as an indication to the requestor that it would be useful to re-attempt the same method later.
+A 503 (“Service Unavailable”) status code is returned for API calls unable to be serviced due to a temporary “busy” condition on the Meeting Server – this can be used as an indication to the requestor that it would be useful to re-attempt the same method later.
 
 Equally, a request supplying a <coSpace id> which does not correspond to a valid coSpace object yields “404 Not Found”.
 
@@ -184,23 +184,23 @@ More generally, such a response consists of a “failureDetails” section and a
 As mentioned above, GET methods allow retrieval of information about existing API accessible objects, and are used at two levels: Collections level and Individual object level.
 
 #### Collections level
-If the GET method is performed at the Collections level (the pluralized noun: “calls”, “coSpaces” etc.) then some number of matching child nodes will be retrieved. By design this is not guaranteed to be the entire list, but the total number of objects of that type present in the Acano server can be learnt via this mechanism.
+If the GET method is performed at the Collections level (the pluralized noun: “calls”, “coSpaces” etc.) then some number of matching child nodes will be retrieved. By design this is not guaranteed to be the entire list, but the total number of objects of that type present in the Meeting Server can be learnt via this mechanism.
 
 In order to retrieve just specific items, most GET methods at the Collections level allow the use of a filter expression. The idea here is that the interface of a management tool would initially present the API user with the summed count of coSpaces (for example), basic details on the first “N” coSpaces (e.g. their names) and a filter box which the human user can use to search for the specific coSpace(s) of interest.
 
-With no other additional parameters, a GET method at the Collections level will return items from the start of the Acano server's notional complete list. By comparing the number of items returned with the "total" value, it is straightforward to determine whether all elements have been returned (if the number of elements returned is equal to the "total" value).
+With no other additional parameters, a GET method at the Collections level will return items from the start of the Meeting Server's notional complete list. By comparing the number of items returned with the "total" value, it is straightforward to determine whether all elements have been returned (if the number of elements returned is equal to the "total" value).
 
 #### Using limit and offset at the Collections level
-It is possible to restrict the number of elements returned to a limit chosen by the requestor, by including a "limit=<limitValue>" in the API request. This guarantees that no more than the specified "limitValue" number of elements will be returned - the Acano server will have its own limit in these cases too, and therefore the number of elements returned will be the lower of any supplied "limitValue" and the Acano server's own limit.
+It is possible to restrict the number of elements returned to a limit chosen by the requestor, by including a "limit=<limitValue>" in the API request. This guarantees that no more than the specified "limitValue" number of elements will be returned - the Meeting Server will have its own limit in these cases too, and therefore the number of elements returned will be the lower of any supplied "limitValue" and the Meeting Server's own limit.
 
-In order to retrieve elements other than the first "n" on the Acano server's notional list, it is also possible to supply an "offset=<offsetValue>" in the API request. This causes the Acano server to return elements which start at the specified position in its list, skipping the first "offsetValue" number of elements. If "offsetValue" is greater than the number of objects of that type, then no elements will be returned.
+In order to retrieve elements other than the first "n" on the Meeting Server's notional list, it is also possible to supply an "offset=<offsetValue>" in the API request. This causes the Meeting Server to return elements which start at the specified position in its list, skipping the first "offsetValue" number of elements. If "offsetValue" is greater than the number of objects of that type, then no elements will be returned.
 
 ---
 **Note:** The offset value should not be viewed as a general mechanism for retrieving a large complete list - sequential retrievals of one "page" of data followed by a second "page" will not necessarily be operating on the same complete list if any objects have been deleted or added in the interval between these methods.
 
 ---
 
-The expectation is that, for each request and response, the requestor will keep track of the offset and limit values used, and combine this knowledge with the number of elements returned in the response and the "total" indicated by the Acano server. If the "offsetValue" supplied by the requestor plus the number of elements returned is less than the "total" value indicated in the response, the requestor then knows that there are more values present. The following table shows some examples:
+The expectation is that, for each request and response, the requestor will keep track of the offset and limit values used, and combine this knowledge with the number of elements returned in the response and the "total" indicated by the Meeting Server. If the "offsetValue" supplied by the requestor plus the number of elements returned is less than the "total" value indicated in the response, the requestor then knows that there are more values present. The following table shows some examples:
 
 <table>
     <tr>
@@ -246,7 +246,7 @@ GET methods contain the complete node location and any parameters specific to th
 whereas to list just those whose name includes “sales”, the GET would be performed on:
 `/api/v1/coSpaces?filter=sales`
 
-If a GET method has been successful and yields a “200 OK” response, the Acano server returns the retrieved information as “text/xml” body data.
+If a GET method has been successful and yields a “200 OK” response, the Meeting Server returns the retrieved information as “text/xml” body data.
 
 #### How GET methods are detailed in this document
 For each GET method at the Collections level the following information is provided:
@@ -299,7 +299,7 @@ Therefore the DELETE method is typically performed at the Individual level e.g. 
 
 The object’s ID is known either from a previous retrieval (GET) method at the Collections level or from the “Location” field in the response to a previous creation (PUT) method. (coSpace can be deleted at the Collections level.)
 
-If the object is removed successfully, the Acano server sends a “200 OK” response.
+If the object is removed successfully, the Meeting Server sends a “200 OK” response.
 
 Because of the relative simplicity of this method, it is not detailed elsewhere in this document – with the exception of deleting chat messages.
 
@@ -382,7 +382,7 @@ The following "failureDetails" codes can be returned by the API for any of the a
     </tr>
     <tr>
         <td>duplicateCoSpaceUri</td>
-        <td>You tried to create or modify a coSpace to use a URI that clashed with one that corresponds to another coSpace. (Two coSpaces can't share the same URI, because the Acano server must be able to uniquely resolve an incoming call to a coSpace URI)</td>
+        <td>You tried to create or modify a coSpace to use a URI that clashed with one that corresponds to another coSpace. (Two coSpaces can't share the same URI, because the Meeting Server must be able to uniquely resolve an incoming call to a coSpace URI)</td>
     </tr>
     <tr>
         <td>duplicateCoSpaceSecret</td>
@@ -502,7 +502,7 @@ The following "failureDetails" codes can be returned by the API for any of the a
 
 ### Retrieval of Current Active Calls [GET /api/v1/calls]
 
-As described in Section 4.1, retrieval methods using GET involve no body content posted by the retriever. If the request is valid, the Acano server returns XML response data.
+As described in Section 4.1, retrieval methods using GET involve no body content posted by the retriever. If the request is valid, the Meeting Server returns XML response data.
 
 + Request
     + Headers
@@ -6894,7 +6894,7 @@ If set to true, new participants that need activation are not activated even if 
 + remoteParty (string) - For POST only, specifies the call leg’s address; this could be a SIP URI, a phone number, or a user JID to invite that user to the call
 + bandwidth (number) - For POST only, if supplied, sets the bandwidth for the call leg, in bits per second (e.g. 2000000 for 2Mbit/s). If not supplied, the Acano Call Bridge configured value will be used
 + confirmation (boolean) - For POST only, if supplied, this overrides the automatic choice of whether to require a confirmation from the remote party to join the call. true - always require a confirmation from the remote party; typically this takes the form of a voice prompt requiring them to hit a key to join. false - never require a confirmation from the remote party; the remote party will be joined into the coSpace when they accept the incoming call
-+ ownerId (ID) - If supplied must be an ID for the Acano server to associate with this call leg. This will be returned by the Acano servern when the call leg is later queried and therefore should be a value that has meaning to the requestor
++ ownerId (ID) - If supplied must be an ID for the Meeting Server to associate with this call leg. This will be returned by the Meeting Server when the call leg is later queried and therefore should be a value that has meaning to the requestor
 + chosenLayout (Layouts) - This parameter overrides the prevailing default layout for this call leg. This parameter is present from version 1.8 onwards. Note: From R1.9, the "allEqual" layout reverts to the pre-1.7 arrangement where the layout expands from a 4 person view up to a 25 person view, with all participants shown at equal size. The "allEqual" layout that was introduced in R1.7 is renamed "automatic"
 + callLegProfile (ID) - If provided, associates the specified call leg profile with this call leg. You can also supply individual values for all parameters that can be part of a call leg profile to override this call leg profiles’ value. See below
 + needsActivation
@@ -6923,7 +6923,7 @@ If set to true, new participants that need activation are not activated even if 
 + telepresenceCallsAllowed
 + sipPresentationChannelEnabled (boolean)
 + bfcpMode (boolean)
-+ layout (Layouts) - This parameter is provided for backward compatibility with early versions of Acano server - it has the equivalent functionality to changing "defaultLayout", and if both are supplied then "defaultLayout" will take precedence
++ layout (Layouts) - This parameter is provided for backward compatibility with early versions of Meeting Server - it has the equivalent functionality to changing "defaultLayout", and if both are supplied then "defaultLayout" will take precedence
 + disconnectOthersAllowed (boolean)
 + addParticipantAllowed (boolean) - (From version 2.3)
 + qualityMain - Restricts the maximum negotiated main video call quality for this call leg based on limiting transcoding resources. Specified using a typical resolution and framerate. Note that call legs may operate at lower resolutions or framerates due to endpoint limitations or overall Call Bridge load.
@@ -6949,7 +6949,7 @@ If set to true, new participants that need activation are not activated even if 
 + remoteParty* (string) - For POST only, specifies the call leg’s address; this could be a SIP URI, a phone number, or a user JID to invite that user to the call
 + bandwidth (number) - For POST only, if supplied, sets the bandwidth for the call leg, in bits per second (e.g. 2000000 for 2Mbit/s). If not supplied, the Acano Call Bridge configured value will be used
 + confirmation (boolean) - For POST only, if supplied, this overrides the automatic choice of whether to require a confirmation from the remote party to join the call. true - always require a confirmation from the remote party; typically this takes the form of a voice prompt requiring them to hit a key to join. false - never require a confirmation from the remote party; the remote party will be joined into the coSpace when they accept the incoming call
-+ ownerId (ID) - If supplied must be an ID for the Acano server to associate with this call leg. This will be returned by the Acano servern when the call leg is later queried and therefore should be a value that has meaning to the requestor
++ ownerId (ID) - If supplied must be an ID for the Meeting Server to associate with this call leg. This will be returned by the Meeting Server when the call leg is later queried and therefore should be a value that has meaning to the requestor
 + chosenLayout (Layouts) - This parameter overrides the prevailing default layout for this call leg. This parameter is present from version 1.8 onwards. Note: From R1.9, the "allEqual" layout reverts to the pre-1.7 arrangement where the layout expands from a 4 person view up to a 25 person view, with all participants shown at equal size. The "allEqual" layout that was introduced in R1.7 is renamed "automatic"
 + dtmfSequence - A sequence of DTMF key press commands to send to the far end either when the call leg initially connects, or during the call. In the supplied sequence, you can use the digits 0 to 9, * and #, as well as one or more comma characters (",") which add a pause between digits. this parameter is present from ver- sion 1.9 onwards
 + callLegProfile (ID) - If provided, associates the specified call leg profile with this call leg. You can also supply individual values for all parameters that can be part of a call leg profile to override this call leg profiles’ value. See below
