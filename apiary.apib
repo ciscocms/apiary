@@ -4762,13 +4762,13 @@ Returns a list of individual `<alarm>` elements. If there are no currently activ
 #### failureReason
 * authenticationFailure
 * connectFailure - a failure to connect to a remote destination;for example, a TCP or TLS connection was not able to be established
-* dataFormatInvalid - the Acano CallBridge is configured to use a particular data set (for example, a remotely-hosted resource file) that it then found was not in a useable format
-* destinationReadOnly - a critical resource, for example the database, was found by the Acano Call Bridge to be read only when write access was needed
+* dataFormatInvalid - the CallBridge is configured to use a particular data set (for example, a remotely-hosted resource file) that it then found was not in a useable format
+* destinationReadOnly - a critical resource, for example the database, was found by the Call Bridge to be read only when write access was needed
 * dnsFailure - a failure to resolve the hostname of a remote destination; for example, as part of the process of establishing a connection to a remote system
 * error
-* fileNotFound - the alarm condition was raised because the Acano call bridge failed to load a required file; for instance, if the resourceArchive needed for a web bridge was not able to be retrieved from a remote server
-* fileSizeLimitExceeded - the Acano CallBridge is configured to use a resource, for example, a remotely-hosted resource file, that was not able to be retrieved because it exceeded an internal file size limit
-* internalServerError - the Acano CallBridge was not able to perform an operation, for example the upload or download of a resource file, because the remote party returned "internal server error" when the operation was attempted
+* fileNotFound - the alarm condition was raised because the call bridge failed to load a required file; for instance, if the resourceArchive needed for a web bridge was not able to be retrieved from a remote server
+* fileSizeLimitExceeded - the CallBridge is configured to use a resource, for example, a remotely-hosted resource file, that was not able to be retrieved because it exceeded an internal file size limit
+* internalServerError - the CallBridge was not able to perform an operation, for example the upload or download of a resource file, because the remote party returned "internal server error" when the operation was attempted
 * serviceUnavailable
 
 <table>
@@ -5518,7 +5518,7 @@ GET method performed on a `/turnServers/<turn server id>` node. If the turn serv
     <tr>
         <td>mappedAddress</td>
         <td>String</td>
-        <td>if populated, indicates the source IP and source port that the TURN server saw the STUN binding request coming from when the Acano Call Bridge performed TURN server reachability checks. This can be different to the IP address of the Acano Call Bridge in deployments where there is a NAT between the Call Bridge and the TURN server</td>
+        <td>if populated, indicates the source IP and source port that the TURN server saw the STUN binding request coming from when the Call Bridge performed TURN server reachability checks. This can be different to the IP address of the Call Bridge in deployments where there is a NAT between the Call Bridge and the TURN server</td>
     </tr>
     <tr>
         <td>mappedPortNumber</td>
@@ -5528,7 +5528,7 @@ GET method performed on a `/turnServers/<turn server id>` node. If the turn serv
     <tr>
         <td>numAllocations</td>
         <td>Number</td>
-        <td>Number of active TURN allocations on the Acano TURN server</td>
+        <td>Number of active TURN allocations on the TURN server</td>
     </tr>
 </table>
 
@@ -6893,13 +6893,13 @@ If set to true, new participants that need activation are not activated even if 
 
 ## CreateParticipantforspecifiedcall
 + remoteParty (string) - For POST only, specifies the call leg’s address; this could be a SIP URI, a phone number, or a user JID to invite that user to the call
-+ bandwidth (number) - For POST only, if supplied, sets the bandwidth for the call leg, in bits per second (e.g. 2000000 for 2Mbit/s). If not supplied, the Acano Call Bridge configured value will be used
++ bandwidth (number) - For POST only, if supplied, sets the bandwidth for the call leg, in bits per second (e.g. 2000000 for 2Mbit/s). If not supplied, the Call Bridge configured value will be used
 + confirmation (boolean) - For POST only, if supplied, this overrides the automatic choice of whether to require a confirmation from the remote party to join the call. true - always require a confirmation from the remote party; typically this takes the form of a voice prompt requiring them to hit a key to join. false - never require a confirmation from the remote party; the remote party will be joined into the coSpace when they accept the incoming call
 + ownerId (ID) - If supplied must be an ID for the Meeting Server to associate with this call leg. This will be returned by the Meeting Server when the call leg is later queried and therefore should be a value that has meaning to the requestor
 + chosenLayout (Layouts) - This parameter overrides the prevailing default layout for this call leg. This parameter is present from version 1.8 onwards. Note: From R1.9, the "allEqual" layout reverts to the pre-1.7 arrangement where the layout expands from a 4 person view up to a 25 person view, with all participants shown at equal size. The "allEqual" layout that was introduced in R1.7 is renamed "automatic"
 + callLegProfile (ID) - If provided, associates the specified call leg profile with this call leg. You can also supply individual values for all parameters that can be part of a call leg profile to override this call leg profiles’ value. See below
 + needsActivation
-+ defaultLayout (Layouts) - If provided changes the call leg to use the specified video stream layout. Setting this parameter will only have an effect on those call legs for which the user does not already have layout control: that is, SIP calls (including Lync). (The layout for call legs that correspond to Cisco Meeting App connections will always be chosen by the user of that client.) Note: that the callLegProfile "defaultLayout" parameter replaces an equivalent "layout" parameter in early (pre- 1.2) Acano releases. If both are supplied, defaultLayout takes precedence. Note: From R1.9, the "allEqual" layout reverts to the pre-1.7 arrangement where the layout expands from a 4 person view up to a 25 person view, with all participants shown at equal size. The "allEqual" layout that was introduced in R1.7 is renamed "automatic".
++ defaultLayout (Layouts) - If provided changes the call leg to use the specified video stream layout. Setting this parameter will only have an effect on those call legs for which the user does not already have layout control: that is, SIP calls (including Lync). (The layout for call legs that correspond to Cisco Meeting App connections will always be chosen by the user of that Meeting App.) Note: that the callLegProfile "defaultLayout" parameter replaces an equivalent "layout" parameter. If both are supplied, defaultLayout takes precedence. Note: From R1.9, the "allEqual" layout reverts to the pre-1.7 arrangement where the layout expands from a 4 person view up to a 25 person view, with all participants shown at equal size. The "allEqual" layout that was introduced in R1.7 is renamed "automatic".
 + participantLabels
 + presentationDisplayMode
 + presentationContributionAllowed (boolean)
