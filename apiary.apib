@@ -3414,7 +3414,7 @@ Response is a collection of `<callLegProfile id=<call leg profile id>` objects c
     <tr>
         <td>bfcpMode</td>
         <td>serverOnly | serverAndClient</td>
-        <td>If presentation video channel operations are enabled for SIP calls, this setting determines the Acano Call Bridge's BFCP behaviour. serverOnly - this is the normal setting for a conferencing device, and is intended for use with BFCP client mode devices (for instance, SIP endpoints). serverAndClient - this setting allows the Acano Call Bridge to operate in either BFCP client or BFCP server mode in calls with remote devices. This can allow improved presentation video sharing with a remote conference- hosting device such as a third party MCU</td>
+        <td>If presentation video channel operations are enabled for SIP calls, this setting determines the Call Bridge's BFCP behaviour. serverOnly - this is the normal setting for a conferencing device, and is intended for use with BFCP client mode devices (for instance, SIP endpoints). serverAndClient - this setting allows the Call Bridge to operate in either BFCP client or BFCP server mode in calls with remote devices. This can allow improved presentation video sharing with a remote conference- hosting device such as a third party MCU</td>
     </tr>
     <tr>
         <td>callLockAllowed</td>
@@ -6948,14 +6948,14 @@ If set to true, new participants that need activation are not activated even if 
 
 ## callLeg
 + remoteParty* (string) - For POST only, specifies the call leg’s address; this could be a SIP URI, a phone number, or a user JID to invite that user to the call
-+ bandwidth (number) - For POST only, if supplied, sets the bandwidth for the call leg, in bits per second (e.g. 2000000 for 2Mbit/s). If not supplied, the Acano Call Bridge configured value will be used
++ bandwidth (number) - For POST only, if supplied, sets the bandwidth for the call leg, in bits per second (e.g. 2000000 for 2Mbit/s). If not supplied, the Call Bridge configured value will be used
 + confirmation (boolean) - For POST only, if supplied, this overrides the automatic choice of whether to require a confirmation from the remote party to join the call. true - always require a confirmation from the remote party; typically this takes the form of a voice prompt requiring them to hit a key to join. false - never require a confirmation from the remote party; the remote party will be joined into the coSpace when they accept the incoming call
 + ownerId (ID) - If supplied must be an ID for the Meeting Server to associate with this call leg. This will be returned by the Meeting Server when the call leg is later queried and therefore should be a value that has meaning to the requestor
 + chosenLayout (Layouts) - This parameter overrides the prevailing default layout for this call leg. This parameter is present from version 1.8 onwards. Note: From R1.9, the "allEqual" layout reverts to the pre-1.7 arrangement where the layout expands from a 4 person view up to a 25 person view, with all participants shown at equal size. The "allEqual" layout that was introduced in R1.7 is renamed "automatic"
 + dtmfSequence - A sequence of DTMF key press commands to send to the far end either when the call leg initially connects, or during the call. In the supplied sequence, you can use the digits 0 to 9, * and #, as well as one or more comma characters (",") which add a pause between digits. this parameter is present from ver- sion 1.9 onwards
 + callLegProfile (ID) - If provided, associates the specified call leg profile with this call leg. You can also supply individual values for all parameters that can be part of a call leg profile to override this call leg profiles’ value. See below
 + needsActivation
-+ defaultLayout (Layouts) - If provided changes the call leg to use the specified video stream layout. Setting this parameter will only have an effect on those call legs for which the user does not already have layout control: that is, SIP calls (including Lync). (The layout for call legs that correspond to Cisco Meeting App connections will always be chosen by the user of that client.) Note: that the callLegProfile "defaultLayout" parameter replaces an equivalent "layout" parameter in early (pre- 1.2) Acano releases. If both are supplied, defaultLayout takes precedence. Note: From R1.9, the "allEqual" layout reverts to the pre-1.7 arrangement where the layout expands from a 4 person view up to a 25 person view, with all participants shown at equal size. The "allEqual" layout that was introduced in R1.7 is renamed "automatic".
++ defaultLayout (Layouts) - If provided changes the call leg to use the specified video stream layout. Setting this parameter will only have an effect on those call legs for which the user does not already have layout control: that is, SIP calls (including Lync). (The layout for call legs that correspond to Cisco Meeting App connections will always be chosen by the user of that client.) Note: that the callLegProfile "defaultLayout" parameter replaces an equivalent "layout" parameter in early (pre- 1.2) releases. If both are supplied, defaultLayout takes precedence. Note: From R1.9, the "allEqual" layout reverts to the pre-1.7 arrangement where the layout expands from a 4 person view up to a 25 person view, with all participants shown at equal size. The "allEqual" layout that was introduced in R1.7 is renamed "automatic".
 + participantLabels
 + presentationDisplayMode
 + presentationContributionAllowed (boolean)
@@ -7050,9 +7050,9 @@ If set to true, new participants that need activation are not activated even if 
 + deactivationModeTime (number) - Number of seconds after the last "activator" leaves before which the deactivationMode action is taken
 + telepresenceCallsAllowed (boolean) - If true, a call leg using this call leg profile is allowed to make TIP (Telepresence Interoperability Protocol) calls
 + sipPresentationChannelEnabled (boolean) - If true, a call leg using this call leg profile is permitted to perform presentation video channel operations
-+ bfcpMode (enum) - If presentation video channel operations are enabled for SIP calls, this setting determines the Acano Call Bridge's BFCP behaviour
++ bfcpMode (enum) - If presentation video channel operations are enabled for SIP calls, this setting determines the Call Bridge's BFCP behaviour
     + serverOnly - this is the normal setting for a conferencing device, and is intended for use with BFCP client mode devices (for instance, SIP endpoints)
-    + serverAndClient - this setting allows the Acano Call Bridge to operate in either BFCP client or BFCP server mode in calls with remote devices. This can allow improved presentation video sharing with a remote conference- hosting device such as a third party MCU
+    + serverAndClient - this setting allows the Call Bridge to operate in either BFCP client or BFCP server mode in calls with remote devices. This can allow improved presentation video sharing with a remote conference- hosting device such as a third party MCU
 + callLockAllowed (boolean) - Determines whether or not call legs using this call leg profile are allowed to lock the call. Present from version 1.8 onwards
 + setImportanceAllowed (boolean) - Determines whether or not call legs using this call leg profile are allowed to change the importance of participants in the call. (From version 2.3)
 + recordingControlAllowed (boolean) - Whether call legs using this call leg profile are allowed to start/stop recording the call. Present from version 1.9 onwards
@@ -7118,7 +7118,7 @@ If set to true, new participants that need activation are not activated even if 
 + tenant (ID) - If specified, calls to this IVR will only be able to join coSpaces associated with the specified tenant. If no tenant is supplied, calls to this IVR will be able to join any call on the system that has a call ID configured
 + tenantGroup (ID) - Calls to this IVR will only be able to join coSpaces associated with tenants within the specified tenant group. If no tenant group is supplied, calls to this IVR will only be able to join coSpaces without a tenant, or associated with a tenant in no tenant group. This parameter is present from version 1.8 onwards
 + ivrBrandingProfile (ID) - If supplied, specifies an IVR branding profile to be used for calls to this IVR - an IVR branding profile supplied here will take precedence over any top-level or tenant-level IVR branding profile
-+ resolveCoSpaceCallIds: `true` (boolean) - Whether calls to this IVR will accept coSpace and coSpace access method call IDs for the purpose of allowing callers to join Acano coSpaces
++ resolveCoSpaceCallIds: `true` (boolean) - Whether calls to this IVR will accept coSpace and coSpace access method call IDs for the purpose of allowing callers to join coSpaces
 + resolveLyncConferenceIds: `false` (boolean) - Whether calls to this IVR will accept IDs to be resolved to Lync scheduled conference IDs
 
 ## ivrBrandingProfile
