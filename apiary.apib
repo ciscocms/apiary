@@ -6928,7 +6928,7 @@ If set to true, new participants that need activation are not activated even if 
 + disconnectOthersAllowed (boolean)
 + addParticipantAllowed (boolean) - (From version 2.3)
 + qualityMain - Restricts the maximum negotiated main video call quality for this call leg based on limiting transcoding resources. Specified using a typical resolution and framerate. Note that call legs may operate at lower resolutions or framerates due to endpoint limitations or overall Call Bridge load.
-    + unrestricted - this is the default setting if not specified, and matches the behavior of older Call Bridge versions, where no restrictions are placed on resolution or frame rate
+    + 'unrestricted' - this is the default setting if not specified, and matches the behavior of older Call Bridge versions, where no restrictions are placed on resolution or frame rate
     + max1080p30 - restricts the bridge to negotiating at most 1920x1080 screen size at 30 frames per second or equivalent transcoding resources, for example 1280x720 screen size at 60 frames per second
     + max720p30 - restricts (string)- A sequence of DTMF key press commands to send to the far end either when the participant is initially created or during the call. The DTMF sequence is played out from the Call Bridge where the call for this participant is placed. In the supplied sequence, you can use the digits 0 to 9, * and #, as well as one or more comma characters (",") which add a pause between digits. (From version 2.4) the bridge to negotiating at most 1280x720 screen size at 30 frames per second or equivalent transcoding resources
     + max480p30 - restricts the bridge to negotiating at most 868x480 screen size at 30 frames per second or equivalent transcoding resources.(From version 2.2)
