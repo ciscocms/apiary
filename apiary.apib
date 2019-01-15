@@ -2588,7 +2588,7 @@ Response is structured as a top-level `<callLegs total=”N”>` tag with potent
 
 Call leg alarms provide information that may be useful in raising alarms or troubleshooting issues after they have occurred but they should not necessarily be treated as if they are alarm conditions in themselves—unlike system level alarms.
 
-A call leg alarm may be triggered by a number of factors, not necessarily a set percentage packet loss for example. An alarm condition is attached to a call leg when the Acano solution believes that the call leg may be being degraded. These "conditions" may include a simple threshold, but potentially other things too such as a more adaptive threshold and taking other factors into account. This does not necessarily mean that the user’s experience was poor but it provides information to troubleshoot in the event that it was. Therefore you could consider adding filters to this alarm information and deciding when to flag an event as an alarm to the operator (i.e. setting your own thresholds) and/or storing call leg alarm information alongside CDRs so that if a user reports a poor quality call you can retrieve this information after the event to determine what the cause might have been.
+A call leg alarm may be triggered by a number of factors, not necessarily a set percentage packet loss for example. An alarm condition is attached to a call leg when the Meeting Server detects that the call leg may be being degraded. These "conditions" may include a simple threshold, but potentially other things too such as a more adaptive threshold and taking other factors into account. This does not necessarily mean that the user’s experience was poor but it provides information to troubleshoot in the event that it was. Therefore you could consider adding filters to this alarm information and deciding when to flag an event as an alarm to the operator (i.e. setting your own thresholds) and/or storing call leg alarm information alongside CDRs so that if a user reports a poor quality call you can retrieve this information after the event to determine what the cause might have been.
 
 ---
 
@@ -4099,7 +4099,7 @@ Response is structured as a top-level `<ivrBrandingProfiles total="N">` tag with
     <tr>
         <td>resourceLocation</td>
         <td>URL</td>
-        <td>The HTTP or HTTPS URL that the IVR branding files will be retrieved from. This should be the "directory" in which the individual audio and graphic files reside. Details of these files are in the Acano solution Customization Guide</td>
+        <td>The HTTP or HTTPS URL that the IVR branding files will be retrieved from. This should be the "directory" in which the individual audio and graphic files reside. Details of these files are in the Meeting Server Customization Guide</td>
     </tr>
 </table>
 
@@ -4694,7 +4694,7 @@ Returns the elements on the left within a `<status>` element
     <tr>
         <td>callLegsMaxActive</td>
         <td>Number</td>
-        <td>The highest number of call legs simultaneously active on this Acano solution</td>
+        <td>The highest number of call legs simultaneously active on this Meeting Server</td>
     </tr>
     <tr>
         <td>callLegsCompleted</td>
@@ -4704,7 +4704,7 @@ Returns the elements on the left within a `<status>` element
     <tr>
         <td>audioBitRateOutgoing</td>
         <td>Number</td>
-        <td>The current total bit rate (in bits per second) summed over all outgoing audio streams (audio media sent from the Acano solution to a remote party)</td>
+        <td>The current total bit rate (in bits per second) summed over all outgoing audio streams (audio media sent from the Meeting Server to a remote party)</td>
     </tr>
     <tr>
         <td>audioBitRateIncoming</td>
@@ -4742,22 +4742,22 @@ Returns a list of individual `<alarm>` elements. If there are no currently activ
 * callBrandingResourceInvalid - the supplied resource has an invalid format; the call branding profile is specified by the accompanying "callBrandingProfiles" GUID parameter and the problematic file is specified by the accompanying "fileName" text parameter
 * callBridgeConnectionFailure - the CallBridge has failed to establish a connection to one of its peer clustered Call Bridges which specified by the accompanying "callBridge" GUID parameter
 * callDistributionFailure - the CallBridge has failed to establish a distributed link for one of its active calls; the Call Bridge that the link should have been to is identified by the accompanying "callBridgeName" text parameter, and the call is present as the "call" GUID parameter
-* cdrConnectionFailure - the Acano solution has failed to establish a connection to its configured CDR receiver, and therefore may be unable to push out new call detail records
+* cdrConnectionFailure - the Meeting Server has failed to establish a connection to its configured CDR receiver, and therefore may be unable to push out new call detail records
 * databaseClusternodeOutofSync - a node in the database cluster is out of sync and is not syncing
-* databaseConnectionError - the Acano solution has failed to establish a connection to its database
-* guestAccountConnectionFailure - the Acano solution has been unable to establish a connection to the configured Web Bridge in order to allow guest logins
+* databaseConnectionError - the Meeting Server has failed to establish a connection to its database
+* guestAccountConnectionFailure - the Meeting Server has been unable to establish a connection to the configured Web Bridge in order to allow guest logins
 * ivrBrandingResourceInvalid - the supplied resource has an invalid format; the IVR branding profile is specified by the accompanying "ivrBrandingProfile" GUID parameter and the problematic file is specified by the accompanying "fileName" text parameter
 * recorderLowDiskSpace (1.9 onwards) - a recorder has limited disk space; the recorder is specified by the accompanying "recorder" GUID parameter
-* recorderUnavailable (1.9 onwards) - the Acano callbridge has not managed to successfully contact a configured recorder; the recorder is specified by the accompanying "recorder" GUID parameter
-* turnServerUnavailable - the Acano CallBridge has not managed to contact a configured TURN server; this TURN server is specified by the accompanying "turnServer" GUID parameter
-* webBridgeArchivePushFailure - the Acano CallBridge has not been able to push a required customization archive to a Web Bridge
-* webBridgeArchiveRetrievalFailure - the Acano CallBridge has not been able to retrieve a required Web Bridge customization archive
-* webBridgeBackgroundImagePushFailure - the Acano CallBridge has not been able to push a required customized background image file to a Web Bridge
-* webBridgeBackgroundImageRetrievalFailure - the Acano CallBridge has not been able to retrieve a required customized background image file
-* webBridgeLoginLogoImagePushFailure — the Acano CallBridge has not been able to push a required customized login logo image to a Web Bridge
-* webBridgeLoginLogoImageRetrievalFailure - the Acano CallBridge has not been able to retrieve a required customized login logo image file
-* xmppAuthenticationRegistrationFailure - the Acano solution has not been able to register successfully with the named XMPP authentication component
-* xmppRegistrationFailure - the Acano solution has not been able to register successfully with its configured XMPP server
+* recorderUnavailable (1.9 onwards) - the callbridge has not managed to successfully contact a configured recorder; the recorder is specified by the accompanying "recorder" GUID parameter
+* turnServerUnavailable - the CallBridge has not managed to contact a configured TURN server; this TURN server is specified by the accompanying "turnServer" GUID parameter
+* webBridgeArchivePushFailure - the CallBridge has not been able to push a required customization archive to a Web Bridge
+* webBridgeArchiveRetrievalFailure - the CallBridge has not been able to retrieve a required Web Bridge customization archive
+* webBridgeBackgroundImagePushFailure - the CallBridge has not been able to push a required customized background image file to a Web Bridge
+* webBridgeBackgroundImageRetrievalFailure - the CallBridge has not been able to retrieve a required customized background image file
+* webBridgeLoginLogoImagePushFailure — the CallBridge has not been able to push a required customized login logo image to a Web Bridge
+* webBridgeLoginLogoImageRetrievalFailure - theCallBridge has not been able to retrieve a required customized login logo image file
+* xmppAuthenticationRegistrationFailure - the Meeting Server has not been able to register successfully with the named XMPP authentication component
+* xmppRegistrationFailure - the Meeting Server has not been able to register successfully with its configured XMPP server
 
 #### failureReason
 * authenticationFailure
@@ -6702,7 +6702,7 @@ POST performed on the `/api/v1/uriUsageQuery` node.
 + uri: `PLACEHOLDER` (URI user part) - The URI that a SIP system would use to dial in to this coSpace
 + secondaryUri (URI user part, optional)- The secondary URI for this coSpace – this provide the same functionality as the “uri” parameter, but allows more than one URI to be configured for a coSpace
 + callId (ID, optional) - The numeric ID that a user would enter at the IVR (or via a web client) to connect to this coSpace
-+ cdrTag (string, optional) - Up to 100 characters of free form text to identify this coSpace in a CDR; when a "callStart" CDR is generated for a call associated with this coSpace, this tag will be written (as "cdrTag") to the callStart CDR. See the Acano solution CDR Reference for details. The cdrTag can be modified in a PUT method
++ cdrTag (string, optional) - Up to 100 characters of free form text to identify this coSpace in a CDR; when a "callStart" CDR is generated for a call associated with this coSpace, this tag will be written (as "cdrTag") to the callStart CDR. See the Meeting Server CDR Reference for details. The cdrTag can be modified in a PUT method
 + passcode (string, optional) - The security code for this coSpace
 + tenant (ID, optional) - If provided, associates the specified tenant with this coSpace
 + callLegProfile (ID, optional) - If provided, associates the specified call leg profile with this coSpace
@@ -7087,8 +7087,8 @@ If set to true, new participants that need activation are not activated even if 
     + deny
 
 ## callBrandingProfile
-+ invitationTemplate (URL) - The HTTP or HTTPS URL of the invitation template text which clients will use when constructing textual invitations. Refer to the Acano solution Customization Guide for details on how to customize the text within the invitation. This parameter is present from version 1.8 onwards.
-+ resourceLocation (URL) - The HTTP or HTTPS URL that the Call Bridge call branding files will be retrieved from. This is the "directory" in which the individual audio and graphic files reside. Details of these files are in the Acano solution Customization Guide.
++ invitationTemplate (URL) - The HTTP or HTTPS URL of the invitation template text which clients will use when constructing textual invitations. Refer to the Meeting Server Customization Guide for details on how to customize the text within the invitation. This parameter is present from version 1.8 onwards.
++ resourceLocation (URL) - The HTTP or HTTPS URL that the Call Bridge call branding files will be retrieved from. This is the "directory" in which the individual audio and graphic files reside. Details of these files are in the Meeting Server Customization Guide.
 
 ## dtmfProfile
 + lockCall (string) - DTMF sequence to be used by a participant to lock the call; new call legs that require activation will not be activated even if an activator has joined the call. This parameter is present from version 1.8 onwards
@@ -7122,7 +7122,7 @@ If set to true, new participants that need activation are not activated even if 
 + resolveLyncConferenceIds: `false` (boolean) - Whether calls to this IVR will accept IDs to be resolved to Lync scheduled conference IDs
 
 ## ivrBrandingProfile
-+ resourceLocation (URL) - The HTTP or HTTPS URL that the IVR branding files will be retrieved from. This should be the "directory" in which the individual audio and graphic files reside. Details of these files are in the Acano solution Customization Guide
++ resourceLocation (URL) - The HTTP or HTTPS URL that the IVR branding files will be retrieved from. This should be the "directory" in which the individual audio and graphic files reside. Details of these files are in the Meeting Server Customization Guide
 
 ## important
 + importance (number) - Set the importance of this participant already in a conference. For example to 1. (From version 2.2)
