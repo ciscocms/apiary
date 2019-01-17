@@ -2296,12 +2296,12 @@ GET method performed on a `/calls/<callId>` node. If the call ID supplied is val
   <tr>
     <td>recording</td>
     <td> true|false</td>
-    <td>If true, this call is currently being recorded. </td>
+    <td>If true, this call is configured to be recorded. </td>
   </tr>
   <tr>
     <td>streaming</td>
     <td> true|false</td>
-    <td>If true, this call is currently being streamed. (From version 2.1)</td>
+    <td>If true, this call is configured to be streamed. (From version 2.1)</td>
   </tr>
   <tr>
     <td>allowAllMuteSelf</td>
@@ -3684,7 +3684,6 @@ There are three stages to the transform
 
 ---
 **Note:** A phone URI is recognized as a purely numeric string (optionally prefixed by a ‘+’) when it begins with a valid international dial code (e.g. 44 for UK or 1 for US) followed by the correct number of digits for a phone number for that region.
-
 ---
 
 ## Dial Transforms [/dialTransforms{?offset,limit,filter}]
