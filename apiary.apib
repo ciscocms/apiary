@@ -3675,10 +3675,6 @@ When dial transforms are applied to all outbound calls, then the outbound dial p
 
 You can use the Web Admin Interface Configuration > Outbound Calls page to control how dialed numbers are transformed. For example, the dial plan in the screen shot below ensures that outbound "+1" (US) calls use one Call Bridge and +44 (UK) calls use another.
 
----
-**Note:** Any dialTransforms defined on a Call Bridge before R1.6 are kept and placed in the coSpace database in R1.7 (or later). They appear on the Configuration > Outbound Calls page but in the format above.
-
----
 However, you need to use the API for dialTransforms if you use Call Bridge clustering, because the shared coSpace database is a single configuration location for all Call Bridges. In a cluster you do not need to configure the dialTransforms separately on each Call Bridge. The dialTransforms for the cluster are those defined on the Call Bridge host server (Meeting Server or virtualized deployment) that is co-located with the first coSpace database in the database cluster. Although the same dialTransforms are applied to all Call Bridge in the cluster, the outbound dial plan rules can be configured per-Call Bridge as described previously.
 
 There are three stages to the transform
