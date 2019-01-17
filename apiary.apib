@@ -6168,7 +6168,24 @@ Objects in the hierarchy that reside in the `/ldapMappings`, `/ldapServers` and 
 - One or more LDAP mappings are also required, which define the form of the user account names which will be added to the system when users are imported from configured LDAP servers
 - A set of LDAP sources then need to be configured, which tie together configured LDAP servers and LDAP mappings, along with parameters of its own, which correspond to the actual import of a set of users.
 
+An LDAP source takes an LDAP server / LDAP mapping combination and imports a filtered set of users from that LDAP server. This filter is determined by the LDAP source's "baseDn" (the node of the LDAP server's tree under which the users can be found) and a filter to ensure that user accounts are only created for LDAP objects that match a specific pattern 
 
+The API LDAP methods allow multiple additional sets of “Active Directory Configuration” as per the Web Admin Interface Configuration > Active Directory page. On this page, the Active Directory Server Settings section corresponds to an API-configured LDAP server, the Import Settings to an LDAP source, and the Field Mapping Expressions to an LDAP mapping. 
+
+---
+**Note**: The LDAP server credentials are used to read the following fields (for security reasons you
+may want to restrict the fields and permissions available using those credentials):
+
+- mail
+- objectGUID
+- entryUUID
+- nsuniqueid
+- telephoneNumber
+- mobile
+- sn
+- givenName
+
+---
 
 
 # LDAP Server Methods  [/ldapServers/{?filter,offset,limit}]
