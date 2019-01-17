@@ -6164,6 +6164,9 @@ Issue a GET method on the `/system/diagnostics/<diagnosticsId>/contents` node to
 
 Objects in the hierarchy that reside in the `/ldapMappings`, `/ldapServers` and `/ldapSources` nodes in the object tree relate to the Meeting Server’s interaction with one or more LDAP servers (for instance, Active Directory) which are used to import user accounts to the Meeting Server.
 
+- One or more LDAP server  should be configured, with each one having associated username and password information for the Meeting Server to use to connect to it for the purpose of retrieving user account information from it - One or more LDAP mappings are also required, which define the form of the user account names which will be added to the system when users are imported from configured LDAP servers
+- A set of LDAP sources then need to be configured, which tie together configured LDAP servers and LDAP mappings, along with parameters of its own, which correspond to the actual import of a set of users.
+
 
 
 
