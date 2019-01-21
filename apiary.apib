@@ -2317,6 +2317,8 @@ GET method performed on a `/calls/<callId>` node. If the call ID supplied is val
     <td>joinAudioMuteOverride</td>
     <td>true|false</td>
     <td>If true, new participants will be muted when joining the call. </td>
+    <td>If false, new participants will be unmuted when joining the call. </td>
+    <td>If unset, new participants will use the audio mute value from the call leg profile. </td>
   </tr>
   <tr>
     <td>messageText</td>
@@ -7191,7 +7193,7 @@ If set to true, new participants that need activation are not activated even if 
 + tenantGroup (ID) - Only coSpaces associated with tenants within the specified tenant group can be accessed by call ID through this web bridge. If no tenant group is supplied, only coSpaces without a tenant, or associated with a tenant in no tenant group, can be accessed by call ID.
 + idEntryMode - Controls coSpace access via call ID and passcode; If this parameter is not supplied in a create (POST) operation, it defaults to secure. Note: Legacy mode is deprecated from version 2.3. If upgrading a Web Bridge from a 2.2 or earlier release that is configured to use 'legacy' mode, the Web Bridge will default to 'secure' mode in 2.3.
     + disabled - access via call ID and passcode is disabled
-    + secure - both the call ID and the passcode must be specified to look up and join a coSpace
+    + secure - both the call ID and the passcode must be specified to look up and join a coSpace.
     + legacy - only a call ID need be specified to look up a coSpace. (Deprecated in 2.3) Note: Legacy mode is deprecated from version 2.3. If upgrading a Web Bridge from a 2.2 or earlier release that is configured to use 'legacy' mode, the Web Bridge will default to 'secure' mode in 2.3.
 + allowWeblinkAccess - Whether this Web Bridge will allow users to access coSpace (and coSpace access methods) as guests by following a weblink. If this parameter is not supplied in a create (POST) operation, it defaults to true.    
 + showSignIn (boolean) - Whether this Web Bridge will display the sign in tab on the index page. If this parameter is not supplied in a create (POST) operation, it defaults to true.
