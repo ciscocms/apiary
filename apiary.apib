@@ -546,7 +546,11 @@ As described above, any parameters needed for the creation method (in this case,
             Location: /api/v1/callLegs/5a3b907a-7641-42fb-ae8c-b3424a3e923f
             Connection: close
 
-### Use a filtered coSpace enumeration to find "Development Team" [GET /api/v1/calls/]
+### Instantiating a new call and connecting a participant to it [/sample1]
+
+As described above, any parameters needed for the creation method (in this case, the address of the remote party), need to be supplied by the issuer as form data. If the request is successful, details about the new object are returned by the Meeting Server in the “Location” header field.
+
+## Use a filtered coSpace enumeration to find "Development Team" [GET /api/v1/calls/]
 
 As described above, any parameters needed for the creation method (in this case, the address of the remote party), need to be supplied by the issuer as form data. If the request is successful, details about the new object are returned by the Meeting Server in the “Location” header field. 
 
@@ -573,7 +577,7 @@ As described above, any parameters needed for the creation method (in this case,
             team</uri></coSpace>
             </coSpaces>
 
-### Instantiate a call from the coSpace [POST /api/v1/calls]
+## Instantiate a call from the coSpace [POST /api/v1/calls]
 
 Matching coSpace `581caae0-420a-43df-9a9e-f690c70e12d3` found in enumeration response, now use it to instantiate a call from the coSpace 
 
@@ -600,7 +604,7 @@ Matching coSpace `581caae0-420a-43df-9a9e-f690c70e12d3` found in enumeration res
             Location: /api/v1/calls/8867d8f1-0918-4653-b41e-7341200e277a\r\n
             Connection: close\r\n\r\n
 
-###  Create a participant as a call out from the newly-instantiated call [POST /api/v1/calls]
+##  Create a participant as a call out from the newly-instantiated call [POST /api/v1/calls]
 
 Create participant `/api/v1/participants/2671a77d-4bd5-4bf2-8ed6-f14afd80c2ac`.
 
@@ -627,6 +631,7 @@ Create participant `/api/v1/participants/2671a77d-4bd5-4bf2-8ed6-f14afd80c2ac`.
             HTTP/1.1 200 OK\r\n
             Location: /api/v1/participants/2671a77d-4bd5-4bf2-8ed6-f14afd80c2ac\r\n
             Connection: close\r\n\r\n
+
 
 # Group coSpace Related Methods
 
