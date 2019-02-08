@@ -600,6 +600,31 @@ Matching coSpace 581caae0-420a-43df-9a9e-f690c70e12d3 found in enumeration respo
             Location: /api/v1/calls/8867d8f1-0918-4653-b41e-7341200e277a\r\n
             Connection: close\r\n\r\n
 
+###  Create a participant as a call out from the newly-instantiated call [POST /api/v1/calls]
+
++ Request
+    + Headers
+
+            Authorization: Basic Ym9iOmJ1aWxkZXI=
+    + Body
+        
+            POST /api/v1/calls/8867d8f1-0918-4653-b41e-7341200e277a/participants
+            HTTP/1.1\r\n
+            Host: 127.0.0.1\r\n
+            Content-Type: www-formurl-encoded\r\n
+            Content-Length: 33\r\n\r\n
+            remoteParty=username1@example.com
+            
++ Response 200 (XML)
+    + Headers
+    
+            Connection: close
+     
+    + Body
+        
+            HTTP/1.1 200 OK\r\n
+            Location: /api/v1/participants/2671a77d-4bd5-4bf2-8ed6-f14afd80c2ac\r\n
+            Connection: close\r\n\r\n
 
 # Group coSpace Related Methods
 
