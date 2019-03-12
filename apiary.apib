@@ -2236,12 +2236,12 @@ POST method performed on the `/calls` node or PUT method to `/calls/<callId>`
   <tr>
     <td>coSpace *</td>
     <td>ID</td>
-    <td>Specifies the coSpace for which the call is being instantiated</td>
+    <td>For POST only: Specifies the coSpace for which the call is being instantiated. If not set then "name" must be set</td>
   </tr>
   <tr>
     <td>name</td>
     <td>String</td>
-    <td>The name of the new call</td>
+    <td>For POST only: Specifies the name of the new call which is being instantiated. If not set then "coSpace" must be set.</td>
   </tr>
   <tr>
     <td>locked</td>
