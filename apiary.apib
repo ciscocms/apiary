@@ -139,7 +139,7 @@ The API uses HTTPS as a transport mechanism.
 ### Configuration Settings
 To use the API, you need to connect via HTTPS via the same TCP ports as you would use to access the Web Admin Interface – typically port 443; that is, they use the same interface.
 
-You also need to configure a username and password: you must provide these credentials in order to use the API. From R1.7, you set them using the MMP command `user add <username> (admin|crypto|audit|appadmin|api)`. This command prompts for the user’s password; see the [MMP Command Reference](https://www.cisco.com/c/en/us/support/conferencing/meeting-server/products-programming-reference-guides-list.html) for details.
+You also need to configure a username and password: you must provide these credentials in order to use the API. Set them using the MMP command `user add <username> (admin|crypto|audit|appadmin|api)`. This command prompts for the user’s password; see the [MMP Command Reference](https://www.cisco.com/c/en/us/support/conferencing/meeting-server/products-programming-reference-guides-list.html) for details.
 
 ### Authentication
 The API user supplies a shared secret username and password to the Meeting Server configured with the same username and password. The username and password are set in the MMP command line.
