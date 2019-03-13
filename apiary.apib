@@ -7092,7 +7092,7 @@ If set to true, new participants that need activation are not activated even if 
 + bfcpMode (boolean)
 + layout (Layouts) - This parameter is provided for backward compatibility with versions prior to 1.2 - it has the equivalent functionality to changing "defaultLayout", and if both are supplied then "defaultLayout" will take precedence
 + disconnectOthersAllowed (boolean)
-+ addParticipantAllowed (boolean)
++ addParticipantAllowed (boolean) - From version 2.3 and later
 + qualityMain - Restricts the maximum negotiated main video call quality for this call leg based on limiting transcoding resources. Specified using a typical resolution and framerate. Note that call legs may operate at lower resolutions or framerates due to endpoint limitations or overall Call Bridge load.
     + `unrestricted` - this is the default setting if not specified, and matches the behavior of older Call Bridge versions, where no restrictions are placed on resolution or frame rate
     + max1080p30 - restricts the bridge to negotiating at most 1920x1080 screen size at 30 frames per second or equivalent transcoding resources, for example 1280x720 screen size at 60 frames per second
