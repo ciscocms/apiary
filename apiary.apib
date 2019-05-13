@@ -5570,7 +5570,6 @@ GET method performed on the `/system/multipartyLicensing` node.
 GET method performed on `/system/multipartyLicensing/activePersonalLicenses`.
 
 ---
-
 **Note**: The sum of weighted calls across a cluster matches the number of distinct calls on the
 cluster. For example, if CMS1 shows 3 callsActive and 2 weightedCallsActive, and CMS2
 shows 2 callsActive and1 weightedCallsActive, then there are 3 conferences in total on the
@@ -5610,12 +5609,13 @@ note above).
             <activePersonalLicenses>
             <timestamp>2019-07-20T14:22:17Z</timestamp>
             
-            
+
+# Multi Party Licenses usage [/system/MPLicenseUsage{?filter,offset,startTime,endTime,hostID]
+
 
 ## Retrieve information on Multi Party Licenses [GET /system/MPLicenseUsage]
 
-GET method performed on `/system/MPLicenseUsage` node.
-TBD - response elements table
+GET method performed on `/system/MPLicenseUsage` node. TBD - response elements table
 
 + Parameters
     + offset(number) - An "offset" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
@@ -5629,7 +5629,7 @@ TBD - response elements table
 
             Multi-party license usage
 
-## Retrieve information on Multi Party Licenses Known hosts [GET /system/MPLicenseUsage/knownHosts]
+## Retrieve information on Multi Party Known hosts [GET /system/MPLicenseUsage/knownHosts/{?offset,limit}]
 
 GET method performed on the `/system/MPLicenseUsage/knownHosts` node (from version 2.6).
 
