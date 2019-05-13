@@ -5468,7 +5468,6 @@ GET methods performed on the `/system/licensing` node.
             </features>
             </licensing>
             
-# Multiparty Licensing [/system/multipartyLicensing{?offset,limit}]
 
 ## Retrieving information on multiparty licensing [GET /system/multipartyLicensing]
 
@@ -5597,7 +5596,7 @@ Each <user> tag may include the elements in the table above.
     <td>weightedCallsActive</td>
     <td>Number</td>
     <td>Number of weighted active calls that use the license of this user (see
-note below).
+note above).
 </td>
   </tr>
 
@@ -5630,10 +5629,23 @@ TBD - response elements table
 
             Multi-party license usage
 
+## Retrieve information on Multi Party Licenses Known hosts [GET /system/MPLicenseUsage/knownHosts]
 
-GET method performed on the “/system/MPLicenseUsage/knownHosts” node (from version
-2.6).
+GET method performed on the `/system/MPLicenseUsage/knownHosts` node (from version 2.6).
 
+Response elements:
+host (id) - Unique host id of a Call Bridge whose license utilization information can be accessed from the system/MPLicenseUsage API node
+
++ Parameters
+    + offset(number) - An "offset" can be supplied to retrieve host ids other than those in the first "page" of the notional list
+    + limit(number) - An "limit" can be supplied to retrieve host ids other than those in the first "page" of the notional list
+
++ Response 200
+    + Body
+
+            host ids
+            
+            
 
 
 # TURN Server Methods [/turnServers{?filter,offset,limit}]
