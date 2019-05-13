@@ -5467,6 +5467,8 @@ GET methods performed on the `/system/licensing` node.
             </capacityUnits>
             </features>
             </licensing>
+            
+# Multiparty Licensing [/system/multipartyLicensing{?offset,limit}]
 
 ## Retrieving information on multiparty licensing [GET /system/multipartyLicensing]
 
@@ -5606,22 +5608,33 @@ note below).
 + Response 200
     + Body
 
-            <multipartyLicensing>
+            <activePersonalLicenses>
             <timestamp>2019-07-20T14:22:17Z</timestamp>
             
-        
-## Retrieve information on Multi Party Licenses [GET /system/multipartyLicensing/activePersonalLicenses{?offset,limit}]
+            
 
-GET method performed on `/system/multipartyLicensing/activePersonalLicenses`.
+## Retrieve information on Multi Party Licenses [GET /system/MPLicenseUsage]
+
+GET method performed on `/system/MPLicenseUsage` node.
+TBD - response elements table
 
 + Parameters
     + offset(number) - An "offset" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
     + limit(number) - An "limit" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
-
+    + startTime (string) - UTC time (formated as per RFC 3339) specifying the earliest date-time from which license usage snapshots should be fetched (inclusive)
+    + endTime (String) - UTC time (formated as per RFC 3339) specifying the latest date-time from which license usage snapshots should be fetched (inclusive)
+    + hostId (ID) - I.D. of the host (as returned by system/status.hostId) for which you want to retrieve license usage snapshots
+    
 + Response 200
     + Body
 
             Multi-party license usage
+
+
+GET method performed on the “/system/MPLicenseUsage/knownHosts” node (from version
+2.6).
+
+
 
 # TURN Server Methods [/turnServers{?filter,offset,limit}]
 
