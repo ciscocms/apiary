@@ -5546,9 +5546,21 @@ GET method performed on the `/system/multipartyLicensing` node.
             <capacityUnitUsageWithoutPersonalLicense>0.000</capacityUnitUsageWithoutPersonalLicense>
             </multipartyLicensing>
             
-## Retrieve information on Active Personal Licenses [GET /system/multipartyLicensing/activePersonalLicenses]
+## Retrieve information on Active Personal Licenses [GET /system/multipartyLicensing/activePersonalLicenses{?offset,limit}]
 
 GET method performed on `/system/multipartyLicensing/activePersonalLicenses`.
+
+---
+
+**Note**: The sum of weighted calls across a cluster matches the number of distinct calls on the
+cluster. For example, if CMS1 shows 3 callsActive and 2 weightedCallsActive, and CMS2
+shows 2 callsActive and1 weightedCallsActive, then there are 3 conferences in total on the
+cluster and 3 licenses are required.
+
+Response is structured as a top-level <activePersonalLicenses total="N"> tag with potentially multiple <user> elements within it. 
+Each <user> tag may include the elements in the table above.
+
+---
 
 <table>
   <tr>
@@ -5578,27 +5590,18 @@ note below).
 
             TODO: get some license info here
 
----
-**Note**: The sum of weighted calls across a cluster matches the number of distinct calls on the
-cluster. For example, if CMS1 shows 3 callsActive and 2 weightedCallsActive, and CMS2
-shows 2 callsActive and1 weightedCallsActive, then there are 3 conferences in total on the
-cluster and 3 licenses are required.
-
-Response is structured as a top-level <activePersonalLicenses total="N"> tag with potentially multiple <user> elements within it. 
-Each <user> tag may include the elements in the table above.
-
----
-
 
 # TURN Server Methods [/turnServers{?filter,offset,limit}]
+
+
 ---
 **Note**: The TURN Server is not available on the Cisco Meeting Server 2000. It is more suited to the lower capacity Cisco Meeting Server 1000 and specification-based VM servers.
 
 ---
 
 ## Retrieving Information on TURN Servers [GET]
-GET method performed on the `/turnServers` node.
 
+GET method performed on the `/turnServers` node.
 Response is structured as a top-level `<turnServers total="N">` tag with potentially multiple `<turnServer>` elements within it.
 Each `<turnServer>` tag may include the following elements.
 
