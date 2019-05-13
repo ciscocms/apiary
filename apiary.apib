@@ -661,6 +661,7 @@ This chapter details the API methods related to management of coSpaces. The chap
 * coSpace diagnostics
 
 <a name="retrievingspace"></a>
+
 ## Retrieving coSpaces [GET /coSpaces/{?offset,limit,filter,tenantFilter,callLegProfileFilter}]
 
 GET method on the `/coSpaces` node
@@ -5409,12 +5410,47 @@ GET methods performed on the `/system/licensing` node.
 + Response 200
     + Body
 
-            TODO: get some license info here
+            <licensing>
+            <features>
+            <callBridge>
+            <status>activated</status>
+            <expiry>2100-Jan-01</expiry>
+            </callBridge>
+            <webBridge>
+            <status>activated</status>
+            <expiry>2100-Jan-01</expiry>
+            </webBridge>
+            <turn>
+            <status>activated</status>
+            <expiry>2100-Jan-01</expiry>
+            </turn>
+            <ldap>
+            <status>activated</status>
+            <expiry>2100-Jan-01</expiry>
+            </ldap>
+            <branding>
+            <status>activated</status>
+            <expiry>2100-Jan-01</expiry>
+            <level>whiteLabel</level>
+            </branding>
+            <recording>
+            <status>activated</status>
+            <expiry>2100-Jan-01</expiry>
+            <limit>30</limit>
+            </recording>
+            <personal>
+            <status>noLicense</status>
+            </personal>
+            <shared>
+            <status>noLicense</status>
+            </shared>
+            <capacityUnits>
+            <status>noLicense</status>
+            </capacityUnits>
+            </features>
+            </licensing>
 
-
-# Multiparty licensing [/system/multipartyLicensing]
-
-## Retrieving information on multiparty licensing [GET]
+## Retrieving information on multiparty licensing [GET /system/multipartyLicensing]
 
 GET method performed on the `/system/multipartyLicensing` node.
 
@@ -5494,9 +5530,53 @@ GET method performed on the `/system/multipartyLicensing` node.
 + Response 200
     + Body
 
-            TODO: get some license info here
+            <multipartyLicensing>
+            <timestamp>2016-07-20T14:22:17Z</timestamp>
+            <personalLicenseLimit>0</personalLicenseLimit>
+            <sharedLicenseLimit>0</sharedLicenseLimit>
+            <capacityUnitLimit>0</capacityUnitLimit>
+            <users>545</users>
+            <personalLicenses>0</personalLicenses>
+            <participantsActive>0</participantsActive>
+            <callsActive>0</callsActive>
+            <weightedCallsActive>0.000</weightedCallsActive>
+            <callsWithoutPersonalLicense>0</callsWithoutPersonalLicense>
+            <weightedCallsWithoutPersonalLicense>0.000</weightedCallsWithout>PersonalLicense>
+            <capacityUnitUsage>0.000</capacityUnitUsage>
+            <capacityUnitUsageWithoutPersonalLicense>0.000</capacityUnitUsageWithoutPersonalLicense>
+            </multipartyLicensing>
             
-## Retrieve information on active Personal Licenses [GET /system/multipartyLicensing/activePersonalLicenses/?{offset,limit,callsActive,weightedCallsActive}]
+## Retrieve information on Active Personal Licenses [GET /system/multipartyLicensing/activePersonalLicenses/{?offset,limit}]
+
+GET method performed on `/system/multipartyLicensing/activePersonalLicenses`.
+
+<table>
+  <tr>
+    <th>Response elements</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>callsActive</td>
+    <td>Number</td>
+    <td>Number of active calls that use the license of this use</td>
+  </tr>
+  <tr>
+    <td>weightedCallsActive</td>
+    <td>Number</td>
+    <td>Number of weighted active calls that use the license of this user (see
+note below).
+</td>
+  </tr>
+
++ Parameters
+    + offset (number) - An "offset" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
+    + limit (number) - An "limit" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
+
++ Response 200
+    + Body
+
+            TODO: get some license info here
 
 ---
 **Note**: The sum of weighted calls across a cluster matches the number of distinct calls on the
@@ -5505,24 +5585,9 @@ shows 2 callsActive and1 weightedCallsActive, then there are 3 conferences in to
 cluster and 3 licenses are required.
 
 Response is structured as a top-level <activePersonalLicenses total="N"> tag with potentially multiple <user> elements within it. 
-Each <user> tag may include the following elements:
+Each <user> tag may include the elements in the table above.
 
 ---
-
-+ Parameters
-    + offset (number)
-    An "offset" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
-    + limit (number)
-    An "limit" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
-    + callsActive (number)
-    Number of active calls that use the license of this user
-    + weightedCallsActive (number)
-    Number of weighted active calls that use the license of this user (see note above).
-
-+ Response 200
-    + Body
-
-            TODO: get some license info here
 
 
 # TURN Server Methods [/turnServers{?filter,offset,limit}]
