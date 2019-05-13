@@ -5102,14 +5102,13 @@ GET methods performed on the `/system/licensing` node.
 **Note**: From version 2.4, a license is not required to apply single or multiple branding.
 
 ---
-<table>
+
 <table>
   <tr>
     <th>Response elements</th>
     <th></th>
     <th>Type/Value</th>
     <th>Description/Notes</th>
-    
   </tr>
   <tr>
     <td>features</td>
@@ -5398,13 +5397,6 @@ GET methods performed on the `/system/licensing` node.
     <td>String</td>
     <td>Date of expiry</td>
   </tr>
-  <tr>
-    <td> </td>
-    <td>limit</td>
-    <td>Number</td>
-    <td> </td>
-  </tr>
-</table>
 </table>
 
 + Response 200
@@ -5588,8 +5580,20 @@ note below).
 + Response 200
     + Body
 
-            TODO: get some license info here
+            Active personal license usage
 
+## Retrieve information on Multi Party Licenses [GET /system/MPLicenseUsage]
+
+GET method performed on `/system/multipartyLicensing/activePersonalLicenses`.
+
++ Parameters
+    + offset(number) - An "offset" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
+    + limit(number) - An "limit" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
+
++ Response 200
+    + Body
+
+            Multi-party license usage
 
 # TURN Server Methods [/turnServers{?filter,offset,limit}]
 
