@@ -5601,41 +5601,6 @@ note above).
             <timestamp>2019-07-20T14:22:17Z</timestamp>
 
 
-## Retrieve information on Multi Party Licenses [GET /system/MPLicenseUsage{?offset,limit,startTime,endTime,hostId}]
-
-GET method performed on `/system/MPLicenseUsage` node. TBD - response elements table
-
-+ Parameters
-    + offset(number) - An "offset" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
-    + limit(number) - An "limit" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
-    + startTime (string) - UTC time (formated as per RFC 3339) specifying the earliest date-time from which license usage snapshots should be fetched (inclusive)
-    + endTime (String) - UTC time (formated as per RFC 3339) specifying the latest date-time from which license usage snapshots should be fetched (inclusive)
-    + hostId (ID) - I.D. of the host (as returned by system/status.hostId) for which you want to retrieve license usage snapshots
-    
-+ Response 200
-    + Body
-
-            Multi-party license usage
-
-## Retrieve information on Multi Party Known hosts [GET /system/MPLicenseUsage/knownHosts/{?offset,limit}]
-
-GET method performed on the `/system/MPLicenseUsage/knownHosts` node (from version 2.6).
-
-Response elements:
-host (id) - Unique host id of a Call Bridge whose license utilization information can be accessed from the system/MPLicenseUsage API node
-
-+ Parameters
-    + offset(number) - An "offset" can be supplied to retrieve host ids other than those in the first "page" of the notional list
-    + limit(number) - An "limit" can be supplied to retrieve host ids other than those in the first "page" of the notional list
-
-+ Response 200
-    + Body
-
-            host ids
-            
-            
-
-
 # TURN Server Methods [/turnServers{?filter,offset,limit}]
 
 The TURN Server is not available on the Cisco Meeting Server 2000. It is more suited to the lower capacity Cisco Meeting Server 1000 and specification-based VM servers.
