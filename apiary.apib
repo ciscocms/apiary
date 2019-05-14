@@ -4471,6 +4471,21 @@ If the participant ID supplied is valid, a “200 OK” response is received, wi
         <td>boolean</td>
         <td>Whether this participant is considered to be an "activator". true - this participant is an activator - it is itself "activated" and that it will cause any currently-connected "de-activated" participants to become activated. false - this participant is not an activator - it needs to wait for one or more "activator" participants to be present before it is fully "activated"</td>
     </tr>
+    <tr>
+    <td>canMove</td>
+    <td>true|false</td>
+    <td>Whether this participant can be moved to a different conference using the movedParticipant parameter on object /calls/<call id>/participants. (From version 2.6)</td>
+    </tr>
+    <tr>
+    <td>movedParticipant</td>
+    <td>ID</td>
+    <td>If this participant was created by moving a participant (by POSTing the movedParticipant parameter to object /calls/<call id>/participants), then the ID indicates the original participant that this participant was moved from.(From version 2.6)</td>
+    </tr>
+    <tr>
+    <td>movedParticipantCallBridge</td>
+    <td>ID</td>
+    <td>If this participant was created by moving a participant, then the ID indicates the Call Bridge that homed the original participant that this participant was moved from. (From version 2.6)</td>
+    </tr>    
 </table>
 #### status (from version 2.2)
 <table>
