@@ -5569,16 +5569,6 @@ GET method performed on the `/system/multipartyLicensing` node.
 
 GET method performed on `/system/multipartyLicensing/activePersonalLicenses`.
 
----
-**Note**: The sum of weighted calls across a cluster matches the number of distinct calls on the
-cluster. For example, if CMS1 shows 3 callsActive and 2 weightedCallsActive, and CMS2
-shows 2 callsActive and1 weightedCallsActive, then there are 3 conferences in total on the
-cluster and 3 licenses are required.
-
-Response is structured as a top-level <activePersonalLicenses total="N"> tag with potentially multiple <user> elements within it. 
-Each <user> tag may include the elements in the table above.
-
----
 
 <table>
   <tr>
@@ -5608,10 +5598,9 @@ note above).
 
             <activePersonalLicenses>
             <timestamp>2019-07-20T14:22:17Z</timestamp>
-            
+
 
 # Multi Party Licenses usage [/system/MPLicenseUsage{?filter,offset,startTime,endTime,hostID]
-
 
 ## Retrieve information on Multi Party Licenses [GET /system/MPLicenseUsage]
 
