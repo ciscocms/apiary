@@ -5636,14 +5636,11 @@ host (id) - Unique host id of a Call Bridge whose license utilization informatio
             
 
 
-## TURN Server Methods [/turnServers{?filter,offset,limit}]
+# TURN Server Methods [/turnServers{?filter,offset,limit}]
 
----
-**Note**: The TURN Server is not available on the Cisco Meeting Server 2000. It is more suited to the lower capacity Cisco Meeting Server 1000 and specification-based VM servers.
+The TURN Server is not available on the Cisco Meeting Server 2000. It is more suited to the lower capacity Cisco Meeting Server 1000 and specification-based VM servers.
 
----
-
-## Retrieving Information on TURN Servers [GET]
+## Retrieving Information on TURN Servers [GET /turnServers{?filter,offset,limit}]
 
 GET method performed on the `/turnServers` node.
 Response is structured as a top-level `<turnServers total="N">` tag with potentially multiple `<turnServer>` elements within it.
@@ -5690,7 +5687,7 @@ Each `<turnServer>` tag may include the following elements.
             Location:ID
 
 ## Retrieving detailed information about an individual TURN server [GET /turnServers/{turnServerId}]
-GET method performed on a `/turnServers/<turn server id>` node. If the turn server ID supplied is valid, a “200 OK” response is received, with XML content:
+GET method performed on a `/turnServers/<turnServerId>` node. If the turn server ID supplied is valid, a “200 OK” response is received, with XML content:
 
 <table>
     <tr>
