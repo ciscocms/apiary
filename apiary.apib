@@ -2804,6 +2804,21 @@ If present in the reply, these parameters are overrides currently active specifi
         <td>incoming | outgoing</td>
     </tr>
     <tr>
+        <td>canMove</td>
+        <td>true| false</td>
+        <td>Indicates whether the participant owning this call leg can be moved. (From version 2.6)</td>
+    </tr>
+    <tr>
+        <td>movedCallLeg</td>
+        <td>ID</td>
+        <td>If this call leg was created by moving a participant, the ID indicates the original call leg that the participant was moved from. (From version 2.6)</td>
+    </tr>
+    <tr>
+        <td>movedCallLegCallBridge</td>
+        <td>ID</td>
+        <td>If this call leg was created by moving a participant, the ID indicates the Call Bridge that homed the original call leg that the participant was moved from. (From version 2.6)</td>
+    </tr>
+    <tr>
         <td valign="top">configuration</td>
         <td colspan="2"><table>
   <tr>
