@@ -5515,6 +5515,8 @@ GET methods performed on the `/system/licensing` node.
             </licensing>
             
 
+# Multiparty licensing [/system/multipartyLicensing/]
+
 ## Retrieving information on multiparty licensing [GET /system/multipartyLicensing{?offset,limit}]
 
 GET method performed on the `/system/multipartyLicensing` node.
@@ -5635,15 +5637,17 @@ note above).
 </td>
   </tr>
 
-+ Parameters
-    + offset(number) - An "offset" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
-    + limit(number) - An "limit" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
+    + Parameters
+        + offset(number) - An "offset" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
+        + limit(number) - An "limit" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
 
-+ Response 200
-    + Body
+    + Response 200
+        + Body
 
-            <activePersonalLicenses>
-            <timestamp>2019-07-20T14:22:17Z</timestamp>
+        <activePersonalLicenses>
+        <timestamp>2019-07-20T14:22:17Z</timestamp>
+            
+            
 
 # License usage snapshots [/system/MPLicenseUsage]
 
@@ -5651,17 +5655,17 @@ note above).
 
 GET method performed on `/system/MPLicenseUsage` node. TBD - response elements table
 
-+ Parameters
-    + offset(number) - An "offset" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
-    + limit(number) - An "limit" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
-    + startTime (string) - UTC time (formated as per RFC 3339) specifying the earliest date-time from which license usage snapshots should be fetched (inclusive)
-    + endTime (String) - UTC time (formated as per RFC 3339) specifying the latest date-time from which license usage snapshots should be fetched (inclusive)
-    + hostId (ID) - I.D. of the host (as returned by system/status.hostId) for which you want to retrieve license usage snapshots
+    + Parameters
+          + offset(number) - An "offset" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
+          + limit(number) - An "limit" can be supplied to retrieve active personal license entries other than those in the first "page" of the notional list
+          + startTime (string) - UTC time (formated as per RFC 3339) specifying the earliest date-time from which license usage snapshots should be fetched (inclusive)
+          + endTime (String) - UTC time (formated as per RFC 3339) specifying the latest date-time from which license usage snapshots should be fetched (inclusive)
+          + hostId (ID) - I.D. of the host (as returned by system/status.hostId) for which you want to retrieve license usage snapshots
     
-+ Response 200
-    + Body
-
-            Multi-party license usage
+    + Response 200
+        + Body
+    
+                Multi-party license usage
 
 ## Retrieve information on Multi Party Known hosts [GET /system/MPLicenseUsage/knownHosts/{?offset,limit}]
 
@@ -5680,7 +5684,6 @@ host (id) - Unique host id of a Call Bridge whose license utilization informatio
             host ids
             
             
-
 
 
 # TURN Server Methods [/turnServers{?filter,offset,limit}]
