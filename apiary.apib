@@ -8,11 +8,11 @@ specification-based VM server. Cisco Meeting Server is referred to as the Meetin
 
 This document covers version 2.4 and later of the Application Program Interface for the Cisco Meeting server. For version specific API changes, refer to the [Release Notes for Cisco Meeting Server](https://www.cisco.com/c/en/us/support/conferencing/meeting-server/products-release-notes-list.html).
 
-In addition to this reference you can find documentation for Cisco Meeting Server [here](https://www.cisco.com/c/en/us/support/conferencing/meeting-server/tsd-products-support-series-home.html). 
+In addition to this reference you can find documentation for Cisco Meeting Server [here](https://www.cisco.com/c/en/us/support/conferencing/meeting-server/tsd-products-support-series-home.html).
 
 ## General Structure of Methods
 
-The Meeting Server‘s Application Programming Interface (API) is designed as a hierarchy of objects, like the trunk and roots of a tree. 
+The Meeting Server‘s Application Programming Interface (API) is designed as a hierarchy of objects, like the trunk and roots of a tree.
 For example, each configured coSpace exists as a node in this tree, and all of the users who are members of that coSpace exist as nodes
 “beneath” the coSpace object’s node. The API objects are accessed using a suitable REST client.
 
@@ -22,118 +22,118 @@ For example, each configured coSpace exists as a node in this tree, and all of t
 ---
 
 The Meeting Server has the potential to host a large number of active calls and coSpaces. To reduce the overhead of retrieving the entire collection of objects in a single response, responses
-typically return the first “N” matching entries and a count of the total number of objects of that type. To find an individual object’s active status, or to modify or delete it, use filters on the initial retrieval in order to identify the object in question. 
+typically return the first “N” matching entries and a count of the total number of objects of that type. To find an individual object’s active status, or to modify or delete it, use filters on the initial retrieval in order to identify the object in question.
 
 ### Object Hierarchy
 The hierarchy of objects addressable via the API is:
 
 `/accessQuery`
 
-`/callBrandingProfiles`  
+`/callBrandingProfiles`
 `/callBrandingProfiles/<call branding profile id>`
 
-`/callBridges`  
+`/callBridges`
 `/callBridges/<call bridge id>`
 
-`/calls`  
-`/calls/<call id>`  
-`/calls/<call id>/callLegs`  
-`/calls/<call id>/diagnostics`  
-`/calls/<call id>/participants`  
-`/callProfiles`  
+`/calls`
+`/calls/<call id>`
+`/calls/<call id>/callLegs`
+`/calls/<call id>/diagnostics`
+`/calls/<call id>/participants`
+`/callProfiles`
 `/callProfiles/<call profile id>`
 
-`/callLegs`  
-`/callLegs/<callLeg id>`  
-`/callLegs/<callLeg id>/callLegProfileTrace`  
-`/callLegProfiles`  
-`/callLegProfiles/<call leg profile id>`  
+`/callLegs`
+`/callLegs/<callLeg id>`
+`/callLegs/<callLeg id>/callLegProfileTrace`
+`/callLegProfiles`
+`/callLegProfiles/<call leg profile id>`
 `/callLegProfiles/<call leg profile id>/usage`
 
-`/coSpaces`  
-`/coSpaces/<coSpace id>`  
-`/coSpaces/<coSpace id>/accessMethods`  
-`/coSpaces/<coSpace id>/accessMethods/<access method id>`  
-`/coSpaces/<coSpace id>/coSpaceUsers`  
-`/coSpaces/<coSpace id>/coSpaceUsers/<coSpaceUser id>`  
-`/coSpaces/<coSpace id>/diagnostics`  
+`/coSpaces`
+`/coSpaces/<coSpace id>`
+`/coSpaces/<coSpace id>/accessMethods`
+`/coSpaces/<coSpace id>/accessMethods/<access method id>`
+`/coSpaces/<coSpace id>/coSpaceUsers`
+`/coSpaces/<coSpace id>/coSpaceUsers/<coSpaceUser id>`
+`/coSpaces/<coSpace id>/diagnostics`
 `/coSpaces/<coSpace id>/messages`
 
-`/dialTransforms`  
+`/dialTransforms`
 `/dialTransforms/<dial transform id>`
 
-`/directorySearchLocations`  
+`/directorySearchLocations`
 `/directorySearchLocations/<directory search location id>`
 
-`/dtmfProfiles`  
+`/dtmfProfiles`
 `/dtmfProfiles/<dtmf profile id>`
 
-`/forwardingDialPlanRules`  
+`/forwardingDialPlanRules`
 `/forwardingDialPlanRules/<forwarding dial plan rule id>`
 
-`/inboundDialPlanRules`  
+`/inboundDialPlanRules`
 `/inboundDialPlanRules/<inbound dial plan rule id>`
 
-`/ivrs`  
-`/ivrs/<ivr id>`  
-`/ivrBrandingProfiles` 
+`/ivrs`
+`/ivrs/<ivr id>`
+`/ivrBrandingProfiles`
 `/ivrBrandingProfiles/<ivr branding profile id>`
 
-`/ldapMappings`  
-`/ldapMapping/<ldap mapping id>`  
-`/ldapServers`  
-`/ldapServers/<ldap server id>`  
-`/ldapSources`  
-`/ldapSources/<ldap source id>`  
-`/ldapSyncs`  
+`/ldapMappings`
+`/ldapMapping/<ldap mapping id>`
+`/ldapServers`
+`/ldapServers/<ldap server id>`
+`/ldapSources`
+`/ldapSources/<ldap source id>`
+`/ldapSyncs`
 `/ldapSyncs/<ldap sync id>`
 
-`/outboundDialPlanRules`  
+`/outboundDialPlanRules`
 `/outboundDialPlanRules/<outbound dial plan rule id>`
 
-`/participants`  
-`/participants/<participantId>`  
+`/participants`
+`/participants/<participantId>`
 `/participants/<participantId>/callLegs`
 
-`/recorders`  
+`/recorders`
 `/recorders/<recorder id>`
 
-`/system/alarms`  
-`/system/cdrReceiver (deprecated)`  
-`/system/cdrReceivers`  
-`/system/cdrReceivers/<CDR receiver id>`  
-`/system/configuration/cluster`  
-`/system/configuration/xmpp`  
-`/system/database`  
-`/system/diagnostics`  
-`/system/diagnostics/<diagnostics id>`  
-`/system/diagnostics/<diagnostics id>/contents`  
-`/system/licensing (2.0 onwards)`  
-`/system/load (2.1 onwards)`  
-`/system/MPLicenseUsage (2.6 onwards)`  
-`/system/multipartyLicensing (2.0 onwards)`  
-`/system/multipartyLicensing/activePersonalLicenses(2.0 onwards)`  
-`/system/profiles`  
+`/system/alarms`
+`/system/cdrReceiver (deprecated)`
+`/system/cdrReceivers`
+`/system/cdrReceivers/<CDR receiver id>`
+`/system/configuration/cluster`
+`/system/configuration/xmpp`
+`/system/database`
+`/system/diagnostics`
+`/system/diagnostics/<diagnostics id>`
+`/system/diagnostics/<diagnostics id>/contents`
+`/system/licensing (2.0 onwards)`
+`/system/load (2.1 onwards)`
+`/system/MPLicenseUsage (2.6 onwards)`
+`/system/multipartyLicensing (2.0 onwards)`
+`/system/multipartyLicensing/activePersonalLicenses(2.0 onwards)`
+`/system/profiles`
 `/system/status`
 
-`/tenantGroups`  
+`/tenantGroups`
 `/tenantGroups/<tenant group id>`
 
-`/tenants`  
+`/tenants`
 `/tenants/<tenant id>`
 
-`/turnServers`  
-`/turnServers/<turn server id>`  
+`/turnServers`
+`/turnServers/<turn server id>`
 `/turnServers/<turn server id>/status`
 
-`/users`  
-`/users/<user id>`  
-`/users/<user id>/usercoSpaces`  
-`/userProfiles`  
+`/users`
+`/users/<user id>`
+`/users/<user id>/usercoSpaces`
+`/userProfiles`
 `/userProfiles/<user profile id>`
 
-`/webBridges`  
-`/webBridges/<web bridge id>`  
+`/webBridges`
+`/webBridges/<web bridge id>`
 `/webBridges/<web bridge id>/updateCustomization`
 
 In each case, the top level plural term sits above potentially many individual object nodes; these individual object nodes are identified by an <ID> which is a GUID, typically. For example, if there are 100 coSpaces configured on an Meeting Server, conceptually there would be 100 nodes directly beneath `/coSpaces` in the hierarchy.
@@ -519,9 +519,9 @@ As described [above](#get), retrieval methods using GET involve no body content 
     + Headers
 
             Connection: close
-    
+
     + Body
-    
+
             <?xml version="1.0"?>
             <calls total="1">
               <call id="527089d6-6581-4331-8417-971c05c9e274">
@@ -533,7 +533,7 @@ As described [above](#get), retrieval methods using GET involve no body content 
 
 ### Creating a New Call Leg SIP dial out to 10.1.144.129 [POST /api/v1/callLegs]
 
-As described above, any parameters needed for the creation method (in this case, the address of the remote party), need to be supplied by the issuer as form data. If the request is successful, details about the new object are returned by the Meeting Server in the “Location” header field. 
+As described above, any parameters needed for the creation method (in this case, the address of the remote party), need to be supplied by the issuer as form data. If the request is successful, details about the new object are returned by the Meeting Server in the “Location” header field.
 
 + Request
     + Headers
@@ -557,20 +557,20 @@ As described above, any parameters needed for the creation method (in this case,
 
 ## Use a filtered coSpace enumeration to find "Development Team" [GET /api/v1/calls/]
 
-As described above, any parameters needed for the creation method (in this case, the address of the remote party), need to be supplied by the issuer as form data. If the request is successful, details about the new object are returned by the Meeting Server in the “Location” header field. 
+As described above, any parameters needed for the creation method (in this case, the address of the remote party), need to be supplied by the issuer as form data. If the request is successful, details about the new object are returned by the Meeting Server in the “Location” header field.
 
 + Request
     + Headers
 
             Authorization: Basic Ym9iOmJ1aWxkZXI=
-            
+
 + Response 200 (XML)
     + Headers
-    
+
             Connection: close
-     
+
     + Body
-        
+
             <?xml version="1.0"?>
                 <coSpaces total="1">
                 <coSpace id="581caae0-420a-43df-9a9e-f690c70e12d3">
@@ -582,7 +582,7 @@ As described above, any parameters needed for the creation method (in this case,
 
 ## Instantiate a call from the coSpace [POST /api/v1/calls]
 
-Matching coSpace `581caae0-420a-43df-9a9e-f690c70e12d3` found in enumeration response, now use it to instantiate a call from the coSpace 
+Matching coSpace `581caae0-420a-43df-9a9e-f690c70e12d3` found in enumeration response, now use it to instantiate a call from the coSpace
 
 + Request
     + Headers
@@ -591,14 +591,14 @@ Matching coSpace `581caae0-420a-43df-9a9e-f690c70e12d3` found in enumeration res
     + Body
 
             coSpace=581caae0-420a-43df-9a9e-f690c70e12d3
-            
+
 + Response 200 (XML)
     + Headers
-    
+
             Connection: close
-     
+
     + Body
-        
+
             Location: /api/v1/calls/8867d8f1-0918-4653-b41e-7341200e277a
             Connection: close
 
@@ -611,21 +611,21 @@ Create participant as a call out from the newly-instantiated call `/api/v1/parti
 
             Authorization: Basic Ym9iOmJ1aWxkZXI=
     + Body
-        
+
             POST /api/v1/calls/8867d8f1-0918-4653-b41e-7341200e277a/participants
             HTTP/1.1\r\n
             Host: 127.0.0.1\r\n
             Content-Type: www-formurl-encoded\r\n
             Content-Length: 33\r\n\r\n
             remoteParty=username1@example.com
-            
+
 + Response 200 (XML)
     + Headers
-    
+
             Connection: close
-     
+
     + Body
-        
+
             HTTP/1.1 200 OK\r\n
             Location: /api/v1/participants/2671a77d-4bd5-4bf2-8ed6-f14afd80c2ac\r\n
             Connection: close\r\n\r\n
@@ -705,7 +705,7 @@ TODO: Response is structured as a top-level \<coSpaces total=”N”\> tag with 
     <tr>
         <td>autoGenerated</td>
         <td>boolean</td>
-        <td>Whether this coSpace has been added automatically or manually. 
+        <td>Whether this coSpace has been added automatically or manually.
         <ul>
         <li>true - this coSpace has been added automatically as part of an LDAP sync operation. therefore it is not possible, to remove it except by modifying the parameters of the sync operation</li>
         <li>false - this coSpace has been added either via an API method or by using Cisco Meeting App; it can be modified or removed via the API</li>
@@ -731,12 +731,8 @@ TODO: Response is structured as a top-level \<coSpaces total=”N”\> tag with 
             Authorization: Basic Ym9iOmJ1aWxkZXI=
 
 + Response 200 (text/xml)
-    + Headers
-
-            Connection: close
-    
     + Body
-    
+
             <?xml version="1.0"?>
             <coSpaces total="1">
               <coSpace id="527089d6-6581-4331-8417-971c05c9e274">
@@ -910,15 +906,10 @@ A new auto-generated Call Id is assigned if `requireCallId=true` is set via a cr
 
             name=MyNewCoSpace
 
-+ Response 200 (text/xml)
-    + Body
++ Response 200
+    + Headers
 
-            <?xml version="1.0"?>
-            <coSpaces total="1">
-              <coSpaceId="527089d6-6581-4331-8417-971c05c9e274">
-                <name>MyNewCoSpace</name>
-              </coSpace>
-            </coSpaces>
+            Location: /api/v1/coSpaces/ba74737b-aa36-4891-abed-dbbca6fe8cc8
 
 ## Retrieving Detailed Information about a Single coSpace [GET /coSpaces/{coSpaceId}]
 GET method performed on a `/coSpaces/<coSpaceId>` node. If the coSpace ID supplied is valid, a “200 OK” response is received, containing a single `<coSpaceId=<ID>` object with data as described above for the [creating and modifying] case.
@@ -938,22 +929,37 @@ The following information is not included:
 + Parameters
     + coSpaceId
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
             <?xml version="1.0"?>
-            <coSpace id="527089d6-6581-4331-8417-971c05c9e274">
-              <name>MyNewCoSpace</name>
+            <coSpace id="b449de90-9dc5-4bed-9c65-a09a321d2bd9">
+              <name>Johnny Appleseed Space</name>
+              <autoGenerated>true</autoGenerated>
+              <uri>johnny.space</uri>
+              <callId>239017747</callId>
+              <nonMemberAccess>true</nonMemberAccess>
+              <ownerId>43dfe9c0-834f-42bd-aa1c-bbf5017706ba</ownerId>
+              <ownerJid>johnny@ciscolabs.com</ownerJid>
+              <secret>V_diBH_9ARvojUzOOy38Cg</secret>
             </coSpace>
 
 ### Retrieving entry details for a specific coSpace [GET /coSpaces/<coSpaceId>/meetingEntryDetail]
 
 From version 2.1, a `meetingEntryDetail` node is added to allow retrieval of entry details for a specific coSpace meeting. Perform a GET on /coSpaces/<coSpace id>/meeting EntryDetail. Response values are uri and callId.
 
-+ Response 200
-    + Headers
++ Parameters
+    + coSpaceId
 
-            TODO:URI and callId
++ Response 200 (text/xml)
+    + Body
+
+            <?xml version="1.0"?>
+            <meetingEntryDetail>
+              <coSpace>"b449de90-9dc5-4bed-9c65-a09a321d2bd9"</coSpace>
+              <uri>johnny.space@ciscolabs.com</uri>
+              <callId>239017747</callId>
+            </meetingEntryDetail>
 
 ## coSpace Member Methods [/coSpaces/{coSpaceId}/coSpaceUsers/{?filter,offset,limit,callLegProfileFilter}]
 ## Retrieving the members of a coSpace [GET]
@@ -1060,7 +1066,7 @@ Response is structured as a top-level `<coSpaceUsers total=”N”>` tag with po
     + callLegProfileFilter (ID, optional)
         Supply callLegProfileFilter=<ID> to return just members using that call leg profile
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
             <?xml version="1.0"?>
@@ -1072,7 +1078,7 @@ Response is structured as a top-level `<coSpaceUsers total=”N”>` tag with po
 
 ## Adding and modifying a coSpace member [POST]
 * Adding: POST method to a `/coSpaces/<coSpaceId>/coSpaceUsers` node
-* Modifying: PUT method performed on a `/coSpaces/<coSpaceId>/coSpaceUsers/<coSpaceUser ID>` node. 
+* Modifying: PUT method performed on a `/coSpaces/<coSpaceId>/coSpaceUsers/<coSpaceUser ID>` node.
 The parameters that you can modify are listed above, with the exception of `userJid`. Note: `userJid` is a mandatory parameter.
 
 If the member was added successfully, a “200 OK” response is received, and the “Location” header in the response contains the new user ID.
@@ -1120,12 +1126,12 @@ Members who cannot remove themselves from the coSpace (as controlled by `canRemo
 
 Using the API provides more flexibility: it is possible to create coSpaces with members who cannot remove themselves, but who can be removed by another member. Members can always be removed via the API.
 
-Auto-generated members (created by an LDAP sync) have auto-generated permissions because it makes no sense to allow them to make changes that will be overwritten by the next LDAP sync. Therefore, for these users the following parameters are always set to false: `canDestroy`, `canChangeName`, `canChangeUri`, `canChangeCallId` and `canRemoveSelf`. 
+Auto-generated members (created by an LDAP sync) have auto-generated permissions because it makes no sense to allow them to make changes that will be overwritten by the next LDAP sync. Therefore, for these users the following parameters are always set to false: `canDestroy`, `canChangeName`, `canChangeUri`, `canChangeCallId` and `canRemoveSelf`.
 The other “can” parameters are set to true. Note that changing any of these settings for an auto-generated member via the API will only have a temporary effect and will be overwritten at the next LDAP sync: you could discover whether a member is auto-generated – see the next section.
 
 Finally, if a user creates a coSpace from the Cisco Meeting App, then `canDeleteAllMessages`is set to false for all members, and all other permissions are set to true by default for all members.
 
-<table style="width: 100%;"> 
+<table style="width: 100%;">
   <tr>
     <th>Permission</th>
     <th colspan="5">coSpace created by:</th>
@@ -1206,8 +1212,8 @@ Finally, if a user creates a coSpace from the Cisco Meeting App, then `canDelete
 + Response 200
     + Headers
 
-            Location: ID
-            
+            Location: /api/v1/coSpaces/b449de90-9dc5-4bed-9c65-a09a321d2bd9/coSpaceUsers/3c2b4c49-9e60-4c97-835d-d22038d812cc
+
 ## Retrieving Information on a coSpace member [GET /coSpaces/{coSpaceId}/coSpaceUsers/{coSpaceUserId}]
 GET method performed on a `/coSpaces/<coSpaceId>/coSpaceUsers/<coSpaceUser ID>` node. If the retrieval is valid, a “200 OK” response is received, with containing a single `<coSpaceUser id=<ID>>` object with data as described above for the creating and modifying case. In addition
 * the `autoGenerated` value shows whether the coSpace member was added to the coSpace automatically as part of an LDAP sync operation
@@ -1217,14 +1223,24 @@ GET method performed on a `/coSpaces/<coSpaceId>/coSpaceUsers/<coSpaceUser ID>` 
     + coSpaceId (ID)
     + coSpaceUserId (ID)
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
             <?xml version="1.0"?>
-            <coSpaceUser id="527089d6-6581-4331-8417-971c05c9e274">
-              <userJid>darth@empire.net</userJid>
-              <userId>"de41b1e5-7a56-4894-a5c1-493df2086799"</userId>
-              <autoGenerated>"true"</autoGenerated>
+            <coSpaceUser id="3c2b4c49-9e60-4c97-835d-d22038d812cc">
+              <userId>3c2b4c49-9e60-4c97-835d-d22038d812cc</userId>
+              <userJid>darth@ciscolabs.com</userJid>
+              <autoGenerated>false</autoGenerated>
+              <canDestroy>false</canDestroy>
+              <canAddRemoveMember>false</canAddRemoveMember>
+              <canChangeName>false</canChangeName>
+              <canChangeUri>false</canChangeUri>
+              <canChangeCallId>false</canChangeCallId>
+              <canChangePasscode>false</canChangePasscode>
+              <canPostMessage>false</canPostMessage>
+              <canDeleteAllMessages>false</canDeleteAllMessages>
+              <canRemoveSelf>false</canRemoveSelf>
+              <canChangeNonMemberAccessAllowed>true</canChangeNonMemberAccessAllowed>
             </coSpaceUser>
 
 ## coSpace Chat/Message Board Methods [/coSpaces/{coSpaceId}/messages{?minAge,maxAge}]
@@ -1259,7 +1275,7 @@ If successful, the message is posted to the message board and an ID for the mess
 + Response 200
     + Headers
 
-            Location:ID
+            Location: /api/v1/coSpaces/b449de90-9dc5-4bed-9c65-a09a321d2bd9/messages/5732c880-9557-45c4-ad4c-d46040db781a
 
 ## Deleting messages from a coSpace message board [DELETE]
 DELETE method on a `/coSpaces/<coSpace ID>/messages` node with the form parameters below which select messages by age. With no additional parameters, all messages for that coSpace will be deleted.
@@ -1351,15 +1367,17 @@ Response is a collection of `<accessMethod id=<access method id>>` objects conta
     + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve coSpaces other than the first "page" in the notional list (see Section 4.1.2)
     + callLegProfileFilter (ID, optional) - Supply callLegProfileFilter=`<ID`> to return just accessMethods for coSpaces using that call leg profile
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
             <?xml version="1.0"?>
-            <coSpaceUser id="527089d6-6581-4331-8417-971c05c9e274">
-            <userJid>darth@empire.net</userJid>
-            <userId>"de41b1e5-7a56-4894-a5c1-493df2086799"</userId>
-            <autoGenerated>"true"</autoGenerated>
-            </coSpaceUser>
+            <accessMethods total="1">
+              <accessMethod id="74352ae5-26d0-4401-82ca-1d1a20e2e91c">
+                <uri>am1.space</uri>
+                <callId>111111</callId>
+                <passcode/>
+              </accessMethod>
+            </accessMethods>
 
 ## Creating and modifying coSpace access methods [POST]
 * Creating: POST method to the `/coSpaces/<coSpace Id>/accessMethods` node
@@ -1422,7 +1440,7 @@ If the coSpace access method is created successfully, a “200 OK” response wi
 + Response 200
     + Headers
 
-            Location:ID
+            Location: /api/v1/coSpaces/b449de90-9dc5-4bed-9c65-a09a321d2bd9/accessMethods/74352ae5-26d0-4401-82ca-1d1a20e2e91c
 
 ## Retrieving information on an individual coSpace access method [GET /coSpaces/{coSpaceId}/accessMethods/{accessMethodId}]
 GET method on a `/coSpaces/<coSpace id>/accessMethods/<access method id>` node.
@@ -1432,26 +1450,38 @@ If the access method ID supplied is valid, a "200 OK" response and a single `<ac
     + coSpaceId (ID)
     + accessMethodId (ID)
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            <accessMethodId=access method id>
+            <?xml version="1.0"?>
+            <accessMethod id="74352ae5-26d0-4401-82ca-1d1a20e2e91c">
+              <uri>am1.space</uri>
+              <callId>111111</callId>
+              <passcode/>
+              <secret>pVJywoeunB3168M4CUoYLg</secret>
+            </accessMethod>
 
 ## Bulk creating, updating and deleting coSpaces [/coSpaceBulkParameterSets{?startIndex,endIndex}]
 ## Retrieving the parameter sets for creating coSpaces in bulk [GET]
 GET method on `/coSpaceBulkParameterSets` node.
 
-Response is structured as a top-level <coSpaceBulkParameterSets total=”N”> tag with potentially multiple <coSpaceBulkParameterSet> elements within it. 
+Response is structured as a top-level <coSpaceBulkParameterSets total=”N”> tag with potentially multiple <coSpaceBulkParameterSet> elements within it.
 <coSpaceBulkParameterSet> elements follow the general form on the left.
 
 + Parameters
     + startIndex (Number) - Index that coSpace mappings start from (inclusive)
     + endIndex (Number) - Index that coSpace mappings end at (inclusive)
-        
-+ Response 200
+
++ Response 200 (text/xml)
     + Body
 
-            <TODO>
+            <?xml version="1.0"?>
+            <cospaceBulkParameterSets total="1">
+              <cospaceBulkParameterSet id="129c6941-0b6f-4f15-a16d-8b0ce9444fb9">
+              <startIndex>1000</startIndex>
+              <endIndex>1005</endIndex>
+              </cospaceBulkParameterSet>
+            </cospaceBulkParameterSets>
 
 ## Creating coSpace Bulk Parameter sets [POST]
 * Creating: POST method to the `/coSpaceBulkParameterSets` node. Creates a new parameter set, see table below. Returns location of new parameter set `/cospaceBulkParameterSets/<set Id>`
@@ -1509,16 +1539,13 @@ Response is structured as a top-level <coSpaceBulkParameterSets total=”N”> t
     <td>Whether non-members will be able to access the bulk created coSpaces. If this parameter is not supplied in a create (POST) operation, it defaults to "true" and non members can access the coSpace.</td>
   </tr>
 </table>
-    
+
 + Attributes (coSpaceBulkParameterSets)
 
 + Response 200
     + Headers
 
-            Location:ID
-    + Body
-
-            <location ID>
+            Location: /api/v1/cospaceBulkParameterSets/129c6941-0b6f-4f15-a16d-8b0ce9444fb9
 
 ## Retrieving information on an individual coSpace Bulk Parameter sets [GET /coSpaceBulkParameterSets/{setId}]
 GET method on `/coSpaceBulkParameterSets/<set Id>` node.
@@ -1584,10 +1611,14 @@ GET method on `/coSpaceBulkParameterSets/<set Id>` node.
 + Parameters
     + setId (ID)
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            <location ID>
+            <?xml version="1.0"?>
+            <cospaceBulkParameterSet id="129c6941-0b6f-4f15-a16d-8b0ce9444fb9">
+              <startIndex>1000</startIndex>
+              <endIndex>1010</endIndex>
+            </cospaceBulkParameterSet>
 
 ## Queueing the bulk sync operations [POST /coSpaceBulkSyncs/{bulk_sync_guid}]
 * Creating: POST method to the `/coSpaceBulkSyncs` node. Queues the bulk sync operations for execution as soon as possible. Returns location `/cospaceBulkSync/<bulk_sync_guid>`
@@ -1615,15 +1646,17 @@ GET method on `/coSpaceBulkParameterSets/<set Id>` node.
   </tr>
 </table>
 
-+ Parameters
-    + bulk_sync_guid (ID)
++ Request
+    + Body
+
+            coSpaceBulkParameterSet=129c6941-0b6f-4f15-a16d-8b0ce9444fb9
 
 + Attributes (coSpaceBulkParameterSets)
 
 + Response 200
-    + Body
+    + Headers
 
-            <location ID>
+            Location: /api/v1/cospaceBulkSyncs/5dd4ccc0-ed58-4ef5-97be-04dfe9937785
 
 ## Retrieving the bulk sync operations [GET /coSpaceBulkSyncs/{coSpaceBulkParameterSet}]
 
@@ -1636,7 +1669,7 @@ Response is structured as a top-level <coSpaceBulkSyncs total=”N”> tag with 
     <th>Type/Value</th>
     <th>Description/Notes</th>
   </tr>
-  
+
   <tr>
     <td>coSpaceBulkParameterSet</td>
     <td>ID</td>
@@ -1657,15 +1690,16 @@ Response is structured as a top-level <coSpaceBulkSyncs total=”N”> tag with 
 + Parameters
     + coSpaceBulkParameterSet (ID)
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
             <?xml version="1.0"?>
-            <coSpaceUser id="527089d6-6581-4331-8417-971c05c9e274">
-            <userJid>darth@empire.net</userJid>
-            <userId>"de41b1e5-7a56-4894-a5c1-493df2086799"</userId>
-            <autoGenerated>"true"</autoGenerated>
-            </coSpaceUser>
+            <cospaceBulkSyncs total="1">
+              <cospaceBulkSync id="5dd4ccc0-ed58-4ef5-97be-04dfe9937785">
+                <cospaceBulkParameterSet>129c6941-0b6f-4f15-a16d-8b0ce9444fb9</cospaceBulkParameterSet>
+                <status>complete</status>
+              </cospaceBulkSync>
+            </cospaceBulkSyncs>
 
 ## Retrieving a specific bulk sync operation [GET /coSpaceBulkSyncs/{coSpacebulksyncid}]
 GET method on `/coSpaceBulkSyncs/<coSpacebulksyncid>` node.
@@ -1701,15 +1735,14 @@ GET method on `/coSpaceBulkSyncs/<coSpacebulksyncid>` node.
 + Parameters
     + coSpacebulksyncid (ID)
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
             <?xml version="1.0"?>
-            <coSpaceUser id="527089d6-6581-4331-8417-971c05c9e274">
-            <userJid>darth@empire.net</userJid>
-            <userId>"de41b1e5-7a56-4894-a5c1-493df2086799"</userId>
-            <autoGenerated>"true"</autoGenerated>
-            </coSpaceUser>
+            <cospaceBulkSync id="5dd4ccc0-ed58-4ef5-97be-04dfe9937785">
+              <cospaceBulkParameterSet>129c6941-0b6f-4f15-a16d-8b0ce9444fb9</cospaceBulkParameterSet>
+              <status>complete</status>
+            </cospaceBulkSync>
 
 ## coSpace Diagnostics Methods [/coSpaces/{coSpaceId}/diagnostics]
 A POST to `/coSpaces/<coSpace id>/diagnostics` triggers the generation of call diagnostics for the specified coSpace.
@@ -1719,6 +1752,9 @@ A POST to `/coSpaces/<coSpace id>/diagnostics` triggers the generation of call d
 + Parameters
     + coSpaceId (ID)
 + Response 200
+    + Headers
+
+            Location: /api/v1/system/diagnostics/e7e285d4-ae09-4eaf-9991-5a16b20a3e0a
 
 # Group Calling Out from a coSpace
 Adding a remote party to a coSpace requires that this coSpace has an active call from which connections can be made. Essentially this makes an initial call out from a
@@ -1727,7 +1763,7 @@ coSpace a combination of two other API methods:
 1. Creation of a new call
 2. Adding a new outgoing call leg to a call
 
-These methods are described in later sections. 
+These methods are described in later sections.
 
 # Group Dial Plan Methods
 This chapter details the API methods related to configuring dial plans for outbound calls, inbound calls and call forwarding. The chapter covers:
@@ -1797,10 +1833,24 @@ Response is a collection of `<outboundDialPlanRule id=<ID>>` objects contained w
     + limit (optional) - An "offset" and "limit" can be supplied to retrieve coSpaces other than the first "page" in the notional list (see Section 4.1.2)
     + tenantFilter (ID, optional) - If supplied, this filter only returns those outbound dial plan rules associated with the specified tenant. This parameter is present from version 1.8 onwards
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO:
+            <?xml version="1.0"?>
+            <outboundDialPlanRules total="3">
+              <outboundDialPlanRule id="12c20199-626a-45b6-9c61-9afca039a04d">
+                <domain>ciscolabs.com</domain>
+                <priority>0</priority>
+              </outboundDialPlanRule>
+              <outboundDialPlanRule id="5a928a9d-0a78-4731-b661-612156541d60">
+                <domain>lab.local</domain>
+                <priority>0</priority>
+              </outboundDialPlanRule>
+              <outboundDialPlanRule id="10762e9f-ed8f-4dcb-b159-77d38e9be90b">
+                <domain>lab2.local</domain>
+                <priority>0</priority>
+              </outboundDialPlanRule>
+            </outboundDialPlanRules>
 
 ## Creating and modifying outbound dial plan rules [POST]
 * Creating: POST method to the `/outboundDialPlanRules` node. If the outgoing dial plan rule is created successfully, a “200 OK” response will be received, and the `Location` header in the response will contain the new outgoing dial plan rule ID
@@ -1883,21 +1933,33 @@ Response is a collection of `<outboundDialPlanRule id=<ID>>` objects contained w
 + Response 200
     + Headers
 
-            Location:ID
+            Location: /api/v1/outboundDialPlanRules/3d42b1be-7921-47f6-9b69-36c85ac0a027
 
 ## Retrieving information on an individual outbound dial plan rule [GET /outboundDialPlanRules/{outboundDialPlanRuleId}]
 GET method on a `/outboundDialPlanRules/<outbound dial plan rule ID>` node. If the outbound dial plan rule ID supplied is valid, a "200 OK" response and a single `<outboundDialPlanRule id=<ID>>` object will be returned with data as per the previous section.
 + Parameters
     + outboundDialPlanRuleId (ID)
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: outbound dial plan rule object goes here
+            <?xml version="1.0"?>
+            <outboundDialPlanRule id="12c20199-626a-45b6-9c61-9afca039a04d">
+              <domain>ciscolabs.com</domain>
+              <priority>0</priority>
+              <localContactDomain/>
+              <localFromDomain/>
+              <trunkType>sip</trunkType>
+              <sipControlEncryption>auto</sipControlEncryption>
+              <sipProxy>proxy.ciscolabs.com</sipProxy>
+              <failureAction>stop</failureAction>
+              <scope>global</scope>
+              <callRouting>default</callRouting>
+            </outboundDialPlanRule>
 
 ## Incoming Call Matching Dial Plan API Methods [/inboundDialPlanRules/{?filter,offset,limit,tenantFilter}]
 ### Access to incoming domain matching rules
 
-When an incoming SIP call is routed to the Meeting Server, the Call Bridge looks through the configured inbound dial plan rules first and tries to match the "domain" part of the destination URI "<user>@<domain>"against the rules. 
+When an incoming SIP call is routed to the Meeting Server, the Call Bridge looks through the configured inbound dial plan rules first and tries to match the "domain" part of the destination URI "<user>@<domain>"against the rules.
 
 Use the POST method on API object `/inboundDialPlanRules` to create a new inbound dial plan rule to match against incoming SIP calls, or set it up via the Web Admin Interface (see note below).
 ---
@@ -1971,10 +2033,24 @@ Response is a collection of `<inboundDialPlanRuleId=<ID>>` objects contained wit
     + offset (optional) - An "offset" and "limit" can be supplied to retrieve incoming dial plan rules other than the first "page" in the notional list (see above)
     + limit (optional) - An "offset" and "limit" can be supplied to retrieve incoming dial plan rules other than the first "page" in the notional list (see above)
     + tenantFilter (ID, optional) - If supplied, this filter only those inbound dial plan rules associated with the specified tenant
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: Need a inboundDialPlanRule object for this area
+            <?xml version="1.0"?>
+            <inboundDialPlanRules total="3">
+              <inboundDialPlanRule id="2bb27a59-7609-46c4-a3dd-9de99e027777">
+                <domain>dev.local</domain>
+                <priority>100</priority>
+              </inboundDialPlanRule>
+              <inboundDialPlanRule id="d231b771-05d1-41a4-95b3-cb1d63d0fa84">
+                <domain>test.local</domain>
+                <priority>100</priority>
+              </inboundDialPlanRule>
+              <inboundDialPlanRule id="a54345c1-3f4c-4e85-976b-0fe9e3890d3b">
+                <domain>192.168.0.10</domain>
+                <priority>0</priority>
+              </inboundDialPlanRule>
+            </inboundDialPlanRules>
 
 ## Creating and modifying incoming dial plan rules [POST]
 * Creating: POST method to the `/inboundDialPlanRules` node. If the incoming dial plan rule is created successfully, a “200 OK” response will be received, and the `Location` header in the response will contain the new incoming dial plan rule ID
@@ -2032,16 +2108,25 @@ Response is a collection of `<inboundDialPlanRuleId=<ID>>` objects contained wit
 + Response 200
     + Headers
 
-            Location:ID
+            Location: /api/vi/inboundDialPlanRules/a54345c1-3f4c-4e85-976b-0fe9e3890d3b
 
 ## Retrieving information on an individual incoming dial plan rule [GET /inboundDialPlanRules/{inboundDialPlanRuleId}]
 GET method on a `/inboundDialPlanRules/<inbound dial plan rule ID>` node. If the incoming dial plan rule ID supplied is valid, a "200 OK" response and a single `<inboundDialPlanRule id=<ID>>` object will be returned with data as per the previous section.
 + Parameters
     + inboundDialPlanRuleId (ID)
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: Need inboundDialPlanRuleId object here...
+            <?xml version="1.0"?>
+            <inboundDialPlanRule id="a54345c1-3f4c-4e85-976b-0fe9e3890d3b">
+              <domain>dev.local</domain>
+              <priority>0</priority>
+              <resolveToUsers>true</resolveToUsers>
+              <resolveTocoSpaces>true</resolveTocoSpaces>
+              <resolveToIvrs>true</resolveToIvrs>
+              <resolveToLyncConferences>false</resolveToLyncConferences>
+              <resolveToLyncSimplejoin>false</resolveToLyncSimplejoin>
+            </inboundDialPlanRule>
 
 ## Incoming Call Forwarding Dial Plan API Methods [/forwardingDialPlanRules{?filter,offset,limit,tenantFilter}]
 ### Access to incoming call forwarding rules
@@ -2094,10 +2179,16 @@ Response is a collection of `<forwardingDialPlanRule id=<ID>>` objects contained
     + limit (optional) - An "offset" and "limit" can be supplied to retrieve coSpaces other than the first "page" in the notional list (see Section 4.1.2)
     + tenantFilter (ID, optional) - If supplied, this filter restricts the results returned to those forwarding dial plan rules that are associated with the specified tenant. This parameter is present from version 1.8 onwards
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: forwardingDialPlanRules objects go here!
+            <?xml version="1.0"?>
+            <forwardingDialPlanRules total="1">
+              <forwardingDialPlanRule id="289b78eb-cd16-4bb8-b887-66e66a3ddfda">
+                <matchPattern>qa.local</matchPattern>
+                <priority>0</priority>
+              </forwardingDialPlanRule>
+            </forwardingDialPlanRules>
 
 ## Creating and modifying incoming call forwarding dial plan rules [POST]
 * Creating: POST method to the `/forwardingDialPlanRules` node. If the forwarding dial plan rule is created successfully, a “200 OK” response will be received, and the `Location` header in the response will contain the new forwarding dial plan rule ID
@@ -2150,17 +2241,25 @@ Response is a collection of `<forwardingDialPlanRule id=<ID>>` objects contained
 + Response 200
     + Headers
 
-            Location:ID
-            
+            Location: /api/v1/forwardingDialPlanRules/39ceb6f9-b86e-4a22-84ed-724aaaabf05a
+
 ## Retrieving information on an individual incoming call forwarding dial plan rule [GET /forwardingDialPlanRules/{forwardingDialPlanRuleId}]
 GET method on a `/forwardingDialPlanRules/<forwarding dial plan rule ID>` node. If the forwarding dial plan rule ID supplied is valid, a "200 OK" response and a single `<forwardingDialPlanRule id=<ID>>` object will be returned with data as per the previous section.
 
 + Parameters
     + forwardingDialPlanRuleId
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: Need forwardingDialPlanRule object
+            <?xml version="1.0"?>
+            <forwardingDialPlanRule id="289b78eb-cd16-4bb8-b887-66e66a3ddfda">
+              <matchPattern>media</matchPattern>
+              <priority>0</priority>
+              <action>forward</action>
+              <destinationDomain>qa.local</destinationDomain>
+              <callerIdMode>preserve</callerIdMode>
+              <uriParameters>discard</uriParameters>
+            </forwardingDialPlanRule>
 
 
 # Group Call Related Methods
@@ -2218,10 +2317,17 @@ Response is structured as a top-level `<calls total=”N”>` tag with potential
     + tenantFilter (optional) - Supply an ID to return just those calls that belong to the specified tenant
 
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: call object goes hereabouts
+            <?xml version="1.0"?>
+            <calls total="1">
+              <call id="b393d2cb-60ec-418c-9991-6ef4e72fa47b">
+                <name>Dev Space</name>
+                <coSpace>e647231e-e1db-435b-b96f-9c7a83d488a2</coSpace>
+                <callCorrelator>9fea4ad1-953a-4801-b4cd-b9382c43b077</callCorrelator>
+              </call>
+            </calls>
 
 ## Creating a New Call and Modifying an Active call [POST]
 POST method performed on the `/calls` node or PUT method to `/calls/<callId>`
@@ -2286,7 +2392,7 @@ POST method performed on the `/calls` node or PUT method to `/calls/<callId>`
   <tr>
     <td>messageDuration</td>
     <td>Number|permanent</td>
-    <td>Time in seconds to display configured messageText on screen. Typing the string “permanent” will result in the string being permanently shown 
+    <td>Time in seconds to display configured messageText on screen. Typing the string “permanent” will result in the string being permanently shown
     until it is reconfigured. (From version 2.1)</td>
   </tr>
   <tr>
@@ -2305,7 +2411,7 @@ If a call is instantiated for the coSpace successfully, that call’s ID is retu
 + Response 200
     + Headers
 
-            Location:ID
+            Location: /api/v1/calls/b393d2cb-60ec-418c-9991-6ef4e72fa47b
 
 ## Retrieving Information on an Individual Active Call [GET /call/{callId}]
 GET method performed on a `/calls/<callId>` node. If the call ID supplied is valid, a “200 OK” response is received, with XML content of the form:
@@ -2452,11 +2558,33 @@ GET method performed on a `/calls/<callId>` node. If the call ID supplied is val
 
 + Parameters
     + callId (ID)
-    
-+ Response 200
+
++ Response 200 (text/xml)
     + Body
 
-            TODO: need call object
+            <?xml version="1.0"?>
+            <call id="b393d2cb-60ec-418c-9991-6ef4e72fa47b">
+              <name>Dev Space</name>
+              <callType>coSpace</callType>
+              <coSpace>e647231e-e1db-435b-b96f-9c7a83d488a2</coSpace>
+              <ownerName>Bjarne Stroustrup</ownerName>
+              <callCorrelator>9fea4ad1-953a-4801-b4cd-b9382c43b077</callCorrelator>
+              <durationSeconds>170</durationSeconds>
+              <numCallLegs>1</numCallLegs>
+              <maxCallLegs>1</maxCallLegs>
+              <numParticipantsLocal>1</numParticipantsLocal>
+              <locked>false</locked>
+              <recording>false</recording>
+              <recordingStatus>false</recordingStatus>
+              <streaming>true</streaming>
+              <streamingStatus>false</streamingStatus>
+              <allowAllMuteSelf>false</allowAllMuteSelf>
+              <allowAllPresentationContribution>false</allowAllPresentationContribution>
+              <messagePosition>middle</messagePosition>
+              <messageDuration>0</messageDuration>
+              <activeWhenEmpty>false</activeWhenEmpty>
+              <endpointRecording>false</endpointRecording>
+            </call>
 
 ## Generating diagnostics for an individual call [POST /calls/{callId}/diagnostics]
 POST method performed on `/calls/<callId>/diagnostics` generates call diagnostics for the call in question.
@@ -2464,9 +2592,9 @@ POST method performed on `/calls/<callId>/diagnostics` generates call diagnostic
 + Parameters
     + callId (ID)
 + Response 200
-    + Body
+    + Headers
 
-            TODO: No idea what gets returned for these things.
+            Location: /api/v1/system/diagnostics/e8dbb8af-ec7e-4db5-b51b-47e6c1a1a768
 
 ## Retrieve participants in a conference [GET /calls/{callId}/participants/{?offset,limit,filter,tenantFilter,callBridgeFilter}]
 GET method performed on the `/calls/<call id>/participants` node. Retrieves a list of all of the participants associated with the specified call.
@@ -2519,14 +2647,15 @@ Response is structured as a top-level <participants total=”N”> tag with pote
             Authorization: Basic Ym9iOmJ1aWxkZXI=
 
 + Response 200 (text/xml)
-    + Headers
-
-            Connection: close
-    
     + Body
-    
+
             <?xml version="1.0"?>
-            <TODO conference details>
+            <participants total="1">
+              <participant id="dbe60866-061d-49b3-8399-e95d6248bc2d">
+                <name>Bjarne Stroustrup</name>
+                <call>b393d2cb-60ec-418c-9991-6ef4e72fa47b</call>
+              </participant>
+            </participants>
 
 ## Creating a new participant for a specified call [POST /calls/{callId}/participants]
 POST method on the `/calls/<callId>/participants` node.
@@ -2541,13 +2670,13 @@ POST method on the `/calls/<callId>/participants` node.
 ---
 + Parameters
     + callId (ID)
-    
+
 + Attributes (CreateParticipantforspecifiedcall)
 
 + Response 200
     + Headers
 
-            Location:ID
+            Location: /api/v1/participants/1c32ed66-2bce-4362-b20b-1d992b6d0037
 
 ## Set properties for all participants in a conference [PUT /calls/{callId}/participants/]
 
@@ -2559,9 +2688,6 @@ PUT to `/calls/<callId>/participants/*` node. Set properties for all participant
 + Attributes (ParticipantProperties)
 
 + Response 200
-    + Headers
-
-            TODO: something awesome goes here
 
 ## Call Profile Methods [/callProfiles{?offset,limit,usageFilter}]
 Call profiles control the maximum number of active simultaneous participants and the in-call experience for SIP (including Lync) calls. For more information see also Section 14.
@@ -2580,18 +2706,25 @@ See the next section
     + usageFilter (enum, optional)
         + unreferenced `Supply "usageFilter=unreferenced" in the request to retrieve only those call profiles that are not referenced by global settings or any other object. This is a useful check before deleting the profile.`
         + referenced `To retrieve just those call profiles which are referenced in at least one place, you can supply "usageFilter=referenced"`
-+ Response 200
++ Response 200 (text/xml)
+    + Body
+
+            <?xml version="1.0"?>
+            <callProfiles total="2">
+              <callProfile id="59f5a62e-18e5-4fd7-b841-d9d9b8d57b92"/>
+              <callProfile id="74d89d1a-e85e-4d3c-9d89-64d25d711a2a"/>
+            </callProfiles>
 
 ## Setting up and modifying call profiles [POST]
 
-Creating: POST method to the `/callProfiles` node. 
+Creating: POST method to the `/callProfiles` node.
 
 
 + Attributes (callProfile)
 + Response 200
-    + Body
+    + Headers
 
-            TODO: Need callProfile response
+            Location: /api/v1/callProfiles/74d89d1a-e85e-4d3c-9d89-64d25d711a2a
 
 ### Modifying call profiles [PUT /callProfiles/<call profile id>]
 
@@ -2599,17 +2732,18 @@ PUT method to the `/callProfiles/<call profile id>` node.
 
 + Attributes (callProfile)
 + Response 200
-    + Body
-
-            TODO: confirm changed value
-
 
 ## Retrieving detailed information about an individual call profile [GET /callProfiles/{callProfileId}]
 GET method performed on a `/callProfiles/<call profile id>` node. If the call profile id ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: Need detailed callProfile object here
+            <?xml version="1.0"?>
+            <callProfile id="59f5a62e-18e5-4fd7-b841-d9d9b8d57b92">
+              <messageBoardEnabled>true</messageBoardEnabled>
+              <locked>false</locked>
+              <streamingMode>automatic</streamingMode>
+            </callProfile>
 
 ## Call Leg Methods [/callLegs{?offset,limit,filter,participantFilter,tenantFilter,activeLayoutFilter,availableVideoStreamsLowerBound,availableVideoStreamsUpperBound,ownerIdSet,alarms}]
 
@@ -2697,13 +2831,21 @@ A call leg alarm may be triggered by a number of factors, not necessarily a set 
         + excessiveJitter - there is currently a high level of jitter on one or more of this call leg’s active media streams
         + highRoundTripTime -  the Meeting Server measures the round trip time between itself and the call leg destination; if a media stream is detected to have a high round trip time (which might impact call quality), then this alarm condition is set for the call leg
         + all
-    
-    
-    
+
+
+
 + Response 200
     + Body
 
-            TODO: List of callLeg objects
+            <?xml version="1.0"?>
+            <callLegs total="1">
+              <callLeg id="dbe60866-061d-49b3-8399-e95d6248bc2d">
+                <name>Bjarne Stroustrup</name>
+                <remoteParty>bjarne@ciscolabs.com</remoteParty>
+                <originalRemoteParty>bjarne@ciscolabs.com</originalRemoteParty>
+                <call>b393d2cb-60ec-418c-9991-6ef4e72fa47b</call>
+              </callLeg>
+            </callLegs>
 
 ## Adding and Modifying Call Legs [POST]
 * Adding: POST method to a `/calls/<call ID>/callLegs` node. The `<call ID>` is learnt from a GET on `/calls` or from a newly created call (see Creating a new call above). If a profile has been applied to this call leg, it starts with the values set in the profile
@@ -2722,9 +2864,9 @@ A call leg alarm may be triggered by a number of factors, not necessarily a set 
 + Attributes (callLeg)
 
 + Response 200
-    + Body
+    + Headers
 
-            TODO: callleg object
+            Location: /api/v1/callLegs/05ac65fc-416d-4e59-90ca-1e034a4c0249
 
 ## Retrieving Information on an Individual Call Leg [GET /callLegs/{callLegId}]
 GET method performed on a `/callLegs/<callLegId>` node.
@@ -3280,11 +3422,11 @@ If present in the reply, these parameters are overrides currently active specifi
     <td>Indicates that multistream video is active for this call leg</td>
   </tr>
 </table></td>
-  </tr> 
+  </tr>
    <tr>
     <td>lyncRole<br>(from version 2.4)</td>
     <td>presenter|attendee</td>
-    <td>Only present if the participant associated with this call leg is in a Lync conference. 
+    <td>Only present if the participant associated with this call leg is in a Lync conference.
     <ul>
     <li>presenter - The participant associated with this call leg is a presenter in the Lync conference.</li>
     <li>attendee - The participant associated with this call leg is an attendee in the Lync conference.</li>
@@ -3353,10 +3495,75 @@ If present in the reply, these parameters are overrides currently active specifi
 </table>
 
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: work...
+            <?xml version="1.0"?>
+            <callLeg id="dbe60866-061d-49b3-8399-e95d6248bc2d">
+              <name>Bjarne Stroustrup</name>
+              <remoteParty>bjarne@ciscolabs.com</remoteParty>
+              <originalRemoteParty>bjarne@ciscolabs.com</originalRemoteParty>
+              <call>b393d2cb-60ec-418c-9991-6ef4e72fa47b</call>
+              <type>acano</type>
+              <direction>incoming</direction>
+              <canMove>false</canMove>
+              <configuration>
+                <participantLabels>true</participantLabels>
+                <joinToneParticipantThreshold>100</joinToneParticipantThreshold>
+                <leaveToneParticipantThreshold>0</leaveToneParticipantThreshold>
+                <muteOthersAllowed>true</muteOthersAllowed>
+                <videoMuteOthersAllowed>true</videoMuteOthersAllowed>
+                <muteSelfAllowed>true</muteSelfAllowed>
+                <videoMuteSelfAllowed>true</videoMuteSelfAllowed>
+                <endCallAllowed>true</endCallAllowed>
+                <disconnectOthersAllowed>true</disconnectOthersAllowed>
+                <changeLayoutAllowed>true</changeLayoutAllowed>
+                <callLockAllowed>true</callLockAllowed>
+                <allowAllMuteSelfAllowed>true</allowAllMuteSelfAllowed>
+                <changeJoinAudioMuteOverrideAllowed>true</changeJoinAudioMuteOverrideAllowed>
+                <recordingControlAllowed>true</recordingControlAllowed>
+                <streamingControlAllowed>true</streamingControlAllowed>
+                <participantCounter>always</participantCounter>
+              </configuration>
+              <status>
+                <state>connected</state>
+                <durationSeconds>1057</durationSeconds>
+                <direction>incoming</direction>
+                <groupId>dbe60866-061d-49b3-8399-e95d6248bc2d</groupId>
+                <encryptedMedia>true</encryptedMedia>
+                <unencryptedMedia>false</unencryptedMedia>
+                <layout>telepresence</layout>
+                <rxAudio>
+                  <codec>opus</codec>
+                  <packetLossPercentage>0.0</packetLossPercentage>
+                  <jitter>9</jitter>
+                  <bitRate>38539</bitRate>
+                </rxAudio>
+                <txAudio>
+                  <codec>opus</codec>
+                  <packetLossPercentage>0.0</packetLossPercentage>
+                  <jitter>2</jitter>
+                  <bitRate>64000</bitRate>
+                  <roundTripTime>1</roundTripTime>
+                </txAudio>
+                <rxVideo role="main">
+                  <codec>h264</codec>
+                  <bitRate>1975241</bitRate>
+                  <packetLossPercentage>0.0</packetLossPercentage>
+                  <jitter>11</jitter>
+                </rxVideo>
+                <txVideo role="main">
+                  <codec>h264</codec>
+                  <width>128</width>
+                  <height>128</height>
+                  <frameRate>4.9</frameRate>
+                  <bitRate>678</bitRate>
+                  <packetLossPercentage>0.0</packetLossPercentage>
+                  <jitter>4</jitter>
+                  <roundTripTime>1</roundTripTime>
+                </txVideo>
+              </status>
+            </callLeg>
 
 ## Call Leg Profile Methods [/callLegProfiles{?offset,limit,usageFilter}]
 
@@ -3539,10 +3746,16 @@ Response is a collection of `<callLegProfile id=<call leg profile id>` objects c
     + usageFilter (enum, optional) - Using unreferenced retrieves only those call leg profiles that are not referenced by global settings or any other object. This is a useful check before deleting a call Leg profile.
         + unreferenced
         + referenced
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: callLeg Profile object/list
+            <?xml version="1.0"?>
+            <callLegProfiles total="2">
+              <callLegProfile id="06b654b1-1d1f-4f7e-ac07-b7aed2fa4ed6"/>
+              <callLegProfile id="4eb10b6c-5e51-42af-a56d-431c58692384">
+                <needsActivation>true</needsActivation>
+              </callLegProfile>
+            </callLegProfiles>
 
 ## Creating and modifying a call leg profile [POST]
 * Creating: POST method to the `/callLegProfiles` node. If the call leg profile is created successfully, a “200 OK” response will be received, and the `Location` header in the response will contain the ID of the new call leg profile
@@ -3552,9 +3765,9 @@ In all cases, if you explicitly set a parameter to an empty value in the POST or
 
 + Attributes (callLegProfile)
 + Response 200
-    + Body
+    + Headers
 
-            TODO: Put a callLegProfile here <
+            Location: /api/v1/callLegProfiles/73fa8f1e-6841-476f-ba75-8061b138f978
 
 ## Retrieving information on an individual call leg profile [GET /callLegProfiles/{callLegProfileId}]
 ### Example call leg profile & access method use
@@ -3562,14 +3775,38 @@ In all cases, if you explicitly set a parameter to an empty value in the POST or
 The main use for being able to associate call leg profiles with access methods is to be able to construct separate URI / call ID / passcode combinations giving different in- call behaviors. For example, one call leg profile whose “needsActivation” value is “true” could be associated with one access method, and another call leg profile whose “needsActivation” value is “false” could be associated with a different access method.
 
 Effectively this sets up separate “activator” and “guest” access methods for that coSpace, with callers to the “needsActivation=true” access method needing to wait until a successful call in to the other access method before their conference audio and video become active. For the multiple access methods linked to different call leg profiles in this way, you can choose to distinguish between them only by passcode; essentially, activator and guest users dial the same URI but enter a different PIN depending on whether they’re an activator or guest participant.
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: More callLegProfile stuff here
+            <?xml version="1.0"?>
+            <callLegProfile id="06b654b1-1d1f-4f7e-ac07-b7aed2fa4ed6">
+              <participantLabels>true</participantLabels>
+              <joinToneParticipantThreshold>100</joinToneParticipantThreshold>
+              <leaveToneParticipantThreshold>0</leaveToneParticipantThreshold>
+              <muteOthersAllowed>true</muteOthersAllowed>
+              <videoMuteOthersAllowed>true</videoMuteOthersAllowed>
+              <muteSelfAllowed>true</muteSelfAllowed>
+              <videoMuteSelfAllowed>true</videoMuteSelfAllowed>
+              <endCallAllowed>true</endCallAllowed>
+              <disconnectOthersAllowed>true</disconnectOthersAllowed>
+              <changeLayoutAllowed>true</changeLayoutAllowed>
+              <callLockAllowed>true</callLockAllowed>
+              <allowAllMuteSelfAllowed>true</allowAllMuteSelfAllowed>
+              <changeJoinAudioMuteOverrideAllowed>true</changeJoinAudioMuteOverrideAllowed>
+              <recordingControlAllowed>true</recordingControlAllowed>
+              <streamingControlAllowed>true</streamingControlAllowed>
+              <participantCounter>always</participantCounter>
+            </callLegProfile>
 
 ## usage object method [GET /callLegProfiles/{callLegProfileId}/usage]
 From R1.7 there is a `/callLegs/<callLegId>/usage` object in the hierarchy. Performing a GET on this object retrieves, for the queried call leg, a list of where the specified call leg profile is used: whether it is set to be the global call leg profile or any associations it has with tenants, coSpaces, coSpace users, coSpace access methods.
-+ Response 200
++ Response 200 (text/xml)
+    + Body
+
+            <?xml version="1.0"?>
+            <callLegProfileUsage id="06b654b1-1d1f-4f7e-ac07-b7aed2fa4ed6" total="1">
+              <global/>
+            </callLegProfileUsage>
 
 ## callLegProfileTrace object method [GET /callLegProfiles/{callLegProfileId}/callLegProfileTrace]
 There is a `/callLegs/<callLegId>/callLegProfileTrace` object in the hierarchy. Performing a GET on this object retrieves, for the call leg that you queried, how its in- force call leg profile has been arrived at; that is, the hierarchy of overrides that have contributed to the currently "in force" call leg profile. Specifically, the response includes a section for each level in the profile hierarchy, and details which call leg profile elements have been applied at which level.
@@ -3757,11 +3994,33 @@ The end result for each parameter is the lowest level’s override for that para
 
 
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: Figure out what this thing looks like
-            
+            <?xml version="1.0"?>
+            <callLegProfileTrace callLeg="dbe60866-061d-49b3-8399-e95d6248bc2d">
+              <profile scope="global">
+                <callLegProfile id="06b654b1-1d1f-4f7e-ac07-b7aed2fa4ed6">
+                  <participantLabels>true</participantLabels>
+                  <joinToneParticipantThreshold>100</joinToneParticipantThreshold>
+                  <leaveToneParticipantThreshold>0</leaveToneParticipantThreshold>
+                  <muteOthersAllowed>true</muteOthersAllowed>
+                  <videoMuteOthersAllowed>true</videoMuteOthersAllowed>
+                  <muteSelfAllowed>true</muteSelfAllowed>
+                  <videoMuteSelfAllowed>true</videoMuteSelfAllowed>
+                  <endCallAllowed>true</endCallAllowed>
+                  <disconnectOthersAllowed>true</disconnectOthersAllowed>
+                  <changeLayoutAllowed>true</changeLayoutAllowed>
+                  <callLockAllowed>true</callLockAllowed>
+                  <allowAllMuteSelfAllowed>true</allowAllMuteSelfAllowed>
+                  <changeJoinAudioMuteOverrideAllowed>true</changeJoinAudioMuteOverrideAllowed>
+                  <recordingControlAllowed>true</recordingControlAllowed>
+                  <streamingControlAllowed>true</streamingControlAllowed>
+                  <participantCounter>always</participantCounter>
+                </callLegProfile>
+              </profile>
+            </callLegProfileTrace>
+
 ## GenerateKeyFrame [POST /callLegs/{callLegId}/generateKeyframe]
 POST to /callLegs/<callLegId>/generateKeyframe to trigger the generation of a new keyframe in outgoing video streams for the call leg in question. This is a debug facility, and Cisco Support may ask you to use the feature when diagnosing an issue.
 
@@ -3770,10 +4029,7 @@ POST to /callLegs/<callLegId>/generateKeyframe to trigger the generation of a ne
     + callLegId (ID)
 
 + Response 200
-    + Headers
 
-            new: key frame
-            
 ## Group Dial Transform Methods
 
 When dial transforms are applied to all outbound calls, then the outbound dial plan rules are applied to the transformed number.
@@ -3867,10 +4123,15 @@ Response is structured as a top-level `<dialTransforms total="N">` tag with pote
     + filter (string, optional) - Enter a filter to retrieve only those dial transforms that match the string.
 
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: DialTransform object here
+            <?xml version="1.0"?>
+            <dialTransforms total="1">
+              <dialTransform id="60b675c9-80b0-4c77-aaf5-b3f0b4266a28">
+                <type>strip</type>
+              </dialTransform>
+            </dialTransforms>
 
 ## Setting up and modifying dial transforms [POST]
 * Creating: POST method to the `/dialTransforms` node
@@ -3911,9 +4172,9 @@ Examples are:
 + Attributes (dialTransform)
 
 + Response 200
-    + Body
+    + Headers
 
-            TODO: dialTransform needed
+            Location: /api/v1/dialTransforms/20dc6ac9-ff83-47b7-b153-c0e7efc3df3a
 
 ## Retrieving detailed information about an individual dial transform [GET /dialTransform/{dialTransformId}]
 GET method performed on a `/dialTransform/<dialTransform id>` node. If the call branding profile id ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
@@ -3965,10 +4226,17 @@ GET method performed on a `/dialTransform/<dialTransform id>` node. If the call 
   </tr>
 </table>
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: detailed dialTransform object goes here
+            <?xml version="1.0"?>
+            <dialTransform id="60b675c9-80b0-4c77-aaf5-b3f0b4266a28">
+              <type>strip</type>
+              <match>($1/^9\+?[^+]+$/)</match>
+              <transform>9$1{/^9//}{/\+/00/}</transform>
+              <priority>0</priority>
+              <action>accept</action>
+            </dialTransform>
 
 # Group Setting Individual Features for a Call Leg
 
@@ -4000,10 +4268,15 @@ Response is structured as a top-level `<callBrandingProfiles total="N">` tag wit
         + referenced
         + unreferenced
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: List of callBrandingProfiles?
+            <?xml version="1.0"?>
+            <callBrandingProfiles total="1">
+              <callBrandingProfile id="28495b43-d3ff-46d5-aca3-954b601139dc">
+                <resourceLocation>https://someserver.ciscolabs.com/callbranding</resourceLocation>
+              </callBrandingProfile>
+            </callBrandingProfiles>
 
 ## Setting up and modifying call branding profiles [POST]
 * Creating: POST method to the `/callBrandingProfiles` node
@@ -4011,17 +4284,20 @@ Response is structured as a top-level `<callBrandingProfiles total="N">` tag wit
 
 + Attributes (callBrandingProfile)
 + Response 200
-    + Body
+    + Headers
 
-            TODO: callBrandingProfile object, right about here <
+            Location: /api/v1/callBrandingProfiles/28495b43-d3ff-46d5-aca3-954b601139dc
 
 ## Retrieving detailed information about an individual call branding profile [GET /callBrandingProfiles/{callBrandingProfileId}]
 GET method performed on a `/callBrandingProfiles/<call branding profile id>` node. If the call branding profile ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: callBrandingProfile object, right about here <
+            <?xml version="1.0"?>
+            <callBrandingProfile id="28495b43-d3ff-46d5-aca3-954b601139dc">
+              <resourceLocation>https://someserver.ciscolabs.com/callbranding</resourceLocation>
+            </callBrandingProfile>
 
 
 # Group DTMF Profile Methods
@@ -4107,12 +4383,15 @@ Response is structured as a top-level `<dtmfProfiles total="N">` tag with potent
     + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
     + usageFilter (eunm, optional)  - This is a useful check before deleting the profile
         + referenced - retrieves just those DTMF profiles which are referenced in at least one place
-        + unreferenced - retrieves only those DTMF profiles that are not referenced by global settings or any other object. 
+        + unreferenced - retrieves only those DTMF profiles that are not referenced by global settings or any other object.
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: List of dtmf profiles
+            <?xml version="1.0"?>
+            <dtmfProfiles total="1">
+              <dtmfProfile id="978d9877-b8a3-4b48-97f5-8d00f8721a1e"/>
+            </dtmfProfiles>
 
 ## Setting up and modifying DTMF Profiles [POST]
 * Creating: POST method to the `/dtmfProfiles` node
@@ -4120,17 +4399,42 @@ Response is structured as a top-level `<dtmfProfiles total="N">` tag with potent
 
 + Attributes (dtmfProfile)
 + Response 200
-    + Body
+    + Headers
 
-            TODO: dtmfProfile object
+            Location: /api/v1/dtmfProfiles/b298029f-d03d-4162-8a6e-300bf9a50029
 
 ## Retrieving detailed information about an individual dtmfProfile [GET /dtmfProfiles/{dtmfProfileId}]
 GET method performed on a `/dtmfProfiles/<dtmfProfileId>` node. If the dtmfProfile ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: detailed dtmfProfile should go here
+            <?xml version="1.0"?>
+            <dtmfProfile id="978d9877-b8a3-4b48-97f5-8d00f8721a1e">
+              <muteSelfAudio/>
+              <unmuteSelfAudio/>
+              <toggleMuteSelfAudio/>
+              <lockCall>*9</lockCall>
+              <unlockCall>*7</unlockCall>
+              <muteAllExceptSelfAudio>#6</muteAllExceptSelfAudio>
+              <unmuteAllExceptSelfAudio>#4</unmuteAllExceptSelfAudio>
+              <endCall>*0</endCall>
+              <nextLayout>#3</nextLayout>
+              <previousLayout>#1</previousLayout>
+              <startRecording>*3</startRecording>
+              <stopRecording>*1</stopRecording>
+              <startStreaming>*6</startStreaming>
+              <stopStreaming>*4</stopStreaming>
+              <allowAllMuteSelf/>
+              <cancelAllowAllMuteSelf/>
+              <allowAllPresentationContribution/>
+              <cancelAllowAllPresentationContribution/>
+              <muteAllNewAudio>#9</muteAllNewAudio>
+              <unmuteAllNewAudio>#7</unmuteAllNewAudio>
+              <defaultMuteAllNewAudio/>
+              <muteAllNewAndAllExceptSelfAudio/>
+              <unmuteAllNewAndAllExceptSelfAudio/>
+            </dtmfProfile>
 
 
 # Group IVR Related Methods
@@ -4161,10 +4465,15 @@ Each `<ivr>` tag may include the following elements:
     + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
     + tenantFilter (ID, optional) - Supply tenantFilter to return only those IVRs associated with the specified tenant
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: ivr something list
+            <?xml version="1.0"?>
+            <ivrs total="1">
+              <ivr id="ef49f372-4888-4290-ba27-d8cd7c5af96b">
+                <uri>411</uri>
+              </ivr>
+            </ivrs>
 
 ## Setting up and modifying IVRs [POST]
 * Creating: POST method to the `/ivrs` node
@@ -4174,15 +4483,20 @@ Each `<ivr>` tag may include the following elements:
 + Response 200
     + Headers
 
-            Location:ID
+            Location: /api/v1/ivrs/ef49f372-4888-4290-ba27-d8cd7c5af96b
 
 ## Retrieving detailed information about an individual IVR [GET /ivrs/{ivrId}]
 GET method performed on a `/ivrs/<ivr id>` node. If the IVR ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: ivr object needed
+            <?xml version="1.0"?>
+            <ivr id="ef49f372-4888-4290-ba27-d8cd7c5af96b">
+              <uri>411</uri>
+              <resolveCoSpaceCallIds>true</resolveCoSpaceCallIds>
+              <resolveLyncConferenceIds>false</resolveLyncConferenceIds>
+            </ivr>
 
 ## IVR Branding Profile Methods [/ivrBrandingProfiles{?offset,limit,usageFilter}]
 IVR branding profiles were introduced in R1.6. They can define the experience when dialing into an IVR.
@@ -4210,10 +4524,15 @@ Response is structured as a top-level `<ivrBrandingProfiles total="N">` tag with
         + referenced
         + unreferenced - retrieves only those ivr branding profiles that are not referenced by global settings or any other object
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: list of ivr branding profiles
+            <?xml version="1.0"?>
+            <ivrBrandingProfiles total="1">
+              <ivrBrandingProfile id="82415bf1-a8fc-4895-9a46-6b031df10aaf">
+                <resourceLocation>http://someserver.ciscolabs.com/ivrbranding</resourceLocation>
+              </ivrBrandingProfile>
+            </ivrBrandingProfiles>
 
 ## Setting up and modifying an IVR branding profile [POST]
 * Creating: POST method to the `/ivrBrandingProfiles` node
@@ -4223,15 +4542,18 @@ Response is structured as a top-level `<ivrBrandingProfiles total="N">` tag with
 + Response 200
     + Headers
 
-            Location:ID
+            Location: /api/v1/ivrBrandingProfiles/82415bf1-a8fc-4895-9a46-6b031df10aaf
 
 ## Retrieving detailed information about an individual IVR branding profile [GET /ivrBrandingProfiles/{ivrBrandingProfileId}]
 GET method performed on a `/ivrBrandingProfiles/<ivr branding profile id>` node. If the IVR branding profile ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: ivr branding profile object
+            <?xml version="1.0"?>
+            <ivrBrandingProfile id="82415bf1-a8fc-4895-9a46-6b031df10aaf">
+              <resourceLocation>http://someserver.ciscolabs.com/ivrbranding</resourceLocation>
+            </ivrBrandingProfile>
 
 
 # Group Participant Related Methods
@@ -4384,25 +4706,26 @@ Response is structured as a top-level `<participants total=”N”>` tag with po
     + tenantFilter (ID, optional) - Supply the tenantFilter to return only those participants belonging to that tenant
     + callBridgeFilter (ID, optional) - Supply the callBridgeFilter to return only those participants located on that Call Bridge
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: List of participants
-
+            <?xml version="1.0"?>
+            <participants total="1">
+              <participant id="dbe60866-061d-49b3-8399-e95d6248bc2d">
+                <name>Ken Thompson</name>
+                <call>b393d2cb-60ec-418c-9991-6ef4e72fa47b</call>
+              </participant>
+            </participants>
 
 ## Changing settings for a participant already in a conference [PUT /participants/{participantId}]
 * Modifying: PUT to `/participants/<participantId>`
- 
+
 + Parameters
     + participantId (ID)
 
 + Attributes (important)
 
 + Response 200
-    + Headers
-
-            Partcipantid: something to indicate importance assigned
-
 
 ## Retrieving detailed information on an individual participant [GET /participants/{participantId}]
 GET method performed on a `/participants/<participantId>` node
@@ -4478,7 +4801,7 @@ If the participant ID supplied is valid, a “200 OK” response is received, wi
     <td>movedParticipantCallBridge</td>
     <td>ID</td>
     <td>If this participant was created by moving a participant, then the ID indicates the Call Bridge that homed the original participant that this participant was moved from. (From version 2.6)</td>
-    </tr>    
+    </tr>
 </table>
 #### status (from version 2.2)
 <table>
@@ -4509,10 +4832,24 @@ If the participant ID supplied is valid, a “200 OK” response is received, wi
 </tr>
 </table>
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: participant object here
+            <?xml version="1.0"?>
+            <participant id="dbe60866-061d-49b3-8399-e95d6248bc2d">
+              <call>b393d2cb-60ec-418c-9991-6ef4e72fa47b</call>
+              <numCallLegs>1</numCallLegs>
+              <name>Ken Thompson</name>
+              <uri>ken@ciscolabs.com</uri>
+              <originalUri>ken@ciscolabs.com</originalUri>
+              <userJid>ken@ciscolabs.com</userJid>
+              <isActivator>true</isActivator>
+              <canMove>false</canMove>
+              <configuration/>
+              <status>
+                <state>connected</state>
+              </status>
+            </participant>
 
 ## Retrieving a participant’s call legs [GET /participant/{participantId}/callLegs]
 GET method performed on a `/participant/<participant ID>/callLegs` node retrieves the participant’s active call legs. If successful, the parameters described above for call legs are returned.
@@ -4521,11 +4858,18 @@ GET method performed on a `/participant/<participant ID>/callLegs` node retrieve
 **Note:** that if this call leg is part of a distributed meeting (one hosted by more than one Call Bridge) then these details are only returned for local participants. If the participant’s call legs are hosted by another call Bridge the id of that Call Bridge is returned.
 
 ---
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: participants call legs stuff <<
-
+            <?xml version="1.0"?>
+            <callLegs total="1">
+              <callLeg id="dbe60866-061d-49b3-8399-e95d6248bc2d">
+                <name>Ken Thompson</name>
+                <remoteParty>ken@ciscolabs.com</remoteParty>
+                <originalRemoteParty>ken@ciscolabs.com</originalRemoteParty>
+                <call>b393d2cb-60ec-418c-9991-6ef4e72fa47b</call>
+              </callLeg>
+            </callLegs>
 
 # Group User Related Methods
 Users are created by synchronizing against LDAP servers (as discussed later); however, there are a number of methods for retrieving user information. This section covers:
@@ -4573,10 +4917,21 @@ Response is structured as a top-level `<users total=”N”>` tag with potential
     + emailFilter (String) - Supply emailFilter to restrict results returned to those users whose email value exactly matches the specified email address (from version 2.1).
     + cdrTagFilter (String) - Supply cdrTagFilter to restrict results returned to those users whose cdrTag value exactly matches the specified cdrTag (from version 2.1).
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: List of user objects would be nice here
+            <?xml version="1.0"?>
+            <users total="3">
+              <user id="43dfe9c0-834f-42bd-aa1c-bbf5017706ba">
+                <userJid>ken@ciscolabs.com</userJid>
+              </user>
+              <user id="3c2b4c49-9e60-4c97-835d-d22038d812cc">
+                <userJid>bjarne@ciscolabs.com</userJid>
+              </user>
+              <user id="e19961e3-e468-41ca-b29d-c6d72fdfdb52">
+                <userJid>dennis@ciscolabs</userJid>
+              </user>
+            </users>
 
 ## Retrieving Detailed Information on an Individual User [GET /users/{userId}]
 GET method performed on a `/users/<userId>` node
@@ -4626,10 +4981,15 @@ If the user ID supplied is valid, a “200 OK” response is received, with XML 
     </tr>
 </table>
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: user object <
+            <?xml version="1.0"?>
+            <user id="43dfe9c0-834f-42bd-aa1c-bbf5017706ba">
+              <userJid>ken@ciscolabs.com</userJid>
+              <name>Ken Thompson</name>
+              <email/>
+            </user>
 
 ## Retrieving a User’s coSpace Associations [GET /users/{userId}/usercoSpaces]
 GET method performed on a `/users/<userId>/usercoSpaces` node retrieves the coSpaces that the user is a member of. (Also see the note on coSpace member permissions for auto-generated members.)
@@ -4651,10 +5011,15 @@ Response is structured as a top-level `<usercoSpaces total=”N”>` tag with po
     </tr>
 </table>
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: need user cospace node list
+            <?xml version="1.0"?>
+            <userCoSpaces total="1">
+              <userCoSpace id="b449de90-9dc5-4bed-9c65-a09a321d2bd9">
+                <coSpaceId>b449de90-9dc5-4bed-9c65-a09a321d2bd9</coSpaceId>
+              </userCoSpace>
+            </userCoSpaces>
 
 ## User Profile Methods [/userProfiles{?offset,limit,usageFilter}]
 User profiles control the facilities provided to the users in the profile, for instance whether they can create new coSpaces, create new calls, make phone calls, slave SIP endpoints, allowed to send and receive chat messages when in a point to point call with another user. For more information see also Section 14.
@@ -4734,10 +5099,13 @@ Response is structured as a top-level `<userProfiles total="N">` tag with potent
         + referenced - to retrieve just those user profiles which are referenced in at least one place
         + unreferenced - retrieves only those user profiles that are not referenced by global settings or any other object
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: List of user profiles
+            <?xml version="1.0"?>
+            <userProfiles total="1">
+              <userProfile id="49cede52-7ae8-4729-910c-57056f32ef44"/>
+            </userProfiles>
 
 ## Setting up and modifying user profiles [POST]
 * Creating: POST method to the `/userProfiles` node
@@ -4747,16 +5115,18 @@ Response is structured as a top-level `<userProfiles total="N">` tag with potent
 + Response 200
     + Headers
 
-            Location:ID
+            Location: /api/v1/userProfiles/528e21af-7ba4-4071-a584-235a2eb8c256
 
 ## Retrieving detailed information about an individual user profile [GET /userProfiles/{userProfileId}]
 GET method performed on a `/userProfiles/<user profile id >` node. If the user profile ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: detailed user profile object goes here
-
+            <?xml version="1.0"?>
+            <userProfile id="49cede52-7ae8-4729-910c-57056f32ef44">
+              <canReceiveCalls>true</canReceiveCalls>
+            </userProfile>
 
 # Group System Related Methods
 This chapter details the API methods related to management of the system. The chapter covers:
@@ -4858,10 +5228,26 @@ Returns the elements on the left within a `<status>` element
     </tr>
 </table>
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: System status object
+            <?xml version="1.0"?>
+            <status>
+              <hostId>8b6dc06e-6a0b-4983-aa9c-bf49826f7756</hostId>
+              <softwareVersion>2.6.1</softwareVersion>
+              <uptimeSeconds>90730</uptimeSeconds>
+              <cdrTime>2019-05-16T18:42:02Z</cdrTime>
+              <activated>true</activated>
+              <clusterEnabled>false</clusterEnabled>
+              <cdrCorrelatorIndex>7</cdrCorrelatorIndex>
+              <callLegsActive>1</callLegsActive>
+              <callLegsMaxActive>2</callLegsMaxActive>
+              <callLegsCompleted>2</callLegsCompleted>
+              <audioBitRateOutgoing>67932</audioBitRateOutgoing>
+              <audioBitRateIncoming>40380</audioBitRateIncoming>
+              <videoBitRateOutgoing>839</videoBitRateOutgoing>
+              <videoBitRateIncoming>2416854</videoBitRateIncoming>
+            </status>
 
 ## Retrieving System Alarm Status [GET /system/alarms]
 GET method performed on the `/system/alarms` node. An offset and limit can be supplied to retrieve alarm conditions other than those in the first page of the notional list. This method returns a table detailing the currently active system-wide alarm conditions.
@@ -4929,10 +5315,16 @@ Returns a list of individual `<alarm>` elements. If there are no currently activ
     </tr>
 </table>
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TOTO: alarm object goes here 
+            <?xml version="1.0"?>
+            <alarms total="1">
+              <alarm id="a79174b7-15f1-413c-8d44-ff779cbb5e6d">
+                <type>cdrConnectionFailure</type>
+                <activeTimeSeconds>3919</activeTimeSeconds>
+              </alarm>
+            </alarms>
 
 ## Retrieving System Database Status [GET /system/database]
 GET method performed on the `/system/database` node.
@@ -4998,12 +5390,11 @@ GET method performed on the `/system/database` node.
     </tr>
 </table>
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: system database object
-
-
+            <?xml version="1.0"?>
+            <database clustered="disabled"/>
 
 ## CDR Receiver URI Methods [/system/cdrReceivers{?offset,limit}]
 You can find the URIs of the CDR receivers through the API (as well as the Web Admin Interface). Issue a GET on the `/system/cdrReceivers` node to retrieve the URIs that are the full URLs of the configured CDR receivers.
@@ -5044,10 +5435,18 @@ Each `<cdrReceiver>` tag may include the following element:
     + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
     + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: cdr receiver object list
+            <?xml version="1.0"?>
+            <cdrReceivers total="2" maximum="4">
+              <cdrReceiver id="7f9e3493-c971-47ce-9312-da050e0b752b">
+                <uri>https://cmm.ciscolabs.com/meetings/cdr/1/?token=93ec22bf4f140e32be9a38d736048ffd1324e725</uri>
+              </cdrReceiver>
+              <cdrReceiver id="16d94896-4b4a-4a5e-b206-cad3441590cd">
+                <uri>http://reciever.ciscolabs.com:8444/cdr</uri>
+              </cdrReceiver>
+            </cdrReceivers>
 
 ## Setting the CDR Receivers URI [POST]
 Set the CDR receiver URI through the API (as well as the Web Admin Interface). You can issue a PUT or a POST on the `/system/cdrReceivers node`
@@ -5072,7 +5471,7 @@ To set or update the URIs of the CDR receivers via the Web Admin Interface use t
 + Response 200
     + Headers
 
-            Location:ID
+            Location: /api/v1/system/cdrReceivers/71b60e89-c718-4c38-b7bc-336a08038db8
 
 ## Global Profile Methods [/system/profiles]
 
@@ -5117,10 +5516,16 @@ GET to `/system/profiles` returns the values described in the following section.
     </tr>
 </table>
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: get system profile stuff for dis right here <
+            <?xml version="1.0"?>
+            <profiles>
+              <callLegProfile>06b654b1-1d1f-4f7e-ac07-b7aed2fa4ed6</callLegProfile>
+              <callProfile>59f5a62e-18e5-4fd7-b841-d9d9b8d57b92</callProfile>
+              <dtmfProfile>978d9877-b8a3-4b48-97f5-8d00f8721a1e</dtmfProfile>
+              <userProfile>49cede52-7ae8-4729-910c-57056f32ef44</userProfile>
+            </profiles>
 
 ## Setting the Global Profile [POST]
 You can set (or unset) the callLegProfile ID value under `/system/profiles` to impose (or remove) a top-level profile.
@@ -5169,19 +5574,19 @@ GET methods performed on the `/system/licensing` node.
     <td>
     <ul>
         <li>No license applied to the Call Bridge</li>
-        <li>License applied and Call Bridge activated</li> 
+        <li>License applied and Call Bridge activated</li>
         <li>License expired, now in grace period for license renewal</li>
         <li>License expired for Call Bridge</li>
     </ul>
     </td>
   </tr>
-  
+
   <tr>
     <td>expiry </td>
     <td>String</td>
     <td>Date of expiry</td>
   </tr>
-  
+
    <tr>
     <td rowspan=2> callBridgeNoEncryption (from version 2.4)</td>
     <td>status</td>
@@ -5196,19 +5601,19 @@ GET methods performed on the `/system/licensing` node.
     <td>
     <ul>
         <li>No license applied to the Call Bridge</li>
-        <li>License applied and Call Bridge activated</li> 
+        <li>License applied and Call Bridge activated</li>
         <li>License expired, now in grace period for license renewal</li>
         <li>License expired for Call Bridge</li>
     </ul>
     </td>
   </tr>
-  
+
   <tr>
     <td>expiry </td>
     <td>String</td>
     <td>Date of expiry</td>
   </tr>
-  
+
   <tr>
     <td rowspan=2>webBridge</td>
     <td>status</td>
@@ -5229,13 +5634,13 @@ GET methods performed on the `/system/licensing` node.
     </ul>
     </td>
   </tr>
-  
+
   <tr>
     <td>expiry</td>
     <td>String</td>
     <td>Date of expiry</td>
     </tr>
-  
+
   <tr>
     <td rowspan=2>turn</td>
       <td>status</td>
@@ -5254,13 +5659,13 @@ GET methods performed on the `/system/licensing` node.
         </ul>
     </td>
   </tr>
-  
+
   <tr>
       <td>expiry</td>
     <td>String</td>
     <td>Date of expiry</td>
   </tr>
-  
+
   <tr>
     <td rowspan=2>ldap</td>
     <td>status</td>
@@ -5281,13 +5686,13 @@ GET methods performed on the `/system/licensing` node.
     </ul>
     </td>
   </tr>
-  
+
   <tr>
     <td>expiry</td>
     <td>string</td>
     <td>Date of expiry</td>
   </tr>
-  
+
   <tr>
     <td rowspan=2>branding</td>
     <td>status <br><strong>Note</strong>: From version 2.4, this is no longer relevant as a branding license is not required)<br> </td>
@@ -5308,13 +5713,13 @@ GET methods performed on the `/system/licensing` node.
     </ul>
     </td>
   </tr>
-  
+
   <tr>
     <td>expiry</td>
     <td>String</td>
     <td>Date of expiry</td>
   </tr>
-  
+
   <tr>
     <td rowspan=3>recording</td>
     <td>status</td>
@@ -5333,20 +5738,20 @@ GET methods performed on the `/system/licensing` node.
     </ul>
     </td>
   </tr>
-  
+
   <tr>
     <td>expiry</td>
     <td>String</td>
     <td>Date of expiry</td>
   </tr>
-  
+
   <tr>
-    
+
     <td>limit</td>
     <td>Number</td>
     <td> </td>
   </tr>
-  
+
   <tr>
     <td rowspan=3>streaming</td>
     <td>status</td>
@@ -5357,19 +5762,19 @@ GET methods performed on the `/system/licensing` node.
     </ul></td>
     <td>No license applied to the StreamerLicense applied and Streamer activatedLicense expired for Streamder</td>
   </tr>
-  
+
   <tr>
     <td>expiry</td>
     <td>String</td>
     <td>Date of expiry</td>
   </tr>
-  
+
   <tr>
   <td>limit</td>
     <td>Number</td>
     <td> </td>
   </tr>
-  
+
   <tr>
     <td rowspan=3>personal</td>
     <td>status</td>
@@ -5390,19 +5795,19 @@ GET methods performed on the `/system/licensing` node.
     </ul>
     </td>
   </tr>
-  
+
   <tr>
     <td>expiry</td>
     <td>String</td>
     <td>Date of expiry</td>
   </tr>
-  
+
   <tr>
     <td>limit</td>
     <td>Number</td>
     <td> </td>
   </tr>
-  
+
   <tr>
     <td rowspan=3>shared</td>
     <td>status</td>
@@ -5464,49 +5869,57 @@ GET methods performed on the `/system/licensing` node.
 </tr>
 </table>
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
+            <?xml version="1.0"?>
             <licensing>
-            <features>
-            <callBridge>
-            <status>activated</status>
-            <expiry>2100-Jan-01</expiry>
-            </callBridge>
-            <webBridge>
-            <status>activated</status>
-            <expiry>2100-Jan-01</expiry>
-            </webBridge>
-            <turn>
-            <status>activated</status>
-            <expiry>2100-Jan-01</expiry>
-            </turn>
-            <ldap>
-            <status>activated</status>
-            <expiry>2100-Jan-01</expiry>
-            </ldap>
-            <branding>
-            <status>activated</status>
-            <expiry>2100-Jan-01</expiry>
-            <level>whiteLabel</level>
-            </branding>
-            <recording>
-            <status>activated</status>
-            <expiry>2100-Jan-01</expiry>
-            <limit>30</limit>
-            </recording>
-            <personal>
-            <status>noLicense</status>
-            </personal>
-            <shared>
-            <status>noLicense</status>
-            </shared>
-            <capacityUnits>
-            <status>noLicense</status>
-            </capacityUnits>
-            </features>
+              <features>
+                <callBridge>
+                  <status>activated</status>
+                  <expiry>2022-Aug-08</expiry>
+                </callBridge>
+                <callBridgeNoEncryption>
+                  <status>noLicense</status>
+                </callBridgeNoEncryption>
+                <webBridge>
+                  <status>activated</status>
+                  <expiry>2022-Aug-08</expiry>
+                </webBridge>
+                <turn>
+                  <status>activated</status>
+                  <expiry>2022-Aug-08</expiry>
+                </turn>
+                <branding>
+                  <status>activated</status>
+                  <expiry>2022-Aug-08</expiry>
+                  <level>multipleBrands</level>
+                </branding>
+                <recording>
+                  <status>activated</status>
+                  <expiry>2022-Aug-08</expiry>
+                  <limit>20</limit>
+                </recording>
+                <streaming>
+                  <status>activated</status>
+                  <expiry>2022-Aug-08</expiry>
+                  <limit>20</limit>
+                </streaming>
+                <personal>
+                  <status>activated</status>
+                  <expiry>2022-Aug-08</expiry>
+                  <limit>100</limit>
+                </personal>
+                <shared>
+                  <status>activated</status>
+                  <expiry>2022-Aug-08</expiry>
+                  <limit>100</limit>
+                </shared>
+                <capacityUnits>
+                  <status>noLicense</status>
+                </capacityUnits>
+              </features>
             </licensing>
-            
 
 # Multiparty licensing [/system/multipartyLicensing/]
 
@@ -5587,25 +6000,26 @@ GET method performed on the `/system/multipartyLicensing` node.
   </tr>
 </table>
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
+            <?xml version="1.0"?>
             <multipartyLicensing>
-            <timestamp>2016-07-20T14:22:17Z</timestamp>
-            <personalLicenseLimit>0</personalLicenseLimit>
-            <sharedLicenseLimit>0</sharedLicenseLimit>
-            <capacityUnitLimit>0</capacityUnitLimit>
-            <users>545</users>
-            <personalLicenses>0</personalLicenses>
-            <participantsActive>0</participantsActive>
-            <callsActive>0</callsActive>
-            <weightedCallsActive>0.000</weightedCallsActive>
-            <callsWithoutPersonalLicense>0</callsWithoutPersonalLicense>
-            <weightedCallsWithoutPersonalLicense>0.000</weightedCallsWithout>PersonalLicense>
-            <capacityUnitUsage>0.000</capacityUnitUsage>
-            <capacityUnitUsageWithoutPersonalLicense>0.000</capacityUnitUsageWithoutPersonalLicense>
+              <timestamp>2019-05-16T14:44:52Z</timestamp>
+              <personalLicenseLimit>100</personalLicenseLimit>
+              <sharedLicenseLimit>100</sharedLicenseLimit>
+              <capacityUnitLimit>0</capacityUnitLimit>
+              <users>3</users>
+              <personalLicenses>0</personalLicenses>
+              <participantsActive>1</participantsActive>
+              <callsActive>1</callsActive>
+              <weightedCallsActive>1.000</weightedCallsActive>
+              <callsWithoutPersonalLicense>1</callsWithoutPersonalLicense>
+              <weightedCallsWithoutPersonalLicense>1.000</weightedCallsWithoutPersonalLicense>
+              <capacityUnitUsage>0.025</capacityUnitUsage>
+              <capacityUnitUsageWithoutPersonalLicense>0.025</capacityUnitUsageWithoutPersonalLicense>
             </multipartyLicensing>
-            
+
 ## Retrieve information on Active Personal Licenses [GET /system/multipartyLicensing/activePersonalLicenses{?offset,limit}]
 
 GET method performed on `/system/multipartyLicensing/activePersonalLicenses`.
@@ -5638,8 +6052,6 @@ GET method performed on `/system/multipartyLicensing/activePersonalLicenses`.
 
             <?xml version="1.0"?>
             <activePersonalLicenses total="0"/>
-            
-            
 
 # License usage snapshots [/system/MPLicenseUsage]
 
@@ -5653,24 +6065,62 @@ GET method performed on `/system/MPLicenseUsage` node. TBD - response elements t
     + startTime (string) - UTC time (formated as per RFC 3339) specifying the earliest date-time from which license usage snapshots should be fetched (inclusive)
     + endTime (String) - UTC time (formated as per RFC 3339) specifying the latest date-time from which license usage snapshots should be fetched (inclusive)
     + hostId (ID) - I.D. of the host (as returned by system/status.hostId) for which you want to retrieve license usage snapshots
-    
+
 + Response 200 (text/xml)
     + Body
-    
+
             <?xml version="1.0"?>
-            <MPLicenseUsage total="4">
-                <entry time="2019-05-16T18:44:52Z">
-                    <smpAud>1.00</smpAud>
-                </entry>
-                <entry time="2019-05-16T18:39:52Z">
-                    <smpAud>1.00</smpAud>
-                </entry>
-                <entry time="2019-05-16T18:34:52Z">
-                    <smpAud>1.00</smpAud>
-                </entry>
-                <entry time="2019-05-16T18:29:52Z">
-                    <smpAud>1.00</smpAud>
-                </entry>
+            <MPLicenseUsage total="333">
+              <entry time="2019-05-16T18:44:52Z">
+                <smpAud>1.00</smpAud>
+              </entry>
+              <entry time="2019-05-16T18:39:52Z">
+                <smpAud>1.00</smpAud>
+              </entry>
+              <entry time="2019-05-16T18:34:52Z">
+                <smpAud>1.00</smpAud>
+              </entry>
+              <entry time="2019-05-16T18:29:52Z">
+                <smpAud>1.00</smpAud>
+              </entry>
+              <entry time="2019-05-16T18:24:51Z">
+                <smpAud>1.00</smpAud>
+              </entry>
+              <entry time="2019-05-16T18:19:51Z">
+                <smpAud>1.00</smpAud>
+              </entry>
+              <entry time="2019-05-16T18:14:52Z">
+                <smpAud>1.00</smpAud>
+              </entry>
+              <entry time="2019-05-16T18:09:52Z">
+                <smpAud>1.00</smpAud>
+              </entry>
+              <entry time="2019-05-16T18:04:52Z">
+                <smpAud>1.00</smpAud>
+              </entry>
+              <entry time="2019-05-16T17:59:52Z">
+                <smpAud>1.00</smpAud>
+              </entry>
+              <entry time="2019-05-16T17:54:51Z">
+                <smpAud>1.00</smpAud>
+              </entry>
+              <entry time="2019-05-16T17:49:51Z">
+                <smpAud>1.00</smpAud>
+              </entry>
+              <entry time="2019-05-16T17:44:51Z">
+                <smpAud>1.00</smpAud>
+              </entry>
+              <entry time="2019-05-16T17:39:51Z">
+                <smpAud>1.00</smpAud>
+              </entry>
+              <entry time="2019-05-16T17:34:51Z"/>
+              <entry time="2019-05-16T17:29:51Z"/>
+              <entry time="2019-05-15T15:41:47Z">
+                <smpAud>1.00</smpAud>
+              </entry>
+              <entry time="2019-05-15T15:36:47Z"/>
+              <entry time="2019-05-15T15:31:47Z"/>
+              <entry time="2019-05-15T15:26:47Z"/>
             </MPLicenseUsage>
 
 ## Retrieve information on Multi Party Known hosts [GET /system/MPLicenseUsage/knownHosts/{?offset,limit}]
@@ -5725,11 +6175,16 @@ Each `<turnServer>` tag may include the following elements.
     + offset (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
     + limit (number, optional) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-
-            TODO: List of turn servers
+            <?xml version="1.0"?>
+            <turnServers total="1">
+              <turnServer id="1e6698a8-07b0-4fdf-b9ae-70675fa4566e">
+                <serverAddress>1.1.1.1</serverAddress>
+                <clientAddress>1.1.1.1</clientAddress>
+              </turnServer>
+            </turnServers>
 
 ## Setting up and modifying TURN servers [POST]
 * Creating: POST method to the `/turnServers` node
@@ -5740,7 +6195,7 @@ Each `<turnServer>` tag may include the following elements.
 + Response 200
     + Headers
 
-            Location:ID
+            Location: /api/v1/turnServers/1e6698a8-07b0-4fdf-b9ae-70675fa4566e
 
 ## Retrieving detailed information about an individual TURN server [GET /turnServers/{turnServerId}]
 GET method performed on a `/turnServers/<turnServerId>` node. If the turn server ID supplied is valid, a “200 OK” response is received, with XML content:
@@ -5788,11 +6243,16 @@ GET method performed on a `/turnServers/<turnServerId>` node. If the turn server
     </tr>
 </table>
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: TURN Server object
-
+            <?xml version="1.0"?>
+            <turnServer id="1e6698a8-07b0-4fdf-b9ae-70675fa4566e">
+              <serverAddress>1.1.1.1</serverAddress>
+              <clientAddress>1.1.1.1</clientAddress>
+              <numRegistrations>0</numRegistrations>
+              <type>standard</type>
+            </turnServer>
 
 # Web Bridge Methods [/webBridges{?filter,offset,limit,tenantFilter}]
 
@@ -5806,11 +6266,16 @@ Response is structured as a top-level <webBridges total="N"> tag with potentiall
     + limit (number, optional) - A "limit" can be supplied to retrieve elements other than the first "page" in the notional list
     + tenantFilter (ID, optional) - Supply tenantFilter to return only those Web Bridges associated with the specified tenant
 
-+ Response 200
-    + Body
+    + Response 200 (text/xml)
+        + Body
 
-            TODO: Web Bridge
-            
+                <?xml version="1.0"?>
+                <webBridges total="1">
+                  <webBridge id="0e86b926-c4b9-459d-8ec6-bc547abbb2d1">
+                    <url>https://cms.ciscolabs.com</url>
+                  </webBridge>
+                </webBridges>
+
 ## Setting Up and Modifying a Web Bridge [POST]
 
 * Creating: POST method to the `/webBridges` node
@@ -5821,30 +6286,33 @@ Response is structured as a top-level <webBridges total="N"> tag with potentiall
 + Response 200
     + Headers
 
-            Location:ID
-            
+            Location: /api/v1/webBridges/9191271d-7deb-412e-b26a-f04ec738eacf
+
 ## Retrieving detailed information about an individual Web Bridge [GET /webBridges/{webbridgeId}]
 
 GET method performed on a `/webBridges/<webbridgeId>` node. If the web bridge ID supplied is valid, a “200 OK” response is received, with XML content described in the previous section.
 
 + Parameters
-    
+
     + webbridgeId (ID)
-    
-+ Response 200
-    + Headers
 
-            Location:ID
-            
++ Response 200 (text/xml)
+    + Body
+
+            <?xml version="1.0"?>
+            <webBridge id="0e86b926-c4b9-459d-8ec6-bc547abbb2d1">
+              <url>https://cms.ciscolabs.com</url>
+              <resolveCoSpaceCallIds>true</resolveCoSpaceCallIds>
+              <resolveLyncConferenceIds>false</resolveLyncConferenceIds>
+              <idEntryMode>secure</idEntryMode>
+              <allowWeblinkAccess>true</allowWeblinkAccess>
+              <showSignIn>true</showSignIn>
+            </webBridge>
+
 ## Updating the Web Bridge customization [POST /webBridges/<webbridgeId>/updateCustomization]
-A POST to `/webBridges/<webbridgeId>/updateCustomization` node causes any configured customization archive for the specified Web Bridge to be re-retrieved and pushed to that Web Bridge. For example, this allows the contents of a customization archive to be changed, and for those changes to take effect without needing to restart either the Call Bridge or the Web Bridge. 
-
-+ Attributes ()
+A POST to `/webBridges/<webbridgeId>/updateCustomization` node causes any configured customization archive for the specified Web Bridge to be re-retrieved and pushed to that Web Bridge. For example, this allows the contents of a customization archive to be changed, and for those changes to take effect without needing to restart either the Call Bridge or the Web Bridge.
 
 + Response 200
-    + Headers
-
-            Location:ID
 
 ## Retrieving diagnostics on a Web Bridge - from version 2.2 [GET /webBridges/{webbridgeId}/status]
 
@@ -5875,15 +6343,13 @@ GET method performed on a `/webBridges/<webbridgeId>/status` node. If the web br
 
 
 + Response 200
-    + Body
 
-            TODO: something
-            
+
 # Call Bridge Methods [/callBridges{?offset,limit}]
 
 ## Retrieving Information on Call Bridges [GET]
 
-GET method performed on the `/callBridges` node. 
+GET method performed on the `/callBridges` node.
 
 Response is structured as a top-level <callBridges total="N"> tag with potentially multiple <callBridge> elements within it. Each <callBridge> tag may include the following elements:
 
@@ -5904,11 +6370,12 @@ Response is structured as a top-level <callBridges total="N"> tag with potential
     + offset (number) - An "offset" can be supplied to retrieve elements other than the first "page" in the notional list
     + limit (number) - A "limit" can be supplied to retrieve elements other than the first "page" in the notional list
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: Call Bridge
-            
+            <?xml version="1.0"?>
+            <callBridges total="0"/>
+
 ## Setting Up and Modifying a Call Bridge [POST]
 
 * Creating: POST method to the `/callBridges` node
@@ -5919,17 +6386,21 @@ Response is structured as a top-level <callBridges total="N"> tag with potential
 + Response 200
     + Headers
 
-            Location:ID
-            
+            Location: /ap1/v1/callBridges/1f0e0bae-2ade-407a-9d79-c649a30b03d0
+
 ## Retrieving detailed information about an individual Call Bridge [GET /callBridges/{callbridgeId}]
 
 GET method performed on a “/callBridges/<call bridge id>” node. If the call bridge ID supplied is valid, a “200 OK” response is received, with XML content described in the previous section.
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: something
-            
+            <?xml version="1.0"?>
+            <callBridge id="0e86b926-c4b9-459d-8ec6-bc547abbb2d1">
+              <name>na-cb-1</name>
+              <address>https://1.1.1.1:8443</address>
+            </callBridge>
+
 # Call Bridge Group Methods [/callBridgeGroups{?offset,limit}]
 
 ## Retrieving Information on Call Bridge Groups [GET]
@@ -5937,17 +6408,22 @@ GET method performed on a “/callBridges/<call bridge id>” node. If the call 
 GET method performed on the `/callBridgeGroups` node. Response is structured as a top-level <callBridges total="N"> tag with potentially multiple <callBridgeGroup> elements within it.
 Each <callBridgeGroup> tag may include the following elements:
 
-name (string) - Name of Call Bridge group. 
+name (string) - Name of Call Bridge group.
 
 + Parameters
     + offset (number) - An "offset" can be supplied to retrieve elements other than the first "page" in the notional list
     + limit (number) - A "limit" can be supplied to retrieve elements other than the first "page" in the notional list
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: Call Bridge
-            
+            <?xml version="1.0"?>
+            <callBridgeGroups total="1">
+              <callBridgeGroup id="15802ee9-954c-4ca6-98a2-2ae5ee7fd923">
+                <name>na-1</name>
+              </callBridgeGroup>
+            </callBridgeGroups>
+
 ## Setting Up and Modifying a Call Bridge Group[POST]
 
 * Creating: POST method to the `/callBridgeGroups` node
@@ -5959,17 +6435,24 @@ name (string) - Name of Call Bridge group.
 + Response 200
     + Headers
 
-            Status:call bridge
+            Location: /api/v1/callBridgeGroups/15802ee9-954c-4ca6-98a2-2ae5ee7fd923
 
 ## Retrieving detailed information about an individual Call Bridge Group [GET /callBridgeGroups/{call bridge groupId}]
 
 GET method performed on a `/callBridgeGroups/<call bridge groupId>` node. If the Call Bridge group ID supplied is valid, a “200 OK” response is received, with XML content described in the previous section.
 
-+ Response 200
-    + Headers
++ Response 200 (text/xml)
+    + Body
 
-            Status:call bridge group
-
+            <?xml version="1.0"?>
+            <callBridgeGroup id="15802ee9-954c-4ca6-98a2-2ae5ee7fd923">
+              <name>na-1</name>
+              <loadBalancingEnabled>false</loadBalancingEnabled>
+              <loadBalanceLyncCalls>false</loadBalanceLyncCalls>
+              <loadBalanceOutgoingCalls>false</loadBalanceOutgoingCalls>
+              <loadBalanceUserCalls>true</loadBalanceUserCalls>
+              <loadBalanceIndirectCalls>false</loadBalanceIndirectCalls>
+            </callBridgeGroup>
 
 # XMPP Methods [/system/configuration/xmpp node]
 
@@ -6005,10 +6488,15 @@ Issue a GET on the new `/system/configuration/xmpp node` to retrieve the informa
   </tr>
 </table>
 
-+ Response 200
++ Response 200 (text/xml)
     + Body
 
-            TODO: something
+            <?xml version="1.0"?>
+            <xmpp>
+              <uniqueName>ciscolabs-local</uniqueName>
+              <domain>ciscolabs.com</domain>
+              <serverAddressOverride>localhost</serverAddressOverride>
+            </xmpp>
 
 ## Setting Up and Modifying an XMPP server [POST]
 
@@ -6019,7 +6507,7 @@ Issue a PUT or a POST on the new `/system/configuration/xmpp` node
 + Response 200
     + Headers
 
-            Location:ID
+            Location: /api/v1/callBridgeGroups/15802ee9-954c-4ca6-98a2-2ae5ee7fd923
 
 # Call Bridge Cluster Methods [/system/configuration/cluster node]
 
@@ -6070,22 +6558,26 @@ Issue a GET on the `/system/configuration/cluster node` to retrieve the informat
   </tr>
 </table>
 
-+ Response 200
-    + Headers
++ Response 200 (text/xml)
+    + Body
 
-            Name: Call bridge cluster details
+            <?xml version="1.0"?>
+            <cluster>
+              <uniqueName/>
+              <maxPeerVideoStreams/>
+              <participantLimit/>
+              <loadLimit/>
+              <newConferenceLoadLimitBasisPoints>5000</newConferenceLoadLimitBasisPoints>
+              <existingConferenceLoadLimitBasisPoints>8000</existingConferenceLoadLimitBasisPoints>
+            </cluster>
 
-
-## Setting Up and Modifying the Call Bridge Cluster [POST]
+## Setting Up and Modifying the Call Bridge Cluster [PUT]
 
 Issue a PUT or a POST on the '/system/configuration/cluster node`
 
 + Attributes (call bridge cluster)
 
 + Response 200
-    + Headers
-
-            Node: cluster bridge details
 
 # Recorder Methods [/recorders/{?offset,limit}]
 
@@ -6102,7 +6594,7 @@ Issue a PUT or a POST on the '/system/configuration/cluster node`
 
 ## Retrieving recorder operations [GET]
 
-GET method performed on the `/recorders` node. 
+GET method performed on the `/recorders` node.
 
 Response is structured as a top-level <recorders total="N"> tag with potentially multiple <recorder> elements within it. Each <recorder> tag may include these elements:
 
@@ -6132,12 +6624,17 @@ Response is structured as a top-level <recorders total="N"> tag with potentially
 + Parameters
     + offset (number) - An "offset" can be supplied to retrieve recorders other than those in the first "page" of the notional list.
     + limit (number) - A "limit" can be supplied to retrieve recorders other than those in the first "page" of the notional list.
-    
-+ Response 200
-    + Headers
 
-            Info: recorder
-    
++ Response 200 (text/xml)
+    + Body
+
+            <?xml version="1.0"?>
+            <recorders total="1">
+              <recorder id="b647717f-3ffb-4dd6-af9f-9896bfb76d9e">
+                <url>https://rec1.ciscolabs.com:8444</url>
+              </recorder>
+            </recorders>
+
 ## Setting up and modifying recording operations [POST]
 
 * Creating: POST method to the /recorders " node
@@ -6148,7 +6645,7 @@ Response is structured as a top-level <recorders total="N"> tag with potentially
 + Response 200
     + Headers
 
-            Location:ID
+            Location: /api/v1/recorders/b647717f-3ffb-4dd6-af9f-9896bfb76d9e
 
 
 
@@ -6157,14 +6654,15 @@ Response is structured as a top-level <recorders total="N"> tag with potentially
 GET method performed on a `/recorders/<recorderId>` node. If the recorder ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
 
 + Parameters
-    + recorderId (ID) - 
-    
-+ Response 200
+    + recorderId (ID) -
 
-    + Headers
++ Response 200 (text/xml)
+    + Body
 
-            TODO: recorder details
-
+            <?xml version="1.0"?>
+            <recorder id="b647717f-3ffb-4dd6-af9f-9896bfb76d9e">
+              <url>https://rec1.ciscolabs.com:8444</url>
+            </recorder>
 
 ## Retrieving diagnostics on a Recorder[GET /recorders/{recorder Id}/status]
 
@@ -6223,11 +6721,14 @@ GET method performed on a `/recorders/<recorderId>/status` node. If the recorder
   </tr>
 </table>
 
-+ Response 200
++ Response 200 (text/xml)
+    + Body
 
-    + Headers
-
-            TODO: recorder diagnostics info
+            <?xml version="1.0"?>
+            <recorder id="b647717f-3ffb-4dd6-af9f-9896bfb76d9e">
+              <status>success</status>
+              <activeRecordings>0</activeRecordings>
+            </recorder>
 
 # Streamer methods [/streamers/{?offset,limit}]
 
@@ -6240,7 +6741,7 @@ GET method performed on a `/recorders/<recorderId>/status` node. If the recorder
 
 GET method performed on the `/streamers` node.
 
-Response is structured as a top-level <streamers total="N"> tag with potentially multiple <streamer> elements within it. Each <streamer> tag may include these elements: 
+Response is structured as a top-level <streamers total="N"> tag with potentially multiple <streamer> elements within it. Each <streamer> tag may include these elements:
 
 <table>
   <tr>
@@ -6268,12 +6769,17 @@ Response is structured as a top-level <streamers total="N"> tag with potentially
 + Parameters
     + offset (number) - An "offset" can be supplied to retrieve recorders other than those in the first "page" of the notional list.
     + limit (number) - A "limit" can be supplied to retrieve recorders other than those in the first "page" of the notional list.
-    
-+ Response 200
-    + Headers
 
-            Info: recorder
-            
++ Response 200 (text/xml)
+    + Body
+
+            <?xml version="1.0"?>
+            <streamers total="1">
+              <streamer id="edb2d091-5987-467a-81b6-d1542e3d6775">
+                <url>https://stream1.ciscolabs.com/app/ingest10:8443</url>
+              </streamer>
+            </streamers>
+
 
 ## Setting up and modifying streaming operations [POST]
 
@@ -6283,19 +6789,22 @@ Response is structured as a top-level <streamers total="N"> tag with potentially
 + Attributes (streamer)
 
 + Response 200
-
     + Headers
 
-            TODO: update streamer operation
+            Location: /api/v1/edb2d091-5987-467a-81b6-d1542e3d6775
 
 ## Retrieving detailed information about an individual streaming node [GET /streamers/{streamerId}]
 
 GET method performed on a `/streamers/<streamerId>` node. If the streamer ID supplied is valid, a “200 OK” response is received, with XML content matching the section above.
-    
-+ Response 200
-    + Headers
 
-            Location:ID
++ Response 200 (text/xml)
+    + Body
+
+            <?xml version="1.0"?>
+            <streamer id="edb2d091-5987-467a-81b6-d1542e3d6775">
+              <status>success</status>
+              <activeStreams>0</activeStreams>
+            </streamer>
 
 # System Load Method [/system/load]
 
@@ -6306,10 +6815,13 @@ GET method performed on the `/system/load` node.
 ### Response elements
 mediaProcessingLoad(Number) - Current media processing load on the Call Bridge.
 
-+ Response 200
-    + Headers
++ Response 200 (text/xml)
+    + Body
 
-            TODO: mediaProcessingLoadnumber
+            <?xml version="1.0"?>
+            <load>
+              <mediaProcessingLoad>25</mediaProcessingLoad>
+            </load>
 
 # Compatibility Profile Methods [/compatibilityProfiles/{?offset,limit,usageFilter}]
 
@@ -6360,11 +6872,14 @@ Response is structured as a top-level <compatibilityProfiles total="N"> tag with
     + offset (number) - An "offset" can be supplied to retrieve compatibility profiles other than those in the first "page" of the notional list.
     + limit (number) - A "limit" can be supplied to retrieve compatibility profiles other than those in the first "page" of the notional list.
     + usageFilter (unreferenced/referenced) - Supply "usageFilter=unreferenced" in the request to retrieve only those compatibility profiles that are not referenced by another object. This is a useful check before deleting the profile. To retrieve just those compatibility profiles which are referenced in at least one place, you can supply "usageFilter=referenced".
-    
-+ Response 200
-    + Headers
 
-            Info: compatibility profiles
++ Response 200 (text/xml)
+    + Body
+
+            <?xml version="1.0"?>
+            <compatibilityProfiles total="1">
+              <compatibilityProfile id="3e1afe72-2aa8-4076-9b80-0112b00fbdf5"/>
+            </compatibilityProfiles>
 
 ## Setting up and modifying compatibility profile operations [POST]
 
@@ -6376,7 +6891,7 @@ Response is structured as a top-level <compatibilityProfiles total="N"> tag with
 + Response 200
     + Headers
 
-            TODO: uppdate profile
+            Location: /api/v1/compatibilityProfiles/3e1afe72-2aa8-4076-9b80-0112b00fbdf5
 
 # System Diagnostics Methods [/system/diagnostics{?offset,limit,coSpaceFilter,callCorrelatorFilter}]
 
@@ -6392,44 +6907,302 @@ label (string) - Text description associated with the specified diagnostics log.
     + coSpaceFilter (ID) - If supplied, this filter restricts results returned to those diagnostics that correspond to the specified coSpace
     + callCorrelatorFilter (ID) - If supplied, this filter restricts results returned to those diagnostics that correspond to the specified callCorrelator
 
-+ Response 200
-    + Headers
++ Response 200 (text/xml)
+    + Body
 
-            Label:string
+            <?xml version="1.0"?>
+            <diagnostics total="1">
+              <diagnostics id="e8dbb8af-ec7e-4db5-b51b-47e6c1a1a768">
+                <label>Ken Thompson Space</label>
+              </diagnostics>
+            </diagnostics>
 
 ## Retrieving an individual system diagnostic [GET /system/diagnostics/{diagnosticsId}]
 
 Issue a GET on the /system/diagnostics/<diagnosticsId> node.
 
 + Parameters
-    + diagnosticsId (ID)- 
-    
-+ Response 200
-    + Headers
+    + diagnosticsId (ID)-
 
-            Diagnostics:ID
++ Response 200 (text/xml)
+    + Body
 
+            <?xml version="1.0"?>
+            <diagnostics id="e8dbb8af-ec7e-4db5-b51b-47e6c1a1a768">
+              <label>Ken Thompson Space</label>
+              <coSpace>e647231e-e1db-435b-b96f-9c7a83d488a2</coSpace>
+              <callCorrelator>9fea4ad1-953a-4801-b4cd-b9382c43b077</callCorrelator>
+              <timestamp>2019-05-16T17:40:26Z</timestamp>
+              <contentsSize>16440</contentsSize>
+            </diagnostics>
 
-## Retrieving the content of an individual system diagnostic [GET /system/diagnostics/{diagnosticsId}/contents] 
+## Retrieving the content of an individual system diagnostic [GET /system/diagnostics/{diagnosticsId}/contents]
 
 Issue a GET method on the `/system/diagnostics/<diagnosticsId>/contents` node to retrieve the data stored in the system diagnostic.
 
-+ Response 200
-    + Headers
++ Response 200 (text/plain)
+    + Body
 
-            Diagnostics:contents
+            Diagnostics e8dbb8af-ec7e-4db5-b51b-47e6c1a1a768:
+
+            "Ken Thompson Space" (e0ace4c5-8c7f-44e4-9e94-37067d3f2be7)
+              coSpace: e647231e-e1db-435b-b96f-9c7a83d488a2
+              correlator: 9fea4ad1-953a-4801-b4cd-b9382c43b077
+
+            Recent log messages:
+            13:39:08.561 Info    1.1.1.1: API user "api" created new call b393d2cb-60ec-418c-9991-6ef4e72fa47b
+            13:39:08.554 Info    call create found coSpace -- re-retrieve from database
+            13:38:49.494 Warning API provider: invalid call parameters for create
+            13:38:25.360 Info    destroying guest account with user ID "guest624070829@ciscolabs.com"
+            13:38:16.887 Info    1.1.1.1: API user "api" modified call b393d2cb-60ec-418c-9991-6ef4e72fa47b
+            13:37:26.784 Info    web session 1 for user "": deactivating due to time out
+            13:37:26.784 Info    web log in timed out
+            13:36:55.592 Info    call 1: media framework reporting rx video RTP frequency 0 - fixed up to 90000
+            13:36:55.579 Info    participant "ken@ciscolabs.com" (dbe60866-061d-49b3-8399-e95d6248bc2d) joined conference e0ace4c5-8c7f-44e4-9e94-37067d3f2be7 via XMPP
+            13:36:55.579 Info    participant "ken@ciscolabs.com" joined space e647231e-e1db-435b-b96f-9c7a83d488a2 (Ken Thompson Space)
+            13:36:55.558 Info    call 1: completed DTLS combined media negotiation
+            13:36:55.518 Info    successfully connected to CDR receiver 1
+            13:36:55.454 Info    call 1: starting DTLS combined media negotiation (as initiator)
+            13:36:55.453 Info    call 1: setting up combined RTP session for DTLS (combined media and control)
+            13:36:55.452 Info    call 1: configured - API call leg dbe60866-061d-49b3-8399-e95d6248bc2d
+            13:36:55.452 Info    call 1: allocated for ken@ciscolabs.com "Web client" conference participation
+            13:36:55.369 Warning streaming device 1: no stream url configured
+            13:36:55.363 Info    new session created for user "ken@ciscolabs.com"
+            13:36:55.362 Info    unable to connect to CDR receiver 2 (1.1.1.1:8444)
+            13:36:55.360 Info    created guest account with user ID "guest624070829@ciscolabs.com"
+            13:36:55.359 Info    conference e0ace4c5-8c7f-44e4-9e94-37067d3f2be7 named "Ken Thompson Space"
+            13:36:55.359 Info    conference e0ace4c5-8c7f-44e4-9e94-37067d3f2be7 has control/media GUID: 92b6fb02-1471-470e-945e-775e3fa678ef
+            13:36:55.359 Info    API call leg dbe60866-061d-49b3-8399-e95d6248bc2d in call e0ace4c5-8c7f-44e4-9e94-37067d3f2be7 (API call b393d2cb-60ec-418c-9991-6ef4e72fa47b)
+            13:36:55.359 Info    starting automatic streaming (space 'Ken Thompson Space')
+            13:36:45.922 Info    .../invitation_template.txt no local resource file
+            13:36:45.485 Info    cospace view query 1 complete success:1
+            13:36:45.476 Info    cospace view query 1 started (1 requests, max seen 1)
+            13:36:45.476 Info    adding cospace view request user_guid:3c2b4c49-9e60-4c97-835d-d22038d812cc, cospace_guid:b449de90-9dc5-4bed-9c65-a09a321d2bd9, index:11 (1 queued request(s), operation_in_progress:0)
+            13:36:41.326 Info    API "Johnny Appleseed Space" Space GUID: b449de90-9dc5-4bed-9c65-a09a321d2bd9 <--> Call Correlator GUID: 8d467826-8a80-45fe-b4b8-e847bfa898f5 <--> Internal GUID: 9cc0e585-3c2b-4be9-b273-39fa3a7e50ba
+            13:36:41.326 Info    API "Ken Thompson Space" Space GUID: e647231e-e1db-435b-b96f-9c7a83d488a2 <--> Call Correlator GUID: 9fea4ad1-953a-4801-b4cd-b9382c43b077 <--> Internal GUID: e0ace4c5-8c7f-44e4-9e94-37067d3f2be7
+            13:36:41.326 Info    instantiating user "ken@ciscolabs.com"
+            13:36:40.673 Info    successful login request from ken@ciscolabs.com
+            13:30:20.758 Info    media module status 1 (1/1) 1/1 (full media capacity)
+            13:15:20.557 Info    media module status 1 (1/1) 1/1 (full media capacity)
+            13:00:20.357 Info    media module status 1 (1/1) 1/1 (full media capacity)
+            12:45:20.160 Info    media module status 1 (1/1) 1/1 (full media capacity)
+            12:30:19.968 Info    media module status 1 (1/1) 1/1 (full media capacity)
+            12:15:19.770 Info    media module status 1 (1/1) 1/1 (full media capacity)
+            12:00:19.576 Info    media module status 1 (1/1) 1/1 (full media capacity)
+            11:48:53.465 Info    TURN responder; unable to respond to data (size 135) from 10.0.104.92:52781
+            11:48:53.461 Info    TURN responder; unable to respond to data (size 130) from 10.0.104.89:40324
+            11:45:19.378 Info    media module status 1 (1/1) 1/1 (full media capacity)
+            11:30:19.182 Info    media module status 1 (1/1) 1/1 (full media capacity)
+            11:15:18.985 Info    media module status 1 (1/1) 1/1 (full media capacity)
+            11:00:18.785 Info    media module status 1 (1/1) 1/1 (full media capacity)
+            10:45:18.588 Info    media module status 1 (1/1) 1/1 (full media capacity)
+            10:30:18.391 Info    media module status 1 (1/1) 1/1 (full media capacity)
+            10:15:18.195 Info    media module status 1 (1/1) 1/1 (full media capacity)
+            10:05:04.672 Info    mf BEEF0100: buffer stats [0] txd 122908/0 txc 2/0 rx 4947 buf 0 max 2311
+            10:00:17.997 Info    media module status 1 (1/1) 1/1 (full media capacity)
+            50 most recent (of 320) shown
+
+            Call legs: 1
+
+            ControlCmgr outgoing call 1, GUID 5852ad84-4a9a-4f6f-b096-a8145f2f9101
+            "ken@ciscolabs.com" resource 0:
+              conference participation for "Ken Thompson Space"
+              connections sourced / sinked = 0 / 0
+               resource GUID: dbe60866-061d-49b3-8399-e95d6248bc2d
+                  media GUID: e52777e3-ce7e-4096-acc7-252b8d1c8236
+                       audio: ccec83ab-9a7b-4bb0-bc6d-40aecb28d691
+                       video: 1713ee1c-85c3-4ef6-a4a1-a7893113dcc9
+                  main video: 00000000-0000-0000-0000-000000000000
+              extended video: 00000000-0000-0000-0000-000000000000
+            resource user 0; "Web client" / cc4ce9dd0a8da116
+            resource user 0; have stream advertisement (V2) from far end (streams=2):
+              main audio: 907c4f44-a0bc-451d-a61a-d47f97885010
+              main video: 104ce7e2-2dd7-4b16-969d-93e911fb1ee1
+            resource user 0; num stream selection requests sent = 1
+              callGuid = dbe60866-061d-49b3-8399-e95d6248bc2d, numStreams = 2
+                907c4f44-a0bc-451d-a61a-d47f97885010, audioMux 00000064
+                104ce7e2-2dd7-4b16-969d-93e911fb1ee1, videoMux 000000C8
+            resource user 0; stream advertisement (V2) to far end, 1 sent, pending=0:
+              main audio: 5f10a89b-f679-41fd-8222-1f4db224ee9c
+              media address 2.2.2.2
+              RTP/RTCP mux = 1, audio/video mux = 1
+              audio, video, extended video RTP sessions = 0,0,0
+              audio, video, content, udt port numbers = 43322/43322, 43322/43322, 43322/43322, 0/0
+                local audio ICE candidates (1+1):
+                  media 0: 2.2.2.2:43322 (host)
+                  control 0: 2.2.2.2:43322 (host)
+                local video ICE candidates (1+1):
+                  media 0: 2.2.2.2:43322 (host)
+                  control 0: 2.2.2.2:43322 (host)
+                local content ICE candidates (1+1):
+                  media 0: 2.2.2.2:43322 (host)
+                  control 0: 2.2.2.2:43322 (host)
+                audio completion:
+                  media: local=2.2.2.2:43322 (p 2130706431), remote=1.1.1.1:59337 (p 2122260223)
+                  control: local=2.2.2.2:43322 (p 2130706431), remote=1.1.1.1:59337 (p 2122260223)
+                video completion:
+                  media: local=2.2.2.2:43322 (p 2130706431), remote=1.1.1.1:59337 (p 2122260223)
+                  control: local=2.2.2.2:43322 (p 2130706431), remote=1.1.1.1:59337 (p 2122260223)
+                content completion:
+                  media: local=2.2.2.2:43322 (p 2130706431), remote=1.1.1.1:59337 (p 2122260223)
+                  control: local=2.2.2.2:43322 (p 2130706431), remote=1.1.1.1:59337 (p 2122260223)
+              rx audio pt 111, codec "opus", clockRate 48000, bitRate 0
+              rx audio pt 9, codec "g722", clockRate 8000, bitRate 0
+              rx audio pt 0, codec "g711u", clockRate 8000, bitRate 0
+              rx audio pt 8, codec "g711a", clockRate 8000, bitRate 0
+              rx audio pt 13, codec "cn", clockRate 8000, bitRate 0
+              rx audio pt 105, codec "cn", clockRate 16000, bitRate 0
+              rx audio pt 126, codec "rfc2833", clockRate 8000, bitRate 0
+              rx video main pt 127, codec "h264"
+              rx video main pt 102, codec "h264"
+              rx video main pt 96, codec "webm"
+              tx video extended active / valid = 0 / 0
+              never show main / presentation = 0 / 0
+              BFCP active = 0 (client 0, floor status 0/0/0, owner 0/0)
+                server status: 0 / 0 / 0 / 0 / 0 / 0
+                client status: 0 / 0 / 0 / 0 / 0 / 0 / 0 / 0
+              m_num_rx_video_main=1, floor 1 (conference 7F3828031910, m_num_rx_video_main=1)
+              m_conference_main_video_consumer=1 (conference 7F3828031910, num_main_video_consumers=1)
+              rx bandwidth = 2000000, tx bandwidth = 2000000 / 8000000 / 0
+              keyframe requests sent / received via control channel = 0 / 0
+              focussed participant info: call 00000000-0000-0000-0000-000000000000, video stream 00000000
+              calls with this one as their focussed participant: 0
+              m_num_rx_video_main=1, floor 1 (conference 7F3828031910, m_num_rx_video_main=1)
+              m_conference_main_video_consumer=1 (conference 7F3828031910, num_main_video_consumers=1)
+              rx bandwidth = 2000000, tx bandwidth = 2000000 / 8000000 / 0
+              audio, video, content, udt port numbers = 43322/43322, 43322/43322, 43322/43322, 0/0
+              local audio ICE candidates, 1 media + 1 control
+              local video ICE candidates, 1 media + 1 control
+              local content ICE candidates, 1 media + 1 control
+              ICE completion mask 0007
+            MediaCall 1, media bandwidth 2000000, last activity 60ms ago
+              displayName "Ken Thompson", groupId 1, composePaneUid 0x5A41A2C3
+              network webrtc bandwidth estimates: tx=0, rx=3242422
+              rxAudioMute=0, rxVideoMute=0, txAudioMute=0, txVideoMute=0
+              selfView=0, audioPromptMode=0, audioMuteDetected=0
+              defaultVideoMode=blank
+              layout; numVideoStreams=0, source/type=0/0
+              speaker entries; combined: on conference list, local only: on conference list
+              TIP: tx / rx video refresh bytes = 0 / 0, tx / rx audio activity metric = 0 / 0
+              active position: 0 (changes: 0)
+              audio forwarding source: centre: users=1, left: absent, right: absent, aux: absent
+              rx audio 0, decoder 10004 (placements:1), SSRC filter 91E933A5, muxIdFilter 00000064
+                rxFilter: rtp: SSRC==0x91E933A5
+                rtpSession: rtcpIndex 0, numPossibilities = 7, RFC 6464 id = 1
+                most recent packets received / dropped = 151 / 0
+                total packets received / dropped = 10457 / 0, highest sequence 14722
+                burst: 0.00% for 0.000s, gap: 0.00% for 208.859s
+                max jitter reorder delay = 46
+                received SSRC 91E933A5 (ROC 00003982), PT 111 ("opus")
+                placement cost: 1
+                LipSync skew ms = 0 (previous = 0, 0, last ms = 0)
+                RtpTimestampFrequency = 48000, RtpTimestampArrivalTimeNow = 9A9BF337
+                DTMF detection / suppression = 0 / 0
+                decoder output 0: connected to mixer 7F38381F01B0:4, type "normal"
+                  mixer rfifo = "B=0 v 31.9 f 33.8 SR 48->48 tsa 18 18 c 10505 rst 3 SR H 30->30->45 m/a/m 20->22->40 th 10->25->40 C 0.000 (10510 82 30 24 14 0/0/0/0) Gd 20.0 jt 1.4 lng 23.4 up 0/28 dn 0/30 fl 0/0 efl 0/24 uf 0/0 uls 0/0 lw 220/5146 aj 135 LS 0 0 E 2000->-2000 r 47852 or 48044 Mix 10093440/0/0 0 OR=48000 sw 1/0 NF 0"
+              tx audio 0, encoder 10008
+                m_conference_audio_active=1, m_streamer_audio_active=0 (prompt_mode=0), m_override_audio_active=0
+                configured / connected audio mixer index = 1 / 4, type "normal"
+                rtpSession: rtcpIndex 0, SSRC 9792B47E (fixed), muxId 00000001 (ROC 0000BF09)
+                codec "opus", PT 111, bit rate 64000 (codec/br changes=1/0)
+                placement cost: 4
+                packet size 20ms (1 frames x 20 ms; desired 20ms)
+                m_max_bit_rate_in_force=64000/1 (provisional=64000/1)
+                SSRC 9792B47E, seq/ts=48905/1196502810, packets/octets=10463/1778710
+                min / max encoder energy = -44.0 / -44.0, lastNoisy=210672ms ago
+                receiverReport: numReceived=41, time=5074ms ago, roundTripTime 1 ms (lowest 1)
+                receiverReport: fraction/cumulative loss = 0/0, jitter 183 (freq 48000)
+                remote destination 1.1.1.1:59337 (txFastPath 1)
+                  channel "opus", PT 111, bit rate 64000
+                  channel "g722", PT 9, bit rate 64000
+                  channel "g711u", PT 0, bit rate 64000
+                  channel "g711a", PT 8, bit rate 64000
+                  RFC2833 enabled, PT 126
+              rx video 0 (main), replicated decoders: 10007 (primary, outputs: 0), placements 1, SSRC filter 48053A72, muxIdFilter 000000C8, avg/max latency = 0/0
+                rxFilter: rtp: SSRC==0x48053A72
+                rtpSession: rtcpIndex 4, isContent=0, isInactive=0
+                rtcp: sendRtcpSizePreference=0, sendRtcpMediaControl=0
+                numKeyframeRequestsSent=0, numRequestedByDecoder=0, numIFrames=0, RTP loss mask enabled
+                most recent packets received / dropped = 242 / 0 (largest 1126 bytes)
+                most recent frames decoded / unique = 0 / 0
+                total packets received / dropped = 49259 / 0 (largest 1187 bytes, highest sequence 55902)
+                total frames decoded / unique = 0 / 0, sharpness hint = 255
+                packets dropped no output / decryption failed / overflow = 242 / 0 / 0
+                burst: 0.00% for 0.000s, gap: 0.00% for 209.233s
+                received SSRC 48053A72 (ROC 0000DA5E), PT 127 ("h264", pli/fir/tmmbr/nack/vsr/x-pli=1/1/0/0/0/0, refresh=0)
+                actual bit rate decoder / overall = 1995064 / 2014424
+                decoderReportNum=143, intervalMs=981, last report 430ms ago, decoded frames reported 430ms ago
+                decoderPeerReportNum=142, peers=0
+                video contributor active / suppressed = 1 / 0
+                video contributor UIDs: UID 5A41A2C3, extended UID 5A41A2C3 (DEF)
+                max signalled width / height = 0 / 0 (never)
+                largest area in use: 0 x 0
+                RtpTimestampFrequency = 90000, RtpTimestampArrivalTimeNow = 49CF842F
+              tx video: suspended=0, vsrSuspend=0, mainVsrSupported=0
+              tx video 0, encoder 10003 (cost 37), mode "Normal", avg/max latency = 1131839/39310292
+                rtpSession: rtcpIndex 4, SSRC 0BF19280 (fixed), muxId 1:00000000(4) (ROC 00000E58)
+                codec "h264", PT 102, packetization mode 1, bandwidth 1936000
+                bandwidths; configured 2000000, max_bit_rate_in_force 1936000, downspeeding=1936000, tmmbr=0 (num_received=0), lyncVsr=0
+                downspeeding: st 1 m/m 48000/2000000 RTT st/lt/roof 1 1 2000000 br 1936000
+                SSRC 0BF19280, seq/ts=3672/2927742130, packets/octets=1047/22083 (largest 419)
+                frameRate=4.9, actualBitRate=677, requestedKeyframes=0, sentKeyframes=1
+                keyframe triggers: fir=0 pli=0
+                num frames sent / in / dropped = 1047 / 1047 / 0 (most recent 10 / 10 / 0)
+                maxPacketSize 1420 (numChanges=2, default=1400)
+                MTU determination; awaited=0, completed=1, result=1500 (object 0)
+                packetPacingBitRate 1936000 (changes=3)
+                receiverReport: numReceived=207, time=1058ms ago, roundTripTime 1 ms (lowest 1, downspeeding 1)
+                receiverReport: fraction/cumulative loss = 0/0, jitter 429 (freq 90000)
+                passthrough failure: "[0x40],NoID"
+                SfMediaControlFeatures: "SPR L,HLLO L,RPS L,RPR -,CABC L,DSCF L,FEC L,FRAG L,RETR L,LAYI L,USGE L,PART L,PANE L,PDAT L,"
+                mediaSource 563A2B39FC40, mediaSink 563A2BA084F0
+                remote destination 1.1.1.1:59337 (txFastPath 0)
+              video composition, compose 10002, avg/max latency=764144/0
+                video: 128 x 128 (changes=1), PAR 1:1, frameRate 5.1, sharpnessMode=0 (0/0/0%)
+                encoder frame rate 0.0, encoderActive=1
+                framePeriod=14000, throttle=0, lateness=2
+                layout numCells=1, participantsShown=0 (numSources=1, override=0, composeInputs=1)
+                H.264 mode; maxMbps=108000 (static 0), maxFrameSize=3600
+                maxFps=30, displayAspectRatio=allowAll, fixedFrameRate=0 (0)
+                largest tx size width x height = 10 x 10, bit rate 1936000
+                size hint 10x10, aspect ratio 10:10, flags 0
+                resolution selection hint; aspectRatio: 10 x 10, display: 10 x 10, maxFps: 30
+                matchSourceSize=1/0, matchSizeHints=1/0, autoCropMode=1 (1/0/1), freeformLayoutMode=0 (0/0)
+                pane UIDs enabled/override/advanced=1/0/0
+                cell 0: 1x1 at 0,0 in 1x1, group 0, spacing 0/0, speaker/content/unimportant/focus=0/0/0/0
+              audio+video+extended video RTP session: control destination 1.1.1.1:59337, transmitter 7F393001AE30 (handle 00010005)
+                numUsers=3, streamUsageCount=4, dontFragment=0
+                media+control port packets received / unhandled = 61878 / 0
+                media+control port packet send successes / failures = 870 / 0
+                RTCP numPacketsReceived: 1702
+                Tx media crypto: SRTP_AES_128_CM_SHA1_80, vu65ZlQW...vGc9JRgI
+                Tx control crypto: SRTP_AES_128_CM_SHA1_80, vu65ZlQW...vGc9JRgI
+                Rx media crypto: SRTP_AES_128_CM_SHA1_80, b41rku5G...roARcn/7
+                Rx control crypto: SRTP_AES_128_CM_SHA1_80, b41rku5G...roARcn/7
+                num local / remote encryption changes = 0 / 0
+                DTLS media / control activation = 1 / 0, eager=0
+                ICE: local candidates known = 1, media/control destination known = 1 / 1
+                ICE remote peak bandwidth: 0:0
+                nominated candidates:
+                  id 1: 2.2.2.2:43322 (type 0:0) -> 1.1.1.1:59337 (type 0:0)
+                remote ICE candidates:
+                  media 0: 1.1.1.1:59337 (host) - priority 2122260223
+                  media 1: 3.3.3.3:52341 (host) - priority 2122194687
+                    chosen: 1.1.1.1:59337
+
+
 
 # Group LDAP Methods
 
 Objects in the hierarchy that reside in the `/ldapMappings`, `/ldapServers` and `/ldapSources` nodes in the object tree relate to the Meeting Server’s interaction with one or more LDAP servers (for instance, Active Directory) which are used to import user accounts to the Meeting Server.
 
-- One or more LDAP server  should be configured, with each one having associated username and password information for the Meeting Server to use to connect to it for the purpose of retrieving user account information from it 
+- One or more LDAP server  should be configured, with each one having associated username and password information for the Meeting Server to use to connect to it for the purpose of retrieving user account information from it
 - One or more LDAP mappings are also required, which define the form of the user account names which will be added to the system when users are imported from configured LDAP servers
 - A set of LDAP sources then need to be configured, which tie together configured LDAP servers and LDAP mappings, along with parameters of its own, which correspond to the actual import of a set of users.
 
-An LDAP source takes an LDAP server / LDAP mapping combination and imports a filtered set of users from that LDAP server. This filter is determined by the LDAP source's "baseDn" (the node of the LDAP server's tree under which the users can be found) and a filter to ensure that user accounts are only created for LDAP objects that match a specific pattern 
+An LDAP source takes an LDAP server / LDAP mapping combination and imports a filtered set of users from that LDAP server. This filter is determined by the LDAP source's "baseDn" (the node of the LDAP server's tree under which the users can be found) and a filter to ensure that user accounts are only created for LDAP objects that match a specific pattern
 
-The API LDAP methods allow multiple additional sets of “Active Directory Configuration” as per the Web Admin Interface Configuration > Active Directory page. On this page, the Active Directory Server Settings section corresponds to an API-configured LDAP server, the Import Settings to an LDAP source, and the Field Mapping Expressions to an LDAP mapping. 
+The API LDAP methods allow multiple additional sets of “Active Directory Configuration” as per the Web Admin Interface Configuration > Active Directory page. On this page, the Active Directory Server Settings section corresponds to an API-configured LDAP server, the Import Settings to an LDAP source, and the Field Mapping Expressions to an LDAP mapping.
 
 ---
 **Note**: The LDAP server credentials are used to read the following fields (for security reasons you
@@ -6488,11 +7261,19 @@ Response is structured as a top-level <ldapServers total=”N”> tag with poten
     + offset(number) - An "offset" can be supplied to retrieve elements other than the first "page" in the notional list (see above).
     + limit(number) - A "limit" can be supplied to retrieve elements other than the first "page" in the notional list (see above).
 
-+ Response 200
-    + Headers
++ Response 200 (text/xml)
+    + Body
 
-            TODO:Ldap server info
-            
+            <?xml version="1.0"?>
+            <ldapServers total="1">
+              <ldapServer id="fe87db5e-fd2a-40e8-a59a-731effbcddb7">
+                <address>ldap.ciscolabs.com</address>
+                <username/>
+                <portNumber>389</portNumber>
+                <secure>false</secure>
+              </ldapServer>
+            </ldapServers>
+
 ## Adding and modifying an LDAP Server [POST]
 
 * Create: POST method performed on the `/ldapServers` node. If the LDAP server is configured on the system successfully, its ID is returned in the “Location” field of the response header
@@ -6501,10 +7282,9 @@ Response is structured as a top-level <ldapServers total=”N”> tag with poten
 + Attributes (ldap server)
 
 + Response 200
-    
     + Headers
-    
-            TODO:update LDAP server.
+
+            Location: /api/v1/ldapServers/fe87db5e-fd2a-40e8-a59a-731effbcddb7
 
 
 
@@ -6520,19 +7300,19 @@ Response is structured as a top-level <ldapServers total=”N”> tag with poten
 + Response 200
     + Headers
 
-            Location:ID
-            
+            Location: /api/v1/ldapMappings/f3964db9-ae77-43cc-a0d8-ee005edd5e56
+
 ## Retrieving information on LDAP Mappings [GET]
 
 ---
-**Note** Secondary LDAP Mapping parameter            
+**Note** Secondary LDAP Mapping parameter
 
 Per LDAP mapping, there is a new optional `coSpaceSecondaryUriMapping` parameter so that the coSpaces that are created automatically have a secondary URI.
 
 * When creating an LDAP mapping (see the previous section) or modifying the configuration of an existing LDAP mapping you can supply a `coSpaceSecondaryUriMapping` parameter
 * When retrieving information on an individual LDAP mapping (a GET method on a `/ldapMappings/<LDAPmapping Id>` node) the `coSpaceSecondaryUriMapping` value will be returned if it is defined for that LDAP mapping
 
----  
+---
 
 GET method performed on the `/ldapMappings` node.
 
@@ -6540,23 +7320,38 @@ Response is structured as a top-level <ldapMappings total=”N”> tag with pote
 
 + Parameters
     + filter (string) - Supply filter=<string> in the URI to return just those LDAP mappings that match the filter.
-    + offset (number) - An "offset" can be supplied to retrieve elements other than the first "page" in the notional list (see above). 
+    + offset (number) - An "offset" can be supplied to retrieve elements other than the first "page" in the notional list (see above).
     + limit (number) - A "limit" can be supplied to retrieve elements other than the first "page" in the notional list (see above).
 
-+ Response 200
-    + Headers
++ Response 200 (text/xml)
+    + Body
 
-            TODO:Info
+            <?xml version="1.0"?>
+            <ldapMappings total="1">
+              <ldapMapping id="f3964db9-ae77-43cc-a0d8-ee005edd5e56">
+                <jidMapping/>
+                <nameMapping/>
+              </ldapMapping>
+            </ldapMappings>
 
 ## Retrieving detailed Information about an individual LDAP Mapping [GET /ldapMappings/{ldapMapping Id}]
 
 GET method performed on a `/ldapMappings/<ldapMapping Id>` node. If the ldapMapping ID supplied is valid, a “200 OK” response is received, with XML content described in the creating
 
-+ Response 200
-    + Headers
++ Response 200 (text/xml)
+    + Body
 
-            TODO:info
-
+            <?xml version="1.0"?>
+            <ldapMapping id="f3964db9-ae77-43cc-a0d8-ee005edd5e56">
+              <jidMapping/>
+              <nameMapping/>
+              <cdrTagMapping/>
+              <coSpaceNameMapping/>
+              <coSpaceUriMapping/>
+              <coSpaceSecondaryUriMapping/>
+              <coSpaceCallIdMapping/>
+              <authenticationIdMapping/>
+            </ldapMapping>
 
 # LDAP Source Methods [/ldapSources/{?filter,offset,limit,tenantFilter}]
 
@@ -6578,7 +7373,7 @@ All as per LDAP source creation described below:
 
 * baseDn (string)
 
-* filter (string) 
+* filter (string)
 
 * tenant (ID)
 
@@ -6588,10 +7383,19 @@ All as per LDAP source creation described below:
     + limit (number) - A "limit" can be supplied to retrieve elements other than the first "page" in the notional list (see above).
     + tenantFilter(ID) - Supply tenantFilter to return only those LDAP sources associated with the specified tenant. (ID)
 
-+ Response 200
-    + Headers
++ Response 200 (text/xml)
+    + Body
 
-            TODO:info
+            <?xml version="1.0"?>
+            <ldapSources total="1">
+              <ldapSource id="5432188a-3e8f-4e80-ab74-3f7a2b21b715">
+                <server>fe87db5e-fd2a-40e8-a59a-731effbcddb7</server>
+                <mapping>f3964db9-ae77-43cc-a0d8-ee005edd5e56</mapping>
+                <baseDn>ou=Users,dc=ciscolabs,dc=com</baseDn>
+                <filter/>
+                <nonMemberAccess>true</nonMemberAccess>
+              </ldapSource>
+            </ldapSources>
 
 ## Adding and modifying an LDAP Source [POST]
 
@@ -6604,17 +7408,24 @@ All as per LDAP source creation described below:
 + Response 200
     + Headers
 
-            TODO:info
+            Location: /api/v1/ldapSources/5432188a-3e8f-4e80-ab74-3f7a2b21b715
 
 
 ## Retrieving detailed information on a LDAP Source [GET /ldapSources/{ldapSource ID}]
 
 GET method performed on a `/ldapSources/<ldapSource ID>` node. If the ldapSource ID supplied is valid, a “200 OK” response is received, with XML content as per LDAP source creation described above.
 
-+ Response 200
-    + Headers
++ Response 200 (text/xml)
+    + Body
 
-            TODO:info
+            <?xml version="1.0"?>
+            <ldapSource id="5432188a-3e8f-4e80-ab74-3f7a2b21b715">
+              <server>fe87db5e-fd2a-40e8-a59a-731effbcddb7</server>
+              <mapping>f3964db9-ae77-43cc-a0d8-ee005edd5e56</mapping>
+              <baseDn>ou=Users,dc=ciscolabs,dc=com</baseDn>
+              <filter/>
+              <nonMemberAccess>true</nonMemberAccess>
+            </ldapSource>
 
 # LDAP Sync Methods [/ldapSyncs/{?offset,limit}]
 
@@ -6627,7 +7438,7 @@ There is a top-level `/ldapSyncs` node in the object tree, and associated GET, D
 
 ## Retrieving scheduled LDAP sync methods [GET]
 
-GET method on the `/ldapSyncs` node. Returns results in the form "<ldapSyncs total=N> ...</ldapSyncs>", with N being the total number of pending and in-progress LDAP sync methods. 
+GET method on the `/ldapSyncs` node. Returns results in the form "<ldapSyncs total=N> ...</ldapSyncs>", with N being the total number of pending and in-progress LDAP sync methods.
 Within the encompassing "<ldapSyncs>" are one or more "<ldapSync id=ID>" nodes; each of the form on the left,
 where: state is either: "inProgress" (happening now), "pending" (yet to be started), completed or failed.
 
@@ -6667,12 +7478,18 @@ where: state is either: "inProgress" (happening now), "pending" (yet to be start
 + Parameters
     + offset (number) - An "offset" can be supplied to retrieve elements other than the first "page" in the notional list.
     + limit (number) -  A "limit" can be supplied to retrieve elements other than the first "page" in the notional list.
-    
-+ Response 200
-    + Headers
 
-            TODO:info    
-            
++ Response 200 (text/xml)
+    + Body
+
+            <?xml version="1.0"?>
+            <ldapSyncs total="1">
+              <ldapSync id="72538360-c238-47ab-b501-8c41e3a22111">
+                <state>failed</state>
+                <failureReason>ldapError</failureReason>
+              </ldapSync>
+            </ldapSyncs>
+
 ## Initiating a new LDAP sync [POST]
 
 POST method on the `/ldapSyncs` node. If neither parameter in the following table is included, the sync is equivalent to the Sync now button on the Web Admin Interface Configuration > Active Directory page.
@@ -6682,30 +7499,30 @@ POST method on the `/ldapSyncs` node. If neither parameter in the following tabl
 + Response 200
     + Headers
 
-            LOCATION: Format `/api/v1/ldapSyncs/<LDAPsync Id>`
+            Location: /api/v1/ldapSyncs/3bcb49a4-0f75-48e8-a2dd-1d3c4251bee3
 
 ## Cancelling a scheduled LDAP sync [DELETE]
 
 DELETE method on a `/ldapSyncs/<LDAP sync Id>` node. This method cancels a scheduled LDAP sync. This method will fail if the sync method has already started (or started and completed).
-
 + Response 200
-    + Headers
 
-            TODO:deleted
-
-## Retrieving information on a single LDAP sync method [GET /ldapSyncs/{LDAP sync ID}]
+## Retrieving information on a single LDAP sync method [GET /ldapSyncs/{LDAPsyncID}]
 
 GET method on an `/ldapSyncs/<LDAP sync ID>` node.
 
-+ Response 200
-    + Headers
++ Response 200 (text/xml)
+    + Body
 
-            TODO:info
+            <?xml version="1.0"?>
+            <ldapSync id="72538360-c238-47ab-b501-8c41e3a22111">
+              <state>failed</state>
+              <failureReason>ldapError</failureReason>
+            </ldapSync>
 
 
 # External Directory Search Locations [/directorySearchLocations/{?offset,limit,tenantFilter}]
 
-Via the API you can add to the Call Bridge, additional directory search locations to be consulted when users of Cisco Meeting Apps perform searches. External directory search locations can be added on a per-tenant level. Results from these locations will be added to the "normal" results (e.g. those from our LDAP-sourced user lists) and presented in the Cisco Meeting App. 
+Via the API you can add to the Call Bridge, additional directory search locations to be consulted when users of Cisco Meeting Apps perform searches. External directory search locations can be added on a per-tenant level. Results from these locations will be added to the "normal" results (e.g. those from our LDAP-sourced user lists) and presented in the Cisco Meeting App.
 
 ## Retrieving Information on external directory search locations [GET]
 
@@ -6759,12 +7576,20 @@ GET method performed on the `directorySearchLocations` node.
     + limit(Number) - A "limit" can be supplied to retrieve elements other than the first "page" in the notional list.
     + tenantFilter(ID) - Supply tenantFilter to return only those external directory search locations associated with the specified tenant.
 
-+ Response 200
-    
-    + Headers
++ Response 200 (text/xml)
+    + Body
 
-            TODO:info
-            
+            <?xml version="1.0"?>
+            <directorySearchLocations total="1">
+              <directorySearchLocation id="5d684c79-2e9f-4d72-bb07-eceb4673567c">
+                <ldapServer>fe87db5e-fd2a-40e8-a59a-731effbcddb7</ldapServer>
+                <baseDn/>
+                <filterFormat/>
+                <priority>0</priority>
+                <label/>
+              </directorySearchLocation>
+            </directorySearchLocations>
+
 ## Adding and modifying external directory search locations [POST]
 
 * Creating: POST method to the `/directorySearchLocations` node. If the LDAP source is configured on the system successfully, its ID is returned in the “Location” field of the response header.
@@ -6775,17 +7600,31 @@ GET method performed on the `directorySearchLocations` node.
 + Response 200
     + Headers
 
-            TODO:info
+            Location: /api/v1/directorySearchLocations/5d684c79-2e9f-4d72-bb07-eceb4673567c
 
 ## Retrieving detailed information on external directory search locations [GET /directorySearchLocations/{directory search location id}]
 
 GET method performed on a '/directorySearchLocations/<directory search location id>' node. If the directory search location ID supplied is valid, a “200 OK” response is received, with XML content as per directory search location creation described above.
 
-+ Response 200
++ Response 200 (text/xml)
+    + Body
 
-    + Headers
-
-            Location:info
+            <?xml version="1.0"?>
+            <directorySearchLocation id="5d684c79-2e9f-4d72-bb07-eceb4673567c">
+              <ldapServer>fe87db5e-fd2a-40e8-a59a-731effbcddb7</ldapServer>
+              <baseDn/>
+              <filterFormat/>
+              <priority>0</priority>
+              <label/>
+              <firstName/>
+              <lastName/>
+              <displayName/>
+              <phone/>
+              <mobile/>
+              <email/>
+              <sip/>
+              <organisation/>
+            </directorySearchLocation>
 
 # Group Multi-tenancy
 
@@ -6826,11 +7665,15 @@ Response is structured as a top-level <tenants total=”N”> tag with potential
     + limit (number) - An "offset" and "limit" can be supplied to retrieve elements other than the first "page" in the notional list (see above).
     + callLegProfileFillter (ID) - Supply callLegProfileFilter=<call leg profile id> to return just those coSpaces using that call leg profile
 
-+ Response 200
- 
-    + Headers
++ Response 200 (text/xml)
+    + Body
 
-            TODO:info
+            <?xml version="1.0"?>
+            <tenants total="1">
+              <tenant id="634b068e-2c97-4495-a94e-42f03c76b5e5">
+                <name>Engineering</name>
+              </tenant>
+            </tenants>
 
 ## Creating and Modifying a Tenant [POST]
 
@@ -6842,25 +7685,28 @@ Response is structured as a top-level <tenants total=”N”> tag with potential
 + Response 200
     + Headers
 
-            TODO:info
+            Location: /api/v1/tenants/634b068e-2c97-4495-a94e-42f03c76b5e5
 
 # Tenant group operations [/tenantGroups/{?offset,limit,tenantGroups,tenantGroupId}]
 
 ## Retrieving Tenant Groups [GET]
 
 GET method performed on a `/tenantGroups` node.
-Response is structured as a top-level <tenantGroups total=”N”> tag with potentially multiple <tenantGroup> elements within it. 
+Response is structured as a top-level <tenantGroups total=”N”> tag with potentially multiple <tenantGroup> elements within it.
 
 + Parameters
     + offset(Number) - An "offset"can be supplied to retrieve elements other than the first "page" in the notional list (see above).
     + limit(Number) - A "limit" can be supplied to retrieve elements other than the first "page" in the notional list (see above).
     + tenantGroups(Number) - Number of tenant groups
     + tenantGroupId(ID) - ID for each tenant group
-    
-+ Response 200
-    + Headers
 
-            TODO:info    
++ Response 200 (text/xml)
+    + Body
+
+            <?xml version="1.0"?>
+            <tenantGroups total="1">
+              <tenantGroup id="605a6b11-66bf-4d13-bee9-cbf291508e49"/>
+            </tenantGroups>
 
 ## Creating and Modifying a Tenant Group [POST]
 
@@ -6870,15 +7716,16 @@ Response is structured as a top-level <tenantGroups total=”N”> tag with pote
 + Response 200
     + Headers
 
-            TODO:info
+            Location: /api/v1/tenantGroups/605a6b11-66bf-4d13-bee9-cbf291508e49
 
 ## Retrieving Detailed Information about an Individual Tenant Group [GET /tenantGroups/{tenantGroupId}]
 GET method performed on a `/tenantGroups/<tenant group id>` node. If the tenant ID supplied is valid, a “200 OK” response is received.
 
-+ Response 200
-    + Headers
++ Response 200 (text/xml)
+    + Body
 
-            TODO:info
+            <?xml version="1.0"?>
+            <tenantGroup id="605a6b11-66bf-4d13-bee9-cbf291508e49"/>
 
 # Group Query Methods
 
@@ -6886,7 +7733,7 @@ GET method performed on a `/tenantGroups/<tenant group id>` node. If the tenant 
 
 ## accessQuery Method [POST]
 
-The accessQuery method finds details of how a given URI or call ID (for example, one that could be associated with a coSpace) might be reached. One use is an external system discovering that a coSpace with URI "sales.meeting" would be reached via the SIP URI "sales.meeting@example.com". 
+The accessQuery method finds details of how a given URI or call ID (for example, one that could be associated with a coSpace) might be reached. One use is an external system discovering that a coSpace with URI "sales.meeting" would be reached via the SIP URI "sales.meeting@example.com".
 
 Response format: The response includes one or more of the elements on the left within an "<accessQuery>" tag
 
@@ -6918,10 +7765,14 @@ POST performed on the `/api/v1/accessQuery` node.
 
 + Attributes (accessQuery)
 
-+ Response 200
-    + Headers
++ Response 200 (text/xml)
+    + Body
 
-            TODO:info
+            <?xml version="1.0"?>
+            <accessQuery>
+              <uri>ken@ciscolabs.com</uri>
+              <webAddress>https://cms.ciscolabs.com/invited.sf?url=ken.space%40iridiumlabs.net</webAddress>
+            </accessQuery>
 
 # Group conversationIdQuery Method [/conversationIdQuery]
 
@@ -6949,10 +7800,14 @@ The conversationIdQuery method finds whether a conversation with a specified ID 
   </tr>
 </table>
 
-+ Response 200
-    + Headers
++ Response 200 (text/xml)
+    + Body
 
-            TODO:info    
+            <?xml version="1.0"?>
+            <conversationIdQuery>
+              <conversationId>d9a0d47c-7c2f-4662-b828-416f45ad3573</conversationId>
+              <found>false</found>
+            </conversationIdQuery>
 
 # Group uriUsageQuery Method [/uriUsageQuery]
 
@@ -6964,12 +7819,13 @@ POST performed on the `/api/v1/uriUsageQuery` node.
 
 + Attributes (uriusagequery)
 
-+ Response 200
-    + Headers
++ Response 200 (text/xml)
+    + Body
 
-            TODO:info
-
-
+            <?xml version="1.0"?>
+            <uriUsageQuery>
+              <userId>43dfe9c0-834f-42bd-aa1c-bbf5017706ba</userId>
+            </uriUsageQuery>
 
 # Data Structures
 
@@ -7058,7 +7914,7 @@ POST performed on the `/api/v1/uriUsageQuery` node.
 + callID (ID) - The "call ID" to be used for connecting via this access method (using the IVR or Web Bridge login)
 + passcode - A passcode required for this access method
 + callLegProfile (ID) - The ID of a call leg profile to apply to calls in via this access method
-+ secret - If provided, sets the security string for this coSpace access method. If absent, a security string is chosen automatically if the coSpace access method has a callId value. This is the security value associated with the coSpace access method that needs to be supplied with the callId for guest access to the coSpace via this access method. 
++ secret - If provided, sets the security string for this coSpace access method. If absent, a security string is chosen automatically if the coSpace access method has a callId value. This is the security value associated with the coSpace access method that needs to be supplied with the callId for guest access to the coSpace via this access method.
 This parameter is present from R1.7 onwards
 + regenerateSecret (boolean) - If provided as true - a new security value is generated for this coSpace access method and the former value is no longer valid (for instance, any hyperlinks including it will cease to work)
 If provided as false - do not generate a new secret value for this coSpace access method; this has no effect. This parameter is only valid for the modify (PUT) case. This parameter is present from R1.7 onwards
@@ -7132,8 +7988,8 @@ If set to true, new participants that need activation are not activated even if 
 + messageDuration - Time in seconds to display configured messageText on screen . Typing the string “permanent” will result in the string being permanently shown until it is reconfigured. (From version 2.1)
     + Number
     + permanent
-+ activeWhenEmpty (boolean) - If true, this call is considered “active for load balancing” when no participants are present,. This means that the first call to the empty conference is preferentially load balanced. You can prevent the load balancing preferentially using the empty conferences by setting this parameter to false. If this parameter is not supplied in a create (POST) operation, it defaults to “true”. (From version 2.2)     
-    
++ activeWhenEmpty (boolean) - If true, this call is considered “active for load balancing” when no participants are present,. This means that the first call to the empty conference is preferentially load balanced. You can prevent the load balancing preferentially using the empty conferences by setting this parameter to false. If this parameter is not supplied in a create (POST) operation, it defaults to “true”. (From version 2.2)
+
 ## callProfile
 + participantLimit (number) - Sets the maximum number of participants for calls (coSpace instantiations or ad hoc calls) using this call profile that can be active simultaneously; new participants beyond this limit are not permitted
 + messageBoardEnabled (boolean) - If specified, sets whether a message board (chat) is allowed for this coSpace or ad hoc call
@@ -7276,7 +8132,7 @@ If set to true, new participants that need activation are not activated even if 
     + never - never show an onscreen participant count value
     + auto - show the onscreen participant count value when appropriate. Typically this will be to indicate that there are additional participants present that you cannot currently see.
     + always - always show the onscreen participant count value
-+ nameLabelOverride (string) -  (maximum of 50 bytes of UTF-8)(From version 2.4) If supplied, overrides the name for this call leg. Setting an empty string clears the value and restores the original name. Overriding the name of a participant and its associated call leg(s) is interchangeable and affects both; the latest change takes precedence. It changes the name of the participant in the following: on-screen name label viewed by other conference participants, ActiveControl roster list, any place that the Meeting App sees the name of the participant in a call,  CDR records, where the name appears in the web interface. 
++ nameLabelOverride (string) -  (maximum of 50 bytes of UTF-8)(From version 2.4) If supplied, overrides the name for this call leg. Setting an empty string clears the value and restores the original name. Overriding the name of a participant and its associated call leg(s) is interchangeable and affects both; the latest change takes precedence. It changes the name of the participant in the following: on-screen name label viewed by other conference participants, ActiveControl roster list, any place that the Meeting App sees the name of the participant in a call,  CDR records, where the name appears in the web interface.
 
 
 ## ParticipantProperties
@@ -7346,11 +8202,11 @@ If set to true, new participants that need activation are not activated even if 
     + max720p30 - restricts the bridge to negotiating at most 1280x720 screen size at 30 frames per second or equivalent transcoding resources
     + max480p30 - restricts the bridge to negotiating at most 868x480 screen size at 30 frames per second or equivalent transcoding resources.
 + qualityPresentation - Restrict the maximum negotiated presentation video call quality for this call leg based on limiting transcoding resources. Specified using a typical resolution and frame rate. This only affects legs which use a separate presentation stream. (From version 2.2)
-    + unrestricted - this is the default setting if not specified, and matches the behavior of older Call Bridge versions, where no restrictions are placed on resolution or framerate 
-    + max1080p30 - restricts the Call Bridge to negotiating at most 1920x1080 screen size at 30 frames per second or equivalent transcoding resources 
+    + unrestricted - this is the default setting if not specified, and matches the behavior of older Call Bridge versions, where no restrictions are placed on resolution or framerate
+    + max1080p30 - restricts the Call Bridge to negotiating at most 1920x1080 screen size at 30 frames per second or equivalent transcoding resources
     + max720p5 - restricts the Call Bridge to negotiating at most 1280x720 screen size at 5 frames per second or Calequivalent transcoding resources .
-+ participantCounter - Controls the behavior of the onscreen participant counter. (From version 2.2) 
-    + never - never show an onscreen participant count value 
++ participantCounter - Controls the behavior of the onscreen participant counter. (From version 2.2)
+    + never - never show an onscreen participant count value
     + auto - show the onscreen participant count value when appropriate. Typically this will be to indicate that there are additional participants present that you cannot currently see.
     + always - always show the onscreen participant count value
 
@@ -7453,7 +8309,7 @@ If set to true, new participants that need activation are not activated even if 
     + disabled - access via call ID and passcode is disabled
     + secure - both the call ID and the passcode must be specified to look up and join a coSpace.
     + legacy - only a call ID need be specified to look up a coSpace. (Deprecated in 2.3) Note: Legacy mode is deprecated from version 2.3. If upgrading a Web Bridge from a 2.2 or earlier release that is configured to use 'legacy' mode, the Web Bridge will default to 'secure' mode in 2.3.
-+ allowWeblinkAccess - Whether this Web Bridge will allow users to access coSpace (and coSpace access methods) as guests by following a weblink. If this parameter is not supplied in a create (POST) operation, it defaults to true.    
++ allowWeblinkAccess - Whether this Web Bridge will allow users to access coSpace (and coSpace access methods) as guests by following a weblink. If this parameter is not supplied in a create (POST) operation, it defaults to true.
 + showSignIn (boolean) - Whether this Web Bridge will display the sign in tab on the index page. If this parameter is not supplied in a create (POST) operation, it defaults to true.
 + resolveCoSpace CallIds (boolean) - Whether this Web Bridge should accept coSpace and coSpace access method call IDs for the purpose of allowing visitors to join coSpaces. If this parameter is not supplied in a create (POST) operation, it defaults to true.
 + resolveLync ConferenceIds (boolean) - Whether this Web Bridge will accept IDs to be resolved to Lync scheduled conference IDs. If this parameter is not supplied in a create (POST) operation, it defaults to false.
@@ -7512,8 +8368,8 @@ If set to true, new participants that need activation are not activated even if 
     + auto - default behavior, based on endpoint identification, appropriate parts are used
     + basic - only a minimal subset of parts are used
 
-    
-## ldap server    
+
+## ldap server
 + address*(string) - The address of the LDAP server to connect to.
 + portNumber *(number) - The TCP or TLS port number to connect to on the remote LDAP server.
 + username (string) - The username to use when retrieving information from the LDAP server.
@@ -7528,7 +8384,7 @@ If set to true, new participants that need activation are not activated even if 
 + nameMapping (string) - The template for generating user names from the associated LDAP server’s entries; for instance “$cn$” to use the common name.
 + cdrTagMapping (string) - The template for generating a users' cdrTag value. Can be set either to a fixed value or be constructed from other LDAP fields for that user. The user’s cdrTag is used in callLegStart CDRs. See the Cisco Meeting Server CDR Reference for details.
 + authenticationIdMapping (string) - The template for generating authentication IDs from the associated LDAP server"s entries, for instance "$userPrincipalName$".
-+ coSpaceUriMapping (string) - If these parameters are supplied, they ensure that each user account generated by this LDAP mapping has an associated personal coSpace. The user is automatically added as a member of the coSpace, with permissions defined above. 
++ coSpaceUriMapping (string) - If these parameters are supplied, they ensure that each user account generated by this LDAP mapping has an associated personal coSpace. The user is automatically added as a member of the coSpace, with permissions defined above.
 + coSpaceSecondaryUriMapping (string) - In order for that coSpace to be set up as required, these parameters provide the template for setting the coSpaces’ URI, displayed name and configured Call ID. For example, setting coSpaceNameMapping to “$cn$ personal coSpace” ensures that each user’s coSpace is labelled with their name followed by “personal coSpace”.
 + coSpaceNameMapping (string) - Note that the generated coSpace will have its own cdrTag – and it will be the same as the user’s cdrTag and cannot be changed other than by changing the cdrTagMapping above and re-syncing. (The coSpace’s cdrTag is used in the callStart CDR. See the Cisco Meeting Server CDR Reference for details.)
 + coSpaceCallIdMapping (string) - Note that the normal uniqueness rules apply to the URI and Call IDs of coSpaces set up in this way: it is not valid to have the same URI or Call ID for more than one coSpace set up by a given LDAP mapping, nor is it valid for such a coSpace URI or Call ID to be the same as one currently in use elsewhere on the Meeting Server.
