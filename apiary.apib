@@ -1616,9 +1616,9 @@ GET method on `/coSpaceBulkParameterSets/<set Id>` node.
               <endIndex>1010</endIndex>
             </cospaceBulkParameterSet>
 
-## Queueing the bulk sync operations [POST /coSpaceBulkSyncs/{bulk_sync_guid}]
-* Creating: POST method to the `/coSpaceBulkSyncs` node. Queues the bulk sync operations for execution as soon as possible. Returns location `/cospaceBulkSync/<bulk_sync_guid>`
-* Modifying: PUT method to the `/coSpaceBulkSyncs` node not supported.
+## Queueing the bulk sync operations [POST /cospaceBulkSyncs/{bulk_sync_guid}]
+* Creating: POST method to the `/cospaceBulkSyncs` node. Queues the bulk sync operations for execution as soon as possible. Returns location `/cospaceBulkSync/<bulk_sync_guid>`
+* Modifying: PUT method to the `/cospaceBulkSyncs` node not supported.
 
 ---
 >**Note:** Bulk Sync will iterate between startIndex and endIndex (inclusive at both end) and expand and insert the mapping parts.
@@ -1654,10 +1654,10 @@ GET method on `/coSpaceBulkParameterSets/<set Id>` node.
 
             Location: /api/v1/cospaceBulkSyncs/5dd4ccc0-ed58-4ef5-97be-04dfe9937785
 
-## Retrieving the bulk sync operations [GET /coSpaceBulkSyncs/{coSpaceBulkParameterSet}]
+## Retrieving the bulk sync operations [GET /cospaceBulkSyncs/{coSpaceBulkParameterSet}]
 
-GET method on `/coSpaceBulkSyncs` node.
-Response is structured as a top-level <coSpaceBulkSyncs total=”N”> tag with potentially multiple <coSpaceBulkSync> elements within it.<coSpaceBulkSync> elements follow the general form on the left.
+GET method on `/cospaceBulkSyncs` node.
+Response is structured as a top-level <cospaceBulkSyncs total=”N”> tag with potentially multiple <coSpaceBulkSync> elements within it.<coSpaceBulkSync> elements follow the general form on the left.
 
 <table>
   <tr>
@@ -1697,8 +1697,8 @@ Response is structured as a top-level <coSpaceBulkSyncs total=”N”> tag with 
               </cospaceBulkSync>
             </cospaceBulkSyncs>
 
-## Retrieving a specific bulk sync operation [GET /coSpaceBulkSyncs/{coSpacebulksyncid}]
-GET method on `/coSpaceBulkSyncs/<coSpacebulksyncid>` node.
+## Retrieving a specific bulk sync operation [GET /cospaceBulkSyncs/{coSpacebulksyncid}]
+GET method on `/cospaceBulkSyncs/<cospacebulksyncid>` node.
 
 <table>
   <tr>
@@ -1709,7 +1709,7 @@ GET method on `/coSpaceBulkSyncs/<coSpacebulksyncid>` node.
   <tr>
     <td> </td>
     <td> </td>
-    <td>Response is structured as a top-level &lt;coSpaceBulkSyncs total=”N”&gt; tag with potentially multiple &lt;coSpaceBulkSync&gt; elements within it.&lt;coSpaceBulkSync&gt; elements follow the general form on the left.</td>
+    <td>Response is structured as a top-level &lt;cospaceBulkSyncs total=”N”&gt; tag with potentially multiple &lt;coSpaceBulkSync&gt; elements within it.&lt;coSpaceBulkSync&gt; elements follow the general form on the left.</td>
   </tr>
   <tr>
     <td>coSpaceBulkParameterSet</td>
