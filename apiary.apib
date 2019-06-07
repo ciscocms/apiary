@@ -1461,8 +1461,8 @@ If the access method ID supplied is valid, a "200 OK" response and a single `<ac
 ## Retrieving the parameter sets for creating coSpaces in bulk [GET]
 GET method on `/cospaceBulkParameterSets` node.
 
-Response is structured as a top-level <coSpaceBulkParameterSets total=”N”> tag with potentially multiple <coSpaceBulkParameterSet> elements within it.
-<coSpaceBulkParameterSet> elements follow the general form on the left.
+Response is structured as a top-level <cospaceBulkParameterSets total=”N”> tag with potentially multiple <cospaceBulkParameterSet> elements within it.
+<cospaceBulkParameterSet> elements follow the general form on the left.
 
 + Parameters
     + startIndex (Number) - Index that coSpace mappings start from (inclusive)
@@ -1502,12 +1502,12 @@ Response is structured as a top-level <coSpaceBulkParameterSets total=”N”> t
   <tr>
     <td>coSpaceUriMapping</td>
     <td>String</td>
-    <td>If specified, this is the mapping that describes what URIs will be used for the coSpaces created with a /coSpaceBulkSync using this cospaceBulkParameterSet. If not set, coSpace will not have a dialable URI. Syntax: uri-mapping = [uri-component] [“$index$”] [uri-component]Where: uri-component = *( uri-character / escaped-character ) uri-character = *( unescaped-character EXCLUDING ‘@’ ) unescaped-character = any character EXCLUDING ‘$’ and ‘\’escaped-character = “\\” / “\$” ; producing ‘\’ and ‘$’ respectively.These need to be unique so if an index is not used there will be clashes, unless the field is just left completely blank .</td>
+    <td>If specified, this is the mapping that describes what URIs will be used for the coSpaces created with a /cospaceBulkSync using this cospaceBulkParameterSet. If not set, coSpace will not have a dialable URI. Syntax: uri-mapping = [uri-component] [“$index$”] [uri-component]Where: uri-component = *( uri-character / escaped-character ) uri-character = *( unescaped-character EXCLUDING ‘@’ ) unescaped-character = any character EXCLUDING ‘$’ and ‘\’escaped-character = “\\” / “\$” ; producing ‘\’ and ‘$’ respectively.These need to be unique so if an index is not used there will be clashes, unless the field is just left completely blank .</td>
   </tr>
   <tr>
     <td>coSpaceNameMapping</td>
     <td>String</td>
-    <td>If specified, this is the mapping that describes what names will be used for the coSpaces created with a /coSpaceBulkSync using this cospaceBulkParameterSet.Syntax: name-mapping = [name-component] [“$index$”] [name-component] Where: name-component = *( unescaped-character / escaped-character ) unescaped-character = any character EXCLUDING ‘$’ and ‘\’ escaped-character = “\\” / “\$” ; producing ‘\’ and ‘$’ respectively.These are not required to be unique.</td>
+    <td>If specified, this is the mapping that describes what names will be used for the coSpaces created with a /cospaceBulkSync using this cospaceBulkParameterSet.Syntax: name-mapping = [name-component] [“$index$”] [name-component] Where: name-component = *( unescaped-character / escaped-character ) unescaped-character = any character EXCLUDING ‘$’ and ‘\’ escaped-character = “\\” / “\$” ; producing ‘\’ and ‘$’ respectively.These are not required to be unique.</td>
   </tr>
   <tr>
     <td>coSpaceCallIdMapping</td>
@@ -1517,17 +1517,17 @@ Response is structured as a top-level <coSpaceBulkParameterSets total=”N”> t
   <tr>
     <td>tenant</td>
     <td>ID</td>
-    <td>If specified this is the tenant to be associated with the coSpaces created with a /cospaceBulkSync using this coSpaceBulkParameterSet. If not set then the coSpace will not be associated with a tenant.</td>
+    <td>If specified this is the tenant to be associated with the coSpaces created with a /cospaceBulkSync using this cospaceBulkParameterSet. If not set then the coSpace will not be associated with a tenant.</td>
   </tr>
   <tr>
     <td>callProfile</td>
     <td>ID</td>
-    <td>If specified this is the call profile to be associated with the cospaces created with a /cospaceBulkSync using this coSpaceBulkParameterSet. If not set then the coSpace will not be associated with a call profile.</td>
+    <td>If specified this is the call profile to be associated with the cospaces created with a /cospaceBulkSync using this cospaceBulkParameterSet. If not set then the coSpace will not be associated with a call profile.</td>
   </tr>
   <tr>
     <td>callBrandingProfile</td>
     <td>ID</td>
-    <td>If specified this is the call branding profile to be associated with the coSpaces created with a /cospaceBulkSync using this coSpaceBulkParameterSet. If not set then the coSpace will not be associated with a call branding profile.</td>
+    <td>If specified this is the call branding profile to be associated with the coSpaces created with a /cospaceBulkSync using this cospaceBulkParameterSet. If not set then the coSpace will not be associated with a call branding profile.</td>
   </tr>
   <tr>
     <td>nonMemberAccess</td>
@@ -1536,7 +1536,7 @@ Response is structured as a top-level <coSpaceBulkParameterSets total=”N”> t
   </tr>
 </table>
 
-+ Attributes (coSpaceBulkParameterSets)
++ Attributes (cospaceBulkParameterSets)
 
 + Response 200
     + Headers
@@ -1555,7 +1555,7 @@ GET method on `/cospaceBulkParameterSets/<set Id>` node.
   <tr>
     <td> </td>
     <td> </td>
-    <td>Response is structured as a top-level &lt;coSpaceBulkParameterSets total=”N”&gt; tag with potentially multiple &lt;coSpaceBulkParameterSet&gt; elements within it.Each &lt;coSpaceBulkParameterSet&gt; element may include the following elements.</td>
+    <td>Response is structured as a top-level &lt;cospaceBulkParameterSets total=”N”&gt; tag with potentially multiple &lt;cospaceBulkParameterSet&gt; elements within it.Each &lt;cospaceBulkParameterSet&gt; element may include the following elements.</td>
   </tr>
   <tr>
     <td>startIndex</td>
@@ -1570,32 +1570,32 @@ GET method on `/cospaceBulkParameterSets/<set Id>` node.
   <tr>
     <td>coSpaceUriMapping</td>
     <td>String</td>
-    <td>If specified, this is the mapping that describes what URIs will be used for the coSpaces created with a /coSpaceBulkSync using this coSpaceBulkParameterSet. If not set, coSpace will not have a dialable URI. Syntax: uri-mapping = [uri-component] [“$index$”] [uri-component]Where: uri-component = *( uri-character / escaped-character ) uri-character = *( unescaped-character EXCLUDING ‘@’ ) unescaped-character = any character EXCLUDING ‘$’ and ‘\’escaped-character = “\\” / “\$” ; producing ‘\’ and ‘$’ respectively.These need to be unique so if an index is not used there will be clashes, unless the field is just left completely blank .</td>
+    <td>If specified, this is the mapping that describes what URIs will be used for the coSpaces created with a /cospaceBulkSync using this cospaceBulkParameterSet. If not set, coSpace will not have a dialable URI. Syntax: uri-mapping = [uri-component] [“$index$”] [uri-component]Where: uri-component = *( uri-character / escaped-character ) uri-character = *( unescaped-character EXCLUDING ‘@’ ) unescaped-character = any character EXCLUDING ‘$’ and ‘\’escaped-character = “\\” / “\$” ; producing ‘\’ and ‘$’ respectively.These need to be unique so if an index is not used there will be clashes, unless the field is just left completely blank .</td>
   </tr>
   <tr>
     <td>coSpaceNameMapping</td>
     <td>String</td>
-    <td>If specified, this is the mapping that describes what names will be used for the coSpaces created with a /coSpaceBulkSync using this coSpaceBulkParameterSet.Syntax: name-mapping = [name-component] [“$index$”] [name-component] Where: name-component = *( unescaped-character / escaped-character ) unescaped-character = any character EXCLUDING ‘$’ and ‘\’ escaped-character = “\\” / “\$” ; producing ‘\’ and ‘$’ respectively.These are not required to be unique.</td>
+    <td>If specified, this is the mapping that describes what names will be used for the coSpaces created with a /cospaceBulkSync using this cospaceBulkParameterSet.Syntax: name-mapping = [name-component] [“$index$”] [name-component] Where: name-component = *( unescaped-character / escaped-character ) unescaped-character = any character EXCLUDING ‘$’ and ‘\’ escaped-character = “\\” / “\$” ; producing ‘\’ and ‘$’ respectively.These are not required to be unique.</td>
   </tr>
   <tr>
     <td>coSpaceCallIdMapping</td>
     <td>String</td>
-    <td>If specified, this is the mapping that describes what call IDs will be used for the coSpaces created with a /coSpaceBulkSync using this coSpaceBulkParameterSet. If not set then the coSpace will not have a callId Syntax: id-mapping = [id-component] [“$index$”] [id-component] Where: id-component = *( unescaped-character / escaped-character )unescaped-character = any character EXCLUDING ‘$’ and ‘\’escaped-character = “\\” / “\$” ; producing ‘\’ and ‘$’ respectivelyThese need to be unique so if index is not used there will be clashes, unless the field is just left completely blank.Secrets will be autogenerated if CallIdMapping is set.</td>
+    <td>If specified, this is the mapping that describes what call IDs will be used for the coSpaces created with a /cospaceBulkSync using this cospaceBulkParameterSet. If not set then the coSpace will not have a callId Syntax: id-mapping = [id-component] [“$index$”] [id-component] Where: id-component = *( unescaped-character / escaped-character )unescaped-character = any character EXCLUDING ‘$’ and ‘\’escaped-character = “\\” / “\$” ; producing ‘\’ and ‘$’ respectivelyThese need to be unique so if index is not used there will be clashes, unless the field is just left completely blank.Secrets will be autogenerated if CallIdMapping is set.</td>
   </tr>
   <tr>
     <td>tenant</td>
     <td>ID</td>
-    <td>If specified this is the tenant to be associated with the coSpaces created with a /coSpaceBulkSync using this coSpaceBulkParameterSet. If not set then the coSpace will not be associated with a tenant.</td>
+    <td>If specified this is the tenant to be associated with the coSpaces created with a /cospaceBulkSync using this cospaceBulkParameterSet. If not set then the coSpace will not be associated with a tenant.</td>
   </tr>
   <tr>
     <td>callProfile</td>
     <td>ID</td>
-    <td>If specified this is the call profile to be associated with the coSpaces created with a /coSpaceBulkSync using this coSpaceBulkParameterSet. If not set then the coSpace will not be associated with a call profile.</td>
+    <td>If specified this is the call profile to be associated with the coSpaces created with a /cospaceBulkSync using this cospaceBulkParameterSet. If not set then the coSpace will not be associated with a call profile.</td>
   </tr>
   <tr>
     <td>callBrandingProfile</td>
     <td>ID</td>
-    <td>If specified this is the call branding profile to be associated with the coSpaces created with a /coSpaceBulkSync using this coSpaceBulkParameterSet. If not set then the coSpace will not be associated with a call branding profile.</td>
+    <td>If specified this is the call branding profile to be associated with the coSpaces created with a /cospaceBulkSync using this cospaceBulkParameterSet. If not set then the coSpace will not be associated with a call branding profile.</td>
   </tr>
   <tr>
     <td>nonMemberAccess</td>
@@ -1631,7 +1631,7 @@ GET method on `/cospaceBulkParameterSets/<set Id>` node.
     <th>Description</th>
   </tr>
   <tr>
-    <td>coSpaceBulkParameterSet</td>
+    <td>cospaceBulkParameterSet</td>
     <td>ID</td>
     <td>Parameter set GUID that is going to be synchronised</td>
   </tr>
@@ -1645,19 +1645,19 @@ GET method on `/cospaceBulkParameterSets/<set Id>` node.
 + Request
     + Body
 
-            coSpaceBulkParameterSet=129c6941-0b6f-4f15-a16d-8b0ce9444fb9
+            cospaceBulkParameterSet=129c6941-0b6f-4f15-a16d-8b0ce9444fb9
 
-+ Attributes (coSpaceBulkParameterSets)
++ Attributes (cospaceBulkParameterSets)
 
 + Response 200
     + Headers
 
             Location: /api/v1/cospaceBulkSyncs/5dd4ccc0-ed58-4ef5-97be-04dfe9937785
 
-## Retrieving the bulk sync operations [GET /cospaceBulkSyncs/{coSpaceBulkParameterSet}]
+## Retrieving the bulk sync operations [GET /cospaceBulkSyncs/{cospaceBulkParameterSet}]
 
 GET method on `/cospaceBulkSyncs` node.
-Response is structured as a top-level <cospaceBulkSyncs total=”N”> tag with potentially multiple <coSpaceBulkSync> elements within it.<coSpaceBulkSync> elements follow the general form on the left.
+Response is structured as a top-level <cospaceBulkSyncs total=”N”> tag with potentially multiple <cospaceBulkSync> elements within it.<cospaceBulkSync> elements follow the general form on the left.
 
 <table>
   <tr>
@@ -1667,14 +1667,14 @@ Response is structured as a top-level <cospaceBulkSyncs total=”N”> tag with 
   </tr>
 
   <tr>
-    <td>coSpaceBulkParameterSet</td>
+    <td>cospaceBulkParameterSet</td>
     <td>ID</td>
     <td>Parameter set that was used for this bulk sync</td>
   </tr>
   <tr>
     <td>status</td>
     <td>pending| running| complete| failedCoSpaceUriConflict|failedCallIdConflict| failedIndexRangeInvalid| failedIndexRangeTooGreat|failedNoSuchParameterSet| failed</td>
-    <td>Status of the sync operation:pending - the sync operation is in a queue waiting to executerunning - the sync operation is currently runningcomplete - the sync operation has successfully completedfailedCoSpaceUriConflict - the sync failed because it would involve creating a URI that conflicts with one that already existsfailedCallIdConflict - the sync failed because it would involve creating a call ID that conflicts with one that already existsfailedIndexRangeInvalid - the sync failed because the "startIndex" was greater than the "endIndex"failedIndexRangeTooGreat - the sync failed because the difference between "endIndex" and "startIndex" was too largefailedNoSuchParameterSet - the "coSpaceBulkParameterSet" refered to in the sync command did not existfailed - the sync operation failed</td>
+    <td>Status of the sync operation:pending - the sync operation is in a queue waiting to executerunning - the sync operation is currently runningcomplete - the sync operation has successfully completedfailedCoSpaceUriConflict - the sync failed because it would involve creating a URI that conflicts with one that already existsfailedCallIdConflict - the sync failed because it would involve creating a call ID that conflicts with one that already existsfailedIndexRangeInvalid - the sync failed because the "startIndex" was greater than the "endIndex"failedIndexRangeTooGreat - the sync failed because the difference between "endIndex" and "startIndex" was too largefailedNoSuchParameterSet - the "cospaceBulkParameterSet" refered to in the sync command did not existfailed - the sync operation failed</td>
   </tr>
   <tr>
     <td>removeAll</td>
@@ -1684,7 +1684,7 @@ Response is structured as a top-level <cospaceBulkSyncs total=”N”> tag with 
 </table>
 
 + Parameters
-    + coSpaceBulkParameterSet (ID)
+    + cospaceBulkParameterSet (ID)
 
 + Response 200 (text/xml)
     + Body
@@ -1709,17 +1709,17 @@ GET method on `/cospaceBulkSyncs/<cospacebulksyncid>` node.
   <tr>
     <td> </td>
     <td> </td>
-    <td>Response is structured as a top-level &lt;cospaceBulkSyncs total=”N”&gt; tag with potentially multiple &lt;coSpaceBulkSync&gt; elements within it.&lt;coSpaceBulkSync&gt; elements follow the general form on the left.</td>
+    <td>Response is structured as a top-level &lt;cospaceBulkSyncs total=”N”&gt; tag with potentially multiple &lt;cospaceBulkSync&gt; elements within it.&lt;cospaceBulkSync&gt; elements follow the general form on the left.</td>
   </tr>
   <tr>
-    <td>coSpaceBulkParameterSet</td>
+    <td>cospaceBulkParameterSet</td>
     <td>ID</td>
     <td>Parameter set that was used for this bulk sync</td>
   </tr>
   <tr>
     <td>status</td>
     <td>pending| running| complete| failedCoSpaceUriConflict|failedCallIdConflict| failedIndexRangeInvalid| failedIndexRangeTooGreat|failedNoSuchParameterSet| failed</td>
-    <td>Status of the sync operation:pending - the sync operation is in a queue waiting to executerunning - the sync operation is currently runningcomplete - the sync operation has successfully completedfailedCoSpaceUriConflict - the sync failed because it would involve creating a URI that conflicts with one that already existsfailedCallIdConflict - the sync failed because it would involve creating a call ID that conflicts with one that already existsfailedIndexRangeInvalid - the sync failed because the "startIndex" was greater than the "endIndex"failedIndexRangeTooGreat - the sync failed because the difference between "endIndex" and "startIndex" was too largefailedNoSuchParameterSet - the "coSpaceBulkParameterSet" refered to in the sync command did not existfailed - the sync operation failed</td>
+    <td>Status of the sync operation:pending - the sync operation is in a queue waiting to executerunning - the sync operation is currently runningcomplete - the sync operation has successfully completedfailedCoSpaceUriConflict - the sync failed because it would involve creating a URI that conflicts with one that already existsfailedCallIdConflict - the sync failed because it would involve creating a call ID that conflicts with one that already existsfailedIndexRangeInvalid - the sync failed because the "startIndex" was greater than the "endIndex"failedIndexRangeTooGreat - the sync failed because the difference between "endIndex" and "startIndex" was too largefailedNoSuchParameterSet - the "cospaceBulkParameterSet" refered to in the sync command did not existfailed - the sync operation failed</td>
   </tr>
   <tr>
     <td>removeAll</td>
@@ -7879,10 +7879,10 @@ POST performed on the `/api/v1/uriUsageQuery` node.
 + canDeleteAllMessages: `false` (boolean) - Whether this user is allowed to delete all messages from the coSpace message board
 + canChangeNonMemberAccessAllowed `true` (boolean) - Whether this user is allowed to change the “nonmember access allowed setting” of the coSpace. From version 2.3.
 
-## coSpaceBulkParameterSets1
+## cospaceBulkParameterSets1
 + startIndex (number) - Index that coSpace mappings start from (inclusive)
 + endIndex (number) - Index that coSpace mappings end at (inclusive)
-+ coSpaceBulkParameterSet (ID) - Parameter set GUID that is going to be synchronised.
++ cospaceBulkParameterSet (ID) - Parameter set GUID that is going to be synchronised.
 + status - Status of the sync operation:
     + pending - the sync operation is in a queue waiting to execute
     + running - the sync operation is currently running
@@ -7891,14 +7891,14 @@ POST performed on the `/api/v1/uriUsageQuery` node.
     + failedCallIdConflict - the sync failed because it would involve creating a call ID that conflicts with one that already exists
     + failedIndexRangeInvalid - the sync failed because the "startIndex" was greater than the "endIndex"
     + failedIndexRangeTooGreat - the sync failed because the difference between "endIndex" and "startIndex" was too large
-    + failedNoSuchParameterSet - the "coSpaceBulkParameterSet" refered to in the sync command did not exist
+    + failedNoSuchParameterSet - the "cospaceBulkParameterSet" refered to in the sync command did not exist
     + failed - the sync operation failed
 + removeAll (boolean) - If supplied, determines whether the sync will remove all entries that were created using the parameter set. Used only if you need to remove all spaces that were created previously. If set to true then no spaces will be created. If set to false, or omitted, then all spaces previously created using this parameter set will be removed and new spaces based on the new mappings will be created. If this parameter is not supplied in a create (POST) operation, it defaults to "false".
 
-## coSpaceBulkParameterSets
+## cospaceBulkParameterSets
 + startIndex (number) - Index that coSpace mappings start from (inclusive)
 + endIndex (number) - Index that coSpace mappings end at (inclusive)
-+ coSpaceBulkParameterSet (ID) - Parameter set GUID that is going to be synchronised.
++ cospaceBulkParameterSet (ID) - Parameter set GUID that is going to be synchronised.
 + removeAll (boolean) - If supplied, determines whether the sync will remove all entries that were created using the parameter set. Used only if you need to remove all spaces that were created previously. If set to true then no spaces will be created. If set to false, or omitted, then all spaces previously created using this parameter set will be removed and new spaces based on the new mappings will be created. If this parameter is not supplied in a create (POST) operation, it defaults to "false".
 
 ## message
