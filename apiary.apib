@@ -2418,6 +2418,24 @@ POST method performed on the `/calls` node or PUT method to `/calls/<callId>`
   <td>Number</td>
   <td>If panePlacementHighestImportance is provided, pane placement will be activated for this active call- the active range of importance values will be from "highest importance" down to 1(inclusive). If set, this will override the coSpace counterpart. (From version 2.7)</td>
  </tr>
+<tr>
+<td>panePlacementSelfPaneMode</td>
+<td>skip|self|blank |<unset></td>
+<td>If panePlacementSelfPaneMode is provided, the self pane mode will be activated for this active call.
+<ul>
+<li>skip - same as the pre-2.7 version behavior, on a perviewer basis the screen layout skips the self pane and displays the pane of the next important participant (default).</li>
+<li>blank - leaves a blank pane instead of displaying the important participant, so the important participant still sees the other participants in the same pane position as all other viewers.</li>
+<li><unset> - follows this order of precedence:
+    <ul>
+    <li>use the value set for panePlacementHighestImportance on /calls,</li>
+    <li>if panePlacementHighestImportance on /calls is unset, then use the value set for panePlacementHighestImportance on /coSpace (if the call is to a space),
+    <li>if panePlacementHighestImportance on /coSpace is also unset, then it reverts to the skip behavior defined above.</li>
+</ul>
+By default, panePlacementSelfPaneMode is set to <unset>. If set, this will override the coSpace counterpart. (From version 2.7)
+</li>
+</ul>
+</td>
+</tr>
 </table>
 
 If a call is instantiated for the coSpace successfully, that call’s ID is returned in the `Location` field of the response header. You can now add call legs to this call as described below.
