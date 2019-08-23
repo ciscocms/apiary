@@ -2413,6 +2413,11 @@ POST method performed on the `/calls` node or PUT method to `/calls/<callId>`
     <td>true|false</td>
     <td>If true, this call is considered “active for load balancing” when no participants are present. This means that the first call to the empty conference is preferentially load balanced. You can prevent the load balancing preferentially using the empty conferences by setting this parameter to false. If this parameter is not supplied in a create (POST) operation, it defaults to “true”.  (From version 2.2)</td>
   </tr>
+  <tr>
+  <td>panePlacementHighestImportance</td>
+  <td>Number</td>
+  <td>If panePlacementHighestImportance is provided, pane placement will be activated for this active call- the active range of importance values will be from "highest importance" down to 1(inclusive). If set, this will override the coSpace counterpart. (From version 2.7)</td>
+ </tr>
 </table>
 
 If a call is instantiated for the coSpace successfully, that call’s ID is returned in the `Location` field of the response header. You can now add call legs to this call as described below.
