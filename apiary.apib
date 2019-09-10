@@ -860,7 +860,7 @@ TODO: Response is structured as a top-level \<coSpaces total=”N”\> tag with 
     <td><b>skip</b>|self|blank |'unset'</td>
     <td>If pane placement is activated, this defines the layout behavior for this coSpace when viewing an endpoint's own layout pane. (From version 2.7)
     <ul>
-    <li>skip - same as the pre-2.7 version behavior, do not include a pane in the layout for viewing the system's own importance level</li>
+    <li>skip - same as the pre-2.7 version behavior, do not include a pane in the layout for viewing the system's own importance level (default)</li>
     <li>self - shows the viewing endpoint's video back to themselves</li>
     <li>blank - leaves a blank pane to indicate to the viewer of the endpoint where other participants will see them.</li>
     <li>'unset' - follows this order of precedence:
@@ -870,6 +870,7 @@ TODO: Response is structured as a top-level \<coSpaces total=”N”\> tag with 
     </ul>
     By default, panePlacementSelfPaneMode is set to 'unset'.
     </td>
+    
  </tr>
 </table>
 
