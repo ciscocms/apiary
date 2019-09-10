@@ -857,7 +857,7 @@ TODO: Response is structured as a top-level \<coSpaces total=”N”\> tag with 
   </tr>
  <tr>
  <td>panePlacementSelfPaneMode</td>
-    <td><b>skip</b>|self|blank |<unset></td>
+    <td><b>skip</b>|self|blank |'unset'</td>
     <td>If pane placement is activated, this defines the layout behavior for this coSpace when viewing an endpoint's own layout pane. (From version 2.7)
     <ul>
     <li>skip - same as the pre-2.7 version behavior, do not include a pane in the layout for viewing the system's own importance level</li>
@@ -869,6 +869,7 @@ TODO: Response is structured as a top-level \<coSpaces total=”N”\> tag with 
     <li>if panePlacementHighestImportance on /coSpace is also unset, then it reverts to the skip behavior defined above.</li>
     </ul>
     </ul>
+    By default, panePlacementSelfPaneMode is set to <unset>.
     </td>
  </tr>
 </table>
