@@ -2414,12 +2414,12 @@ POST method performed on the `/calls` node or PUT method to `/calls/<callId>`
     <td>true|false</td>
     <td>If true, this call is considered “active for load balancing” when no participants are present. This means that the first call to the empty conference is preferentially load balanced. You can prevent the load balancing preferentially using the empty conferences by setting this parameter to false. If this parameter is not supplied in a create (POST) operation, it defaults to “true”.  (From version 2.2)</td>
   </tr>
-  <tr>
+<tr>
   <td>panePlacementHighestImportance</td>
   <td>Number</td>
   <td>If panePlacementHighestImportance is provided, pane placement will be activated for this active call- the active range of importance values will be from "highest importance" down to 1(inclusive). If set, this will override the coSpace counterpart. (From version 2.7)</td>
- </tr>
- <tr>
+</tr>
+<tr>
  <td>panePlacementSelfPaneMode</td>
     <td><b>skip</b>|self|blank |'unset'</td>
     <td>If pane placement is activated, this defines the layout behavior for this coSpace when viewing an endpoint's own layout pane. (From version 2.7)
@@ -2590,6 +2590,28 @@ GET method performed on a `/calls/<callId>` node. If the call ID supplied is val
     <td>true|false</td>
     <td>Whether the audience was muted by a Skype or Lync client. Only present if this call is a Skype/Lync conference. (From version 2.4)</td>
 </tr>
+  <tr>
+    <td>panePlacementHighestImportance</td>
+    <td>Number</td>
+    <td>If provided, pane placement will be activated for this active call - the active range of importance values will be from "highest importance" down to 1(inclusive). (From version 2.7)</td>
+  </tr>
+ <tr>
+ <td>panePlacementSelfPaneMode</td>
+    <td><b>skip</b>|self|blank |'unset'</td>
+    <td>If pane placement is activated, this defines the layout behavior for this coSpace when viewing an endpoint's own layout pane. (From version 2.7)
+        <ul>
+            <li>skip - same as the pre-2.7 version behavior, do not include a pane in the layout for viewing the system's own importance level (default)</li>
+            <li>self - shows the viewing endpoint's video back to themselves</li>
+            <li>blank - leaves a blank pane to indicate to the viewer of the endpoint where other participants will see them.</li>
+            <li>'unset' - follows this order of precedence:
+                <ul>
+                    <li>use the value set for panePlacementHighestImportance on /calls, if panePlacementHighestImportance on /calls is unset, then use the value set for panePlacementHighestImportance on /coSpace (if the call is to a space),</li>
+                    <li>if panePlacementHighestImportance on /coSpace is also unset, then it reverts to the skip behavior defined above. </li>
+                </ul>
+            </li>    
+            <p>By default, panePlacementSelfPaneMode is set to 'unset'. If set, this will override the coSpace counterpart. (From version 2.7)</p>
+        </ul>        
+ </tr>
 </table>
 
 + Parameters
