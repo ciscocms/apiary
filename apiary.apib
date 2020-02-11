@@ -4434,6 +4434,11 @@ Response is structured as a top-level `<dtmfProfiles total="N">` tag with potent
         <td>String</td>
         <td>DTMF sequence to be used by a participant to unmute all new participants and all other participants in the call. Sets joinAudioMuteOverride in the call object to `false` and unmutes all call legs except for the issuer. This requires ‘muteOthersAllowed’ to be ‘true’ in the call leg profile of the issuer. Present from version 1.9 onwards</td>
     </tr>
+    <tr>
+        <td>getTotalParticipantCount</td>
+        <td>String</td>
+        <td>DTMF sequence to be used by a participant to trigger an audio prompt announcing the number of participants in the call</td>
+    </tr>
 </table>
 
 + Parameters
@@ -4492,6 +4497,7 @@ GET method performed on a `/dtmfProfiles/<dtmfProfileId>` node. If the dtmfProfi
               <defaultMuteAllNewAudio/>
               <muteAllNewAndAllExceptSelfAudio/>
               <unmuteAllNewAndAllExceptSelfAudio/>
+              <getTotalParticipantCount/>
             </dtmfProfile>
 
 
@@ -7787,7 +7793,7 @@ GET method performed on a `/tenantGroups/<tenant group id>` node. If the tenant 
 
 # Group Query Methods
 
-# Group accessQuery Method [/accessQuery/{?uri,callId,tenant}]
+# accessQuery Method [/accessQuery/{?uri,callId,tenant}]
 
 ## accessQuery Method [POST]
 
@@ -7832,7 +7838,7 @@ POST performed on the `/api/v1/accessQuery` node.
               <webAddress>https://cms.ciscolabs.com/invited.sf?url=ken.space%40iridiumlabs.net</webAddress>
             </accessQuery>
 
-# Group conversationIdQuery Method [/conversationIdQuery]
+# conversationIdQuery Method [/conversationIdQuery]
 
 ## conversationIdQuery Method [GET]
 
@@ -7867,7 +7873,7 @@ The conversationIdQuery method finds whether a conversation with a specified ID 
               <found>false</found>
             </conversationIdQuery>
 
-# Group uriUsageQuery Method [/uriUsageQuery]
+# uriUsageQuery Method [/uriUsageQuery]
 
 ## uriUsageQuery Method [POST]
 
@@ -8307,6 +8313,7 @@ If set to true, new participants that need activation are not activated even if 
 + muteAllNewAndAllExceptSelfAudio(string)  - DTMF sequence to be used by a participant to mute all new participants and all other participants in the call. Sets joinAudioMuteOverride in the call object to `true` and mutes all call legs except for the issuer. This requires ‘muteOthersAllowed’ to be ‘true’ in the call leg profile of the issuer. Present from version 1.9 onwards
 + unmuteAllNewAndAllExceptSelfAudio(string)  - DTMF sequence to be used by a participant to unmute all new participants and all other par- ticipants in the call. Sets joinAudioMuteOverride in the call object to `false` and unmutes all call legs except for the issuer. This requires ‘muteOth- ersAllowed’ to be ‘true’ in the call leg profile of the issuer. Present from version 1.9 onwards
 + endCall (string) - DTMF sequence to be used by a participant to end the call; this will disconnect all participants including the participant who initiated the operation
++ getTotalParticipantCount (string) - DTMF sequence to be used by a participant to trigger an audio prompt announcing the number of participants in the call
 
 ## ivr
 + uri (URI user part) - The URI to be used for this IVR
