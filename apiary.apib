@@ -962,7 +962,7 @@ The following information is not included:
               <secret>V_diBH_9ARvojUzOOy38Cg</secret>
             </coSpace>
 
-### Retrieving entry details for a specific coSpace [GET /coSpaces/<coSpaceId>/meetingEntryDetail]
+### Retrieving entry details for a specific coSpace [GET /coSpaces/{coSpaceId}/meetingEntryDetail]
 
 From version 2.1, a `meetingEntryDetail` node is added to allow retrieval of entry details for a specific coSpace meeting. Perform a GET on /coSpaces/<coSpace id>/meeting EntryDetail. Response values are uri and callId.
 + Response 200 (text/xml)
@@ -6518,11 +6518,11 @@ GET method performed on a `/callBridgeGroups/<call bridge groupId>` node. If the
               <loadBalanceIndirectCalls>false</loadBalanceIndirectCalls>
             </callBridgeGroup>
 
-# XMPP Methods [/system/configuration/xmpp node]
+# XMPP Methods [/system/configuration/xmpp]
 
 ## Retrieving the XMPP server details [GET]
 
-Issue a GET on the new `/system/configuration/xmpp node` to retrieve the information below.
+Issue a GET on the new `/system/configuration/xmpp` node syto retrieve the information below.
 
 <table>
   <tr>
@@ -6573,11 +6573,11 @@ Issue a PUT or a POST on the new `/system/configuration/xmpp` node
 
             Location: /api/v1/callBridgeGroups/15802ee9-954c-4ca6-98a2-2ae5ee7fd923
 
-# Call Bridge Cluster Methods [/system/configuration/cluster node]
+# Call Bridge Cluster Methods [/system/configuration/cluster]
 
 ## Retrieving the Call Bridge Cluster details [GET]
 
-Issue a GET on the `/system/configuration/cluster node` to retrieve the information below.
+Issue a GET on the `/system/configuration/cluster` node to retrieve the information below.
 
 <table>
   <tr>
