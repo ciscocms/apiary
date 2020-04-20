@@ -8192,6 +8192,7 @@ If set to true, new participants that need activation are not activated even if 
 + dtmfSequence (string)-  (From version 2.4) A sequence of DTMF key press commands to send to the far end either when the participant is initially created or during the call. The DTMF sequence is played out from the Call Bridge where the call for this participant is placed. In the supplied sequence, you can use the digits 0 to 9, * and #, as well as one or more comma characters (",") which add a pause between digits.
 + controlRemoteCameraAllowed (boolean) - Allows the participant to use Far End Camera Control (FECC).(From version 2.8)
 + layoutTemplate (ID) - If specified, associates the layout template for the participant.(From version 2.8)
++ audioGainMode (string) - Set to agc to enable Automatic Gain Control for the participant.(From version 2.8). Note: AGC will be applied to any endpoint (physical endpoints or soft clients) connected directly to the Meeting Server. It will not be applied to TIP calls or AVMCU (because this is a mixed audio stream). Skype participants connected to AVMCU will not be subject to any AGC as the AVMCU controls the audio. AGC is not applied to distribution links between Meeting Servers because this is a mixed audio stream.
 
 ## callLeg
 + remoteParty* (string) - For POST only, specifies the call leg’s address; this could be a SIP URI, a phone number, or a user JID to invite that user to the call
