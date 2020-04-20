@@ -4105,6 +4105,8 @@ There are three stages to the transform
 **Note:** A phone URI is recognized as a purely numeric string (optionally prefixed by a ‘+’) when it begins with a valid international dial code (e.g. 44 for UK or 1 for US) followed by the correct number of digits for a phone number for that region.
 ---
 
+
+
 ## Dial Transforms [/dialTransforms{?offset,limit,filter}]
 
 ### Examples
@@ -4306,6 +4308,44 @@ You can set, modify and retrieve on a per active call leg basis, these settings 
 ---
 
 
+# Group Layout template related Methods
+
+## Layout Templates [/layoutTemplates/{?offset,limit,filter}]
+
+## Retrieving (Enumerate) of Layout Templates [GET]
+GET method on the `/layoutTemplates` node.
+La
+Response is structured as a top-level <layoutTemplates total="N"> tag with potentially multiple <lay-outTemplate> elements within it. Each <layoutTemplate> tag may include the following elements:
+
++ Parameters
+   
+    + offset (number, optional)
+        An "offset" and "limit" can be supplied to retrieve coSpaces other than the first "page" in the notional list
+    + limit (number, optional)
+        An "offset" and "limit" can be supplied to retrieve coSpaces other than the first "page" in the notional list.
+    + filter (string)
+        supply filter=<string> to return just those layout templates that match the filter.
+
++ Request
+    + Headers
+
+            Authorization: Basic Ym9iOmJ1aWxkZXI=
+            
+            
++ Response 200 (text/xml)
+    + Body
+            
+            <?xml version="1.0"?>
+            <layoutTemplates="something">
+                </layoutTemplates id="xyz">
+            </layoutTemplates>
+            
+
+
+ 
+
+
+
 # Group Call Branding Profile Methods
 Call branding profiles control the in- call experience for SIP (including Lync) calls, and the ability to customize text within invitations.
 
@@ -4313,6 +4353,8 @@ Call branding profiles control the in- call experience for SIP (including Lync) 
 **Note:** From version 2.4, the use of `callBrandingProfiles` no longer requires a branding license.
 
 ---
+
+
 
 ## Call Branding Profiles [/callBrandingProfiles{?offset,limit,usageFilter}]
 
@@ -8507,3 +8549,6 @@ If set to true, new participants that need activation are not activated even if 
 ## uriusagequery
 + uri(string) - The "user part" of the URI; that is, the part before any '@' character in a full URI.
 + tenant(ID) - If supplied, only those coSpaces, users and IVRs within the specified tenant will be returned. If omitted only entities without a tenant will be returned.
+
+## layouttemplate
++ name (string) - The human-readable name asso-ciated with this layout template
