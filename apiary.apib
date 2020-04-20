@@ -4311,10 +4311,13 @@ You can set, modify and retrieve on a per active call leg basis, these settings 
 # Group Layout template related Methods
 
 ## Layout Templates [/layoutTemplates/{?offset,limit,filter}]
+From version 2.8, Meeting Server introduces customizable layouts. This allows Administrators more flexibility to create and apply custom layouts that suit their specific needs. This feature can work on single and dual screen endpoints.
+The layout template methods allow you to implement customized JSON layout template files. For more information on customizable layouts, see Cisco Meeting Server 2.8 Administrator Guide to Screen Layouts and Pane Placement .
+Customizable layouts are not supported on 3 screen endpoints.
 
 ## Retrieving (Enumerate) of Layout Templates [GET]
 GET method on the `/layoutTemplates` node.
-La
+
 Response is structured as a top-level <layoutTemplates total="N"> tag with potentially multiple <lay-outTemplate> elements within it. Each <layoutTemplate> tag may include the following elements:
 
 + Parameters
