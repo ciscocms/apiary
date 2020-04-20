@@ -4952,6 +4952,11 @@ If the participant ID supplied is valid, a “200 OK” response is received, wi
 <td>initial<br>|ringing<br>|connected<br>|onHold<br></td>
 <td>The call state of this participant.</td>
 </tr>
+<tr>
+<td>cameraControlAvailable</td>
+<td>true/false<br></td>
+<td>Whether this participant has advertised the ability for its camera to be con-trolled remotely (from ver-sion 2.8). If true, camera control for this participant is possible. If false, camera control for this participant is not possible.</td>
+</tr>
 </table>
 
 
@@ -8394,7 +8399,7 @@ If set to true, new participants that need activation are not activated even if 
 + muteAllNewAndAllExceptSelfAudio(string)  - DTMF sequence to be used by a participant to mute all new participants and all other participants in the call. Sets joinAudioMuteOverride in the call object to `true` and mutes all call legs except for the issuer. This requires ‘muteOthersAllowed’ to be ‘true’ in the call leg profile of the issuer. Present from version 1.9 onwards
 + unmuteAllNewAndAllExceptSelfAudio(string)  - DTMF sequence to be used by a participant to unmute all new participants and all other par- ticipants in the call. Sets joinAudioMuteOverride in the call object to `false` and unmutes all call legs except for the issuer. This requires ‘muteOth- ersAllowed’ to be ‘true’ in the call leg profile of the issuer. Present from version 1.9 onwards
 + endCall (string) - DTMF sequence to be used by a participant to end the call; this will disconnect all participants including the participant who initiated the operation
-+ getTotalParticipantCount (string) - DTMF sequence to be used by a participant to trigger an audio prompt announcing the number of participants in the call
++ getTotalParticipantCount (string) - DTMF sequence to be used by a participant to trigger an audio prompt announcing the number of participants in the call. (From version 2.8)
 
 ## ivr
 + uri (URI user part) - The URI to be used for this IVR
