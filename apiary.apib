@@ -8245,7 +8245,9 @@ If set to true, new participants that need activation are not activated even if 
     + auto - show the onscreen participant count value when appropriate. Typically this will be to indicate that there are additional participants present that you cannot currently see.
     + always - always show the onscreen participant count value
 + nameLabelOverride (string) -  (maximum of 50 bytes of UTF-8)(From version 2.4) If supplied, overrides the name for this call leg. Setting an empty string clears the value and restores the original name. Overriding the name of a participant and its associated call leg(s) is interchangeable and affects both; the latest change takes precedence. It changes the name of the participant in the following: on-screen name label viewed by other conference participants, ActiveControl roster list, any place that the Meeting App sees the name of the participant in a call,  CDR records, where the name appears in the web interface.
-
++ controlRemoteCameraAllowed (boolean) - Determines if call legs are allowed to control a remote participant's camera (using FECC). (From version 2.8)
++ layoutTemplate (ID) - If specified, associates the layout template with this call leg. (From version 2.8)
++ audioGainMode (string) - If agc is selected, automatic gain control (AGC) will be applied to this call leg. (From version 2.8). Note: AGC will be applied to any endpoint (physical endpoints or soft clients) connected directly to the Meeting Server. It will not be applied to TIP calls or AVMCU (because this is a mixed audio stream). Skype participants connected to AVMCU will not be subject to any AGC as the AVMCU controls the audio. AGC is not applied to distribution links between Meeting Servers because this is a mixed audio stream.
 
 ## ParticipantProperties
 + rxAudioMute (boolean) - If true, mute the receiving of audio from all endpoints.
