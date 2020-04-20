@@ -3267,6 +3267,15 @@ If present in the reply, these parameters are overrides currently active specifi
     <td>availableVideoStreams</td>
     <td>Number</td>
     <td></td>
+  </tr><tr>
+    <td>layoutTemplate</td>
+    <td>ID</td>
+    <td>Present if a custom layout template is currently being used to generate the layout for this call leg, and, if so, identifies which lay-out template is being used. (from version 2.8)</td>
+  </tr> </tr>
+  <tr>
+    <td>cameraControlAvailable</td>
+    <td>true|false</td>
+    <td>Whether this call leg has advertised the ability for its camera to be controlled remotely. If, true - camera control for this call leg is possible, If false - camera control for this call leg is not possible from version 2.8)</td>
   </tr>
   <tr>
     <td valign="top">rxAudio</td>
@@ -4038,6 +4047,11 @@ The end result for each parameter is the lowest level’s override for that para
     </tr>
     <tr>
         <td>disconnectOthersAllowed</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>audioGainMode</td>
         <td></td>
         <td></td>
     </tr>
@@ -8337,6 +8351,9 @@ If set to true, new participants that need activation are not activated even if 
     + never - never show an onscreen participant count value
     + auto - show the onscreen participant count value when appropriate. Typically this will be to indicate that there are additional participants present that you cannot currently see.
     + always - always show the onscreen participant count value
++ controlRemoteCameraAllowed (boolean) -   Determines if call legs using this call leg profile are allowed to control a remote participant's camera (via FECC). (From version 2.8)
++ layoutTemplate (ID) - If specified, associates the layout tem-plate with this call leg profile. (From version 2.8)
++ audioGainMode (string) - If agc is selected, automatic gain control (AGC) will be applied to this call leg profile. (From version 2.8). Note: AGC will be applied to any endpoint (physical endpoints or soft clients) connected directly to the Meeting Server. It will not be applied to TIP calls or AVMCU (because this is a mixed audio stream). Skype participants connected to AVMCU will not be subject to any AGC as the AVMCU controls the audio. AGC is not applied to distribution links between Meeting Servers because this is a mixed audio stream.
 
 ## dialTransform
 + type (enum) - The type of preprocessing to apply to this transform
