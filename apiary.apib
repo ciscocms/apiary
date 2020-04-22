@@ -6,7 +6,7 @@ HOST: http://cmsapi.cisco.io/api/v1
 The Cisco Meeting Server software can be hosted on specific servers based on Cisco Unified Computing Server (UCS) technology as well as on the Acano X-Series hardware, or on a
 specification-based VM server. Cisco Meeting Server is referred to as the Meeting Server throughout this document.
 
-This document covers version 2.4 and later of the Application Program Interface for the Cisco Meeting server. For version specific API changes, refer to the [Release Notes for Cisco Meeting Server](https://www.cisco.com/c/en/us/support/conferencing/meeting-server/products-release-notes-list.html).
+This document covers version 2.6 and later of the Application Program Interface for the Cisco Meeting server. For version specific API changes, refer to the [Release Notes for Cisco Meeting Server](https://www.cisco.com/c/en/us/support/conferencing/meeting-server/products-programming-reference-guides-list.html).
 
 In addition to this reference you can find documentation for Cisco Meeting Server [here](https://www.cisco.com/c/en/us/support/conferencing/meeting-server/tsd-products-support-series-home.html).
 
@@ -359,12 +359,24 @@ The following "failureDetails" codes can be returned by the API for any of the a
         <td>You tried to modify or remove a CDR receiver using an ID that did not correspond to a valid CDR receiver. Present from R1.8</td>
     </tr>
     <tr>
+        <td>compatibilityProfileDoesNotExist</td>
+        <td>You tried to modify or remove a compatibility profile using an ID that did not correspond to a valid compatibility profile.</td>
+    </tr>
+    <tr>
+        <td>coSpaceAccessMethodTemplateDoesNotExist</td>
+        <td>You tried to modify, remove or retrieve a coSpace access method template using an ID that did not correspond to a valid coSpace access method template on the system (from version 2.9).</td>
+    </tr>
+     <tr>
+        <td>coSpaceAccessMethodTemplateDoesNotExist</td>
+        <td>You tried to modify, remove or retrieve a coSpace access method template using an ID that did not correspond to a valid coSpace access method template on the system (from version 2.9).</td>
+    </tr>
+    <tr>
         <td>coSpaceDoesNotExist</td>
         <td>You tried to modify or remove a coSpace using an ID that did not correspond to a valid coSpace on the system</td>
     </tr>
     <tr>
-        <td>coSpaceUserDoesNotExist</td>
-        <td>You tried to modify or remove a coSpace user using an ID that did not correspond to a valid coSpace user</td>
+        <td>coSpaceTemplateDoesNotExist</td>
+        <td>You tried to modify, remove or retrieve a coSpace template using an ID that did not correspond to a valid coSpace tem-plate on the system (from version 2.9).</td>
     </tr>
     <tr>
         <td>databaseNotReady</td>
@@ -393,6 +405,10 @@ The following "failureDetails" codes can be returned by the API for any of the a
     <tr>
         <td>duplicateCoSpaceSecret</td>
         <td>You tried to modify a coSpace, or create or modify a coSpace access method, using a secret that clashed with one that is already used by that coSpace or one of its access methods</td>
+    </tr>
+    <tr>
+        <td>duplicateUserCoSpaceTemplate</td>
+        <td>You tried to assign the same coSpace template to a user for a second time (from version 2.9).</td>
     </tr>
     <tr>
         <td>forwardingDialPlanRuleDoesNotExist</td>
@@ -441,6 +457,10 @@ The following "failureDetails" codes can be returned by the API for any of the a
     <tr>
         <td>ldapSyncCannotBeCancelled</td>
         <td>You tried to cancel an LDAP synchronization that has either started or completed – only LDAP synchronization methods that have not started yet can be cancelled</td>
+    </tr>
+    <tr>
+        <td>ldapUserCoSpaceTemplateSourceDoesNotExist</td>
+        <td>You tried to remove or retrieve using an ID that did not cor-respond to an existing LDAP user coSpace template source entry (from version 2.9).</td>
     </tr>
     <tr>
         <td>ldapSyncDoesNotExist</td>
@@ -4347,6 +4367,24 @@ Customizable layouts are not supported on 3 screen endpoints.
 GET method on the `/layoutTemplates` node.
 
 Response is structured as a top-level <layoutTemplates total="N"> tag with potentially multiple <lay-outTemplate> elements within it. Each <layoutTemplate> tag may include the following elements:
+<table>
+    <tr>
+        <th>Response elements</th>
+        <th>Type/Value</th>
+        <th>Description/Notes</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>string</td>
+        <td>The human-readable name associated with this layout template</td>
+    </tr> 
+    <tr>
+        <td>templateSize</td>
+        <td>numeric</td>
+        <td>Size (in bytes) of the template</td>
+    </tr>  
+</table>
+
 
 + Parameters
    
@@ -4372,8 +4410,17 @@ Response is structured as a top-level <layoutTemplates total="N"> tag with poten
             </layoutTemplates>
             
 
+## Adding and Modifying Layout Templates [POST]
+* POST method performed on `/layoutTemplates` node
+* PUT method to a `/layoutTemplates/<layout template id>` node.
 
- 
++ Attributes (layouttemplate)
+
++ Response 200
+    + Headers
+    
+            Location: /api/v1/Layout template/05ac65fc-416d-4e59-90ca-1e034a4c0249
+
 
 
 
@@ -4972,6 +5019,25 @@ If the participant ID supplied is valid, a “200 OK” response is received, wi
 <td>Number</td>
 <td>The importance of this participant.</td>
 </tr>
+<tr>
+<td>nameLabelOverride</td>
+<td>String</td>
+<td>The overridden name of this participant (from version 2.4)</td>
+</tr>
+
+<tr>
+<td>defaultLayout</td>
+<td>allEqual|speakerOnly|telepresence|stacked|allEqualQuarters|allEqualNinths|allEqualSixteenths|allEqualTwentyFifths|onePlusFive|onePlusSeven|onePlusNine|automatic|onePlusN</td>
+<td>If set, the default layout returned is that of this participant as obtained from the resultant call leg profile (
+from version 2.8)</td>
+</tr>
+
+<tr>
+<td>layoutTemplate</td>
+<td>ID</td>
+<td>If set, the layout tem-plate ID is returned that is associated with this participant as obtained from the resultant call leg profile (from version 2.8)</td>
+</tr>
+
 </table>
 
 + Response 200 (text/xml)
@@ -8518,7 +8584,8 @@ If set to true, new participants that need activation are not activated even if 
 + h264CHPMode - Controls which parts of the H.264 Constrained High Profile (CHP) are used (From version 2.4).
     + auto - default behavior, based on endpoint identification, appropriate parts are used
     + basic - only a minimal subset of parts are used
-
++ sipH224 (boolean) - Controls whether use of H.224 is allowed within SIP calls - this protocol is used for far-end camera control support. true - H.224 is enabled for all SIP calls false - H.224 is disabled for all SIP calls. (From version 2.8)
++ distributionLinkMediaTraversal (string) - Controls whether media traversal (ICE / STUN) should be used for distribution links between clustered Meeting Server devices. Value can be enabled or disabled. If enabled - media traversal should be used for distribution links, disabled - media traversal should not be used for distribution links(From version 2.8).
 
 ## ldap server
 + address*(string) - The address of the LDAP server to connect to.
