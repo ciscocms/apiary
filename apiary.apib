@@ -331,12 +331,28 @@ The following "failureDetails" codes can be returned by the API for any of the a
         <td>You tried to modify or remove a configured clustered Call Bridge using an ID that did not correspond to a valid clustered Call Bridge</td>
     </tr>
     <tr>
+        <td>callBridgeGroupDoesNotExist</td>
+        <td>You tried to modify, remove or use a Call Bridge group using an ID that did not correspond to a valid Call Bridge group (from version 2.1).</td>
+    </tr>
+    <tr>
+        <td>callBridgeGroupUnavailable</td>
+        <td>You tried to create a participant on a Call Bridge Group that is unavailable or could not accept the call (from version 2.2).</td>
+    </tr>
+    <tr>
+        <td>callBridgeUnavailable</td>
+        <td>You tried to create a participant on a Call Bridge that is unavailable or could not accept the call (from version 2.2).</td>
+    </tr>
+    <tr>
         <td>callDoesNotExist</td>
         <td>You tried to perform a method on a call object using an ID that did not correspond to a currently active call</td>
     </tr>
     <tr>
         <td>callRecordingCannotBeModified</td>
         <td>You tried to start/stop recording a call that cannot be modified. Present from R1.9</td>
+    </tr>
+      <tr>
+        <td>callStreamingCannotBeModified</td>
+        <td>You tried to start/stop streaming a call that cannot be modified. Present from v 2.1</td>
     </tr>
     <tr>
         <td>callLegCannotBeDeleted</td>
@@ -362,10 +378,6 @@ The following "failureDetails" codes can be returned by the API for any of the a
         <td>compatibilityProfileDoesNotExist</td>
         <td>You tried to modify or remove a compatibility profile using an ID that did not correspond to a valid compatibility profile.</td>
     </tr>
-    <tr>
-        <td>coSpaceAccessMethodTemplateDoesNotExist</td>
-        <td>You tried to modify, remove or retrieve a coSpace access method template using an ID that did not correspond to a valid coSpace access method template on the system (from version 2.9).</td>
-    </tr>
      <tr>
         <td>coSpaceAccessMethodTemplateDoesNotExist</td>
         <td>You tried to modify, remove or retrieve a coSpace access method template using an ID that did not correspond to a valid coSpace access method template on the system (from version 2.9).</td>
@@ -377,6 +389,10 @@ The following "failureDetails" codes can be returned by the API for any of the a
     <tr>
         <td>coSpaceTemplateDoesNotExist</td>
         <td>You tried to modify, remove or retrieve a coSpace template using an ID that did not correspond to a valid coSpace tem-plate on the system (from version 2.9).</td>
+    </tr>
+        <tr>
+        <td>coSpaceDoesNotExist</td>
+        <td>You tried to modify or remove a coSpace using an ID that did not correspond to a valid coSpace on the system.</td>
     </tr>
     <tr>
         <td>databaseNotReady</td>
