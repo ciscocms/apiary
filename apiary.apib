@@ -391,8 +391,8 @@ The following "failureDetails" codes can be returned by the API for any of the a
         <td>You tried to modify, remove or retrieve a coSpace template using an ID that did not correspond to a valid coSpace tem-plate on the system (from version 2.9).</td>
     </tr>
         <tr>
-        <td>coSpaceDoesNotExist</td>
-        <td>You tried to modify or remove a coSpace using an ID that did not correspond to a valid coSpace on the system.</td>
+        <td>coSpaceUserDoesNotExist</td>
+        <td>You tried to modify or remove a coSpace user using an ID that did not correspond to a valid coSpace user.</td>
     </tr>
     <tr>
         <td>databaseNotReady</td>
@@ -419,12 +419,20 @@ The following "failureDetails" codes can be returned by the API for any of the a
         <td>You tried to create or modify a coSpace to use a URI that clashed with one that corresponds to another coSpace. (Two coSpaces can't share the same URI, because the Meeting Server must be able to uniquely resolve an incoming call to a coSpace URI)</td>
     </tr>
     <tr>
-        <td>duplicateCoSpaceSecret</td>
-        <td>You tried to modify a coSpace, or create or modify a coSpace access method, using a secret that clashed with one that is already used by that coSpace or one of its access methods</td>
+        <td>duplicateCoSpaceIdPasscode</td>
+        <td>You tried to modify a coSpace, or create or modify a coSpace access method, using a call ID/passcode combination that clashed with another call ID/passcode that is already used by that coSpace or one of its access methods.</td>
+    </tr>    
+    <tr>
+        <td>duplicateCoSpaceUriPasscode</td>
+        <td>You tried to modify a coSpace, or create or modify a coSpace access method, using a URI/passcode combination that clashed with URI/passcode combination that is already used by that coSpace or one of its access methods.</td>
     </tr>
     <tr>
         <td>duplicateUserCoSpaceTemplate</td>
         <td>You tried to assign the same coSpace template to a user for a second time (from version 2.9).</td>
+    </tr>
+    <tr>
+        <td>duplicateSipEndpointUri</td>
+        <td>You tried to create or modify a registered SIP endpoint, using a URI that clashed with one that is already used by another registered SIP endpoint.</td>
     </tr>
     <tr>
         <td>forwardingDialPlanRuleDoesNotExist</td>
@@ -459,6 +467,18 @@ The following "failureDetails" codes can be returned by the API for any of the a
         <td>You tried to make modifications to an IVR object which would have caused a URI conflict</td>
     </tr>
     <tr>
+        <td>layoutTemplateDoesNotExist</td>
+        <td>You tried to modify, remove or retrieve a layout template using an ID that did not correspond to a valid layout template on the system (from version 2.8).</td>
+    </tr>
+    <tr>
+        <td>layoutTemplateDoesNotExist</td>
+        <td>You tried to modify, remove or retrieve a layout template using an ID that did not correspond to a valid layout template on the system (from version 2.8).</td>
+    </tr>
+    <tr>
+        <td>layoutTemplateDescriptionTooLong</td>
+        <td>You tried to set a layout template description that exceeds the allowed size (from version 2.8).</td>
+    </tr>
+    <tr>
         <td>ldapMappingDoesNotExist</td>
         <td>You tried to modify or remove an LDAP mapping using an ID that did not correspond to a valid LDAP mapping</td>
     </tr>
@@ -483,6 +503,14 @@ The following "failureDetails" codes can be returned by the API for any of the a
         <td>You tried to query or cancel an LDAP synchronization with an ID that did not correspond to a valid LDAP synchronization</td>
     </tr>
     <tr>
+        <td>ldapUserCoSpaceTemplateSourceDoesNotExist</td>
+        <td>You tried to remove or retrieve using an ID that did not correspond to an existing LDAP user coSpace template source entry (from version 2.9).</td>
+    </tr>
+    <tr>
+        <td>loadBalancingDisabled</td>
+        <td>You tried to create a participant in a Call Bridge Group with load balancing for outgoing calls disabled (from version 2.2).</td>
+    </tr>    
+    <tr>
         <td>messageDoesNotExist</td>
         <td>You tried to remove a coSpace message using an ID that did not correspond to a valid coSpace message</td>
     </tr>
@@ -495,12 +523,37 @@ The following "failureDetails" codes can be returned by the API for any of the a
         <td>One or more parameters in a request were found to be invalid. Supporting parameter and error values give more detail about the failure</td>
     </tr>
     <tr>
+    <tr>
+        <td>participantCannotBeDeleted</td>
+        <td>You tried to delete a participant that could not be deleted, for instance a remotely-hosted participant.</td>
+    </tr>
+    <tr>
+        <td>participantCannotBeModified</td>
+        <td>You tried to modify a participant that could not be modified, for instance a participant hosted on a remote deployment.</td>
+    </tr>    
+    <tr>    
         <td>participantLimitReached</td>
         <td>You tried to add a new participant beyond the maximum number allowed for the call</td>
     </tr>
     <tr>
         <td>recorderDoesNotExist</td>
-        <td>You tried to modify or remove a recorder using an ID that did not correspond to a valid recorder. Present from R1.9</td>
+        <td>You tried to modify or remove a recorder using an ID that did not correspond to a valid recorder. (From version 1.9)</td>
+    </tr>
+    <tr>
+        <td>recordingLimitReached</td>
+        <td>You tried to start recording a call beyond the maximum num-ber allowed.</td>
+    </tr>
+    <tr>
+        <td>sipEndpointDoesNotExist</td>
+        <td>You tried to modify or remove a registered sip endpoint using an ID that did not correspond to a valid endpoint.<td>
+    </tr>
+    <tr>
+        <td>streamerDoesNotExist</td>
+        <td>You tried to modify or remove a streamer using an ID that did not correspond to a valid streamer (from version 2.1).</td>
+    </tr>
+    <tr>
+        <td>streamingLimitReached</td>
+        <td>You tried to start streaming a call beyond the maximum num-ber allowed (from version 2.1).</td>
     </tr>
     <tr>
         <td>tenantDoesNotExist</td>
@@ -529,6 +582,14 @@ The following "failureDetails" codes can be returned by the API for any of the a
     <tr>
         <td>unrecognizedObject</td>
         <td>There are elements in the URI you are accessing that are not recognized; e.g, you tried to perform a GET on /api/v1/system/profile rather than (the correct) /api/v1/system/profiles</td>
+    </tr>
+    <tr>
+        <td>userCoSpaceTemplateDeletionProhibited</td>
+        <td>You tried to withdraw an auto-generated coSpace template from a user and this is not allowed (from version 2.9).</td>
+    </tr>
+    <tr>
+        <td>userCoSpaceTemplateDoesNotExist</td>
+        <td>You tried to modify, remove or retrieve a user coSpace tem-plate using an ID that did not correspond to a valid user coSpace template for that user (from version 2.9).</td>
     </tr>
     <tr>
         <td>userDoesNotExist</td>
