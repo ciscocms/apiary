@@ -3028,6 +3028,23 @@ A call leg alarm may be triggered by a number of factors, not necessarily a set 
 
             Location: /api/v1/callLegs/05ac65fc-416d-4e59-90ca-1e034a4c0249
 
+# Allowing Far End Camera Control (FECC) using the API [PUT]
+
+To allow FECC on a remote system's camera (from version 2.9)
+
+PUT method to a `/callLegs/<callleg ID>/cameraControl` node
+
+This object supports the optional request parameters.
+
++ Attributes (fecc)
+
++ Response 200
+    + Headers
+
+            Location: /api/v1/callLegs/05ac65fc-416d-4e59-90ca-1e034a4c0249
+            
+
+
 ## Retrieving Information on an Individual Call Leg [GET /callLegs/{callLegId}]
 GET method performed on a `/callLegs/<callLegId>` node.
 
@@ -8288,6 +8305,10 @@ If set to true, new participants that need activation are not activated even if 
     + disabled - call is not recorded
     + manual - users can start/stop recording
     + automatic - call is automatically recorded and users cannot start/stop recording
++ lockMode (enum) - Defines the behavior of locking a call (From version 2.9)
+    + all - when the call is locked any new participants won't be admitted into the meeting and will be in the lobby, this includes participants that don't need activation.
+    + needsActivation - when the call is locked new participants that don't need activation will go into the call however new participants that need activation will go into the lobby. Participants that are memebers of the cospace will bypass the lock and enter the call even if they require activation as long as there is an activator already in the call.
++ sipRecorderUri (string) - The SIP recorder dial out URI. (From version 2.9)     
 + streamingMode (enum) - Controls how this coSpace or ad hoc call can be streamed. If this parameter is not supplied in a create (POST) operation, it defaults to "manual".(From version 2.1)
     + disabled - call is not streamed
     + manual - users can start/stop streaming
@@ -8374,6 +8395,7 @@ If set to true, new participants that need activation are not activated even if 
 + controlRemoteCameraAllowed (boolean) - Allows the participant to use Far End Camera Control (FECC).(From version 2.8)
 + layoutTemplate (ID) - If specified, associates the layout template for the participant.(From version 2.8)
 + audioGainMode (string) - Set to agc to enable Automatic Gain Control for the participant.(From version 2.8). Note: AGC will be applied to any endpoint (physical endpoints or soft clients) connected directly to the Meeting Server. It will not be applied to TIP calls or AVMCU (because this is a mixed audio stream). Skype participants connected to AVMCU will not be subject to any AGC as the AVMCU controls the audio. AGC is not applied to distribution links between Meeting Servers because this is a mixed audio stream.
++ deactivated (boolean) - Activates participant (put them straight into the call, bypassing the lobby). (From version 2.9)
 
 ## callLeg
 + remoteParty* (string) - For POST only, specifies the call leg’s address; this could be a SIP URI, a phone number, or a user JID to invite that user to the call
@@ -8745,3 +8767,9 @@ If set to true, new participants that need activation are not activated even if 
 
 ## layouttemplate
 + name (string) - The human-readable name asso-ciated with this layout template
+
+## fecc
++ pan  - Pans the remote camera 'left' or 'right'.
++ tilt - Tilts the remote camera 'up' or 'down'.
++ zoom - Zooms the remote camera 'in' or 'out'.
++ focus - Focuses the remote camera 'in' or 'out'.
