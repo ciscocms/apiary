@@ -5401,6 +5401,25 @@ Enumerate GET on `/users/<user ID>/userCoSpaceTemplates` supporting the standard
     
 + Response 200
 
+
+## Applying userCoSpaceTemplates with LDAP [POST /ldapUserCoSpaceTemplateSources] 
+
+From 2.9, the API object `/ldapUserCoSpaceTemplateSources` is introduced to allow users to create spaces using LDAP methods. This allows the template to be included directly in the source object.
+
+
+The API object `/ldapUserCoSpaceTemplateSources` supports the following operations:
+* POST to `/ldapUserCoSpaceTemplateSources`
+* PUT to `/ldapUserCoSpaceTemplateSources`
+
++ Attributes (ldapusercospacetemplatesource)
+
++ Response 200
+    + Headers
+
+            Location: /api/v1/userCospaceTemplates/528e21af-7ba4-4071-a584-235a2eb8c256
+
+
+
     
 
 ## User Profile Methods [/userProfiles{?offset,limit,usageFilter}]
@@ -8852,3 +8871,8 @@ If set to true, new participants that need activation are not activated even if 
 
 ## cospacetemplate
 + coSpaceTemplate (ID) - the id of a coSpace template that the user is allowed to use to instan-tiate a coSpace (from version 2.9)
+
+## ldapusercospacetemplatesource
++ coSpaceTemplate (ID) - ID of the cospace template to be applied for these users
++ ldapSource (ID) - ID of the LDAP source to be used to locate users
++ filter (string) - Additional LDAP filter string to be applied when reading the source
