@@ -5416,10 +5416,44 @@ The API object `/ldapUserCoSpaceTemplateSources` supports the following operatio
 + Response 200
     + Headers
 
-            Location: /api/v1/userCospaceTemplates/528e21af-7ba4-4071-a584-235a2eb8c256
+            Location: /api/v1/ldapUserCoSpaceTemplateSources/528e21af-7ba4-4071-a584-235a2eb8c256
 
+## Retrieving userCoSpaceTemplates with LDAP [GET /ldapUserCoSpaceTemplateSources/{?offset,limit,ldapUserCoSpaceTemplateSourcesId}]
 
+GET on `/ldapUserCoSpaceTemplateSources/<ldapUserCoSpaceTemplateSourcesId>, gives the following responses (from version 2.9).
 
+Enumerate GET on `/ldapUserCoSpaceTemplateSources` gives the following responses:
+
+Response is structured as a top-level <ldapUserCoSpaceTemplateSources total="N"> tag with potentially multiple <ldapUserCoSpaceTemplateSource> elements within it.
+
+<table>
+  <tr>
+    <th>Response elements</th>
+    <th>Type/Value</th>
+    <th>Description/Notes</th>
+  </tr>
+  <tr>
+    <td>coSpaceTemplate</td>
+    <td>ID</td>
+    <td>ID of the cospace template to be applied for these users</td>
+  </tr>
+    <tr>
+    <td>ldapSource</td>
+    <td>ID</td>
+    <td>ID of the LDAP source to be used to locate users</td>
+  </tr>
+     <tr>
+    <td>filter</td>
+    <td>String</td>
+    <td>Additional LDAP filter string to be applied when reading the source</td>
+  </tr>
+ </table>
+
++ Parameters
+    + offset (string) - an offset can be supplied to retrieve access methods other than those in the first page of the notional list (from version 2.9)
+    + limit (string) - a limit can be supplied to retrieve access methods other than those in the first page of the notional list (from version 2.9)
+    
++ Response 200
     
 
 ## User Profile Methods [/userProfiles{?offset,limit,usageFilter}]
@@ -8780,6 +8814,12 @@ If set to true, new participants that need activation are not activated even if 
 + sipMediaPayloadTypeMode - Controls whether the default codec media payload types are used, or a special variant. (From version 2.2)
     + auto - the default mode, where the normal media payload type values are used.
     + broadsoft - a special exception mode, where the H.264 video codec is advertised with payload type 109.
++ chromeWebRtcVideoCodec - Controls which codec Chrome will use for WebRTC calls (From version 2.3):
+    + auto - allows all codecs, results in Chrome using h264 for WebRTC (default behavior)
+    + avoidH264 - results in Chrome using VP8 instead
++ chromeWebRtcH264interopMode - Controls H264 parameters used by Chrome for WebRTC calls (From version 2.9)
+    + auto - default behavior, disables High Profile and forces Chrome to advertise Base Profile level 5.0 in its SDP offer
+    + none - legacy behavior No changes to SDPs.
 + h264CHPMode - Controls which parts of the H.264 Constrained High Profile (CHP) are used (From version 2.4).
     + auto - default behavior, based on endpoint identification, appropriate parts are used
     + basic - only a minimal subset of parts are used
@@ -8788,6 +8828,7 @@ If set to true, new participants that need activation are not activated even if 
 
 ## ldap server
 + address*(string) - The address of the LDAP server to connect to.
++ name (string) - associated name (from version 2.9 onwards)
 + portNumber *(number) - The TCP or TLS port number to connect to on the remote LDAP server.
 + username (string) - The username to use when retrieving information from the LDAP server.
 + password (string) - The password of the account associated with username.
